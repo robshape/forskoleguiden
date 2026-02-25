@@ -1,0 +1,32 @@
+{
+  "address": "Stad",
+  "preschoolName": "Förskola",
+  "questionGroups": [
+    {
+      "name": "Helhetsbedömning",
+      "questions": [
+        {
+          "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
+          "response": {
+            "completelyAgreePercentage": 0,
+            "partlyAgreePercentage": 0,
+            "neitherAgreeNorDisagreePercentage": 0,
+            "partlyDisagreePercentage": 0,
+            "completelyDisagreePercentage": 0
+          }
+        },
+        {
+          "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
+          "response": {
+            "completelyAgreePercentage": 0,
+            "partlyAgreePercentage": 0,
+            "neitherAgreeNorDisagreePercentage": 0,
+            "partlyDisagreePercentage": 0,
+            "completelyDisagreePercentage": 0
+          }
+        }
+      ]
+    }
+  ],
+  "surveyYear": 2025
+}
