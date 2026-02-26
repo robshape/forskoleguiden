@@ -1,5 +1,9 @@
 # Förskoleguiden — Copilot Instructions
 
+## IMPORTANT
+
+- ALWAYS pin dependencies to exact versions in `package.json` (no ^ or ~).
+
 ## Project overview
 
 Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents compare preschools side-by-side using official survey ratings, build a "pick 5" shortlist, and share via URL-encoded state. No backend, no accounts, no external APIs at runtime.
