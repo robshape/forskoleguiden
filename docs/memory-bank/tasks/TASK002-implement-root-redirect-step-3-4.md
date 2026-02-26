@@ -24,11 +24,11 @@ The root page currently remains a temporary placeholder. Redirect behavior is in
 
 ### Subtasks
 
-| ID | Description | Status | Updated | Notes |
-| - | - | - | - | - |
-| 2.1 | Add redirect rule for `/` -> `/sv/` in Astro config | Not Started | 2026-02-26 | Execute only in Step 3.4 |
+| ID  | Description                                                | Status      | Updated    | Notes                                             |
+| --- | ---------------------------------------------------------- | ----------- | ---------- | ------------------------------------------------- |
+| 2.1 | Add redirect rule for `/` -> `/sv/` in Astro config        | Not Started | 2026-02-26 | Execute only in Step 3.4                          |
 | 2.2 | Resolve interaction with temporary `src/pages/index.astro` | Not Started | 2026-02-26 | Remove or replace placeholder when redirect lands |
-| 2.3 | Validate redirect in dev and build artifacts | Not Started | 2026-02-26 | Confirm expected route behavior |
+| 2.3 | Validate redirect in dev and build artifacts               | Not Started | 2026-02-26 | Confirm expected route behavior                   |
 
 ## Progress Log
 

@@ -16,7 +16,7 @@ Step 0.0 is fully complete. The required memory-bank structure and all seven cor
 - docs/memory-bank/techContext.md
 - docs/memory-bank/activeContext.md
 - docs/memory-bank/progress.md
-- docs/memory-bank/tasks/_index.md
+- docs/memory-bank/tasks/\_index.md
 - docs/plans/step-0-0-memory-bank-init-plan.md
 - docs/plans/step-0-0-memory-bank-init-phase-1-complete.md
 - docs/plans/step-0-0-memory-bank-init-phase-2-complete.md

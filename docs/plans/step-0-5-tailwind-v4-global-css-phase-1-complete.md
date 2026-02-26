@@ -9,7 +9,7 @@ Phase 1 establishes the Tailwind v4 global stylesheet entrypoint and verifies th
 - docs/plans/step-0-5-tailwind-v4-global-css-phase-1-validation.md
 - docs/plans/step-0-5-tailwind-v4-global-css-phase-1-complete.md
 - docs/plans/step-0-5-tailwind-v4-global-css-plan.md
-- docs/memory-bank/tasks/_index.md
+- docs/memory-bank/tasks/\_index.md
 - docs/memory-bank/tasks/TASK001-wire-global-css-base-layout.md
 - docs/memory-bank/tasks/TASK002-implement-root-redirect-step-3-4.md
 - docs/memory-bank/activeContext.md

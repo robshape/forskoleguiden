@@ -64,11 +64,11 @@ Result: PASS (dev server starts and announces local URL on required host/port).
 
 ## Acceptance mapping
 
-| Required evidence | Validation proof | Status |
-| - | - | - |
-| Strict TypeScript config check | `strict-tsconfig-check: PASS` and `extends: astro/tsconfigs/strict` from rerun command | PASS |
-| `pnpm dev` startup on `localhost:4321` | Startup log includes `Local    http://localhost:4321/` | PASS |
-| Traceable output snippets | Exact commands and terminal output snippets captured above for both checks | PASS |
+| Required evidence                      | Validation proof                                                                       | Status |
+| -------------------------------------- | -------------------------------------------------------------------------------------- | ------ |
+| Strict TypeScript config check         | `strict-tsconfig-check: PASS` and `extends: astro/tsconfigs/strict` from rerun command | PASS   |
+| `pnpm dev` startup on `localhost:4321` | Startup log includes `Local    http://localhost:4321/`                                 | PASS   |
+| Traceable output snippets              | Exact commands and terminal output snippets captured above for both checks             | PASS   |
 
 ## Phase gate conclusion
 

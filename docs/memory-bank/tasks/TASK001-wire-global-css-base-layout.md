@@ -25,13 +25,13 @@ Global Tailwind CSS is temporarily imported in `src/pages/index.astro` to ensure
 
 ### Subtasks
 
-| ID | Description | Status | Updated | Notes |
-| - | - | - | - | - |
-| 1.1 | Create BaseLayout for locale pages (Step 3.1) | Not Started | 2026-02-26 | Includes `title`/`locale` props and semantic structure |
-| 1.2 | Move global stylesheet import into BaseLayout | Not Started | 2026-02-26 | Keep import single-source |
-| 1.3 | Create and wire Nav in BaseLayout (Step 3.2) | Not Started | 2026-02-26 | Include Malmö/2025 static indicators |
-| 1.4 | Create and wire Footer in BaseLayout (Step 3.3) | Not Started | 2026-02-26 | Include attribution link text |
-| 1.5 | Validate styles/layout across locale routes | Not Started | 2026-02-26 | Run `pnpm build` and spot-check pages |
+| ID  | Description                                     | Status      | Updated    | Notes                                                  |
+| --- | ----------------------------------------------- | ----------- | ---------- | ------------------------------------------------------ |
+| 1.1 | Create BaseLayout for locale pages (Step 3.1)   | Not Started | 2026-02-26 | Includes `title`/`locale` props and semantic structure |
+| 1.2 | Move global stylesheet import into BaseLayout   | Not Started | 2026-02-26 | Keep import single-source                              |
+| 1.3 | Create and wire Nav in BaseLayout (Step 3.2)    | Not Started | 2026-02-26 | Include Malmö/2025 static indicators                   |
+| 1.4 | Create and wire Footer in BaseLayout (Step 3.3) | Not Started | 2026-02-26 | Include attribution link text                          |
+| 1.5 | Validate styles/layout across locale routes     | Not Started | 2026-02-26 | Run `pnpm build` and spot-check pages                  |
 
 ## Progress Log
 

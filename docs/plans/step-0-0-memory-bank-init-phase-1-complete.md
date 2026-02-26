@@ -10,7 +10,7 @@ Phase 1 established the full Step 0.0 memory-bank baseline by creating all requi
 - docs/memory-bank/techContext.md
 - docs/memory-bank/activeContext.md
 - docs/memory-bank/progress.md
-- docs/memory-bank/tasks/_index.md
+- docs/memory-bank/tasks/\_index.md
 
 **Functions created/changed**:
 

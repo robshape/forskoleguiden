@@ -73,7 +73,7 @@ Do NOT add `@astrojs/tailwind` — Tailwind v4 uses the Vite plugin directly.
 Create `src/styles/global.css` with a single Tailwind import:
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 ```
 
 No `tailwind.config.ts` file is needed for Tailwind v4 — theme customization will be done via CSS `@theme` blocks in this file later.

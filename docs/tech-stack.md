@@ -4,22 +4,22 @@
 
 ## Decision summary
 
-| Layer | Choice | Why |
-| - | - | - |
-| Meta-framework | **Astro** (static output) | Content-first, ships zero JS by default, built-in i18n routing, top Lighthouse scores, islands architecture for opt-in interactivity |
-| Interactive UI | **Preact** (via `@astrojs/preact`) | ~3 KB runtime, React-compatible API, perfect for mobile perf targets |
-| Cross-island state | **nanostores** (`@nanostores/preact`) | Tiny (~0.5 KB), framework-agnostic, first-class Astro support — used for compare tray, shortlist, and language state shared across islands |
-| Language | **TypeScript** (strict) | Type-safe data models for preschool JSON; catches shape mismatches at build time |
-| Styling | **Tailwind CSS v4** (`@astrojs/tailwind`) | Utility-first, mobile-first by design, built-in RTL support (`rtl:` variant for Arabic), flat explicit classes with no cascading side effects |
-| i18n — routing | **Astro built-in i18n** | File-based locale routing (`/sv/`, `/en/`, `/ar/`), default locale prefix optional, `getRelativeLocaleUrl()` helpers |
-| i18n — strings | **Hand-rolled `t()` + JSON files** | One JSON file per locale (`sv.json`, `en.json`, `ar.json`), a tiny `t(key)` helper. Zero dependencies, trivially debuggable. If the project outgrows this, Paraglide JS is the upgrade path |
-| Charts | **Preact SVG components** (runtime-rendered) | Preact island components render `<svg>` elements at hydration time. Full control over ARIA attributes, pattern fills, and non-color encoding. Static `<table>` fallback rendered by Astro for no-JS. No chart library dependency. Upgrade path: Chart.js post-MVP if visualization scope grows |
-| URL state encoding | **lz-string** | Compresses JSON payloads into URL-safe base64; ~5 KB, zero dependencies, widely used for stateful shareable URLs |
-| Testing — unit | **Vitest** | Native ESM, fast, Astro-recommended, compatible with Preact/JSX |
-| Testing — e2e / a11y | **Playwright** + **@axe-core/playwright** | Cross-browser e2e, built-in accessibility auditing equivalent to Lighthouse a11y checks |
-| Linting & formatting | **ESLint** + **Prettier** + **eslint-plugin-astro** | Standard toolchain; astro plugin understands `.astro` files |
-| Deployment | **GitHub Pages** | Zero additional service — deploys from the same repo. Free, HTTPS, global CDN via Fastly. No preview deploys, but trivial to upgrade to Cloudflare Pages or Netlify later if needed |
-| Package manager | **pnpm** | Fast, disk-efficient, strict dependency resolution |
+| Layer                | Choice                                              | Why                                                                                                                                                                                                                                                                                            |
+| -------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Meta-framework       | **Astro** (static output)                           | Content-first, ships zero JS by default, built-in i18n routing, top Lighthouse scores, islands architecture for opt-in interactivity                                                                                                                                                           |
+| Interactive UI       | **Preact** (via `@astrojs/preact`)                  | ~3 KB runtime, React-compatible API, perfect for mobile perf targets                                                                                                                                                                                                                           |
+| Cross-island state   | **nanostores** (`@nanostores/preact`)               | Tiny (~0.5 KB), framework-agnostic, first-class Astro support — used for compare tray, shortlist, and language state shared across islands                                                                                                                                                     |
+| Language             | **TypeScript** (strict)                             | Type-safe data models for preschool JSON; catches shape mismatches at build time                                                                                                                                                                                                               |
+| Styling              | **Tailwind CSS v4** (`@astrojs/tailwind`)           | Utility-first, mobile-first by design, built-in RTL support (`rtl:` variant for Arabic), flat explicit classes with no cascading side effects                                                                                                                                                  |
+| i18n — routing       | **Astro built-in i18n**                             | File-based locale routing (`/sv/`, `/en/`, `/ar/`), default locale prefix optional, `getRelativeLocaleUrl()` helpers                                                                                                                                                                           |
+| i18n — strings       | **Hand-rolled `t()` + JSON files**                  | One JSON file per locale (`sv.json`, `en.json`, `ar.json`), a tiny `t(key)` helper. Zero dependencies, trivially debuggable. If the project outgrows this, Paraglide JS is the upgrade path                                                                                                    |
+| Charts               | **Preact SVG components** (runtime-rendered)        | Preact island components render `<svg>` elements at hydration time. Full control over ARIA attributes, pattern fills, and non-color encoding. Static `<table>` fallback rendered by Astro for no-JS. No chart library dependency. Upgrade path: Chart.js post-MVP if visualization scope grows |
+| URL state encoding   | **lz-string**                                       | Compresses JSON payloads into URL-safe base64; ~5 KB, zero dependencies, widely used for stateful shareable URLs                                                                                                                                                                               |
+| Testing — unit       | **Vitest**                                          | Native ESM, fast, Astro-recommended, compatible with Preact/JSX                                                                                                                                                                                                                                |
+| Testing — e2e / a11y | **Playwright** + **@axe-core/playwright**           | Cross-browser e2e, built-in accessibility auditing equivalent to Lighthouse a11y checks                                                                                                                                                                                                        |
+| Linting & formatting | **ESLint** + **Prettier** + **eslint-plugin-astro** | Standard toolchain; astro plugin understands `.astro` files                                                                                                                                                                                                                                    |
+| Deployment           | **GitHub Pages**                                    | Zero additional service — deploys from the same repo. Free, HTTPS, global CDN via Fastly. No preview deploys, but trivial to upgrade to Cloudflare Pages or Netlify later if needed                                                                                                            |
+| Package manager      | **pnpm**                                            | Fast, disk-efficient, strict dependency resolution                                                                                                                                                                                                                                             |
 
 ---
 
@@ -27,14 +27,14 @@
 
 ### Why Astro over Next.js / SvelteKit
 
-| Criterion | Astro | Next.js (static export) | SvelteKit (static adapter) |
-| - | - | - | - |
-| Default JS shipped | **0 KB** (opt-in islands) | Full React runtime (~40+ KB min) | Svelte runtime (~8 KB) |
-| Built-in i18n routing | Yes (first-class) | Requires next-intl or similar | Manual |
-| Static-only deployment | Native `output: 'static'` | `output: 'export'` works but loses some features | Static adapter works |
-| Islands architecture | First-class | No (full hydration) | No |
-| Ecosystem & docs | Large, well-documented | Very large | Smaller |
-| Lighthouse perf score | Near-perfect out of the box | Good with effort | Good |
+| Criterion              | Astro                       | Next.js (static export)                          | SvelteKit (static adapter) |
+| ---------------------- | --------------------------- | ------------------------------------------------ | -------------------------- |
+| Default JS shipped     | **0 KB** (opt-in islands)   | Full React runtime (~40+ KB min)                 | Svelte runtime (~8 KB)     |
+| Built-in i18n routing  | Yes (first-class)           | Requires next-intl or similar                    | Manual                     |
+| Static-only deployment | Native `output: 'static'`   | `output: 'export'` works but loses some features | Static adapter works       |
+| Islands architecture   | First-class                 | No (full hydration)                              | No                         |
+| Ecosystem & docs       | Large, well-documented      | Very large                                       | Smaller                    |
+| Lighthouse perf score  | Near-perfect out of the box | Good with effort                                 | Good                       |
 
 Förskoleguiden is a **content-first, read-heavy** site with **islands of interactivity** (compare tray, shortlist, charts). Astro's architecture is purpose-built for this pattern — static HTML pages with surgical hydration only where needed. This directly serves the PRD requirements for sub-second time-to-interactive on low-end mobile and zero runtime API dependencies.
 
@@ -211,13 +211,13 @@ If a post-MVP pipeline generates JSON automatically (PDF → JSON), adding Zod v
 
 ## Key constraints and trade-offs
 
-| Constraint | Implication |
-| - | - |
-| Zero runtime API dependencies | No map tiles, no external chart APIs, no analytics services in MVP |
-| Static-only deployment | All data baked at build time; adding a preschool requires a rebuild |
-| Arabic RTL support | Tailwind `rtl:` variant + `dir="rtl"` on layout; charts and comparison tables need RTL testing |
-| URL state size limits | lz-string + base64 keeps payloads small, but very long shortlists could hit URL length limits (~2,000 chars safe). With 5 preschool IDs this is well within bounds |
-| No PDF parsing in browser | JSON data must be prepared offline (manual or post-MVP pipeline) |
+| Constraint                    | Implication                                                                                                                                                        |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Zero runtime API dependencies | No map tiles, no external chart APIs, no analytics services in MVP                                                                                                 |
+| Static-only deployment        | All data baked at build time; adding a preschool requires a rebuild                                                                                                |
+| Arabic RTL support            | Tailwind `rtl:` variant + `dir="rtl"` on layout; charts and comparison tables need RTL testing                                                                     |
+| URL state size limits         | lz-string + base64 keeps payloads small, but very long shortlists could hit URL length limits (~2,000 chars safe). With 5 preschool IDs this is well within bounds |
+| No PDF parsing in browser     | JSON data must be prepared offline (manual or post-MVP pipeline)                                                                                                   |
 
 ---
 
@@ -256,12 +256,12 @@ Total production dependencies: **7 packages** — all lightweight, well-maintain
 
 ## Alternatives considered but rejected
 
-| Option | Reason for rejection |
-| - | - |
-| **Next.js** (static export) | Ships full React runtime (~40+ KB); over-engineered for a content-first static site; loses features in export mode |
-| **SvelteKit** | Smaller ecosystem for charting/a11y; fewer community examples and documentation for accessibility patterns |
-| **Vanilla JS (no framework)** | Possible for this scope, but loses i18n routing, component model, and build-time data loading — increasing maintenance burden |
-| **Chart.js / D3** | Overkill for MVP (2 questions × 5 buckets); harder to make fully accessible; can be added post-MVP if needed |
-| **React** (instead of Preact) | 10× larger runtime for identical API surface; no benefit for this project |
-| **Cloudflare Pages / Netlify** | Better edge CDN and preview deploys, but adds another service to manage; upgrade path if needed |
-| **Bun** (runtime/package manager) | Promising but less mature ecosystem support for Astro toolchain; pnpm is safer choice |
+| Option                            | Reason for rejection                                                                                                          |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Next.js** (static export)       | Ships full React runtime (~40+ KB); over-engineered for a content-first static site; loses features in export mode            |
+| **SvelteKit**                     | Smaller ecosystem for charting/a11y; fewer community examples and documentation for accessibility patterns                    |
+| **Vanilla JS (no framework)**     | Possible for this scope, but loses i18n routing, component model, and build-time data loading — increasing maintenance burden |
+| **Chart.js / D3**                 | Overkill for MVP (2 questions × 5 buckets); harder to make fully accessible; can be added post-MVP if needed                  |
+| **React** (instead of Preact)     | 10× larger runtime for identical API surface; no benefit for this project                                                     |
+| **Cloudflare Pages / Netlify**    | Better edge CDN and preview deploys, but adds another service to manage; upgrade path if needed                               |
+| **Bun** (runtime/package manager) | Promising but less mature ecosystem support for Astro toolchain; pnpm is safer choice                                         |

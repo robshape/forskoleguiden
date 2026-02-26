@@ -85,7 +85,7 @@ Interpretation: `dist/sv/index.html` is generated and contains both required Tai
 
 ## Acceptance criteria mapping
 
-| Acceptance criterion | Validation proof | Status |
-| - | - | - |
+| Acceptance criterion                                                                 | Validation proof                                                                                                                                                                                                      | Status   |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | **4. `/sv/` route evidence captured as absent before phase and present after phase** | Before: `git cat-file -e HEAD:src/pages/sv/index.astro` fails with `exists on disk, but not in 'HEAD'` (`exit_code:128`). After: `pnpm build` route generation includes `src/pages/sv/index.astro -> /sv/index.html`. | **PASS** |
-| **5. Build verification artifact recorded for Phase 2** | `pnpm build` completed successfully (`[build] Complete!`), and post-build checks confirm `dist/sv/index.html` exists and includes `<h1 class="text-2xl font-bold">Test</h1>`. | **PASS** |
+| **5. Build verification artifact recorded for Phase 2**                              | `pnpm build` completed successfully (`[build] Complete!`), and post-build checks confirm `dist/sv/index.html` exists and includes `<h1 class="text-2xl font-bold">Test</h1>`.                                         | **PASS** |

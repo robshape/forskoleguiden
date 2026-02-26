@@ -52,19 +52,23 @@ Preschool JSON follows `data/template.json`. Key shape:
   "preschoolName": "string",
   "address": "string",
   "surveyYear": 2025,
-  "questionGroups": [{
-    "name": "Helhetsbedömning",
-    "questions": [{
-      "text": "string",
-      "response": {
-        "completelyAgreePercentage": 0,
-        "partlyAgreePercentage": 0,
-        "neitherAgreeNorDisagreePercentage": 0,
-        "partlyDisagreePercentage": 0,
-        "completelyDisagreePercentage": 0
-      }
-    }]
-  }]
+  "questionGroups": [
+    {
+      "name": "Helhetsbedömning",
+      "questions": [
+        {
+          "text": "string",
+          "response": {
+            "completelyAgreePercentage": 0,
+            "partlyAgreePercentage": 0,
+            "neitherAgreeNorDisagreePercentage": 0,
+            "partlyDisagreePercentage": 0,
+            "completelyDisagreePercentage": 0
+          }
+        }
+      ]
+    }
+  ]
 }
 ```
 

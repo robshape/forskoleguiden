@@ -110,9 +110,9 @@ Interpretation: `src/styles/global.css` exists and its working-tree content rema
 
 ## Acceptance criteria mapping
 
-| AC | Acceptance criterion | Validation proof | Status |
-| - | - | - | - |
-| **AC1** | Temporary verification page remains removed (`src/pages/sv/index.astro`) | Pre-check output `check_sv_index_exists_before=no` confirms deleted source route before clean build | **PASS** |
-| **AC2** | Global Tailwind stylesheet preserved and unchanged during cleanup validation | Checks show `check_global_css_exists_before=yes`, file content `@import "tailwindcss";`, and `global_css_worktree_diff_lines=0` | **PASS** |
-| **AC3** | Build passes after temporary `/sv/` page deletion | Pre-check shows `check_sv_index_exists_before=no`; clean build command `rm -rf dist && pnpm build` completed with `[build] Complete!` | **PASS** |
-| **AC4** | Clean build does not produce `dist/sv/index.html` | Post-build check shows `check_dist_sv_index_exists_after=no`; dist file listing contains no `dist/sv/index.html` | **PASS** |
+| AC      | Acceptance criterion                                                         | Validation proof                                                                                                                      | Status   |
+| ------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| **AC1** | Temporary verification page remains removed (`src/pages/sv/index.astro`)     | Pre-check output `check_sv_index_exists_before=no` confirms deleted source route before clean build                                   | **PASS** |
+| **AC2** | Global Tailwind stylesheet preserved and unchanged during cleanup validation | Checks show `check_global_css_exists_before=yes`, file content `@import "tailwindcss";`, and `global_css_worktree_diff_lines=0`       | **PASS** |
+| **AC3** | Build passes after temporary `/sv/` page deletion                            | Pre-check shows `check_sv_index_exists_before=no`; clean build command `rm -rf dist && pnpm build` completed with `[build] Complete!` | **PASS** |
+| **AC4** | Clean build does not produce `dist/sv/index.html`                            | Post-build check shows `check_dist_sv_index_exists_after=no`; dist file listing contains no `dist/sv/index.html`                      | **PASS** |

@@ -21,7 +21,7 @@ Step 0.5 is fully completed. Tailwind v4 global stylesheet wiring was introduced
 - docs/plans/step-0-5-tailwind-v4-global-css-phase-3-validation.md
 - docs/plans/step-0-5-tailwind-v4-global-css-phase-3-complete.md
 - docs/plans/step-0-5-tailwind-v4-global-css-complete.md
-- docs/memory-bank/tasks/_index.md
+- docs/memory-bank/tasks/\_index.md
 - docs/memory-bank/tasks/TASK001-wire-global-css-base-layout.md
 - docs/memory-bank/tasks/TASK002-implement-root-redirect-step-3-4.md
 - docs/memory-bank/activeContext.md
