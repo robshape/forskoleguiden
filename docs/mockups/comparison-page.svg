@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812" width="375" height="812">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'Inter', sans-serif; }
+      .bg { fill: #f9fafb; }
+      .card { fill: #ffffff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.05)); rx: 12; }
+      .header { fill: #ffffff; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1)); }
+      .text-primary { fill: #111827; }
+      .text-secondary { fill: #4b5563; }
+      .text-tertiary { fill: #6b7280; }
+      .text-white { fill: #ffffff; }
+      .divider { stroke: #e5e7eb; stroke-width: 1; }
+
+      /* Chart Patterns */
+      .fill-1 { fill: #1e3a8a; } /* Completely agree */
+      .fill-2 { fill: url(#pattern-stripes); } /* Partly agree */
+      .fill-3 { fill: url(#pattern-dots); } /* Neither */
+      .fill-4 { fill: url(#pattern-lines); } /* Partly disagree */
+      .fill-5 { fill: url(#pattern-crosshatch); } /* Completely disagree */
+    </style>
+
+    <pattern id="pattern-stripes" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="4" height="4" fill="#3b82f6" />
+      <line x1="0" y1="0" x2="0" y2="4" stroke="#ffffff" stroke-width="1" />
+    </pattern>
+
+    <pattern id="pattern-dots" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#9ca3af" />
+      <circle cx="2" cy="2" r="1" fill="#ffffff" />
+    </pattern>
+
+    <pattern id="pattern-lines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#f59e0b" />
+      <line x1="0" y1="2" x2="4" y2="2" stroke="#ffffff" stroke-width="1" />
+    </pattern>
+
+    <pattern id="pattern-crosshatch" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#ef4444" />
+      <path d="M0,0 l4,4 M4,0 l-4,4" stroke="#ffffff" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="375" height="812" />
+
+  <!-- Header -->
+  <rect class="header" width="375" height="64" />
+  <text x="16" y="40" class="text-primary" font-size="18" font-weight="700">Förskoleguiden</text>
+  <text x="280" y="40" class="text-secondary" font-size="14" font-weight="500">Malmö ▾</text>
+  <text x="340" y="40" class="text-secondary" font-size="14" font-weight="500">SV</text>
+
+  <!-- Main Content -->
+  <text x="16" y="96" class="text-primary" font-size="14" font-weight="500">← Tillbaka</text>
+
+  <text x="16" y="136" class="text-primary" font-size="24" font-weight="700">Jämför förskolor</text>
+
+  <!-- Question 1 Card -->
+  <rect x="16" y="160" width="343" height="300" class="card" />
+  <text x="32" y="188" class="text-primary" font-size="14" font-weight="600">Jag är nöjd med verksamheten på</text>
+  <text x="32" y="208" class="text-primary" font-size="14" font-weight="600">mitt barns förskola.</text>
+
+  <!-- Chart for Trollsländornas -->
+  <text x="32" y="244" class="text-secondary" font-size="12" font-weight="500">Trollsländornas förskola</text>
+  <text x="343" y="244" class="text-primary" font-size="12" font-weight="700" text-anchor="end">85%</text>
+
+  <g transform="translate(32, 252)">
+    <rect x="0" y="0" width="186" height="16" class="fill-1" /> <!-- 60% -->
+    <rect x="186" y="0" width="78" height="16" class="fill-2" /> <!-- 25% -->
+    <rect x="264" y="0" width="15" height="16" class="fill-3" /> <!-- 5% -->
+    <rect x="279" y="0" width="15" height="16" class="fill-4" /> <!-- 5% -->
+    <rect x="294" y="0" width="17" height="16" class="fill-5" /> <!-- 5% -->
+  </g>
+
+  <!-- Chart for Solstrålens -->
+  <text x="32" y="296" class="text-secondary" font-size="12" font-weight="500">Solstrålens förskola</text>
+  <text x="343" y="296" class="text-primary" font-size="12" font-weight="700" text-anchor="end">82%</text>
+
+  <g transform="translate(32, 304)">
+    <rect x="0" y="0" width="155" height="16" class="fill-1" /> <!-- 50% -->
+    <rect x="155" y="0" width="100" height="16" class="fill-2" /> <!-- 32% -->
+    <rect x="255" y="0" width="31" height="16" class="fill-3" /> <!-- 10% -->
+    <rect x="286" y="0" width="15" height="16" class="fill-4" /> <!-- 5% -->
+    <rect x="301" y="0" width="10" height="16" class="fill-5" /> <!-- 3% -->
+  </g>
+
+  <line x1="32" y1="340" x2="343" y2="340" class="divider" />
+
+  <!-- Summary Text -->
+  <text x="32" y="364" class="text-primary" font-size="13" font-weight="500">Sammanfattning</text>
+  <text x="32" y="384" class="text-secondary" font-size="13">Trollsländornas förskola har en liknande andel</text>
+  <text x="32" y="404" class="text-secondary" font-size="13">instämmande svar (85%) som Solstrålens förskola</text>
+  <text x="32" y="424" class="text-secondary" font-size="13">(82%) för denna fråga.</text>
+
+  <!-- Legend -->
+  <rect x="16" y="480" width="343" height="120" class="card" />
+  <text x="32" y="508" class="text-primary" font-size="14" font-weight="600">Teckenförklaring</text>
+
+  <rect x="32" y="524" width="12" height="12" class="fill-1" />
+  <text x="52" y="534" class="text-secondary" font-size="12">Instämmer helt</text>
+
+  <rect x="32" y="544" width="12" height="12" class="fill-2" />
+  <text x="52" y="554" class="text-secondary" font-size="12">Instämmer delvis</text>
+
+  <rect x="32" y="564" width="12" height="12" class="fill-3" />
+  <text x="52" y="574" class="text-secondary" font-size="12">Varken eller</text>
+
+  <rect x="180" y="524" width="12" height="12" class="fill-4" />
+  <text x="200" y="534" class="text-secondary" font-size="12">Instämmer inte delvis</text>
+
+  <rect x="180" y="544" width="12" height="12" class="fill-5" />
+  <text x="200" y="554" class="text-secondary" font-size="12">Instämmer inte alls</text>
+
+  <!-- Attribution -->
+  <text x="16" y="640" class="text-tertiary" font-size="12">Data från Malmö stads förskoleenkät 2025.</text>
+  <text x="16" y="660" fill="#2563eb" font-size="12" style="text-decoration: underline;">Läs mer om enkäten på malmo.se</text>
+</svg>
