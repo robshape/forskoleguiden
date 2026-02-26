@@ -19,6 +19,7 @@ Installed all Step 0.2 production dependencies in one command using pinned major
 **Review Status**: APPROVED with minor recommendations
 
 **Git Commit Message**: chore: add core production dependencies
+
 - Add Astro/Preact integrations and runtime dependencies
 - Pin major versions for Astro 5 compatibility
 - Update lockfile with resolved dependency graph

@@ -18,6 +18,7 @@ Updated memory-bank status files to reflect Step 0.3 completion and verified too
 **Review Status**: APPROVED
 
 **Git Commit Message**: chore: update memory bank for step 0.3
+
 - mark step 0.3 as complete in active context
 - record verification commands and outcomes
 - set next focus to step 0.4 astro config

@@ -16,7 +16,7 @@ Data flows: static JSON → Astro build reads at build time → pre-rendered HTM
 
 ## Directory structure
 
-```
+```text
 data/malmo/2025/*.json     — Per-preschool survey data (build-time only)
 data/malmo/index.json      — Directory index (name, address, id, operator type)
 src/features/              — Feature-organized modules (directory, comparison, shortlist, sharing)
@@ -42,6 +42,7 @@ src/pages/{sv,en,ar}/      — Astro file-based i18n routing
 ## Data model
 
 Preschool JSON follows `data/template.json`. Key shape:
+
 ```json
 {
   "preschoolName": "string",
@@ -62,11 +63,13 @@ Preschool JSON follows `data/template.json`. Key shape:
   }]
 }
 ```
+
 MVP scope: only the "Helhetsbedömning" question group (2 questions, 5 response buckets each). "Agree share" = `completelyAgreePercentage + partlyAgreePercentage`.
 
 ## Comparison summary logic
 
 Deterministic, non-AI text summaries:
+
 - Compute agree share per question per preschool
 - Delta ≥ 5 pp → "higher"; ≤ −5 pp → "lower"; otherwise → "similar"
 - Use neutral template phrases — no subjective wording

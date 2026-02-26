@@ -30,6 +30,7 @@ Verified Step 0.2 dependency installation with top-level dependency output and c
 **Review Status**: APPROVED (after evidence capture)
 
 **Git Commit Message**: chore: verify core dependency installation
+
 - Record top-level dependency verification output
 - Confirm required Step 0.2 packages are present
 - Confirm no Astro/Preact peer warnings

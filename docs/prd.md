@@ -143,7 +143,7 @@ Non-goals are explicitly out of scope for the MVP (and will not be pursued unles
 
 - **Data attribution and provenance** (Priority: P0)
   - The site must clearly acknowledge that survey data is provided by the local government (for Malmö, Malmö stad) and link to the official overview/source pages.
-  - For Malmö, link to: https://malmo.se/Bo-och-leva/Utbildning-och-forskola/Forskola/Utveckling-av-forskolorna-i-Malmo/Delaktighet-och-paverkan-i-forskolan/Forskoleenkaten.html
+  - For Malmö, link to: <https://malmo.se/Bo-och-leva/Utbildning-och-forskola/Forskola/Utveckling-av-forskolorna-i-Malmo/Delaktighet-och-paverkan-i-forskolan/Forskoleenkaten.html>
   - The MVP does not need to link to each individual preschool PDF.
 
 - **Accessibility and multilingual support** (Priority: P0)

@@ -56,6 +56,7 @@ The PRD requires state to persist across page navigations (compare tray, shortli
 ### Why Preact SVG components over Chart.js / D3
 
 The PRD mandates:
+
 - Non-color encodings (patterns/labels) for color-blind users.
 - Table/text alternatives for every chart.
 - Screen-reader accessible values.

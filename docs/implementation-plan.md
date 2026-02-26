@@ -38,7 +38,7 @@ Ensure the resulting `package.json` has `astro` as a dependency and that `tsconf
 
 Install all production dependencies in one command:
 
-```
+```sh
 pnpm add @astrojs/preact preact @nanostores/preact nanostores lz-string @astrojs/sitemap
 ```
 
@@ -48,7 +48,7 @@ pnpm add @astrojs/preact preact @nanostores/preact nanostores lz-string @astrojs
 
 Install all dev tooling in one command:
 
-```
+```sh
 pnpm add -D tailwindcss@^4 @tailwindcss/vite@^4 vitest @playwright/test @axe-core/playwright eslint eslint-plugin-astro prettier prettier-plugin-astro
 ```
 
@@ -202,6 +202,7 @@ Create `src/lib/scoring.ts` with a function:
 - `computeOverallScore(survey: PreschoolSurvey): number` — computes the average agree share across all questions in the "Helhetsbedömning" group. Returns `-1` if the group is missing (a detectable sentinel that will not silently corrupt sort order like `NaN` would). The directory ranking (Step 4.3) must sort preschools with a `-1` score to the bottom of the list.
 
 **Test:** Write unit tests:
+
 - Given a response with `completelyAgreePercentage: 60` and `partlyAgreePercentage: 25`, `computeAgreeShare` returns `85`.
 - Given a survey with two questions whose agree shares are `80` and `90`, `computeOverallScore` returns `85`.
 - Given a survey with no "Helhetsbedömning" group, `computeOverallScore` returns `-1`.
@@ -243,6 +244,7 @@ Create `src/i18n/utils.ts` with:
 - `type Locale = 'sv' | 'en' | 'ar'` — exported type.
 
 **Test:** Write unit tests:
+
 - `getLocaleFromURL('/sv/')` returns `'sv'`, `getLocaleFromURL('/en/compare')` returns `'en'`, `getLocaleFromURL('/ar/')` returns `'ar'`, `getLocaleFromURL('/')` returns `'sv'`.
 - `t('site.title', 'sv')` returns the Swedish title string from `sv.json`.
 - `t('nonexistent.key', 'sv')` returns `'nonexistent.key'`.
@@ -357,6 +359,7 @@ Create `src/lib/state.ts` with:
 Also add persistence: on every change, write `compareIds` to `sessionStorage` so it survives MPA page navigations. On init, read from `sessionStorage` if available. **Critical: all `sessionStorage` access must be guarded with `typeof window !== 'undefined'`** because this module may be imported during Astro's SSR pre-rendering phase where `sessionStorage` is undefined. Alternatively, use nanostores' `persistentAtom` from `@nanostores/persistent` if available, which handles this internally.
 
 **Test:** Write unit tests for the store:
+
 - `toggleCompare('abc')` adds `'abc'` to the list. Calling again removes it.
 - `clearCompare()` empties the list.
 - Adding `MAX_COMPARE + 1` items: the last one is not added.
@@ -531,6 +534,7 @@ The `<table>` fallback must be rendered **inside the `ComparisonView` Preact isl
 Inside `ComparisonView`, for each question/chart, render a `<table>` alongside the `<svg>` chart. The table should be visually de-emphasized (e.g., with a `sr-only` class or placed below the chart) but always present in the DOM when the island is hydrated.
 
 The table should have:
+
 - Column headers: preschool names
 - Row headers: the 5 canonical response categories (from Step 6.2)
 - Cells: percentage values
@@ -566,6 +570,7 @@ Create `src/features/comparison/summary.ts` with:
 - Return a structured object (define `ComparisonSummary` type) containing per-question, per-preschool-pair comparisons with the classification and the actual percentages.
 
 **Test:** Write unit tests:
+
 - Two preschools: school A has 80% agree share, school B has 74%. Delta is 6 → A is "higher" than B, B is "lower" than A.
 - Two preschools: school A has 80%, school B has 78%. Delta is 2 → "similar".
 - Three preschools: verify all pairwise comparisons are computed correctly.
