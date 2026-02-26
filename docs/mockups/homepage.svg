@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812" width="375" height="812" style="background-color: #f9fafb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <!-- Header -->
+  <rect width="375" height="60" fill="#ffffff" />
+  <text x="20" y="38" font-size="20" font-weight="bold" fill="#111827">Förskoleguiden</text>
+  <rect x="280" y="18" width="75" height="28" rx="14" fill="#f3f4f6" />
+  <text x="295" y="36" font-size="12" font-weight="600" fill="#374151">SV | EN</text>
+  <line x1="0" y1="60" x2="375" y2="60" stroke="#e5e7eb" stroke-width="1" />
+
+  <!-- City & Year Selector -->
+  <text x="20" y="90" font-size="14" font-weight="600" fill="#6b7280">CITY &amp; YEAR</text>
+  <rect x="20" y="105" width="100" height="36" rx="8" fill="#2563eb" />
+  <text x="45" y="128" font-size="14" font-weight="600" fill="#ffffff">Malmö</text>
+
+  <rect x="130" y="105" width="100" height="36" rx="8" fill="#f3f4f6" />
+  <text x="145" y="128" font-size="14" font-weight="500" fill="#9ca3af">Stockholm</text>
+
+  <rect x="240" y="105" width="100" height="36" rx="8" fill="#f3f4f6" />
+  <text x="255" y="128" font-size="14" font-weight="500" fill="#9ca3af">Göteborg</text>
+
+  <text x="20" y="165" font-size="14" font-weight="500" fill="#4b5563">Survey Year: <tspan font-weight="bold">2025</tspan></text>
+
+  <!-- Filters -->
+  <rect x="20" y="185" width="335" height="44" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+  <text x="35" y="212" font-size="14" fill="#6b7280">Filter by operator, profile...</text>
+  <circle cx="330" cy="207" r="8" fill="none" stroke="#9ca3af" stroke-width="2" />
+  <line x1="336" y1="213" x2="342" y2="219" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" />
+
+  <!-- List of Preschools -->
+  <text x="20" y="260" font-size="18" font-weight="bold" fill="#111827">Preschools (142)</text>
+  <text x="280" y="260" font-size="14" font-weight="500" fill="#2563eb">Sort: Rating</text>
+
+  <!-- Card 1 -->
+  <rect x="20" y="280" width="335" height="120" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+  <text x="35" y="310" font-size="16" font-weight="bold" fill="#111827">Äventyret Förskola</text>
+  <text x="35" y="330" font-size="13" fill="#6b7280">Independent • Montessori</text>
+  <rect x="35" y="345" width="40" height="40" rx="20" fill="#dcfce7" />
+  <text x="43" y="370" font-size="14" font-weight="bold" fill="#166534">92%</text>
+  <text x="85" y="360" font-size="13" font-weight="500" fill="#374151">Agree share</text>
+  <text x="85" y="375" font-size="11" fill="#6b7280">Helhetsbedömning</text>
+  <rect x="240" y="350" width="100" height="32" rx="16" fill="#f3f4f6" />
+  <text x="255" y="370" font-size="13" font-weight="600" fill="#374151">+ Compare</text>
+
+  <!-- Card 2 -->
+  <rect x="20" y="415" width="335" height="120" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+  <text x="35" y="445" font-size="16" font-weight="bold" fill="#111827">Solstrålen</text>
+  <text x="35" y="465" font-size="13" fill="#6b7280">Municipal • Reggio Emilia</text>
+  <rect x="35" y="480" width="40" height="40" rx="20" fill="#dcfce7" />
+  <text x="43" y="505" font-size="14" font-weight="bold" fill="#166534">85%</text>
+  <text x="85" y="495" font-size="13" font-weight="500" fill="#374151">Agree share</text>
+  <text x="85" y="510" font-size="11" fill="#6b7280">Helhetsbedömning</text>
+  <rect x="240" y="485" width="100" height="32" rx="16" fill="#2563eb" />
+  <text x="255" y="505" font-size="13" font-weight="600" fill="#ffffff">✓ Added</text>
+
+  <!-- Card 3 -->
+  <rect x="20" y="550" width="335" height="120" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+  <text x="35" y="580" font-size="16" font-weight="bold" fill="#111827">Lilla Björn</text>
+  <text x="35" y="600" font-size="13" fill="#6b7280">Municipal • Outdoor</text>
+  <rect x="35" y="615" width="40" height="40" rx="20" fill="#fef08a" />
+  <text x="43" y="640" font-size="14" font-weight="bold" fill="#854d0e">78%</text>
+  <text x="85" y="630" font-size="13" font-weight="500" fill="#374151">Agree share</text>
+  <text x="85" y="645" font-size="11" fill="#6b7280">Helhetsbedömning</text>
+  <rect x="240" y="620" width="100" height="32" rx="16" fill="#2563eb" />
+  <text x="255" y="640" font-size="13" font-weight="600" fill="#ffffff">✓ Added</text>
+
+  <!-- Compare Tray (Sticky Bottom) -->
+  <rect x="0" y="712" width="375" height="100" fill="#ffffff" style="filter: drop-shadow(0 -4px 6px rgba(0,0,0,0.05));" />
+  <text x="20" y="745" font-size="14" font-weight="600" fill="#111827">2 preschools selected</text>
+  <text x="20" y="765" font-size="12" fill="#6b7280">Solstrålen, Lilla Björn</text>
+  <rect x="220" y="730" width="135" height="44" rx="22" fill="#2563eb" />
+  <text x="245" y="757" font-size="15" font-weight="bold" fill="#ffffff">Compare</text>
+</svg>

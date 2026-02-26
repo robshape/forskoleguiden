@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812" width="375" height="812" style="background-color: #f9fafb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <!-- Header -->
+  <rect width="375" height="60" fill="#ffffff" />
+  <text x="20" y="38" font-size="24" font-weight="bold" fill="#111827">←</text>
+  <text x="60" y="38" font-size="18" font-weight="bold" fill="#111827">Compare (2)</text>
+  <line x1="0" y1="60" x2="375" y2="60" stroke="#e5e7eb" stroke-width="1" />
+
+  <!-- Sticky Table Header -->
+  <rect x="0" y="61" width="375" height="100" fill="#ffffff" />
+  <line x1="187" y1="61" x2="187" y2="161" stroke="#e5e7eb" stroke-width="1" />
+
+  <!-- Col 1 -->
+  <text x="20" y="90" font-size="16" font-weight="bold" fill="#111827">Solstrålen</text>
+  <text x="20" y="110" font-size="12" fill="#6b7280">Municipal</text>
+  <rect x="20" y="125" width="140" height="28" rx="4" fill="#f3f4f6" />
+  <text x="45" y="144" font-size="12" font-weight="600" fill="#374151">+ Shortlist</text>
+
+  <!-- Col 2 -->
+  <text x="200" y="90" font-size="16" font-weight="bold" fill="#111827">Lilla Björn</text>
+  <text x="200" y="110" font-size="12" fill="#6b7280">Municipal</text>
+  <rect x="200" y="125" width="140" height="28" rx="4" fill="#f3f4f6" />
+  <text x="225" y="144" font-size="12" font-weight="600" fill="#374151">+ Shortlist</text>
+
+  <line x1="0" y1="161" x2="375" y2="161" stroke="#e5e7eb" stroke-width="1" />
+
+  <!-- Summary Section -->
+  <rect x="20" y="180" width="335" height="80" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1" />
+  <text x="35" y="205" font-size="14" font-weight="bold" fill="#1e3a8a">Summary: Helhetsbedömning</text>
+  <text x="35" y="225" font-size="13" fill="#1e40af">Solstrålen has a higher agree share (+7%)</text>
+  <text x="35" y="245" font-size="13" fill="#1e40af">than Lilla Björn overall.</text>
+
+  <!-- Question 1 -->
+  <text x="20" y="290" font-size="14" font-weight="bold" fill="#111827">"Mitt barn trivs på förskolan"</text>
+  <rect x="20" y="305" width="335" height="100" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+  <line x1="187" y1="305" x2="187" y2="405" stroke="#e5e7eb" stroke-width="1" />
+
+  <!-- Q1 Col 1 -->
+  <text x="35" y="335" font-size="24" font-weight="bold" fill="#166534">85%</text>
+  <text x="35" y="355" font-size="12" fill="#6b7280">Agree</text>
+  <rect x="35" y="370" width="120" height="12" rx="2" fill="#f3f4f6" />
+  <rect x="35" y="370" width="102" height="12" rx="2" fill="#22c55e" />
+
+  <!-- Q1 Col 2 -->
+  <text x="205" y="335" font-size="24" font-weight="bold" fill="#854d0e">78%</text>
+  <text x="205" y="355" font-size="12" fill="#6b7280">Agree</text>
+  <rect x="205" y="370" width="120" height="12" rx="2" fill="#f3f4f6" />
+  <rect x="205" y="370" width="93" height="12" rx="2" fill="#eab308" />
+
+  <!-- Question 2 -->
+  <text x="20" y="440" font-size="14" font-weight="bold" fill="#111827">"Jag är nöjd med verksamheten"</text>
+  <rect x="20" y="455" width="335" height="100" rx="8" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+  <line x1="187" y1="455" x2="187" y2="555" stroke="#e5e7eb" stroke-width="1" />
+
+  <!-- Q2 Col 1 -->
+  <text x="35" y="485" font-size="24" font-weight="bold" fill="#166534">80%</text>
+  <text x="35" y="505" font-size="12" fill="#6b7280">Agree</text>
+  <rect x="35" y="520" width="120" height="12" rx="2" fill="#f3f4f6" />
+  <rect x="35" y="520" width="96" height="12" rx="2" fill="#22c55e" />
+
+  <!-- Q2 Col 2 -->
+  <text x="205" y="485" font-size="24" font-weight="bold" fill="#854d0e">75%</text>
+  <text x="205" y="505" font-size="12" fill="#6b7280">Agree</text>
+  <rect x="205" y="520" width="120" height="12" rx="2" fill="#f3f4f6" />
+  <rect x="205" y="520" width="90" height="12" rx="2" fill="#eab308" />
+
+</svg>
