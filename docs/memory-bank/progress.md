@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-02-26): Steps 0.5, 0.6, and 0.7 are complete.
+Current status (2026-02-27): Steps 0.5, 0.6, 0.7, and 0.8 are complete.
 
 Evidence-driven completion summary:
 
@@ -17,10 +17,14 @@ Evidence-driven completion summary:
 - Step 0.7 Phase 3 completed: acceptance validation passed with `pnpm build` and `pnpm check`.
 - Completion and validation docs now exist for Step 0.7 phases 1–3 and full plan closure.
 - Post-Step 0.7 script hardening completed: broadened Prettier scope to repository root with `.gitignore` filtering and added `format:check` to avoid broken passthrough usage (`pnpm run format -- --check`).
+- Step 0.8 Phase 1 completed: baseline lint failure and format behavior captured for red/green reference.
+- Step 0.8 Phase 2 completed: added `eslint.config.js`, `.prettierrc`, and pinned TypeScript lint dependencies.
+- Step 0.8 Phase 3 completed: final `pnpm lint` and `pnpm format` checks passed (exit code 0), with Node engine compatibility aligned to installed ESLint 10 runtime requirements.
+- Completion and validation docs now exist for Step 0.8 phases 1–3 and full plan closure.
 
 Deferred and tracked (intentionally pending):
 
 - `TASK001`: implement Steps 3.1-3.3 (BaseLayout, Nav, Footer) and move global CSS import to BaseLayout.
 - `TASK002`: implement `/` -> `/sv/` redirect in Step 3.4.
 
-Next focus: Step 0.8 ESLint and Prettier configuration.
+Next focus: Step 0.9 Vitest configuration.
