@@ -1,3 +1,7 @@
-Phase 1 implementation beginning for Step 0.0 memory-bank initialization. No application code exists yet, and project scaffolding has not started.
+# Active Context
 
-The immediate next step is project scaffolding (Step 1 in the implementation sequence), guided by `docs/prd.md` for scope and `docs/tech-stack.md` for implementation direction.
+Step 0.1 is complete across all planned phases: Astro project scaffolding is in the repository root, acceptance validation is documented with strict TypeScript and `pnpm dev` startup checks, and memory-bank status is now aligned with that completion.
+
+Current focus shifts to Step 0.2, which is to install core production dependencies (`@astrojs/preact`, `preact`, `@nanostores/preact`, `nanostores`, `lz-string`, `@astrojs/sitemap`) before continuing configuration steps.
+
+Important temporary state: `src/pages/index.astro` is still the initial scaffold placeholder (including `lang="en"`) and is not the intended final root behavior. It must be replaced with the planned root redirect setup in Step 3.4 once i18n routing with prefixed default locale is configured.

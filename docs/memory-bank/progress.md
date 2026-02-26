@@ -1,3 +1,5 @@
-Current status: Phase 1 (Step 0.0 memory-bank initialization) is not started, and all defined Step 0.0 steps are pending.
+# Progress
 
-No downstream implementation steps are in progress yet. Use `docs/implementation-plan.md` for the full step list and acceptance checks, and use `docs/prd.md` plus `docs/tech-stack.md` as the authoritative detail sources.
+Current status: Step 0.1 is completed. The Astro scaffold is in place at repository root, strict TypeScript configuration is verified, and dev server startup on `http://localhost:4321/` is validated and recorded.
+
+Next step is Step 0.2 (install core dependencies). Existing repository structure in `docs/` and `data/` remained preserved through Step 0.1.
