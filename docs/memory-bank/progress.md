@@ -1,5 +1,5 @@
 # Progress
 
-Current status: Step 0.1 is completed. The Astro scaffold is in place at repository root, strict TypeScript configuration is verified, and dev server startup on `http://localhost:4321/` is validated and recorded.
+Current status: Step 0.2 is completed. Core production dependencies are installed (`@astrojs/preact`, `preact`, `@nanostores/preact`, `nanostores`, `lz-string`, `@astrojs/sitemap`) with pinned major ranges aligned to Astro 5, and installation verification is documented.
 
-Next step is Step 0.2 (install core dependencies). Existing repository structure in `docs/` and `data/` remained preserved through Step 0.1.
+Next step is Step 0.3 (install development dependencies). Existing repository structure in `docs/` and `data/` remains preserved.
