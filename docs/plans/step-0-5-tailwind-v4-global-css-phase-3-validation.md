@@ -11,25 +11,25 @@
 [ -e src/pages/sv/index.astro ] && echo "check_sv_index_exists_before=yes" || echo "check_sv_index_exists_before=no"
 ```
 
-2. Run clean build workflow exactly as requested:
+1. Run clean build workflow exactly as requested:
 
 ```bash
 rm -rf dist && pnpm build
 ```
 
-3. Verify cleanup artifact condition (`dist/sv/index.html` absent):
+1. Verify cleanup artifact condition (`dist/sv/index.html` absent):
 
 ```bash
 [ -f dist/sv/index.html ] && echo "check_dist_sv_index_exists_after=yes" || echo "check_dist_sv_index_exists_after=no"
 ```
 
-4. Optional artifact listing used to corroborate build output set:
+1. Optional artifact listing used to corroborate build output set:
 
 ```bash
 find dist -maxdepth 3 -type f | sort
 ```
 
-5. Confirm `src/styles/global.css` still exists and remains unchanged in working tree:
+1. Confirm `src/styles/global.css` still exists and remains unchanged in working tree:
 
 ```bash
 [ -f src/styles/global.css ] && echo "check_global_css_exists_before=yes" || echo "check_global_css_exists_before=no"
