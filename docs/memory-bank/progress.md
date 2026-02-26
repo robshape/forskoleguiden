@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-02-26): Steps 0.5 and 0.6 are complete.
+Current status (2026-02-26): Steps 0.5, 0.6, and 0.7 are complete.
 
 Evidence-driven completion summary:
 
@@ -12,10 +12,15 @@ Evidence-driven completion summary:
 - Step 0.6 Phase 2 completed: confirmed `tsconfig.json` already matched required alias mappings, so no config edit was needed.
 - Step 0.6 Phase 3 completed: removed temporary probe files and passed final `pnpm astro check` with zero diagnostics.
 - Completion and validation docs now exist for Step 0.6 phases 1–3 and full plan closure.
+- Step 0.7 Phase 1 completed: baseline red-checks captured for missing scripts (`check`, `test`, `test:watch`, `test:e2e`, `lint`, `format`).
+- Step 0.7 Phase 2 completed: added required scripts in `package.json` while preserving existing scripts (`astro`, `lint:md`, `dev`, `build`, `preview`).
+- Step 0.7 Phase 3 completed: acceptance validation passed with `pnpm build` and `pnpm check`.
+- Completion and validation docs now exist for Step 0.7 phases 1–3 and full plan closure.
+- Post-Step 0.7 script hardening completed: broadened Prettier scope to repository root with `.gitignore` filtering and added `format:check` to avoid broken passthrough usage (`pnpm run format -- --check`).
 
 Deferred and tracked (intentionally pending):
 
 - `TASK001`: implement Steps 3.1-3.3 (BaseLayout, Nav, Footer) and move global CSS import to BaseLayout.
 - `TASK002`: implement `/` -> `/sv/` redirect in Step 3.4.
 
-Next focus: Step 0.7 package scripts.
+Next focus: Step 0.8 ESLint and Prettier configuration.
