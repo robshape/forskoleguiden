@@ -1,9 +1,16 @@
 # Active Context
 
-Step 0.4 is complete: `astro.config.ts` now uses `output: 'static'`, Preact + Sitemap integrations, Tailwind v4 via `@tailwindcss/vite`, and Astro i18n locales (`sv`, `en`, `ar`) with `defaultLocale: 'sv'` and `routing.prefixDefaultLocale: true`.
+Step 0.5 (Tailwind v4 global CSS wiring) is complete across phases 1–3.
 
-Verification for Step 0.4 succeeded in dev mode: requesting `/sv/` returns `404`, confirming locale-prefix routing is active before localized pages are created.
+Current state:
 
-Verified open concern: `src/pages/index.astro` still exists as the scaffold placeholder and currently renders with `lang="en"`. This is intentional temporary state and must be replaced in Step 3.4 when adding root redirect behavior (`/` → `/sv/`).
+- `src/styles/global.css` persists with Tailwind v4 import and remains unchanged through phase-3 cleanup validation.
+- Temporary verification route `src/pages/sv/index.astro` was removed after verification.
+- Root placeholder remains temporary Swedish state in `src/pages/index.astro` (no `/` -> `/sv/` redirect yet).
 
-Current focus shifts to Step 0.5 (Tailwind CSS v4 global stylesheet wiring).
+Pending tracked tasks:
+
+- `TASK001`: implement Steps 3.1-3.3 (BaseLayout, Nav, Footer) and move global CSS import into BaseLayout.
+- `TASK002`: implement root redirect `/` -> `/sv/` in Step 3.4.
+
+Next implementation focus: Step 0.6 TypeScript path aliases.
