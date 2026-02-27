@@ -10,7 +10,7 @@
 | Interactive UI       | **Preact** (via `@astrojs/preact`)                  | ~3 KB runtime, React-compatible API, perfect for mobile perf targets                                                                                                                                                                                                                           |
 | Cross-island state   | **nanostores** (`@nanostores/preact`)               | Tiny (~0.5 KB), framework-agnostic, first-class Astro support — used for compare tray, shortlist, and language state shared across islands                                                                                                                                                     |
 | Language             | **TypeScript** (strict)                             | Type-safe data models for preschool JSON; catches shape mismatches at build time                                                                                                                                                                                                               |
-| Styling              | **Tailwind CSS v4** (`@astrojs/tailwind`)           | Utility-first, mobile-first by design, built-in RTL support (`rtl:` variant for Arabic), flat explicit classes with no cascading side effects                                                                                                                                                  |
+| Styling              | **Tailwind CSS v4** (`@tailwindcss/vite`)           | Utility-first, mobile-first by design, built-in RTL support (`rtl:` variant for Arabic), flat explicit classes with no cascading side effects                                                                                                                                                  |
 | i18n — routing       | **Astro built-in i18n**                             | File-based locale routing (`/sv/`, `/en/`, `/ar/`), default locale prefix optional, `getRelativeLocaleUrl()` helpers                                                                                                                                                                           |
 | i18n — strings       | **Hand-rolled `t()` + JSON files**                  | One JSON file per locale (`sv.json`, `en.json`, `ar.json`), a tiny `t(key)` helper. Zero dependencies, trivially debuggable. If the project outgrows this, Paraglide JS is the upgrade path                                                                                                    |
 | Charts               | **Preact SVG components** (runtime-rendered)        | Preact island components render `<svg>` elements at hydration time. Full control over ARIA attributes, pattern fills, and non-color encoding. Static `<table>` fallback rendered by Astro for no-JS. No chart library dependency. Upgrade path: Chart.js post-MVP if visualization scope grows |
@@ -96,7 +96,6 @@ This approach gives full control over accessibility and semantic markup without 
 ```text
 forskoleguiden/
 ├── astro.config.ts          # Astro config: i18n, Preact, Tailwind, sitemap
-├── tailwind.config.ts       # Tailwind theme (colors, spacing, RTL)
 ├── tsconfig.json
 ├── package.json
 │
@@ -223,29 +222,32 @@ If a post-MVP pipeline generates JSON automatically (PDF → JSON), adding Zod v
 
 ## MVP dependency list
 
+> **Note:** Versions below are illustrative ranges. The actual `package.json` uses exact-pinned versions (no `^` or `~`) per project convention.
+
 ```json
 {
   "dependencies": {
-    "astro": "^5.x",
-    "@astrojs/preact": "^4.x",
-    "@astrojs/tailwind": "^6.x",
-    "@astrojs/sitemap": "^3.x",
-    "preact": "^10.x",
-    "@nanostores/preact": "^0.x",
-    "nanostores": "^0.x",
-    "lz-string": "^1.x"
+    "astro": "5.x",
+    "@astrojs/preact": "4.x",
+    "@astrojs/sitemap": "3.x",
+    "preact": "10.x",
+    "@nanostores/preact": "1.x",
+    "nanostores": "1.x",
+    "lz-string": "1.x"
   },
   "devDependencies": {
-    "typescript": "^5.x",
-    "tailwindcss": "^4.x",
-    "@tailwindcss/vite": "^4.x",
-    "vitest": "^3.x",
-    "@playwright/test": "^1.x",
-    "@axe-core/playwright": "^4.x",
-    "eslint": "^9.x",
-    "eslint-plugin-astro": "^1.x",
-    "prettier": "^3.x",
-    "prettier-plugin-astro": "^0.x"
+    "tailwindcss": "4.x",
+    "@tailwindcss/vite": "4.x",
+    "vitest": "4.x",
+    "@playwright/test": "1.x",
+    "@axe-core/playwright": "4.x",
+    "eslint": "10.x",
+    "@typescript-eslint/eslint-plugin": "8.x",
+    "@typescript-eslint/parser": "8.x",
+    "eslint-plugin-astro": "1.x",
+    "prettier": "3.x",
+    "prettier-plugin-astro": "0.x",
+    "markdownlint-cli2": "0.x"
   }
 }
 ```

@@ -18,7 +18,9 @@ export default [
     plugins: {
       '@typescript-eslint': tsPlugin,
     },
-    rules: {},
+    rules: {
+      ...tsPlugin.configs.recommended.rules,
+    },
   },
   ...astro.configs['flat/recommended'],
 ]

@@ -12,7 +12,7 @@
 
 ## Completed
 
-- [TASK004] Complete Step 0.11 .gitignore verification - Confirmed required ignore entries and acceptance via `git status` with no ignored dirs shown as untracked
-- [TASK003] Complete Step 0.10 Playwright configuration - Phase 3 validation recorded (`pnpm build && pnpm test:e2e`), with route-only `/sv/` 404 failure scope documented
+- [TASK004] Complete Step 0.11 .gitignore verification (archived — verification-only task)
+- [TASK003] Complete Step 0.10 Playwright configuration (archived — verification-only task)
 
 ## Abandoned

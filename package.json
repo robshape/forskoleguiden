@@ -16,8 +16,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "lint": "eslint .",
-    "format": "prettier --ignore-path .gitignore --write .",
-    "format:check": "prettier --ignore-path .gitignore --check .",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.{ts,tsx,astro,css,json,jsonc,md}\"",
+    "format:check": "prettier --ignore-path .gitignore --check \"**/*.{ts,tsx,astro,css,json,jsonc,md}\"",
     "lint:md": "markdownlint-cli2 './**/*.md'"
   },
   "dependencies": {
