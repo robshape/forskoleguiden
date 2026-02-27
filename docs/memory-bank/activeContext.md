@@ -1,23 +1,26 @@
 # Active Context
 
-Step 0.10 (Playwright configuration) is complete across phases 1–3.
+Step 0.11 (.gitignore entries and verification) is complete across phases 1–3.
 
 Current state:
 
-- `playwright.config.ts` exists with configured `baseURL`, `webServer`, and `testDir` for E2E runs.
-- `tests/e2e/smoke.spec.ts` exists and validates `/sv/` response status plus non-404 title behavior.
-- Phase 3 validation command was run exactly as required: `pnpm build && pnpm test:e2e`.
-- Validation result: `pnpm build` passed; E2E exited with code `1` due to a single smoke failure (`/sv/` returned `404`, expected `200`).
-- Failure scope determination: only route availability for `/sv/` is blocking green E2E; no additional Playwright config/test setup failures were observed.
-- Root placeholder remains temporary state in `src/pages/index.astro` and localized `/sv/` route work is still pending implementation.
+- `.gitignore` contains all required Step 0.11 entries: `node_modules/`, `dist/`, `.astro/`, `.DS_Store`.
+- Phase 1 baseline verification completed with command evidence from `git status --short --untracked-files=all` and `git check-ignore -v node_modules/ dist/ .astro/ .DS_Store`.
+- Phase 2 no-op verification completed and approved because no `.gitignore` edits were needed.
+- Phase 3 acceptance verification completed using `git status` exactly; ignored directories do not appear as untracked.
+- Added automated regression protection via `tests/unit/gitignore.test.ts` so required ignore rules are validated in `pnpm test`.
+- Sequencing corrected in memory-bank tracking: Step 1 (data layer) and Step 2 (i18n foundation) are now explicit prerequisites before Step 3.1-3.3 layout work.
 
 Pending tracked tasks:
 
-- `TASK001`: implement Steps 3.1-3.3 (BaseLayout, Nav, Footer) and move global CSS import into BaseLayout.
-- `TASK002`: implement root redirect `/` -> `/sv/` in Step 3.4.
+- `TASK005` (in progress): implement Step 1 data layer foundations (types, seed data, loaders, scoring).
+- `TASK006` (pending): implement Step 2 i18n foundation (locale files and `t()` utilities).
+- `TASK001` (pending, blocked): implement Steps 3.1-3.3 after Step 2.3 provides the `Locale` type dependency.
+- `TASK002` (pending): implement root redirect `/` -> `/sv/` in Step 3.4.
 
 Recently completed task:
 
+- `TASK004`: complete Step 0.11 `.gitignore` verification and documentation updates.
 - `TASK003`: complete Step 0.10 Playwright configuration validation and memory-bank/task documentation updates.
 
-Next implementation focus: Step 3.1-3.4 route/layout work that enables `/sv/` availability and redirect behavior.
+Next implementation focus: complete Step 1 then Step 2, then unblock Step 3.1-3.3. Step 3.4 redirect remains independently implementable and tracked as deferred.
