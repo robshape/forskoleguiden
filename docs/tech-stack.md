@@ -130,7 +130,7 @@ forskoleguiden/
 │   ├── layouts/             # Astro layouts (BaseLayout, with RTL support)
 │   │
 │   ├── lib/                 # Shared utilities
-│   │   ├── types.ts         # TypeScript interfaces for preschool data
+│   │   ├── types.ts         # TypeScript types for preschool data
 │   │   ├── state.ts         # nanostores atoms (compare set, shortlist, locale)
 │   │   └── url-state.ts     # lz-string encode/decode for shareable URLs
 │   │
@@ -200,7 +200,7 @@ This is **not** a single `index.html` file. The i18n routing (`/sv/`, `/en/`, `/
 
 No runtime schema validation library (Zod, etc.) is needed for the MVP.
 
-- **Preschool JSON files** are authored in the repo and read at build time. TypeScript interfaces validate their shape during development and build. If a file is malformed, the build fails.
+- **Preschool JSON files** are authored in the repo and read at build time. TypeScript types validate their shape during development and build. If a file is malformed, the build fails.
 - **URL state** (decoded from share links) is untrusted user input, but a simple `try/catch` + type guard is sufficient — the payload is a small array of preschool IDs, not a complex schema.
 - **No external APIs** means no runtime data fetching from unknown sources.
 

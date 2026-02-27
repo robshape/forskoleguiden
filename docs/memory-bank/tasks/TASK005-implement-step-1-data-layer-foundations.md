@@ -14,7 +14,7 @@ Step 3.1-3.3 layout work is not the next safe implementation target while founda
 
 ## Implementation Plan
 
-- Implement Step 1.1 interfaces in `src/lib/types.ts`.
+- Implement Step 1.1 type contracts in `src/lib/types.ts`.
 - Implement Step 1.2 and Step 1.3 Malmö seed data (`index.json` + per-preschool survey files).
 - Implement Step 1.4 data-loading utilities in `src/lib/data.ts`.
 - Implement Step 1.5 scoring utilities in `src/lib/scoring.ts`.
@@ -22,18 +22,18 @@ Step 3.1-3.3 layout work is not the next safe implementation target while founda
 
 ## Progress Tracking
 
-**Overall Status**: Not Started - 0%
+**Overall Status**: In Progress - 20%
 
 ### Subtasks
 
-| ID  | Description                                         | Status      | Updated    | Notes                                                        |
-| --- | --------------------------------------------------- | ----------- | ---------- | ------------------------------------------------------------ |
-| 5.1 | Define TypeScript interfaces (`src/lib/types.ts`)   | Not Started | 2026-02-27 | Step 1.1                                                     |
-| 5.2 | Add Malmö index seed data (`data/malmo/index.json`) | Not Started | 2026-02-27 | Step 1.2                                                     |
-| 5.3 | Add per-preschool survey seed files                 | Not Started | 2026-02-27 | Step 1.3                                                     |
-| 5.4 | Implement data-loading utility (`src/lib/data.ts`)  | Not Started | 2026-02-27 | Step 1.4                                                     |
-| 5.5 | Implement scoring utility (`src/lib/scoring.ts`)    | Not Started | 2026-02-27 | Step 1.5                                                     |
-| 5.6 | Add/validate unit tests for Step 1 acceptance       | Not Started | 2026-02-27 | Tests for shape checks, file linkage, loader behavior, score |
+| ID  | Description                                         | Status      | Updated    | Notes                        |
+| --- | --------------------------------------------------- | ----------- | ---------- | ---------------------------- |
+| 5.1 | Define TypeScript types (`src/lib/types.ts`)        | Complete    | 2026-02-27 | Step 1.1 complete            |
+| 5.2 | Add Malmö index seed data (`data/malmo/index.json`) | Not Started | 2026-02-27 | Step 1.2                     |
+| 5.3 | Add per-preschool survey seed files                 | Not Started | 2026-02-27 | Step 1.3                     |
+| 5.4 | Implement data-loading utility (`src/lib/data.ts`)  | Not Started | 2026-02-27 | Step 1.4                     |
+| 5.5 | Implement scoring utility (`src/lib/scoring.ts`)    | Not Started | 2026-02-27 | Step 1.5                     |
+| 5.6 | Add/validate unit tests for Step 1 acceptance       | Not Started | 2026-02-27 | Full Step 1 coverage pending |
 
 ## Progress Log
 
@@ -41,3 +41,9 @@ Step 3.1-3.3 layout work is not the next safe implementation target while founda
 
 - Created task to enforce implementation-plan sequencing by prioritizing Step 1 before Step 3.1-3.3.
 - Marked TASK005 as in progress and linked it to unblocking downstream layout and comparison work.
+- Completed Step 1.1 by creating required type contracts in `src/lib/types.ts`.
+- Added and validated the Step 1.1 contract test in `tests/unit/types.test.ts` for top-level and nested response keys.
+- Confirmed quality gates pass: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
+- Refined `PreschoolSurvey` contract to include `id` for deterministic joins with index entries.
+- Added `totalRespondents` to `SurveyQuestion` and updated `data/template.json` accordingly.
+- Expanded Step 1.1 test coverage to include `PreschoolIndex`/`PreschoolIndexEntry` key sets and valid `operatorType` values.

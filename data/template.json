@@ -1,4 +1,5 @@
 {
+  "id": "forskola-slug",
   "address": "Stad",
   "preschoolName": "Förskola",
   "questionGroups": [
@@ -13,7 +14,8 @@
             "neitherAgreeNorDisagreePercentage": 0,
             "partlyDisagreePercentage": 0,
             "completelyDisagreePercentage": 0
-          }
+          },
+          "totalRespondents": 0
         },
         {
           "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
@@ -23,7 +25,8 @@
             "neitherAgreeNorDisagreePercentage": 0,
             "partlyDisagreePercentage": 0,
             "completelyDisagreePercentage": 0
-          }
+          },
+          "totalRespondents": 0
         }
       ]
     }

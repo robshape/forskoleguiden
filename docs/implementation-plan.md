@@ -157,9 +157,9 @@ Ensure `.gitignore` includes: `node_modules/`, `dist/`, `.astro/`, and any OS fi
 
 ## Step 1: Data Layer
 
-### 1.1 — Define TypeScript interfaces for preschool data
+### 1.1 — Define TypeScript types for preschool data
 
-Create `src/lib/types.ts` with interfaces that exactly match the JSON template shape:
+Create `src/lib/types.ts` with type contracts that exactly match the JSON template shape:
 
 - `SurveyResponse` — the five percentage fields (`completelyAgreePercentage`, `partlyAgreePercentage`, `neitherAgreeNorDisagreePercentage`, `partlyDisagreePercentage`, `completelyDisagreePercentage`). All fields are `number`.
 - `SurveyQuestion` — `text: string` and `response: SurveyResponse`.
