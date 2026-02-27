@@ -1,7 +1,8 @@
 {
   "config": {
-    "MD013": false,
+    "MD013": false
   },
   "fix": true,
   "gitignore": true,
+  "globs": ["./**/*.md"]
 }

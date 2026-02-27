@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test('smoke /sv/ page loads', async ({ page }) => {
+test('Swedish homepage loads', async ({ page }) => {
   const response = await page.goto('/sv/')
 
   expect(response).not.toBeNull()

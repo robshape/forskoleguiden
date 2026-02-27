@@ -4,8 +4,7 @@ import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  site: 'https://example.com',
-  // TODO: Replace with the production URL before first public deployment.
+  site: 'https://robshape.github.io/forskoleguiden',
   output: 'static',
   integrations: [preact(), sitemap()],
   // TODO: Step 3.4 — add redirects: { '/': '/sv/' } after replacing src/pages/index.astro.

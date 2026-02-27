@@ -1,5 +1,13 @@
 {
   "plugins": ["prettier-plugin-astro"],
   "singleQuote": true,
-  "semi": false
+  "semi": false,
+  "overrides": [
+    {
+      "files": ["**/*.jsonc"],
+      "options": {
+        "trailingComma": "none"
+      }
+    }
+  ]
 }
