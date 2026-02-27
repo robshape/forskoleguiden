@@ -1,13 +1,15 @@
 # Active Context
 
-Step 0.8 (ESLint and Prettier configuration) is complete across phases 1–3.
+Step 0.9 (Vitest configuration) is complete across phases 1–3.
 
 Current state:
 
-- `eslint.config.js` now exists in flat-config format with TypeScript parser/plugin wiring and Astro recommended rules.
-- `.prettierrc` now exists with `prettier-plugin-astro`, `singleQuote: true`, and `semi: false`.
-- `package.json` includes pinned TypeScript lint dependencies and a Node engine range aligned to installed ESLint 10 compatibility (`^20.19.0 || ^22.13.0 || >=24.0.0`).
-- Step 0.8 acceptance validation passed with `pnpm lint` and `pnpm format` (both exit code 0), with evidence captured in plan validation artifacts.
+- `vitest.config.ts` now exists at project root and uses the typed helper from `vitest/config`.
+- Vitest test discovery is explicitly scoped to `tests/unit/**/*.test.ts`.
+- Vitest environment is explicitly declared as `node` to prevent accidental environment drift.
+- Alias resolution is configured in Vitest for `@` -> `./src` and `@data` -> `./data`, aligned with `tsconfig.json` paths.
+- `tests/unit/smoke.test.ts` now exists with a passing infrastructure-intent smoke assertion.
+- Step 0.9 acceptance validation passed with `pnpm test` (exit code 0), with evidence captured in phase validation artifacts.
 - Root placeholder remains temporary Swedish state in `src/pages/index.astro` (no `/` -> `/sv/` redirect yet).
 
 Pending tracked tasks:
@@ -15,4 +17,4 @@ Pending tracked tasks:
 - `TASK001`: implement Steps 3.1-3.3 (BaseLayout, Nav, Footer) and move global CSS import into BaseLayout.
 - `TASK002`: implement root redirect `/` -> `/sv/` in Step 3.4.
 
-Next implementation focus: Step 0.9 Vitest configuration.
+Next implementation focus: Step 0.10 Playwright configuration.
