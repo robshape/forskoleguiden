@@ -3,6 +3,7 @@
 ## IMPORTANT
 
 - ALWAYS pin dependencies to exact versions in `package.json` (no ^ or ~).
+- ALWAYS run `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test` after finishing a feature or task.
 
 ## Project overview
 
