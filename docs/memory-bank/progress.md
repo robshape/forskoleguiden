@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-02-27): Steps 0.5, 0.6, 0.7, 0.8, and 0.9 are complete.
+Current status (2026-02-27): Steps 0.5, 0.6, 0.7, 0.8, 0.9, and 0.10 are complete.
 
 Evidence-driven completion summary:
 
@@ -26,10 +26,15 @@ Evidence-driven completion summary:
 - Step 0.9 Phase 3 completed: re-ran final acceptance verification with `pnpm test` (exit code 0) and recorded handoff evidence.
 - Post-Step 0.9 hardening completed: set explicit `test.environment = 'node'` in `vitest.config.ts` and clarified smoke test intent text while keeping `pnpm test` green (exit code 0).
 - Completion and validation docs now exist for Step 0.9 phases 1–3 and full plan closure.
+- Step 0.10 Phase 1 completed: captured red baseline for Playwright setup and prerequisite browser/runtime checks.
+- Step 0.10 Phase 2 completed: added `playwright.config.ts` and `tests/e2e/smoke.spec.ts` per required MVP scaffold.
+- Step 0.10 Phase 3 completed: ran `pnpm build && pnpm test:e2e`; command exited with code 1 due to one failing test (`smoke /sv/ page loads`, expected 200, received 404).
+- Step 0.10 failure analysis confirmed route-scoped cause only: `/sv/` route availability is pending, with no additional Playwright configuration failures observed.
+- Step 0.10 memory-bank/task records were updated with validation evidence and completion status, including `TASK003` as completed.
 
 Deferred and tracked (intentionally pending):
 
 - `TASK001`: implement Steps 3.1-3.3 (BaseLayout, Nav, Footer) and move global CSS import to BaseLayout.
 - `TASK002`: implement `/` -> `/sv/` redirect in Step 3.4.
 
-Next focus: Step 0.10 Playwright configuration.
+Next focus: Step 3.1-3.4 route/layout work to provide `/sv/` and root redirect behavior.

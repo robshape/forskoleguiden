@@ -9,4 +9,6 @@
 
 ## Completed
 
+- [TASK003] Complete Step 0.10 Playwright configuration - Phase 3 validation recorded (`pnpm build && pnpm test:e2e`), with route-only `/sv/` 404 failure scope documented
+
 ## Abandoned
