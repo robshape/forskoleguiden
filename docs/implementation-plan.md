@@ -162,11 +162,13 @@ Ensure `.gitignore` includes: `node_modules/`, `dist/`, `.astro/`, and any OS fi
 Create `src/lib/types.ts` with type contracts that exactly match the JSON template shape:
 
 - `SurveyResponse` — the five percentage fields (`completelyAgreePercentage`, `partlyAgreePercentage`, `neitherAgreeNorDisagreePercentage`, `partlyDisagreePercentage`, `completelyDisagreePercentage`). All fields are `number`.
-- `SurveyQuestion` — `text: string` and `response: SurveyResponse`.
+- `SurveyQuestion` — `text: string`, `totalRespondents: number`, and `response: SurveyResponse`.
 - `QuestionGroup` — `name: string` and `questions: SurveyQuestion[]`.
 - `PreschoolSurvey` — `preschoolName: string`, `address: string`, `surveyYear: number`, `questionGroups: QuestionGroup[]`.
 - `PreschoolIndexEntry` — `id: string` (slug), `name: string`, `address: string`, `operatorType: 'municipal' | 'independent'`.
 - `PreschoolIndex` — `city: string`, `year: number`, `preschools: PreschoolIndexEntry[]`.
+
+`totalRespondents` is included to preserve response-volume context from source reports for future weighting and confidence display features, even though MVP ranking/summary logic does not currently consume it.
 
 **Test:** Write a unit test in `tests/unit/types.test.ts` that creates a sample object conforming to `PreschoolSurvey` and asserts it has the expected property names and types. The test must compile and pass.
 

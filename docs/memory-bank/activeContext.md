@@ -13,7 +13,7 @@ Current state:
 
 Pending tracked tasks:
 
-- `TASK005` (in progress): Step 1.1 complete with schema refinements (`PreschoolSurvey.id`, `SurveyQuestion.totalRespondents`, updated `data/template.json`, and expanded contract tests); next focus Step 1.2 Malmö index seed data.
+- `TASK005` (in progress): Steps 1.1-1.2 complete with schema refinements and Malmö index seed data (`data/malmo/index.json`, 5 schools, realistic street-level Malmö addresses); next focus Step 1.3 per-preschool survey files.
 - `TASK006` (pending): implement Step 2 i18n foundation (locale files and `t()` utilities).
 - `TASK001` (pending, blocked): implement Steps 3.1-3.3 after Step 2.3 provides the `Locale` type dependency.
 - `TASK002` (pending): implement root redirect `/` -> `/sv/` in Step 3.4.
@@ -23,4 +23,4 @@ Recently completed task:
 - `TASK004`: complete Step 0.11 `.gitignore` verification and documentation updates.
 - `TASK003`: complete Step 0.10 Playwright configuration validation and memory-bank/task documentation updates.
 
-Next implementation focus: complete Step 1.2 (Malmö index seed data), then continue Step 1.3-1.5, then Step 2; this unblocks Step 3.1-3.3. Step 3.4 redirect remains independently implementable and tracked as deferred.
+Next implementation focus: complete Step 1.3, then Step 1.4-1.5, then Step 2; this unblocks Step 3.1-3.3. Step 3.4 redirect remains independently implementable and tracked as deferred.

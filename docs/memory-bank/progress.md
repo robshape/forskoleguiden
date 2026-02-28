@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-02-27): Steps 0.5 through 0.11 are complete, and Step 1.1 is complete.
+Current status (2026-02-27): Steps 0.5 through 0.11 are complete, and Steps 1.1-1.2 are complete.
 
 ## Completed Scaffolding Summary
 
@@ -14,11 +14,11 @@ Current status (2026-02-27): Steps 0.5 through 0.11 are complete, and Step 1.1 i
 
 ## Current Priorities
 
-1. **Step 1 data layer** (`TASK005`) — in progress; Step 1.1 complete with refined schema/contracts (`PreschoolSurvey.id`, `SurveyQuestion.totalRespondents`, `template.json` updates, expanded index/operatorType test coverage), next Step 1.2.
+1. **Step 1 data layer** (`TASK005`) — in progress; Steps 1.1-1.2 complete with refined schema/contracts, hardened index contract test, and Malmö index seed data with realistic street-level addresses (`data/malmo/index.json`, `tests/unit/malmo-index.test.ts`), next Step 1.3.
 2. **Step 2 i18n foundation** (`TASK006`) — pending, prerequisite for Step 3.1-3.3 `Locale` type usage.
 3. **Step 3.1-3.3 layout shell** (`TASK001`) — pending/blocked until Step 2.3 is complete.
 4. **Step 3.4 root redirect** (`TASK002`) — pending and independently implementable.
 
 ## Next Focus
 
-Complete Step 1.2 (Malmö index seed data), then proceed through Step 1.3-1.5, then Step 2, then unblock Step 3.1-3.3 route/layout work.
+Complete Step 1.3, then Step 1.4-1.5, then Step 2, then unblock Step 3.1-3.3 route/layout work.

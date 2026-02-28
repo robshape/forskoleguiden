@@ -19,10 +19,10 @@ Add the Step 1.1 TypeScript type contracts and a focused unit contract test that
 - **Files/Functions to Modify/Create**: `src/lib/types.ts`
 - **Tests to Write**: Existing Phase 1 contract test
 - **Steps**:
-  1.  Add `SurveyResponse` with the five percentage fields as `number`.
-  2.  Add `SurveyQuestion`, `QuestionGroup`, and `PreschoolSurvey` using the required structure.
-  3.  Add `PreschoolIndexEntry` and `PreschoolIndex` with exact `operatorType` union values.
-  4.  Re-run targeted tests to confirm pass.
+  1. Add `SurveyResponse` with the five percentage fields as `number`.
+  2. Add `SurveyQuestion`, `QuestionGroup`, and `PreschoolSurvey` using the required structure.
+  3. Add `PreschoolIndexEntry` and `PreschoolIndex` with exact `operatorType` union values.
+  4. Re-run targeted tests to confirm pass.
 
 1. **Phase 3: Validate and record completion**
    - **Objective**: Verify project quality gates and update task documentation.
