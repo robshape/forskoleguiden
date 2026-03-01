@@ -7,6 +7,7 @@ const REQUIRED_PATHS = [
   'dist/',
   '.astro/',
   '.DS_Store',
+  'test-results/',
 ] as const
 
 describe('.gitignore regression guard', () => {

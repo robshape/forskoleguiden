@@ -1,53 +1,9 @@
 import { existsSync, readFileSync } from 'node:fs'
 
 import { describe, expect, it } from 'vitest'
-import type { PreschoolSurvey, SurveyResponse } from '@/lib/types'
+import type { PreschoolSurvey } from '@/lib/types'
 import { getMalmoIndex, getMalmoSurveyFilePath } from './helpers/malmo-data'
-
-const expectedResponseKeys = [
-  'completelyAgreePercent',
-  'partlyAgreePercent',
-  'neitherAgreeNorDisagreePercent',
-  'partlyDisagreePercent',
-  'completelyDisagreePercent',
-] as const
-
-const assertResponseContract = (
-  response: SurveyResponse,
-  contextLabel: string,
-) => {
-  expect(
-    Object.keys(response).sort(),
-    `${contextLabel} must contain exactly 5 response percentage keys`,
-  ).toEqual(expectedResponseKeys.slice().sort())
-
-  const totalPercentage = expectedResponseKeys.reduce((sum, key) => {
-    const value = response[key]
-
-    expect(typeof value, `${contextLabel} ${key} must be numeric`).toBe(
-      'number',
-    )
-    expect(
-      value,
-      `${contextLabel} ${key} must be within 0..100`,
-    ).toBeGreaterThanOrEqual(0)
-    expect(
-      value,
-      `${contextLabel} ${key} must be within 0..100`,
-    ).toBeLessThanOrEqual(100)
-
-    return sum + value
-  }, 0)
-
-  expect(
-    totalPercentage,
-    `${contextLabel} percentages must sum to 99..101`,
-  ).toBeGreaterThanOrEqual(99)
-  expect(
-    totalPercentage,
-    `${contextLabel} percentages must sum to 99..101`,
-  ).toBeLessThanOrEqual(101)
-}
+import { assertResponseContract } from './helpers/survey-assertions'
 
 describe('Step 1.3 Malmö survey seed data contract', () => {
   it('has one survey file per preschool id in index', () => {
