@@ -1,17 +1,15 @@
 ---
-import '../styles/global.css'
+// Root redirect to Swedish locale — see TASK002 for permanent solution via astro.config.ts redirects
 ---
 
 <html lang="sv">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Förskoleguiden</title>
+    <meta http-equiv="refresh" content="0;url=/sv/" />
+    <link rel="canonical" href="/sv/" />
+    <title>Redirecting…</title>
   </head>
   <body>
-    <h1>Förskoleguiden</h1>
-    <p>Startsidan på svenska kommer snart.</p>
+    <p>Redirecting to <a href="/sv/">/sv/</a>…</p>
   </body>
 </html>
