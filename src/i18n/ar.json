@@ -1,0 +1,60 @@
+{
+  "site": {
+    "title": "دليل رياض الأطفال",
+    "tagline": "قارن بين رياض الأطفال في مالمو باستخدام نتائج الاستبيان الرسمية"
+  },
+  "nav": {
+    "directory": "رياض الأطفال",
+    "compare": "مقارنة",
+    "about": "حول البيانات"
+  },
+  "directory": {
+    "heading": "رياض الأطفال في مالمو",
+    "sort": {
+      "ranking": "الترتيب",
+      "alphabetical": "أ–ي"
+    },
+    "operatorType": {
+      "municipal": "بلدية",
+      "independent": "مستقلة"
+    },
+    "addToCompare": "أضف إلى المقارنة"
+  },
+  "compareTray": {
+    "selectedCount": "تم اختيار {count} من رياض الأطفال",
+    "showComparison": "عرض المقارنة",
+    "clear": "مسح"
+  },
+  "compare": {
+    "heading": "قارن بين رياض الأطفال",
+    "emptyStateTitle": "لم يتم اختيار أي روضة أطفال",
+    "emptyStateBody": "اختر رياض الأطفال من القائمة لعرض المقارنة.",
+    "actions": {
+      "backToDirectory": "العودة إلى رياض الأطفال",
+      "clearSelection": "مسح الاختيار"
+    }
+  },
+  "responses": {
+    "completelyAgree": "أوافق تمامًا",
+    "partlyAgree": "أوافق جزئيًا",
+    "neitherAgreeNorDisagree": "لا أوافق ولا أعارض",
+    "partlyDisagree": "لا أوافق جزئيًا",
+    "completelyDisagree": "لا أوافق إطلاقًا"
+  },
+  "summary": {
+    "higher": "لدى {left} نسبة أعلى من الردود المتفقة مقارنةً بـ {right} لسؤال \"{question}\".",
+    "lower": "لدى {left} نسبة أقل من الردود المتفقة مقارنةً بـ {right} لسؤال \"{question}\".",
+    "similar": "لدى {left} و {right} نسبة متشابهة من الردود المتفقة لسؤال \"{question}\"."
+  },
+  "attribution": {
+    "text": "بيانات الاستبيان من Malmö stad.",
+    "sourceLinkLabel": "المصدر لدى Malmö stad"
+  },
+  "footer": {
+    "text": "يستخدم دليل رياض الأطفال إحصاءات عامة من Malmö stad."
+  },
+  "about": {
+    "heading": "حول البيانات",
+    "text": "النتائج مبنية على استبيان رياض الأطفال لعام 2025 في مالمو."
+  }
+}

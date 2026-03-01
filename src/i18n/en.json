@@ -1,0 +1,60 @@
+{
+  "site": {
+    "title": "Preschool Guide",
+    "tagline": "Compare preschools in Malmö using official survey results"
+  },
+  "nav": {
+    "directory": "Preschools",
+    "compare": "Compare",
+    "about": "About the data"
+  },
+  "directory": {
+    "heading": "Preschools in Malmö",
+    "sort": {
+      "ranking": "Ranking",
+      "alphabetical": "A–Z"
+    },
+    "operatorType": {
+      "municipal": "Municipal",
+      "independent": "Independent"
+    },
+    "addToCompare": "Add to comparison"
+  },
+  "compareTray": {
+    "selectedCount": "{count} preschools selected",
+    "showComparison": "Show comparison",
+    "clear": "Clear"
+  },
+  "compare": {
+    "heading": "Compare preschools",
+    "emptyStateTitle": "No preschools selected",
+    "emptyStateBody": "Select preschools in the list to view a comparison.",
+    "actions": {
+      "backToDirectory": "Back to preschools",
+      "clearSelection": "Clear selection"
+    }
+  },
+  "responses": {
+    "completelyAgree": "Completely agree",
+    "partlyAgree": "Partly agree",
+    "neitherAgreeNorDisagree": "Neither agree nor disagree",
+    "partlyDisagree": "Partly disagree",
+    "completelyDisagree": "Completely disagree"
+  },
+  "summary": {
+    "higher": "{left} has a higher share of agree responses than {right} for \"{question}\".",
+    "lower": "{left} has a lower share of agree responses than {right} for \"{question}\".",
+    "similar": "{left} and {right} have a similar share of agree responses for \"{question}\"."
+  },
+  "attribution": {
+    "text": "Survey data comes from Malmö stad.",
+    "sourceLinkLabel": "Source at Malmö stad"
+  },
+  "footer": {
+    "text": "Preschool Guide uses public statistics from Malmö stad."
+  },
+  "about": {
+    "heading": "About the data",
+    "text": "The results are based on the Preschool Survey 2025 for Malmö."
+  }
+}

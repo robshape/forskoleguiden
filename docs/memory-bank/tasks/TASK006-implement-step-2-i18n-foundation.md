@@ -21,18 +21,25 @@ The layout task (Step 3.1-3.3) references `Locale` from Step 2.3, so Step 2 must
 
 ## Progress Tracking
 
-**Overall Status**: In Progress - 25%
+**Overall Status**: In Progress - 50%
 
 ### Subtasks
 
 | ID  | Description                                      | Status      | Updated    | Notes                                           |
 | --- | ------------------------------------------------ | ----------- | ---------- | ----------------------------------------------- |
 | 6.1 | Add `sv.json` Phase 1 keys                       | Complete    | 2026-03-01 | Step 2.1 completed with test-first key contract |
-| 6.2 | Add `en.json` and `ar.json` placeholder files    | Not Started | 2026-02-27 | Step 2.2                                        |
+| 6.2 | Add `en.json` and `ar.json` placeholder files    | Complete    | 2026-03-01 | Step 2.2 completed with locale parity coverage  |
 | 6.3 | Implement locale helpers in `src/i18n/utils.ts`  | Not Started | 2026-02-27 | Step 2.3                                        |
 | 6.4 | Add/validate unit tests for i18n helper behavior | Not Started | 2026-02-27 | Locale path parsing and fallback key handling   |
 
 ## Progress Log
+
+### 2026-03-01 (Step 2.2 completion)
+
+- Completed Step 2.2 by adding placeholder locale files `src/i18n/en.json` and `src/i18n/ar.json` with Swedish key-structure parity.
+- Preserved interpolation placeholders and validated parity with `tests/unit/i18n-locales.test.ts`.
+- Ran required repository gates and confirmed green results: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
+- Remaining scope in TASK006: Step 2.3 locale helpers (`Locale`, `getLocaleFromURL()`, `t()`) and subtask 6.4 helper behavior tests.
 
 ### 2026-03-01 (follow-up i18n fix)
 
@@ -44,6 +51,11 @@ The layout task (Step 3.1-3.3) references `Locale` from Step 2.3, so Step 2 must
 - Confirmed pre-fix failure in targeted test due to missing `directory.operatorType.municipal` and old ranking copy.
 - Updated `src/i18n/sv.json` with approved copy and `directory.operatorType.{municipal,independent}` translations.
 - Verified green outcome for targeted test and full quality gates: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
+
+### 2026-03-01 (locale parity cleanup)
+
+- Strengthened Step 2.2 locale parity coverage with recursive key-path checks and shared i18n test helpers.
+- Added cleanup note for Step 2.3: replace temporary locale string literals (`'sv' | 'en' | 'ar'` usages in tests/helpers) with canonical `Locale` from `src/i18n/utils.ts` once that type is implemented.
 
 ### 2026-02-27
 

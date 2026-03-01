@@ -2,7 +2,7 @@
 
 ## In Progress
 
-- [TASK006] Implement Step 2 i18n foundation - Step 2.1 complete; Step 2.2 and Step 2.3 pending
+- [TASK006] Implement Step 2 i18n foundation - Steps 2.1-2.2 complete; Step 2.3 and subtask 6.4 pending
 
 ## Pending
 
