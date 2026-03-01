@@ -1,6 +1,6 @@
 # [TASK006] - Implement Step 2 i18n foundation
 
-**Status**: In Progress
+**Status**: Completed
 **Added**: 2026-02-27
 **Updated**: 2026-03-01
 
@@ -21,18 +21,25 @@ The layout task (Step 3.1-3.3) references `Locale` from Step 2.3, so Step 2 must
 
 ## Progress Tracking
 
-**Overall Status**: In Progress - 50%
+**Overall Status**: Completed - 100%
 
 ### Subtasks
 
-| ID  | Description                                      | Status      | Updated    | Notes                                           |
-| --- | ------------------------------------------------ | ----------- | ---------- | ----------------------------------------------- |
-| 6.1 | Add `sv.json` Phase 1 keys                       | Complete    | 2026-03-01 | Step 2.1 completed with test-first key contract |
-| 6.2 | Add `en.json` and `ar.json` placeholder files    | Complete    | 2026-03-01 | Step 2.2 completed with locale parity coverage  |
-| 6.3 | Implement locale helpers in `src/i18n/utils.ts`  | Not Started | 2026-02-27 | Step 2.3                                        |
-| 6.4 | Add/validate unit tests for i18n helper behavior | Not Started | 2026-02-27 | Locale path parsing and fallback key handling   |
+| ID  | Description                                      | Status   | Updated    | Notes                                           |
+| --- | ------------------------------------------------ | -------- | ---------- | ----------------------------------------------- |
+| 6.1 | Add `sv.json` Phase 1 keys                       | Complete | 2026-03-01 | Step 2.1 completed with test-first key contract |
+| 6.2 | Add `en.json` and `ar.json` placeholder files    | Complete | 2026-03-01 | Step 2.2 completed with locale parity coverage  |
+| 6.3 | Implement locale helpers in `src/i18n/utils.ts`  | Complete | 2026-03-01 | Step 2.3 complete                               |
+| 6.4 | Add/validate unit tests for i18n helper behavior | Complete | 2026-03-01 | Locale path parsing and fallback key handling   |
 
 ## Progress Log
+
+### 2026-03-01 (Step 2.3 completion + Phase 3 validation)
+
+- Completed Step 2.3 in `src/i18n/utils.ts` with canonical `Locale` type plus `getLocaleFromURL()` and `t()` helper behavior.
+- Validated helper behavior coverage in `tests/unit/i18n-utils.test.ts` and confirmed targeted + full test runs pass.
+- Ran required repository gates for this phase and confirmed green outcomes: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
+- Marked TASK006 complete and unblocked TASK001 (Step 3.1-3.3 layout shell).
 
 ### 2026-03-01 (Step 2.2 completion)
 
