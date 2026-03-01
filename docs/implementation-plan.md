@@ -200,15 +200,19 @@ These functions use Node.js `fs` (available at Astro build time). They should th
 
 Create `src/lib/scoring.ts` with a function:
 
-- `computeAgreeShare(response: SurveyResponse): number` — returns `completelyAgreePercentage + partlyAgreePercentage`.
-- `computeOverallScore(survey: PreschoolSurvey): number` — computes the average agree share across all questions in the "Helhetsbedömning" group. Returns `-1` if the group is missing (a detectable sentinel that will not silently corrupt sort order like `NaN` would). The directory ranking (Step 4.3) must sort preschools with a `-1` score to the bottom of the list.
+- `computeAgreeShare(response: SurveyResponse): number` — returns `completelyAgreePercent + partlyAgreePercent`.
+- `computeOverallScore(survey: PreschoolSurvey): number | null` — computes the average agree share across all questions in the "Helhetsbedömning" group. Returns `null` if the group is missing or empty. Apply deterministic rounding to one decimal place before returning.
+- `OVERALL_ASSESSMENT_GROUP` — exported constant for the group name (`"Helhetsbedömning"`) to avoid string drift across modules.
+- `byOverallScoreDesc(leftScore: number | null, rightScore: number | null): number` — exported comparator that sorts descending and keeps `null` scores at the bottom.
 
 **Test:** Write unit tests:
 
-- Given a response with `completelyAgreePercentage: 60` and `partlyAgreePercentage: 25`, `computeAgreeShare` returns `85`.
+- Given a response with `completelyAgreePercent: 60` and `partlyAgreePercent: 25`, `computeAgreeShare` returns `85`.
 - Given a survey with two questions whose agree shares are `80` and `90`, `computeOverallScore` returns `85`.
-- Given a survey with no "Helhetsbedömning" group, `computeOverallScore` returns `-1`.
-- Sorting: given a list containing scores `[85, -1, 72]`, sorting descending with `-1` pushed to the bottom produces `[85, 72, -1]`.
+- Given a survey with no "Helhetsbedömning" group, `computeOverallScore` returns `null`.
+- Given a survey with an empty "Helhetsbedömning" group, `computeOverallScore` returns `null`.
+- Rounding: `computeOverallScore` returns one-decimal precision for non-integer averages.
+- Sorting: given a list containing scores `[85, null, 72]`, sorting descending with `byOverallScoreDesc` produces `[85, 72, null]`.
 
 ---
 

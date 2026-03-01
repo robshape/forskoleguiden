@@ -1,6 +1,6 @@
 # [TASK005] - Implement Step 1 data layer foundations
 
-**Status**: In Progress
+**Status**: Completed
 **Added**: 2026-02-27
 **Updated**: 2026-03-01
 
@@ -22,22 +22,34 @@ Step 3.1-3.3 layout work is not the next safe implementation target while founda
 
 ## Progress Tracking
 
-**Overall Status**: In Progress - 80%
+**Overall Status**: Completed - 100%
 
 ### Subtasks
 
-| ID  | Description                                         | Status      | Updated    | Notes                                  |
-| --- | --------------------------------------------------- | ----------- | ---------- | -------------------------------------- |
-| 5.1 | Define TypeScript types (`src/lib/types.ts`)        | Complete    | 2026-02-27 | Step 1.1 complete                      |
-| 5.2 | Add Malmö index seed data (`data/malmo/index.json`) | Complete    | 2026-02-28 | Step 1.2 complete; address fix applied |
-| 5.3 | Add per-preschool survey seed files                 | Complete    | 2026-02-28 | Step 1.3 complete                      |
-| 5.4 | Implement data-loading utility (`src/lib/data.ts`)  | Complete    | 2026-03-01 | Step 1.4 complete + review hardening   |
-| 5.5 | Implement scoring utility (`src/lib/scoring.ts`)    | Not Started | 2026-02-27 | Step 1.5                               |
-| 5.6 | Add/validate unit tests for Step 1 acceptance       | In Progress | 2026-03-01 | Step 1.4 regression test added         |
+| ID  | Description                                         | Status   | Updated    | Notes                                  |
+| --- | --------------------------------------------------- | -------- | ---------- | -------------------------------------- |
+| 5.1 | Define TypeScript types (`src/lib/types.ts`)        | Complete | 2026-02-27 | Step 1.1 complete                      |
+| 5.2 | Add Malmö index seed data (`data/malmo/index.json`) | Complete | 2026-02-28 | Step 1.2 complete; address fix applied |
+| 5.3 | Add per-preschool survey seed files                 | Complete | 2026-02-28 | Step 1.3 complete                      |
+| 5.4 | Implement data-loading utility (`src/lib/data.ts`)  | Complete | 2026-03-01 | Step 1.4 complete + review hardening   |
+| 5.5 | Implement scoring utility (`src/lib/scoring.ts`)    | Complete | 2026-03-01 | Step 1.5 complete                      |
+| 5.6 | Add/validate unit tests for Step 1 acceptance       | Complete | 2026-03-01 | Step 1 acceptance + Phase 3 gates pass |
 
 - Note (5.2): `data/malmo/index.json` now uses varied street + city addresses ending with `, Malmö`.
 
 ## Progress Log
+
+### 2026-03-01 (later)
+
+- Completed Step 1.5 scoring utility in `src/lib/scoring.ts`:
+  - `computeAgreeShare(question)` returns `completelyAgreePercent + partlyAgreePercent`.
+  - `computeOverallScore(survey)` averages agree-share across `Helhetsbedömning` questions and returns one-decimal precision.
+  - Returns `null` when `Helhetsbedömning` is missing or present-but-empty.
+  - Exports `OVERALL_ASSESSMENT_GROUP` and `byOverallScoreDesc` for shared, non-duplicated downstream usage.
+  - Adds non-production warnings for out-of-range/unexpected survey-response percentage inputs during score computation.
+- Confirmed scoring behavior with green tests in `tests/unit/scoring.test.ts`.
+- Ran required Phase 3 quality gates to green: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
+- Marked TASK005 completed; next focus is Step 2 i18n foundation (`TASK006`).
 
 ### 2026-03-01 (earlier)
 

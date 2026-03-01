@@ -49,7 +49,7 @@ tests/e2e/**/*.spec.ts     — Playwright e2e tests
 
 ## Data model
 
-Preschool JSON follows `data/template.json`: two questions in "Helhetsbedömning" group, five response buckets each. MVP "agree share" = `completelyAgreePercentage + partlyAgreePercentage`.
+Preschool JSON follows `data/template.json`: two questions in "Helhetsbedömning" group, five response buckets each. MVP "agree share" = `completelyAgreePercent + partlyAgreePercent`.
 
 ## Comparison summary logic
 

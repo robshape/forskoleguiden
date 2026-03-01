@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-01): Steps 0.5 through 0.11 are complete, and Steps 1.1-1.4 are complete with green quality gates, including follow-up Step 1.4 hardening from review feedback.
+Current status (2026-03-01): Steps 0.5 through 0.11 and Steps 1.1-1.5 are complete with green quality gates.
 
 ## Completed Scaffolding Summary
 
@@ -14,15 +14,17 @@ Current status (2026-03-01): Steps 0.5 through 0.11 are complete, and Steps 1.1-
 
 ## Current Priorities
 
-1. **Step 1 data layer** (`TASK005`) — in progress; Steps 1.1-1.4 are complete and required gates are passing.
-2. **Step 2 i18n foundation** (`TASK006`) — pending, prerequisite for Step 3.1-3.3 `Locale` type usage.
-3. **Step 3.1-3.3 layout shell** (`TASK001`) — pending/blocked until Step 2.3 is complete.
-4. **Step 3.4 root redirect** (`TASK002`) — pending and independently implementable.
+1. **Step 2 i18n foundation** (`TASK006`) — pending and next focus; prerequisite for Step 3.1-3.3 `Locale` type usage.
+2. **Step 3.1-3.3 layout shell** (`TASK001`) — pending/blocked until Step 2.3 is complete.
+3. **Step 3.4 root redirect** (`TASK002`) — pending and independently implementable.
 
 ## Recent Follow-up
 
-- Applied review patch set for Step 1.4 in `src/lib/data.ts` and unit tests: `getAllPreschoolSurveys` now reads Malmö index once, unknown-id error assertions are explicit, and response-shape test helpers are centralized under `tests/unit/helpers/survey-assertions.ts`.
+- Completed Step 1.5 scoring utility and validation: `src/lib/scoring.ts` now provides `computeAgreeShare` and `computeOverallScore`, with `null` for missing/empty `Helhetsbedömning`.
+- Added shared scoring exports for downstream reuse: `OVERALL_ASSESSMENT_GROUP` and `byOverallScoreDesc`.
+- Verified required repository gates pass: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
+- Marked `TASK005` complete (Step 1 fully complete).
 
 ## Next Focus
 
-Complete Step 1.5, then Step 2, then unblock Step 3.1-3.3 route/layout work.
+Start Step 2 i18n foundation (`TASK006`), then unblock Step 3.1-3.3 route/layout work.

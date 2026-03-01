@@ -2,7 +2,7 @@
 
 ## In Progress
 
-- [TASK005] Implement Step 1 data layer foundations - Build types, seed data, loaders, and scoring utilities before layout work
+- None currently.
 
 ## Pending
 
@@ -12,6 +12,7 @@
 
 ## Completed
 
+- [TASK005] Implement Step 1 data layer foundations - Completed 2026-03-01 (Steps 1.1-1.5 complete; Phase 3 validation complete)
 - [TASK004] Complete Step 0.11 .gitignore verification (archived — verification-only task)
 - [TASK003] Complete Step 0.10 Playwright configuration (archived — verification-only task)
 
