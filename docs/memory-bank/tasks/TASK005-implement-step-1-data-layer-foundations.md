@@ -2,7 +2,7 @@
 
 **Status**: In Progress
 **Added**: 2026-02-27
-**Updated**: 2026-02-28
+**Updated**: 2026-03-01
 
 ## Original Request
 
@@ -22,7 +22,7 @@ Step 3.1-3.3 layout work is not the next safe implementation target while founda
 
 ## Progress Tracking
 
-**Overall Status**: In Progress - 60%
+**Overall Status**: In Progress - 80%
 
 ### Subtasks
 
@@ -31,13 +31,28 @@ Step 3.1-3.3 layout work is not the next safe implementation target while founda
 | 5.1 | Define TypeScript types (`src/lib/types.ts`)        | Complete    | 2026-02-27 | Step 1.1 complete                      |
 | 5.2 | Add Malmö index seed data (`data/malmo/index.json`) | Complete    | 2026-02-28 | Step 1.2 complete; address fix applied |
 | 5.3 | Add per-preschool survey seed files                 | Complete    | 2026-02-28 | Step 1.3 complete                      |
-| 5.4 | Implement data-loading utility (`src/lib/data.ts`)  | Not Started | 2026-02-27 | Step 1.4                               |
+| 5.4 | Implement data-loading utility (`src/lib/data.ts`)  | Complete    | 2026-03-01 | Step 1.4 complete + review hardening   |
 | 5.5 | Implement scoring utility (`src/lib/scoring.ts`)    | Not Started | 2026-02-27 | Step 1.5                               |
-| 5.6 | Add/validate unit tests for Step 1 acceptance       | In Progress | 2026-02-28 | Step 1.3 coverage added                |
+| 5.6 | Add/validate unit tests for Step 1 acceptance       | In Progress | 2026-03-01 | Step 1.4 regression test added         |
 
 - Note (5.2): `data/malmo/index.json` now uses varied street + city addresses ending with `, Malmö`.
 
 ## Progress Log
+
+### 2026-03-01 (earlier)
+
+- Applied follow-up review patch set for Step 1.4:
+  - Refactored `getAllPreschoolSurveys()` to read index/year once and load survey files directly (removed N+1 index reads).
+  - Added deterministic regression test asserting Malmö index file is read exactly once during `getAllPreschoolSurveys()`.
+  - Replaced silent-skip `try/catch` unknown-id assertion pattern with explicit `toThrowError` checks for both id and expected file path.
+  - Extracted shared response-shape assertions into `tests/unit/helpers/survey-assertions.ts` and reused in `data.test.ts` and `types.test.ts`.
+  - Added `src/lib/data.ts` comments documenting `process.cwd()` root assumption and trusted static JSON cast strategy.
+
+### 2026-03-01
+
+- Confirmed Step 1.4 data-loading utility completion (`src/lib/data.ts`) with passing loader tests in `tests/unit/data.test.ts`.
+- Ran required quality gates with green outcomes: `pnpm lint` (pass), `pnpm lint:md` (pass, 0 markdown errors), `pnpm format` (pass, unchanged writes), `pnpm test` (pass; 5 files, 10 tests).
+- Kept TASK005 in progress because Step 1.5 scoring utility remains not started.
 
 ### 2026-02-28
 

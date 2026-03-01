@@ -1,28 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import type {
-  PreschoolIndex,
-  PreschoolSurvey,
-  SurveyResponse,
-} from '@/lib/types'
-
-const expectedResponseKeys = [
-  'completelyAgreePercentage',
-  'partlyAgreePercentage',
-  'neitherAgreeNorDisagreePercentage',
-  'partlyDisagreePercentage',
-  'completelyDisagreePercentage',
-] as const
-
-const assertResponseShape = (response: SurveyResponse) => {
-  expect(Object.keys(response).sort()).toEqual(
-    expectedResponseKeys.slice().sort(),
-  )
-
-  for (const key of expectedResponseKeys) {
-    expect(typeof response[key]).toBe('number')
-  }
-}
+import type { PreschoolIndex, PreschoolSurvey } from '@/lib/types'
+import { assertResponseShape } from './helpers/survey-assertions'
 
 describe('Step 1.1 data interface contracts', () => {
   it('matches required PreschoolSurvey and SurveyResponse key sets', () => {
@@ -31,30 +10,29 @@ describe('Step 1.1 data interface contracts', () => {
       preschoolName: 'Testförskolan',
       address: 'Testgatan 1, Malmö',
       surveyYear: 2025,
+      totalRespondentsPercent: 64,
       questionGroups: [
         {
           name: 'Helhetsbedömning',
           questions: [
             {
               text: 'Mitt barn är tryggt i förskolan',
-              totalRespondents: 120,
               response: {
-                completelyAgreePercentage: 58,
-                partlyAgreePercentage: 24,
-                neitherAgreeNorDisagreePercentage: 10,
-                partlyDisagreePercentage: 5,
-                completelyDisagreePercentage: 3,
+                completelyAgreePercent: 58,
+                partlyAgreePercent: 24,
+                neitherAgreeNorDisagreePercent: 10,
+                partlyDisagreePercent: 5,
+                completelyDisagreePercent: 3,
               },
             },
             {
               text: 'Jag skulle rekommendera mitt barns förskola till en annan förälder',
-              totalRespondents: 117,
               response: {
-                completelyAgreePercentage: 63,
-                partlyAgreePercentage: 21,
-                neitherAgreeNorDisagreePercentage: 8,
-                partlyDisagreePercentage: 4,
-                completelyDisagreePercentage: 4,
+                completelyAgreePercent: 63,
+                partlyAgreePercent: 21,
+                neitherAgreeNorDisagreePercent: 8,
+                partlyDisagreePercent: 4,
+                completelyDisagreePercent: 4,
               },
             },
           ],
@@ -67,6 +45,7 @@ describe('Step 1.1 data interface contracts', () => {
       'preschoolName',
       'address',
       'surveyYear',
+      'totalRespondentsPercent',
       'questionGroups',
     ]
 
@@ -76,7 +55,6 @@ describe('Step 1.1 data interface contracts', () => {
 
     for (const group of sampleSurvey.questionGroups) {
       for (const question of group.questions) {
-        expect(typeof question.totalRespondents).toBe('number')
         assertResponseShape(question.response)
       }
     }

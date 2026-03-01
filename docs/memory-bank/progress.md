@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-02-28): Steps 0.5 through 0.11 are complete, and Steps 1.1-1.3 are complete with green quality gates.
+Current status (2026-03-01): Steps 0.5 through 0.11 are complete, and Steps 1.1-1.4 are complete with green quality gates, including follow-up Step 1.4 hardening from review feedback.
 
 ## Completed Scaffolding Summary
 
@@ -14,11 +14,15 @@ Current status (2026-02-28): Steps 0.5 through 0.11 are complete, and Steps 1.1-
 
 ## Current Priorities
 
-1. **Step 1 data layer** (`TASK005`) — in progress; Steps 1.1-1.3 are complete and full required gates are passing after fixing Step 1.2 address formatting in `data/malmo/index.json`.
+1. **Step 1 data layer** (`TASK005`) — in progress; Steps 1.1-1.4 are complete and required gates are passing.
 2. **Step 2 i18n foundation** (`TASK006`) — pending, prerequisite for Step 3.1-3.3 `Locale` type usage.
 3. **Step 3.1-3.3 layout shell** (`TASK001`) — pending/blocked until Step 2.3 is complete.
 4. **Step 3.4 root redirect** (`TASK002`) — pending and independently implementable.
 
+## Recent Follow-up
+
+- Applied review patch set for Step 1.4 in `src/lib/data.ts` and unit tests: `getAllPreschoolSurveys` now reads Malmö index once, unknown-id error assertions are explicit, and response-shape test helpers are centralized under `tests/unit/helpers/survey-assertions.ts`.
+
 ## Next Focus
 
-Complete Step 1.4-1.5, then Step 2, then unblock Step 3.1-3.3 route/layout work.
+Complete Step 1.5, then Step 2, then unblock Step 3.1-3.3 route/layout work.
