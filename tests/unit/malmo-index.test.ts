@@ -1,14 +1,9 @@
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
-
 import { describe, expect, it } from 'vitest'
-import type { PreschoolIndex } from '@/lib/types'
+import { getMalmoIndex } from './helpers/malmo-data'
 
 describe('Step 1.2 Malmö index seed data contract', () => {
   it('has preschools array, >=5 entries, required keys, and valid operator types', () => {
-    const indexFilePath = resolve(process.cwd(), 'data/malmo/index.json')
-    const raw = readFileSync(indexFilePath, 'utf-8')
-    const parsed = JSON.parse(raw) as PreschoolIndex
+    const parsed = getMalmoIndex()
 
     expect(parsed.city).toBe('Malmö')
     expect(parsed.year).toBe(2025)

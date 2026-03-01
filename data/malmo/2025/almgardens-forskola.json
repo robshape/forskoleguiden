@@ -1,9 +1,9 @@
 {
-  "id": "forskola-slug",
-  "preschoolName": "Förskola",
-  "address": "Gatunamn 1, Malmö",
+  "id": "almgardens-forskola",
+  "preschoolName": "Almgårdens förskola",
+  "address": "Agnesfridsvägen 105, Malmö",
   "surveyYear": 2025,
-  "totalRespondentsPercent": 0,
+  "totalRespondentsPercent": 64,
   "questionGroups": [
     {
       "name": "Helhetsbedömning",
@@ -11,21 +11,21 @@
         {
           "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
           "response": {
-            "completelyAgreePercent": 0,
-            "partlyAgreePercent": 0,
+            "completelyAgreePercent": 67,
+            "partlyAgreePercent": 28,
             "neitherAgreeNorDisagreePercent": 0,
-            "partlyDisagreePercent": 0,
-            "completelyDisagreePercent": 0
+            "partlyDisagreePercent": 2,
+            "completelyDisagreePercent": 2
           }
         },
         {
           "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
           "response": {
-            "completelyAgreePercent": 0,
-            "partlyAgreePercent": 0,
-            "neitherAgreeNorDisagreePercent": 0,
+            "completelyAgreePercent": 70,
+            "partlyAgreePercent": 23,
+            "neitherAgreeNorDisagreePercent": 1,
             "partlyDisagreePercent": 0,
-            "completelyDisagreePercent": 0
+            "completelyDisagreePercent": 6
           }
         }
       ]

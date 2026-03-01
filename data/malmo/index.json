@@ -5,32 +5,32 @@
     {
       "id": "almgardens-forskola",
       "name": "Almgårdens förskola",
-      "address": "Malmö",
+      "address": "Agnesfridsvägen 105, Malmö",
       "operatorType": "municipal"
     },
     {
       "id": "augustenborgs-forskola",
       "name": "Augustenborgs förskola",
-      "address": "Malmö",
-      "operatorType": "municipal"
-    },
-    {
-      "id": "bulltofta-forskola",
-      "name": "Bulltofta förskola",
-      "address": "Malmö",
+      "address": "Särlagatan 6, Malmö",
       "operatorType": "municipal"
     },
     {
       "id": "bellevuegardens-montessoriforskola",
       "name": "Bellevuegårdens montessoriförskola",
-      "address": "Malmö",
+      "address": "Bellevuevägen 60, Malmö",
       "operatorType": "independent"
     },
     {
       "id": "bladins-internationella-forskola",
       "name": "Bladins internationella förskola",
-      "address": "Malmö",
+      "address": "Stadiongatan 25, Malmö",
       "operatorType": "independent"
+    },
+    {
+      "id": "bulltofta-forskola",
+      "name": "Bulltofta förskola",
+      "address": "Södra Bulltoftavägen 57A, Malmö",
+      "operatorType": "municipal"
     }
   ]
 }

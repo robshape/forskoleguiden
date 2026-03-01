@@ -2,7 +2,7 @@
 
 **Status**: In Progress
 **Added**: 2026-02-27
-**Updated**: 2026-02-27
+**Updated**: 2026-02-28
 
 ## Original Request
 
@@ -22,22 +22,29 @@ Step 3.1-3.3 layout work is not the next safe implementation target while founda
 
 ## Progress Tracking
 
-**Overall Status**: In Progress - 40%
+**Overall Status**: In Progress - 60%
 
 ### Subtasks
 
-| ID  | Description                                         | Status      | Updated    | Notes                        |
-| --- | --------------------------------------------------- | ----------- | ---------- | ---------------------------- |
-| 5.1 | Define TypeScript types (`src/lib/types.ts`)        | Complete    | 2026-02-27 | Step 1.1 complete            |
-| 5.2 | Add Malmö index seed data (`data/malmo/index.json`) | Complete    | 2026-02-27 | Step 1.2 complete            |
-| 5.3 | Add per-preschool survey seed files                 | Not Started | 2026-02-27 | Step 1.3                     |
-| 5.4 | Implement data-loading utility (`src/lib/data.ts`)  | Not Started | 2026-02-27 | Step 1.4                     |
-| 5.5 | Implement scoring utility (`src/lib/scoring.ts`)    | Not Started | 2026-02-27 | Step 1.5                     |
-| 5.6 | Add/validate unit tests for Step 1 acceptance       | Not Started | 2026-02-27 | Full Step 1 coverage pending |
+| ID  | Description                                         | Status      | Updated    | Notes                                  |
+| --- | --------------------------------------------------- | ----------- | ---------- | -------------------------------------- |
+| 5.1 | Define TypeScript types (`src/lib/types.ts`)        | Complete    | 2026-02-27 | Step 1.1 complete                      |
+| 5.2 | Add Malmö index seed data (`data/malmo/index.json`) | Complete    | 2026-02-28 | Step 1.2 complete; address fix applied |
+| 5.3 | Add per-preschool survey seed files                 | Complete    | 2026-02-28 | Step 1.3 complete                      |
+| 5.4 | Implement data-loading utility (`src/lib/data.ts`)  | Not Started | 2026-02-27 | Step 1.4                               |
+| 5.5 | Implement scoring utility (`src/lib/scoring.ts`)    | Not Started | 2026-02-27 | Step 1.5                               |
+| 5.6 | Add/validate unit tests for Step 1 acceptance       | In Progress | 2026-02-28 | Step 1.3 coverage added                |
 
-- Note (5.2): `data/malmo/index.json` was created with 5 Malmö 2025 schools and `address: "Malmö"`.
+- Note (5.2): `data/malmo/index.json` now uses varied street + city addresses ending with `, Malmö`.
 
 ## Progress Log
+
+### 2026-02-28
+
+- Reproduced Step 1.2 address-contract failure in `tests/unit/malmo-index.test.ts` (city-only addresses did not satisfy `/,\s*Malmö$/`).
+- Fixed `data/malmo/index.json` addresses to varied, realistic street + city values ending with `, Malmö`.
+- Re-ran required quality gates to green: `pnpm lint` (pass), `pnpm lint:md` (pass), `pnpm format` (pass), `pnpm test` (pass).
+- Kept scope limited to Step 1.3 Phase 3 revision; Step 1.4/1.5 remains not started.
 
 ### 2026-02-27
 

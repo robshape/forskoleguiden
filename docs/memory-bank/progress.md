@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-02-27): Steps 0.5 through 0.11 are complete, and Steps 1.1-1.2 are complete.
+Current status (2026-02-28): Steps 0.5 through 0.11 are complete, and Steps 1.1-1.3 are complete with green quality gates.
 
 ## Completed Scaffolding Summary
 
@@ -14,11 +14,11 @@ Current status (2026-02-27): Steps 0.5 through 0.11 are complete, and Steps 1.1-
 
 ## Current Priorities
 
-1. **Step 1 data layer** (`TASK005`) — in progress; Steps 1.1-1.2 complete with refined schema/contracts, hardened index contract test, and Malmö index seed data with realistic street-level addresses (`data/malmo/index.json`, `tests/unit/malmo-index.test.ts`), next Step 1.3.
+1. **Step 1 data layer** (`TASK005`) — in progress; Steps 1.1-1.3 are complete and full required gates are passing after fixing Step 1.2 address formatting in `data/malmo/index.json`.
 2. **Step 2 i18n foundation** (`TASK006`) — pending, prerequisite for Step 3.1-3.3 `Locale` type usage.
 3. **Step 3.1-3.3 layout shell** (`TASK001`) — pending/blocked until Step 2.3 is complete.
 4. **Step 3.4 root redirect** (`TASK002`) — pending and independently implementable.
 
 ## Next Focus
 
-Complete Step 1.3, then Step 1.4-1.5, then Step 2, then unblock Step 3.1-3.3 route/layout work.
+Complete Step 1.4-1.5, then Step 2, then unblock Step 3.1-3.3 route/layout work.

@@ -1,0 +1,34 @@
+{
+  "id": "bulltofta-forskola",
+  "preschoolName": "Bulltofta förskola",
+  "address": "Södra Bulltoftavägen 57A, Malmö",
+  "surveyYear": 2025,
+  "totalRespondentsPercent": 84,
+  "questionGroups": [
+    {
+      "name": "Helhetsbedömning",
+      "questions": [
+        {
+          "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
+          "response": {
+            "completelyAgreePercent": 58,
+            "partlyAgreePercent": 34,
+            "neitherAgreeNorDisagreePercent": 5,
+            "partlyDisagreePercent": 1,
+            "completelyDisagreePercent": 2
+          }
+        },
+        {
+          "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
+          "response": {
+            "completelyAgreePercent": 63,
+            "partlyAgreePercent": 27,
+            "neitherAgreeNorDisagreePercent": 6,
+            "partlyDisagreePercent": 2,
+            "completelyDisagreePercent": 2
+          }
+        }
+      ]
+    }
+  ]
+}

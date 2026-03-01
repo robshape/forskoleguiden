@@ -1,0 +1,34 @@
+{
+  "id": "bladins-internationella-forskola",
+  "preschoolName": "Bladins internationella förskola",
+  "address": "Stadiongatan 25, Malmö",
+  "surveyYear": 2025,
+  "totalRespondentsPercent": 77,
+  "questionGroups": [
+    {
+      "name": "Helhetsbedömning",
+      "questions": [
+        {
+          "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
+          "response": {
+            "completelyAgreePercent": 76,
+            "partlyAgreePercent": 18,
+            "neitherAgreeNorDisagreePercent": 4,
+            "partlyDisagreePercent": 0,
+            "completelyDisagreePercent": 3
+          }
+        },
+        {
+          "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
+          "response": {
+            "completelyAgreePercent": 84,
+            "partlyAgreePercent": 11,
+            "neitherAgreeNorDisagreePercent": 1,
+            "partlyDisagreePercent": 0,
+            "completelyDisagreePercent": 3
+          }
+        }
+      ]
+    }
+  ]
+}

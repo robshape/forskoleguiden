@@ -1,14 +1,13 @@
 export type SurveyResponse = {
-  completelyAgreePercentage: number
-  partlyAgreePercentage: number
-  neitherAgreeNorDisagreePercentage: number
-  partlyDisagreePercentage: number
-  completelyDisagreePercentage: number
+  completelyAgreePercent: number
+  partlyAgreePercent: number
+  neitherAgreeNorDisagreePercent: number
+  partlyDisagreePercent: number
+  completelyDisagreePercent: number
 }
 
 export type SurveyQuestion = {
   text: string
-  totalRespondents: number
   response: SurveyResponse
 }
 
@@ -22,6 +21,7 @@ export type PreschoolSurvey = {
   preschoolName: string
   address: string
   surveyYear: number
+  totalRespondentsPercent: number
   questionGroups: QuestionGroup[]
 }
 

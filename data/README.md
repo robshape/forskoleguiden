@@ -14,9 +14,9 @@ An example of the original preschool survey PDF published by Malmö stad. This i
 
 **Future use:** Input for the automated PDF-to-JSON conversion pipeline planned in Phase 4 (post-MVP). See `docs/tech-stack.md` → "Key constraints and trade-offs" → "No PDF parsing in browser".
 
-### `malmo/` (not yet created)
+### `malmo/`
 
-Will contain:
+Contains:
 
-- `index.json` — Directory index of all preschools (name, address, ID, operator type)
+- `index.json` — Directory index of all preschools (name, address, ID, operator type). **Entries are sorted alphabetically by `id`.**
 - `2025/*.json` — Per-preschool survey data files following `template.json` schema
