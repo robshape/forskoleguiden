@@ -19,21 +19,24 @@ Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents com
 
 Data flow: static JSON (build-time only) → Astro pre-renders HTML → Preact islands hydrate for interactivity → nanostores for client state → lz-string for shareable URL encoding.
 
-## Directory structure (planned, partially implemented)
+## Directory structure
 
 ```text
-data/template.json         — Schema template for preschool JSON
-data/malmo/index.json      — Directory index (name, address, id, operator type) [planned]
-data/malmo/2025/*.json     — Per-preschool survey data [planned]
-src/features/              — Feature-organized modules (directory, comparison, shortlist, sharing) [planned]
-src/components/astro/      — Static Astro components (layout, nav, footer) [planned]
-src/components/preact/     — Interactive Preact islands [planned]
-src/i18n/                  — Translation JSON + t() helper [planned]
-src/lib/                   — Shared types, state atoms, URL encoding [planned]
-src/pages/{sv,en,ar}/      — Astro file-based i18n routing
-src/styles/global.css      — Tailwind v4 entry point (@import 'tailwindcss')
-tests/unit/**/*.test.ts    — Vitest unit tests
-tests/e2e/**/*.spec.ts     — Playwright e2e tests
+data/template.json            — Schema template for preschool JSON (reference only — actual shape is in src/lib/types.ts)
+data/malmo/index.json         — City directory: lists all preschool IDs, names, addresses, operator types
+data/malmo/2025/*.json        — Per-preschool survey data (one file per preschool, keyed by slug ID)
+src/lib/types.ts              — TypeScript interfaces: PreschoolSurvey, PreschoolIndex, SurveyResponse, etc.
+src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurvey(id), getAllPreschoolSurveys()
+src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc()
+src/features/                 — Feature-organized modules (directory, comparison, shortlist, sharing) [planned]
+src/components/astro/         — Static Astro components (layout, nav, footer) [planned]
+src/components/preact/        — Interactive Preact islands [planned]
+src/i18n/                     — Translation JSON + t() helper [planned]
+src/pages/{sv,en,ar}/         — Astro file-based i18n routing
+src/styles/global.css         — Tailwind v4 entry point (@import 'tailwindcss')
+tests/unit/**/*.test.ts       — Vitest unit tests
+tests/unit/helpers/           — Shared test utilities (malmo-data.ts, survey-assertions.ts)
+tests/e2e/**/*.spec.ts        — Playwright e2e tests
 ```
 
 ## Key conventions
@@ -42,18 +45,21 @@ tests/e2e/**/*.spec.ts     — Playwright e2e tests
 - **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro.
 - **No `@astrojs/tailwind`** — Tailwind v4 uses the Vite plugin directly: `@tailwindcss/vite` in `astro.config.ts`. Theme customization via CSS `@theme` blocks in `src/styles/global.css`.
 - **i18n**: three locales (`sv`, `en`, `ar`), all prefix-routed (`/sv/`, `/en/`, `/ar/`). Swedish is default. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants.
-- **No runtime data fetching** — all preschool data read from `data/` at Astro build time.
+- **No runtime data fetching** — all preschool data read from `data/` at Astro build time via `src/lib/data.ts` loaders (uses `readFileSync` + `process.cwd()`).
 - **Formatting**: single quotes, no semicolons (`.prettierrc`). Prettier + prettier-plugin-astro.
 - **ESLint**: flat config (`eslint.config.js`) with `@typescript-eslint` + `eslint-plugin-astro`.
 - **Markdown linting**: `pnpm lint:md` uses markdownlint-cli2 (MD013/line-length disabled).
 
 ## Data model
 
-Preschool JSON follows `data/template.json`: two questions in "Helhetsbedömning" group, five response buckets each. MVP "agree share" = `completelyAgreePercent + partlyAgreePercent`.
+See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `PreschoolIndex`, `SurveyResponse`, `OperatorType` (`'municipal' | 'independent'`). Response fields use `*Percent` suffix (e.g. `completelyAgreePercent`, not `Percentage`). Each survey has `id`, `totalRespondentsPercent`, and one or more `questionGroups`. MVP scope: only "Helhetsbedömning" group.
 
-## Comparison summary logic
+## Scoring & comparison logic
 
-Deterministic, non-AI text summaries: delta ≥ 5 pp → "higher"; ≤ −5 pp → "lower"; otherwise "similar". Neutral template phrases only.
+- `computeAgreeShare(response)` → `completelyAgreePercent + partlyAgreePercent` (see `src/lib/scoring.ts`)
+- `computeOverallScore(survey)` → average agree share across all questions in "Helhetsbedömning"; returns `null` if group is missing
+- `byOverallScoreDesc` — comparator for descending sort by overall score (nulls sort last)
+- Deterministic text summaries: delta ≥ 5 pp → "higher"; ≤ −5 pp → "lower"; otherwise "similar". Neutral template phrases only.
 
 ## Developer workflow
 
@@ -70,6 +76,8 @@ Deterministic, non-AI text summaries: delta ≥ 5 pp → "higher"; ≤ −5 pp �
 ## Testing patterns
 
 - **Unit tests**: `tests/unit/` with Vitest, node environment. Use `@/` and `@data/` aliases (mirrored in `vitest.config.ts`).
+- **Shared test helpers**: `tests/unit/helpers/` — `malmo-data.ts` loads real index/survey paths; `survey-assertions.ts` provides `assertResponseShape()` and `assertResponseContract()` for validating `SurveyResponse` objects.
+- **Data contract tests**: `tests/unit/malmo-surveys.test.ts` validates every JSON file in `data/malmo/2025/` against type contracts — add new preschool JSON and these tests enforce shape/range.
 - **E2e tests**: `tests/e2e/` with Playwright. Config auto-starts `pnpm preview` webserver. See `tests/e2e/smoke.spec.ts` for the baseline pattern.
 - **Regression guards**: infrastructure invariants are tested as unit tests (e.g., `tests/unit/gitignore.test.ts` verifies `.gitignore` entries).
 
