@@ -28,10 +28,11 @@ data/malmo/2025/*.json        — Per-preschool survey data (one file per presch
 src/lib/types.ts              — TypeScript interfaces: PreschoolSurvey, PreschoolIndex, SurveyResponse, etc.
 src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurvey(id), getAllPreschoolSurveys()
 src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc()
+src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path keys)
+src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
 src/features/                 — Feature-organized modules (directory, comparison, shortlist, sharing) [planned]
 src/components/astro/         — Static Astro components (layout, nav, footer) [planned]
 src/components/preact/        — Interactive Preact islands [planned]
-src/i18n/                     — Translation JSON + t() helper [planned]
 src/pages/{sv,en,ar}/         — Astro file-based i18n routing
 src/styles/global.css         — Tailwind v4 entry point (@import 'tailwindcss')
 tests/unit/**/*.test.ts       — Vitest unit tests
@@ -44,7 +45,7 @@ tests/e2e/**/*.spec.ts        — Playwright e2e tests
 - **Organize by feature** (`src/features/directory/`, `src/features/comparison/`), not by type. Shared utilities go in `src/lib/`.
 - **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro.
 - **No `@astrojs/tailwind`** — Tailwind v4 uses the Vite plugin directly: `@tailwindcss/vite` in `astro.config.ts`. Theme customization via CSS `@theme` blocks in `src/styles/global.css`.
-- **i18n**: three locales (`sv`, `en`, `ar`), all prefix-routed (`/sv/`, `/en/`, `/ar/`). Swedish is default. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants.
+- **i18n**: three locales (`sv`, `en`, `ar`), all prefix-routed (`/sv/`, `/en/`, `/ar/`). Swedish is default. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants. Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. All three locale JSONs must have identical key structures. `Locale` type and `getLocaleFromURL()` are exported from the same module.
 - **No runtime data fetching** — all preschool data read from `data/` at Astro build time via `src/lib/data.ts` loaders (uses `readFileSync` + `process.cwd()`).
 - **Formatting**: single quotes, no semicolons (`.prettierrc`). Prettier + prettier-plugin-astro.
 - **ESLint**: flat config (`eslint.config.js`) with `@typescript-eslint` + `eslint-plugin-astro`.
