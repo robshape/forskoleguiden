@@ -2,11 +2,10 @@
 
 ## In Progress
 
-- None currently.
+- [TASK006] Implement Step 2 i18n foundation - Step 2.1 complete; Step 2.2 and Step 2.3 pending
 
 ## Pending
 
-- [TASK006] Implement Step 2 i18n foundation - Add locale files and `Locale`/`t()` utilities required by later layout/pages
 - [TASK001] Implement Step 3.1-3.3 layout shell - Build BaseLayout, Nav, Footer and move global.css import into BaseLayout (blocked by Step 2.3 dependency)
 - [TASK002] Implement root redirect '/' -> '/sv/' (Step 3.4) - Deferred redirect implementation tracked explicitly
 
