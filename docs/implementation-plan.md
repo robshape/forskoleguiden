@@ -161,14 +161,14 @@ Ensure `.gitignore` includes: `node_modules/`, `dist/`, `.astro/`, and any OS fi
 
 Create `src/lib/types.ts` with type contracts that exactly match the JSON template shape:
 
-- `SurveyResponse` — the five percentage fields (`completelyAgreePercentage`, `partlyAgreePercentage`, `neitherAgreeNorDisagreePercentage`, `partlyDisagreePercentage`, `completelyDisagreePercentage`). All fields are `number`.
-- `SurveyQuestion` — `text: string`, `totalRespondents: number`, and `response: SurveyResponse`.
+- `SurveyResponse` — the five percentage fields (`completelyAgreePercent`, `partlyAgreePercent`, `neitherAgreeNorDisagreePercent`, `partlyDisagreePercent`, `completelyDisagreePercent`). All fields are `number`.
+- `SurveyQuestion` — `text: string` and `response: SurveyResponse`.
 - `QuestionGroup` — `name: string` and `questions: SurveyQuestion[]`.
-- `PreschoolSurvey` — `preschoolName: string`, `address: string`, `surveyYear: number`, `questionGroups: QuestionGroup[]`.
+- `PreschoolSurvey` — `id: string`, `preschoolName: string`, `address: string`, `surveyYear: number`, `totalRespondentsPercent: number`, `questionGroups: QuestionGroup[]`.
 - `PreschoolIndexEntry` — `id: string` (slug), `name: string`, `address: string`, `operatorType: 'municipal' | 'independent'`.
 - `PreschoolIndex` — `city: string`, `year: number`, `preschools: PreschoolIndexEntry[]`.
 
-`totalRespondents` is included to preserve response-volume context from source reports for future weighting and confidence display features, even though MVP ranking/summary logic does not currently consume it.
+`totalRespondentsPercent` is on `PreschoolSurvey` (not per-question) to preserve response-volume context from source reports for future weighting and confidence display features, even though MVP ranking/summary logic does not currently consume it.
 
 **Test:** Write a unit test in `tests/unit/types.test.ts` that creates a sample object conforming to `PreschoolSurvey` and asserts it has the expected property names and types. The test must compile and pass.
 
@@ -433,11 +433,11 @@ The page should show:
 
 On the detail page, for each question in "Helhetsbedömning", render the five response categories and their percentages as a structured list or table. Use the canonical Swedish response category labels (these must be defined as i18n keys in `sv.json` in Step 2.1 and used everywhere — detail pages, charts, legends, ARIA labels):
 
-1. "Instämmer helt" (`completelyAgreePercentage`)
-2. "Instämmer delvis" (`partlyAgreePercentage`)
-3. "Varken eller" (`neitherAgreeNorDisagreePercentage`)
-4. "Instämmer inte delvis" (`partlyDisagreePercentage`)
-5. "Instämmer inte alls" (`completelyDisagreePercentage`)
+1. "Instämmer helt" (`completelyAgreePercent`)
+2. "Instämmer delvis" (`partlyAgreePercent`)
+3. "Varken eller" (`neitherAgreeNorDisagreePercent`)
+4. "Instämmer inte delvis" (`partlyDisagreePercent`)
+5. "Instämmer inte alls" (`completelyDisagreePercent`)
 
 These five labels are the single source of truth for all response category rendering across the entire application.
 

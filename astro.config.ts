@@ -7,7 +7,6 @@ export default defineConfig({
   site: 'https://robshape.github.io/forskoleguiden',
   output: 'static',
   integrations: [preact(), sitemap()],
-  // TODO: Step 3.4 — add redirects: { '/': '/sv/' } after replacing src/pages/index.astro.
   vite: {
     plugins: [tailwindcss()],
   },

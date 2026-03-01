@@ -111,15 +111,15 @@ forskoleguiden/
 ├── public/                  # Static assets (favicon, OG images)
 │
 ├── src/
-│   ├── components/          # Shared UI components
-│   │   ├── astro/           # Static Astro components (layout, nav, footer)
-│   │   └── preact/          # Interactive islands (CompareTray, ShortlistPanel, Chart)
+│   ├── components/          # Shared UI components [planned]
+│   │   ├── astro/           # Static Astro components (layout, nav, footer) [planned]
+│   │   └── preact/          # Interactive islands (CompareTray, ShortlistPanel, Chart) [planned]
 │   │
-│   ├── features/            # Feature-organized modules
-│   │   ├── directory/       # Preschool list, sorting, filtering
-│   │   ├── comparison/      # Side-by-side view, summary generation
-│   │   ├── shortlist/       # Pick-five logic
-│   │   └── sharing/         # URL encoding/decoding, mailto
+│   ├── features/            # Feature-organized modules [planned]
+│   │   ├── directory/       # Preschool list, sorting, filtering [planned]
+│   │   ├── comparison/      # Side-by-side view, summary generation [planned]
+│   │   ├── shortlist/       # Pick-five logic [planned]
+│   │   └── sharing/         # URL encoding/decoding, mailto [planned]
 │   │
 │   ├── i18n/                # Translation files and helpers
 │   │   ├── sv.json
@@ -127,12 +127,12 @@ forskoleguiden/
 │   │   ├── ar.json
 │   │   └── utils.ts         # t() helper, locale detection
 │   │
-│   ├── layouts/             # Astro layouts (BaseLayout, with RTL support)
+│   ├── layouts/             # Astro layouts (BaseLayout, with RTL support) [planned]
 │   │
 │   ├── lib/                 # Shared utilities
 │   │   ├── types.ts         # TypeScript types for preschool data
-│   │   ├── state.ts         # nanostores atoms (compare set, shortlist, locale)
-│   │   └── url-state.ts     # lz-string encode/decode for shareable URLs
+│   │   ├── state.ts         # nanostores atoms (compare set, shortlist, locale) [planned]
+│   │   └── url-state.ts     # lz-string encode/decode for shareable URLs [planned]
 │   │
 │   ├── pages/               # Astro file-based routing
 │   │   ├── sv/              # Swedish routes (default locale)

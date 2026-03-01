@@ -32,7 +32,7 @@ For full rationale behind each technology choice, see `docs/tech-stack.md`. This
 
 ## Editor
 
-- `.vscode/extensions.json` recommends: `astro-build.astro-vscode`, `dbaeumer.vscode-eslint`, `esbenp.prettier-vscode`, `bradlc.vscode-tailwindcss`.
+- Recommended VS Code extensions: `astro-build.astro-vscode`, `dbaeumer.vscode-eslint`, `esbenp.prettier-vscode`, `bradlc.vscode-tailwindcss`.
 
 ## Deployment
 
