@@ -6,6 +6,7 @@
 
 ## Completed
 
+- [TASK009] Implement Phase B UI styling plan update - Completed 2026-03-02 (Phase B documentation closure complete: Step 3.5 baseline and visual-design subsections added for Steps 4.2-4.4, 5.2-5.3, 6.1-6.2, 7.2, 7.4, and 8.1; memory-bank status synchronized)
 - [TASK008] Apply Phase A hardening patch - Completed 2026-03-02 (Nav container/logical utility fixes, global hover-rule cleanup, robust focus e2e, modularized shell tests)
 - [TASK007] Implement Phase A UI styling - Completed 2026-03-02 (global theme tokens, shell styling for BaseLayout/Nav/Footer, focus-visible e2e checks, and full quality gates green)
 - [TASK002] Implement root redirect '/' -> '/sv/' (Step 3.4) - Completed 2026-03-02 (Astro native redirects configured; temporary root meta-refresh page removed; redirect unit test added)
