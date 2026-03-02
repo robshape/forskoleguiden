@@ -34,4 +34,17 @@
   [role='button'] {
     @apply cursor-pointer transition-colors;
   }
+
+  a {
+    transition-property: color, background-color;
+    transition-duration: 150ms;
+    transition-timing-function: var(
+      --tw-ease,
+      var(--default-transition-timing-function)
+    );
+  }
+
+  a:not([class]):hover {
+    @apply text-primary-700;
+  }
 }

@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, Steps 3.1-3.4, Phase A design foundations, and Phase B implementation-plan documentation updates are complete.
+Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, Steps 3.1-3.4, Step 3.5 design foundations implementation (Phases 1-3 revision), Phase A design foundations, and Phase B implementation-plan documentation updates are complete.
 
 ## Completed Scaffolding Summary
 
@@ -17,6 +17,21 @@ Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.
 1. **Step 4 directory page foundation** — next implementation target after shell completion.
 
 ## Recent Follow-up
+
+- Completed Step 3.5 Phase 3 revision for focus-outline regression (2026-03-02):
+  - Root cause: link base style `a { @apply transition-colors duration-150; }` transitions `outline-color`, so immediate focus sampling in Playwright read an in-flight dark value instead of token blue.
+  - Minimal fix in `src/styles/global.css`: replaced the base anchor transition with explicit `transition-property: color, background-color` (plus existing timing/duration), which removes `outline-color` from animation while preserving subtle link transitions.
+  - Scoped base hover fallback to `a:not([class]):hover` so component-specific anchor colors do not get unexpectedly overridden.
+  - ✅ Reproduced fail-first state: `CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts` (expected `rgb(37, 99, 235)`, received `rgb(20, 37, 74)`).
+- Final Step 3.5 Phase 3 evidence revision (2026-03-02) — exact acceptance/gate command results:
+  - ✅ PASS: `pnpm test tests/unit/base-layout.test.ts tests/unit/nav.test.ts tests/unit/footer.test.ts tests/unit/global-styles-phase-a.test.ts tests/unit/root-redirect.test.ts`
+  - ✅ PASS: `pnpm build`
+  - ✅ PASS: `CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts tests/e2e/smoke.spec.ts`
+  - ✅ PASS: `pnpm lint`
+  - ✅ PASS: `pnpm lint:md`
+  - ✅ PASS: `pnpm format`
+  - ✅ PASS: `pnpm test`
+  - ✅ PASS: no additional code changes required for this evidence revision.
 
 - Completed Phase B documentation closure (`TASK009`) and synchronized memory-bank tracking state.
 - Confirmed Phase B implementation-plan updates are complete: Step 3.5 design-foundations baseline plus visual-design subsections for Steps 4-8.

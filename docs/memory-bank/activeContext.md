@@ -12,6 +12,16 @@ Current state:
 - Shell contract tests are modularized into `tests/unit/base-layout.test.ts`, `tests/unit/nav.test.ts`, and `tests/unit/footer.test.ts` with shared helpers in `tests/unit/helpers/astro-source.ts`.
 - Runtime shell and keyboard-focus verification is covered in `tests/e2e/layout-shell.spec.ts` with a robust tab-loop strategy (not fixed tab index) and explicit focus color-token coupling note.
 - Step 3.4 redirect remains complete and hardened (`astro.config.ts` redirects + `tests/unit/root-redirect.test.ts` + `tests/e2e/smoke.spec.ts`).
+- Step 3.5 design foundations implementation and Phase 3 revision are complete (2026-03-02): resolved the focus-outline color regression in `src/styles/global.css` by narrowing base anchor transitions to `transition-property: color, background-color` so `outline-color` no longer animates during focus-visible checks; default hover color is scoped to `a:not([class]):hover` to avoid component-style collisions.
+- Final Step 3.5 Phase 3 evidence revision is complete (2026-03-02) with exact command pass evidence:
+  - ✅ PASS: `pnpm test tests/unit/base-layout.test.ts tests/unit/nav.test.ts tests/unit/footer.test.ts tests/unit/global-styles-phase-a.test.ts tests/unit/root-redirect.test.ts`
+  - ✅ PASS: `pnpm build`
+  - ✅ PASS: `CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts tests/e2e/smoke.spec.ts`
+  - ✅ PASS: `pnpm lint`
+  - ✅ PASS: `pnpm lint:md`
+  - ✅ PASS: `pnpm format`
+  - ✅ PASS: `pnpm test`
+  - ✅ PASS: no additional code changes required for this evidence revision.
 - Step 2 i18n foundation remains complete (`src/i18n/sv.json`, `src/i18n/en.json`, `src/i18n/ar.json`, `src/i18n/utils.ts`).
 - Step 1 data/scoring foundation remains green (`src/lib/types.ts`, `src/lib/data.ts`, `src/lib/scoring.ts`).
 - Phase B documentation plan updates are complete in `docs/implementation-plan.md`: Step 3.5 design-foundations baseline inserted, and visual-design subsections added for Steps 4-8.

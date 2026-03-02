@@ -25,6 +25,12 @@ describe('/sv/ page layout composition', () => {
     )
   })
 
+  it('includes viewport-fit=cover in the viewport meta contract', () => {
+    expect(baseLayoutSource).toMatch(
+      /<meta\s+name="viewport"\s+content="[^"]*viewport-fit=cover[^"]*"\s*\/>/,
+    )
+  })
+
   it('applies Phase A body class contract', () => {
     const classTokens = getClassTokens(baseLayoutSource, 'body')
 

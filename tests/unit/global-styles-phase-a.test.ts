@@ -27,11 +27,16 @@ describe('Phase A global styles', () => {
 
   it('defines global focus-visible, button, and link interaction defaults', () => {
     expect(source).toMatch(
-      /:focus-visible[\s\S]*outline-2[\s\S]*outline-offset-2[\s\S]*outline-primary-600/,
+      /:focus-visible\s*\{[^}]*outline-2[^}]*outline-offset-2[^}]*outline-primary-600[^}]*\}/,
     )
     expect(source).toMatch(
-      /button[\s\S]*cursor-pointer[\s\S]*transition-colors/,
+      /\[role='button'\]\s*\{[^}]*cursor-pointer[^}]*transition-colors[^}]*\}/,
     )
-    expect(source).not.toMatch(/a:hover/)
+    expect(source).toMatch(
+      /(^|\n)\s*a\s*\{[^}]*transition-property:\s*color,\s*background-color[^}]*transition-duration:\s*150ms[^}]*\}/,
+    )
+    expect(source).toMatch(
+      /(^|\n)\s*a:not\(\[class\]\):hover\s*\{[^}]*text-primary-700[^}]*\}/,
+    )
   })
 })
