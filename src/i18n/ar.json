@@ -8,7 +8,16 @@
     "directory": "رياض الأطفال",
     "compare": "مقارنة",
     "about": "حول البيانات",
-    "languagePlaceholder": "اللغة: SV | EN | AR (قريبًا)"
+    "languagePlaceholder": "SV | EN"
+  },
+  "cityYear": {
+    "heading": "المدينة والسنة",
+    "surveyYear": "سنة الاستبيان:",
+    "cities": {
+      "malmo": "مالمو",
+      "stockholm": "ستوكهولم",
+      "goteborg": "يوتيبوري"
+    }
   },
   "directory": {
     "heading": "رياض الأطفال في مالمو",

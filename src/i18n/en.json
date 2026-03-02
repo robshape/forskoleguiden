@@ -8,7 +8,16 @@
     "directory": "Preschools",
     "compare": "Compare",
     "about": "About the data",
-    "languagePlaceholder": "Language: SV | EN | AR (coming soon)"
+    "languagePlaceholder": "SV | EN"
+  },
+  "cityYear": {
+    "heading": "CITY & YEAR",
+    "surveyYear": "Survey Year:",
+    "cities": {
+      "malmo": "Malmö",
+      "stockholm": "Stockholm",
+      "goteborg": "Gothenburg"
+    }
   },
   "directory": {
     "heading": "Preschools in Malmö",

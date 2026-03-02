@@ -18,6 +18,20 @@ Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.
 
 ## Recent Follow-up
 
+- Completed review feedback fixes (2026-03-02):
+  - Restored `<footer>` landmark in `BaseLayout.astro` — Footer component is back inside a proper `<footer>` element outside `<main>`, preserving ARIA `contentinfo` landmark for screen readers. Visual styling still has no border (matching mockup).
+  - Extracted `SURVEY_YEAR = 2025` constant to `src/lib/constants.ts` — CityYearSelector imports it instead of hardcoding.
+  - Added `target="_blank"` to external source link in `Footer.astro` (Malmö stad link opens in new tab).
+  - Added i18n city name keys (`cityYear.cities.malmo/stockholm/goteborg`) to all 3 locale JSONs (sv, en, ar). Arabic uses transliterated names (مالمو, ستوكهولم, يوتيبوري). English uses "Gothenburg". CityYearSelector uses `t()` for all city names.
+  - All quality gates passing: 60 unit tests, 4 e2e tests, lint, format, build clean.
+
+- Completed mockup alignment pass (2026-03-02):
+  - Nav slimmed to brand + language pill only; removed CityYearSelector from nav.
+  - CityYearSelector extracted as a standalone page-level content component (rendered in main, not in nav).
+  - Attribution moved from `<footer>` to main content area, displayed as two separate lines without border.
+  - Language pill shortened from verbose text to compact "SV | EN" format.
+  - All quality gates passing: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`, `pnpm build`, `pnpm test:e2e`.
+
 - Completed Step 3.5 Phase 3 revision for focus-outline regression (2026-03-02):
   - Root cause: link base style `a { @apply transition-colors duration-150; }` transitions `outline-color`, so immediate focus sampling in Playwright read an in-flight dark value instead of token blue.
   - Minimal fix in `src/styles/global.css`: replaced the base anchor transition with explicit `transition-property: color, background-color` (plus existing timing/duration), which removes `outline-color` from animation while preserving subtle link transitions.

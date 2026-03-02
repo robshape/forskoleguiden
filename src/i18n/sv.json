@@ -8,7 +8,16 @@
     "directory": "Förskolor",
     "compare": "Jämför",
     "about": "Om data",
-    "languagePlaceholder": "Språk: SV | EN | AR (kommer snart)"
+    "languagePlaceholder": "SV | EN"
+  },
+  "cityYear": {
+    "heading": "STAD & ÅR",
+    "surveyYear": "Enkätår:",
+    "cities": {
+      "malmo": "Malmö",
+      "stockholm": "Stockholm",
+      "goteborg": "Göteborg"
+    }
   },
   "directory": {
     "heading": "Förskolor i Malmö",

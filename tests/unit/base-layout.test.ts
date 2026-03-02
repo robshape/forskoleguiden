@@ -76,24 +76,17 @@ describe('/sv/ page layout composition', () => {
       /import\s+Footer\s+from\s+['"]@\/components\/astro\/Footer\.astro['"]/,
     )
 
+    // Footer lives inside a <footer> landmark, outside <main>
+    const footerMatch = baseLayoutSource.match(/<footer>([\s\S]*?)<\/footer>/)
+
+    expect(footerMatch).not.toBeNull()
+    expect(footerMatch?.[1]).toContain('<Footer locale={locale} />')
+
+    // <footer> comes after </main>
     const mainCloseIndex = baseLayoutSource.indexOf('</main>')
+    const footerOpenIndex = baseLayoutSource.indexOf('<footer>')
 
     expect(mainCloseIndex).toBeGreaterThanOrEqual(0)
-
-    const footerOpenIndex = baseLayoutSource.indexOf('<footer>', mainCloseIndex)
-    const footerCloseIndex = baseLayoutSource.indexOf(
-      '</footer>',
-      footerOpenIndex,
-    )
-
-    expect(footerOpenIndex).toBeGreaterThanOrEqual(0)
-    expect(footerCloseIndex).toBeGreaterThan(footerOpenIndex)
-
-    const footerSource = baseLayoutSource.slice(
-      footerOpenIndex,
-      footerCloseIndex + '</footer>'.length,
-    )
-
-    expect(footerSource).toContain('<Footer locale={locale} />')
+    expect(footerOpenIndex).toBeGreaterThan(mainCloseIndex)
   })
 })

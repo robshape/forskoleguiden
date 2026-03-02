@@ -9,18 +9,17 @@ interface Props {
 const { locale } = Astro.props
 ---
 
-<div class="border-t border-border">
-  <p
-    class="mx-auto w-full max-w-content ps-4 pe-4 py-4 text-sm text-gray-400 ltr:text-left rtl:text-right"
+<div
+  class="mx-auto w-full max-w-content flex flex-col gap-1 ps-4 pe-4 py-4 text-sm text-gray-400 ltr:text-left rtl:text-right"
+>
+  <p>{t('attribution.text', locale)}</p>
+  <a
+    href={MALMO_SOURCE_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    referrerpolicy="no-referrer"
+    class="text-primary-600 underline"
   >
-    {t('attribution.text', locale)}
-    <a
-      href={MALMO_SOURCE_URL}
-      rel="noopener noreferrer"
-      referrerpolicy="no-referrer"
-      class="text-primary-600 underline"
-    >
-      {t('attribution.sourceLinkLabel', locale)}
-    </a>
-  </p>
+    {t('attribution.sourceLinkLabel', locale)}
+  </a>
 </div>

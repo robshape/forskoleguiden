@@ -33,6 +33,21 @@ Critical infrastructure invariants are tested as unit tests rather than relying 
 
 - `tests/unit/gitignore.test.ts` — verifies `.gitignore` covers required paths (`node_modules/`, `dist/`, `.astro/`, `.DS_Store`, `test-results/`) using `git check-ignore`.
 
+## Shell Composition Boundaries
+
+- **CityYearSelector** is a **page-content component**, not a nav component. It is rendered within the main content area of each page, not inside the global `<nav>`. The nav contains only the brand text and a compact language pill.
+- **Attribution / data-source** text lives in the **main content area**, not in `<footer>`. It is displayed as two separate lines without a border.
+- **`<footer>` landmark**: The `<footer>` element in `BaseLayout.astro` wraps the `Footer.astro` component **outside `<main>`**, preserving the ARIA `contentinfo` landmark for screen readers. Visual styling is borderless (matching mockup) but the semantic landmark must remain.
+- **External links**: Footer source link uses `target="_blank"` for external URLs (e.g., Malmö stad).
+
+## Constants Pattern
+
+- **`SURVEY_YEAR`** (`src/lib/constants.ts`): Shared build-time constant (`2025`) imported by components (e.g., CityYearSelector) instead of hardcoding. Centralizes the survey-year value for future year transitions.
+
+## i18n City Names
+
+- City name keys follow the pattern `cityYear.cities.<slug>` (e.g., `cityYear.cities.malmo`). All three locale JSONs (sv, en, ar) must have identical key structures. Arabic uses transliterated names; English uses local English names (e.g., "Gothenburg" for Göteborg). Components use `t()` for all user-visible city names.
+
 ## Code Organization
 
 - **By feature** (`src/features/`) for application modules — not yet populated (Step 2+ work).

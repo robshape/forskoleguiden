@@ -12,49 +12,14 @@ const { locale } = Astro.props
   aria-label={t('nav.ariaLabel', locale)}
   class="bg-surface border-b border-border"
 >
-  <div class="mx-auto flex w-full max-w-content flex-col gap-3 px-4 py-4">
-    <div class="flex items-center gap-2">
-      <a href={`/${locale}/`} class="text-xl font-bold text-start">
-        Förskoleguiden
-      </a>
-      <span
-        class="ms-auto bg-gray-100 rounded-full px-4 py-1 text-sm font-semibold"
-      >
-        {t('nav.languagePlaceholder', locale)}
-      </span>
-    </div>
-
-    <ul class="flex flex-wrap gap-2">
-      <li>
-        <span
-          aria-current="true"
-          class="bg-primary-600 text-white rounded-lg px-4 py-2 font-semibold"
-        >
-          Malmö
-        </span>
-      </li>
-      <li>
-        <button
-          type="button"
-          disabled
-          aria-disabled="true"
-          class="bg-gray-100 text-gray-400 rounded-lg px-4 py-2 cursor-not-allowed"
-        >
-          Stockholm
-        </button>
-      </li>
-      <li>
-        <button
-          type="button"
-          disabled
-          aria-disabled="true"
-          class="bg-gray-100 text-gray-400 rounded-lg px-4 py-2 cursor-not-allowed"
-        >
-          Göteborg
-        </button>
-      </li>
-    </ul>
-
-    <p class="text-sm text-gray-600 font-medium">2025</p>
+  <div class="mx-auto flex w-full max-w-content items-center gap-2 px-4 py-4">
+    <a href={`/${locale}/`} class="text-xl font-bold text-start">
+      Förskoleguiden
+    </a>
+    <span
+      class="ms-auto bg-gray-100 rounded-full px-4 py-1 text-sm font-semibold"
+    >
+      {t('nav.languagePlaceholder', locale)}
+    </span>
   </div>
 </nav>

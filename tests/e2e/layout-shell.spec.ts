@@ -28,28 +28,39 @@ test('layout and navigation shell render required semantics on /sv/', async ({
   await expect(page.locator('main')).toHaveCount(1)
   await expect(page.locator('footer')).toHaveCount(1)
 
+  // Nav: brand link + compact language pill
   const nav = page.getByRole('navigation', { name: 'Huvudnavigering' })
   await expect(nav).toBeVisible()
   await expect(
     nav.getByRole('link', { name: 'Förskoleguiden' }),
   ).toHaveAttribute('href', '/sv/')
+  await expect(nav.getByText('SV | EN')).toBeVisible()
 
-  const cityList = nav.getByRole('list')
+  // City & Year selector lives in main content, not in nav
+  const main = page.locator('main')
+  const citySection = main.getByRole('region', {
+    name: 'STAD & ÅR',
+  })
+  await expect(citySection).toBeVisible()
+  await expect(citySection.getByText('STAD & ÅR')).toBeVisible()
+
+  const cityList = citySection.getByRole('list')
   await expect(cityList).toBeVisible()
   await expect(cityList.getByRole('listitem')).toHaveCount(3)
 
-  await expect(nav.getByText('Malmö')).toBeVisible()
+  await expect(citySection.getByText('Malmö')).toBeVisible()
   await expect(
     cityList.getByRole('button', { name: 'Stockholm' }),
   ).toBeDisabled()
   await expect(
     cityList.getByRole('button', { name: 'Göteborg' }),
   ).toBeDisabled()
-  await expect(nav.getByText('2025')).toBeVisible()
-  await expect(
-    nav.getByText('Språk: SV | EN | AR (kommer snart)'),
-  ).toBeVisible()
 
+  // Survey year with bold year value
+  await expect(citySection.getByText('Enkätår:')).toBeVisible()
+  await expect(citySection.getByText('2025')).toBeVisible()
+
+  // Attribution lives in <footer> landmark, outside <main>
   const footer = page.locator('footer')
   await expect(footer).toContainText('Enkätdata kommer från Malmö stad.')
 
@@ -57,6 +68,7 @@ test('layout and navigation shell render required semantics on /sv/', async ({
     name: 'Källa hos Malmö stad',
   })
   await expect(sourceLink).toHaveAttribute('href', MALMO_SOURCE_URL)
+  await expect(sourceLink).toHaveAttribute('target', '_blank')
   await expect(sourceLink).toHaveAttribute('rel', 'noopener noreferrer')
   await expect(sourceLink).toHaveAttribute('referrerpolicy', 'no-referrer')
 })
@@ -75,7 +87,7 @@ test('keyboard navigation shows focus-visible outline on key shell links', async
   const siteTitleLink = page
     .getByRole('navigation', { name: 'Huvudnavigering' })
     .getByRole('link', { name: 'Förskoleguiden' })
-  const footerSourceLink = page
+  const attributionSourceLink = page
     .locator('footer')
     .getByRole('link', { name: 'Källa hos Malmö stad' })
 
@@ -90,28 +102,31 @@ test('keyboard navigation shows focus-visible outline on key shell links', async
   // rgb(37, 99, 235) corresponds to --color-primary-600: #2563eb
   expect(siteTitleLinkFocusOutline.outlineColor).toBe('rgb(37, 99, 235)')
 
-  let footerLinkFocused = false
+  let attributionLinkFocused = false
 
   for (let pressCount = 0; pressCount < 20; pressCount++) {
     await page.keyboard.press('Tab')
 
-    footerLinkFocused = await footerSourceLink.evaluate(
+    attributionLinkFocused = await attributionSourceLink.evaluate(
       (element) => element === document.activeElement,
     )
 
-    if (footerLinkFocused) {
+    if (attributionLinkFocused) {
       break
     }
   }
 
-  expect(footerLinkFocused).toBe(true)
-  await expect(footerSourceLink).toBeFocused()
+  expect(attributionLinkFocused).toBe(true)
+  await expect(attributionSourceLink).toBeFocused()
 
-  const footerSourceLinkFocusOutline =
-    await getFocusOutlineContract(footerSourceLink)
+  const attributionSourceLinkFocusOutline = await getFocusOutlineContract(
+    attributionSourceLink,
+  )
 
-  expect(footerSourceLinkFocusOutline.outlineWidth).toBe('2px')
-  expect(footerSourceLinkFocusOutline.outlineStyle).not.toBe('none')
-  expect(footerSourceLinkFocusOutline.outlineOffset).toBe('2px')
-  expect(footerSourceLinkFocusOutline.outlineColor).toBe('rgb(37, 99, 235)')
+  expect(attributionSourceLinkFocusOutline.outlineWidth).toBe('2px')
+  expect(attributionSourceLinkFocusOutline.outlineStyle).not.toBe('none')
+  expect(attributionSourceLinkFocusOutline.outlineOffset).toBe('2px')
+  expect(attributionSourceLinkFocusOutline.outlineColor).toBe(
+    'rgb(37, 99, 235)',
+  )
 })

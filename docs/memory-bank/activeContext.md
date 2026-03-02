@@ -5,8 +5,8 @@ Phase A design foundations remain complete, and Phase B documentation updates ar
 Current state:
 
 - Step 3.1 shell composition remains complete and is now Phase A styled in `src/layouts/BaseLayout.astro` (`bg-page`, `font-sans`, `min-h-screen flex flex-col`, `main.flex-1`, centered `max-w-content` container).
-- Step 3.2 nav shell is visually aligned to the mockup in `src/components/astro/Nav.astro` (white surface, bottom border, active/inactive city chips, RTL-aware alignment).
-- Step 3.3 footer shell is visually aligned to the mockup in `src/components/astro/Footer.astro` (top border separation, muted attribution text, primary underlined source link, logical `ps-*`/`pe-*` spacing).
+- Step 3.2 nav shell is mockup-aligned in `src/components/astro/Nav.astro` — now slimmed to brand text + compact language pill ("SV | EN") only; CityYearSelector removed from nav and extracted as a page-level content component.
+- Step 3.3 footer shell simplified — attribution displayed as two separate lines without border in main content area. The `<footer>` landmark element wraps `Footer.astro` outside `<main>` in `BaseLayout.astro`, preserving ARIA `contentinfo` semantics for screen readers.
 - Global design/token foundation is implemented in `src/styles/global.css` via Tailwind v4 `@theme` tokens and base interaction defaults (`:focus-visible`, button cursor/transition).
 - Post-Phase-A hardening is complete: nav container width now matches shell content width (`max-w-content`), nav uses logical alignment utilities (`text-start`, `ms-auto`), and global anchor hover underline side effects are removed.
 - Shell contract tests are modularized into `tests/unit/base-layout.test.ts`, `tests/unit/nav.test.ts`, and `tests/unit/footer.test.ts` with shared helpers in `tests/unit/helpers/astro-source.ts`.
@@ -22,8 +22,8 @@ Current state:
   - ✅ PASS: `pnpm format`
   - ✅ PASS: `pnpm test`
   - ✅ PASS: no additional code changes required for this evidence revision.
-- Step 2 i18n foundation remains complete (`src/i18n/sv.json`, `src/i18n/en.json`, `src/i18n/ar.json`, `src/i18n/utils.ts`).
-- Step 1 data/scoring foundation remains green (`src/lib/types.ts`, `src/lib/data.ts`, `src/lib/scoring.ts`).
+- Step 2 i18n foundation remains complete (`src/i18n/sv.json`, `src/i18n/en.json`, `src/i18n/ar.json`, `src/i18n/utils.ts`). City name keys added to all 3 locale JSONs (`cityYear.cities.malmo/stockholm/goteborg`) — Arabic uses transliterated names, English uses "Gothenburg".
+- Step 1 data/scoring foundation remains green (`src/lib/types.ts`, `src/lib/data.ts`, `src/lib/scoring.ts`). `SURVEY_YEAR = 2025` constant extracted to `src/lib/constants.ts`.
 - Phase B documentation plan updates are complete in `docs/implementation-plan.md`: Step 3.5 design-foundations baseline inserted, and visual-design subsections added for Steps 4-8.
 - Phase B tracking/closure artifacts are complete in `docs/plans/implement-phase-b-ui-styling-phase-{1..4}-complete.md` and `docs/memory-bank/tasks/TASK009-implement-phase-b-ui-styling-plan-update.md`.
 
@@ -33,6 +33,8 @@ Pending tracked tasks:
 
 Recently completed tasks:
 
+- **Review feedback fixes (2026-03-02)**: Restored `<footer>` landmark in BaseLayout.astro (ARIA contentinfo); extracted `SURVEY_YEAR = 2025` constant to `src/lib/constants.ts`; added `target="_blank"` to Footer source link; i18n city names added to all 3 locale JSONs with `t()` integration in CityYearSelector. All quality gates passing: 60 unit tests, 4 e2e tests, lint, format, build clean.
+- **Mockup alignment pass (2026-03-02)**: Nav slimmed to brand + language pill only; CityYearSelector extracted as a page-level content component (not nav); attribution moved from `<footer>` to main content area, displayed as two separate lines without border; language pill shortened from verbose text to compact "SV | EN" format. All quality gates passing (`pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`, `pnpm build`, `pnpm test:e2e`).
 - `TASK009`: Phase B UI styling plan update complete (documentation closure synced across task index and memory-bank context).
 - `TASK007`: Phase A UI styling complete (tokens + BaseLayout/Nav/Footer styling + focus-visible e2e + quality gates).
 - `TASK008`: Phase A hardening patch complete (layout-width alignment, logical utility cleanup, robust e2e focus traversal, split shell tests).

@@ -1,0 +1,53 @@
+---
+import { SURVEY_YEAR } from '@/lib/constants'
+import { t, type Locale } from '@/i18n/utils'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+---
+
+<section aria-label={t('cityYear.heading', locale)} class="flex flex-col gap-3">
+  <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+    {t('cityYear.heading', locale)}
+  </p>
+
+  <ul class="flex flex-wrap gap-2" role="list">
+    <li>
+      <button
+        type="button"
+        aria-current="true"
+        class="inline-flex min-w-[6.25rem] items-center justify-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white"
+      >
+        {t('cityYear.cities.malmo', locale)}
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        disabled
+        aria-disabled="true"
+        class="inline-flex min-w-[6.25rem] items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed"
+      >
+        {t('cityYear.cities.stockholm', locale)}
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        disabled
+        aria-disabled="true"
+        class="inline-flex min-w-[6.25rem] items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed"
+      >
+        {t('cityYear.cities.goteborg', locale)}
+      </button>
+    </li>
+  </ul>
+
+  <p class="text-sm text-gray-600 font-medium">
+    {t('cityYear.surveyYear', locale)}{' '}
+    <strong class="font-bold">{SURVEY_YEAR}</strong>
+  </p>
+</section>
