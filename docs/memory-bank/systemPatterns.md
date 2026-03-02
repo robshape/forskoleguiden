@@ -36,7 +36,6 @@ Test utilities live in `tests/unit/helpers/`:
 
 - `malmo-data.ts` — resolves file paths to index/survey JSON for test assertions.
 - `survey-assertions.ts` — exports `assertResponseShape` (basic 5-key shape check) and `assertResponseContract` (shape + range 0..100 + sum ~100 ± 1). All survey-data test files import from here rather than duplicating key lists.
-- `astro-source.ts` — **removed** during KCD test alignment (source-inspection helper no longer needed).
 
 ## Infrastructure Regression Guards
 
@@ -44,7 +43,7 @@ Critical infrastructure invariants are tested as unit tests rather than relying 
 
 - `tests/unit/gitignore.test.ts` — verifies `.gitignore` covers required paths (`node_modules/`, `dist/`, `.astro/`, `.DS_Store`, `test-results/`) using `git check-ignore`.
 
-Note: Source-inspection tests (`base-layout.test.ts`, `nav.test.ts`, `footer.test.ts`, `global-styles-phase-a.test.ts`, `city-year-selector.test.ts`) were removed during KCD test alignment — they tested CSS class tokens and HTML attributes in source text rather than runtime behavior. Viewport-meta and favicon checks moved to e2e `layout-shell.spec.ts`.
+Note: Source-inspection tests were removed during KCD test alignment — they tested implementation details rather than behavior. Runtime assertions (viewport-meta, favicon) moved to e2e `layout-shell.spec.ts`.
 
 ## Shell Composition Boundaries
 
@@ -63,7 +62,7 @@ Note: Source-inspection tests (`base-layout.test.ts`, `nav.test.ts`, `footer.tes
 
 ## Code Organization
 
-- **By feature** (`src/features/`) for application modules — not yet populated (Step 2+ work).
+- **By feature** (`src/features/`) for application modules — planned for Step 4+.
 - **`src/lib/`** for shared utilities: types, data loading, scoring.
 - **`src/pages/`** for Astro file-based routing with locale prefixes.
 - **`tests/unit/helpers/`** for shared test utilities.

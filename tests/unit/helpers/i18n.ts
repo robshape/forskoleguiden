@@ -35,7 +35,7 @@ export const loadLocaleFromDisk = (locale: string): JsonObject => {
     const detail = error instanceof Error ? error.message : String(error)
 
     throw new Error(
-      `Expected locale file for Step 2.2 parity contract: src/i18n/${locale}.json (${detail})`,
+      `Failed to load locale file: src/i18n/${locale}.json (${detail})`,
     )
   }
 }
