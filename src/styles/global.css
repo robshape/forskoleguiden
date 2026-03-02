@@ -1,1 +1,37 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-primary-50: #eff6ff;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-score-high-bg: #dcfce7;
+  --color-score-high-text: #166534;
+  --color-score-medium-bg: #fef08a;
+  --color-score-medium-text: #854d0e;
+  --color-surface: #ffffff;
+  --color-page: #f9fafb;
+  --color-border: #e5e7eb;
+
+  --max-width-content: 40rem;
+
+  --shadow-tray: 0 -4px 6px rgba(0, 0, 0, 0.05);
+}
+
+@layer base {
+  :where(
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    summary,
+    [tabindex]
+  ):focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-600;
+  }
+
+  button,
+  [role='button'] {
+    @apply cursor-pointer transition-colors;
+  }
+}

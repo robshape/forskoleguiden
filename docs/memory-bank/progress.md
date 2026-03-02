@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, and Steps 3.1-3.4 are complete with green quality gates.
+Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, Steps 3.1-3.4, and Phase A design foundations are complete with green quality gates.
 
 ## Completed Scaffolding Summary
 
@@ -17,6 +17,42 @@ Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.
 1. **Step 4 directory page foundation** — next implementation target after shell completion.
 
 ## Recent Follow-up
+
+- Completed Phase A hardening patch (`TASK008`) to address post-implementation review feedback:
+  - Aligned Nav content width with shell container (`max-w-content`) in `src/components/astro/Nav.astro`.
+  - Replaced directional Nav utilities with logical equivalents (`text-start`, `ms-auto`) and changed language placeholder from `<p>` to `<span>`.
+  - Removed global anchor hover-underline rule from `src/styles/global.css` to avoid style leakage into future CTA/chip links.
+  - Expanded primary token scale in `src/styles/global.css` with `--color-primary-50` and `--color-primary-700`.
+  - Hardened focus-visible e2e test in `tests/e2e/layout-shell.spec.ts` with bounded tab-loop traversal and documented RGB/token coupling.
+  - Split shell contract tests into modular suites:
+    - `tests/unit/base-layout.test.ts`
+    - `tests/unit/nav.test.ts`
+    - `tests/unit/footer.test.ts`
+    - `tests/unit/helpers/astro-source.ts`
+  - Removed monolithic `tests/unit/sv-index-layout.test.ts` and reduced repeated file reads via module-scope sources.
+- Verified hardening patch with required gates:
+  - `pnpm lint`
+  - `pnpm lint:md`
+  - `pnpm format`
+  - `pnpm test`
+  - `pnpm build`
+
+- Completed Phase A UI styling plan (`docs/plans/implement-phase-a-ui-styling-plan.md`) across four review-approved phases:
+  - Phase 1: added Tailwind v4 theme tokens and base interactive styles in `src/styles/global.css`, with contract tests in `tests/unit/global-styles-phase-a.test.ts`.
+  - Phase 2: styled shell body/main in `src/layouts/BaseLayout.astro` with centered `max-w-content` main container.
+  - Phase 3: styled `src/components/astro/Nav.astro` to mockup-aligned shell/chip states with RTL-aware alignment behavior.
+  - Phase 4: styled `src/components/astro/Footer.astro`, added footer style contracts, and added keyboard focus-visible e2e checks in `tests/e2e/layout-shell.spec.ts`.
+- Resolved a Phase 4 e2e typing issue by typing the focus helper with Playwright `Locator` in `tests/e2e/layout-shell.spec.ts`.
+- Completed required verification commands for final Phase A state:
+  - `pnpm test tests/unit/sv-index-layout.test.ts`
+  - `pnpm build && CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts`
+  - `pnpm lint && pnpm lint:md && pnpm format && pnpm test && pnpm build`
+- Added completion artifacts:
+  - `docs/plans/implement-phase-a-ui-styling-phase-1-complete.md`
+  - `docs/plans/implement-phase-a-ui-styling-phase-2-complete.md`
+  - `docs/plans/implement-phase-a-ui-styling-phase-3-complete.md`
+  - `docs/plans/implement-phase-a-ui-styling-phase-4-complete.md`
+  - `docs/plans/implement-phase-a-ui-styling-complete.md`
 
 - Completed Step 1.5 scoring utility and validation: `src/lib/scoring.ts` now provides `computeAgreeShare` and `computeOverallScore`, with `null` for missing/empty `Helhetsbedömning`.
 - Added shared scoring exports for downstream reuse: `OVERALL_ASSESSMENT_GROUP` and `byOverallScoreDesc`.
@@ -50,4 +86,5 @@ Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.
 
 ## Next Focus
 
-Start Step 4.1 directory route implementation using current data/scoring foundations.
+- Start Step 4.1 directory route implementation using current data/scoring foundations and the completed Phase A shell baseline.
+- Optionally apply Phase B documentation updates from `docs/plans/ui-styling.md` into `docs/implementation-plan.md` before Step 4 implementation details expand.

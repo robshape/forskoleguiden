@@ -20,12 +20,16 @@ const { title, locale } = Astro.props
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
   </head>
-  <body>
+  <body
+    class="bg-page font-sans text-gray-900 min-h-screen flex flex-col antialiased"
+  >
     <header>
       <Nav locale={locale} />
     </header>
-    <main>
-      <slot />
+    <main class="flex-1">
+      <div class="max-w-content mx-auto px-4">
+        <slot />
+      </div>
     </main>
     <footer>
       <Footer locale={locale} />
