@@ -10,3 +10,16 @@ test('Swedish homepage loads', async ({ page }) => {
   expect(response.status()).toBe(200)
   await expect(page).not.toHaveTitle(/404/i)
 })
+
+test('Root path redirects to Swedish homepage', async ({ page }) => {
+  const response = await page.goto('/')
+
+  expect(response).not.toBeNull()
+  if (response === null) {
+    throw new Error('Expected non-null response from page.goto("/")')
+  }
+
+  await expect(page).toHaveURL(/\/sv\/$/)
+  expect(response.status()).toBe(200)
+  await expect(page).not.toHaveTitle(/404/i)
+})

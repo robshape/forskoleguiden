@@ -6,6 +6,9 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   site: 'https://robshape.github.io/forskoleguiden',
   output: 'static',
+  redirects: {
+    '/': '/sv/',
+  },
   integrations: [preact(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, and Steps 3.1-3.3 are complete with green quality gates.
+Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, and Steps 3.1-3.4 are complete with green quality gates.
 
 ## Completed Scaffolding Summary
 
@@ -14,7 +14,7 @@ Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.
 
 ## Current Priorities
 
-1. **Step 3.4 root redirect** (`TASK002`) — pending and independently implementable.
+1. **Step 4 directory page foundation** — next implementation target after shell completion.
 
 ## Recent Follow-up
 
@@ -37,7 +37,17 @@ Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.
   - Red run (stale `dist/`): `CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts`.
   - Green run (fresh build): `pnpm build && CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts`.
 - Marked `TASK001` complete after Step 3.3 validation and memory-bank status updates.
+- Completed Step 3.4 root redirect with fail-first coverage in `tests/unit/root-redirect.test.ts`.
+- Added Astro native redirect config in `astro.config.ts` (`redirects: { '/': '/sv/' }`) and removed the temporary `src/pages/index.astro` meta refresh page.
+- Verified generated build redirect output in `dist/index.html` points to `/sv/`.
+- Verified required quality gates pass after redirect changes: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
+- Marked `TASK002` complete.
+- Applied review hardening for Step 3.4 redirect tests:
+  - Replaced brittle regex text-inspection in `tests/unit/root-redirect.test.ts` with direct config-object assertion via dynamic import of `astro.config.ts`.
+  - Removed vacuous negative file-existence assertion for `src/pages/index.astro`.
+  - Added runtime e2e redirect coverage in `tests/e2e/smoke.spec.ts` (`page.goto('/')` then `toHaveURL(/\/sv\/$/)`).
+- Captured green validation evidence for hardening pass: `pnpm test tests/unit/root-redirect.test.ts`, `pnpm build && CI=1 pnpm test:e2e tests/e2e/smoke.spec.ts`, and required gates (`pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`).
 
 ## Next Focus
 
-Execute Step 3.4 redirect work in `TASK002`.
+Start Step 4.1 directory route implementation using current data/scoring foundations.
