@@ -18,7 +18,6 @@ describe('Step 2.1 Swedish i18n contract', () => {
       'responses',
       'summary',
       'attribution',
-      'footer',
       'about',
     ]) {
       const value = getByPath(sv as JsonObject, namespace)
@@ -57,7 +56,6 @@ describe('Step 2.1 Swedish i18n contract', () => {
       'summary.similar',
       'attribution.text',
       'attribution.sourceLinkLabel',
-      'footer.text',
       'about.heading',
       'about.text',
       'nav.directory',

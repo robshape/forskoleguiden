@@ -1,0 +1,22 @@
+---
+import { MALMO_SOURCE_URL } from '@/lib/constants'
+import { t, type Locale } from '@/i18n/utils'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+---
+
+<p class="mx-auto w-full max-w-5xl px-4 py-4 text-sm">
+  {t('attribution.text', locale)}
+  <a
+    href={MALMO_SOURCE_URL}
+    rel="noopener noreferrer"
+    referrerpolicy="no-referrer"
+    class="underline"
+  >
+    {t('attribution.sourceLinkLabel', locale)}
+  </a>
+</p>

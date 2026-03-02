@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { MALMO_SOURCE_URL } from '../../src/lib/constants'
 
 test('layout and navigation shell render required semantics on /sv/', async ({
   page,
@@ -36,4 +37,14 @@ test('layout and navigation shell render required semantics on /sv/', async ({
   await expect(
     nav.getByText('Språk: SV | EN | AR (kommer snart)'),
   ).toBeVisible()
+
+  const footer = page.locator('footer')
+  await expect(footer).toContainText('Enkätdata kommer från Malmö stad.')
+
+  const sourceLink = footer.getByRole('link', {
+    name: 'Källa hos Malmö stad',
+  })
+  await expect(sourceLink).toHaveAttribute('href', MALMO_SOURCE_URL)
+  await expect(sourceLink).toHaveAttribute('rel', 'noopener noreferrer')
+  await expect(sourceLink).toHaveAttribute('referrerpolicy', 'no-referrer')
 })

@@ -1,6 +1,6 @@
 # [TASK001] - Implement Step 3.1-3.3 layout shell
 
-**Status**: In Progress
+**Status**: Completed
 **Added**: 2026-02-26
 **Updated**: 2026-03-02
 
@@ -21,19 +21,19 @@ Global Tailwind CSS is temporarily imported in `src/pages/index.astro` to ensure
 
 ## Progress Tracking
 
-**Overall Status**: In Progress - 85%
+**Overall Status**: Completed - 100%
 
 ### Subtasks
 
-| ID  | Description                                         | Status      | Updated    | Notes                                                                     |
-| --- | --------------------------------------------------- | ----------- | ---------- | ------------------------------------------------------------------------- |
-| 1.0 | Add e2e shell test for semantic landmarks (Phase 1) | Complete    | 2026-03-02 | Added `tests/e2e/layout-shell.spec.ts` with `html/header/main/footer`     |
-| 1.1 | Create BaseLayout for locale pages (Step 3.1)       | Complete    | 2026-03-02 | Added `src/layouts/BaseLayout.astro` with locale-aware document shell     |
-| 1.2 | Move global stylesheet import into BaseLayout       | Complete    | 2026-03-02 | `/sv/` now uses BaseLayout; stylesheet wiring is single-source in layout  |
-| 1.3 | Create and wire Nav in BaseLayout (Step 3.2)        | Complete    | 2026-03-02 | Added `Nav.astro` later hardened a11y semantics and localized placeholder |
-| 1.4 | Create and wire Footer in BaseLayout (Step 3.3)     | Not Started | 2026-03-02 | Include attribution link text                                             |
-| 1.5 | Apply minimal semantic shell update on `/sv/`       | Complete    | 2026-03-02 | Added missing semantic landmarks on current page shell                    |
-| 1.6 | Validate shell via targeted e2e commands            | Complete    | 2026-03-02 | Fail-first run + passing rerun recorded in progress log                   |
+| ID  | Description                                         | Status   | Updated    | Notes                                                                     |
+| --- | --------------------------------------------------- | -------- | ---------- | ------------------------------------------------------------------------- |
+| 1.0 | Add e2e shell test for semantic landmarks (Phase 1) | Complete | 2026-03-02 | Added `tests/e2e/layout-shell.spec.ts` with `html/header/main/footer`     |
+| 1.1 | Create BaseLayout for locale pages (Step 3.1)       | Complete | 2026-03-02 | Added `src/layouts/BaseLayout.astro` with locale-aware document shell     |
+| 1.2 | Move global stylesheet import into BaseLayout       | Complete | 2026-03-02 | `/sv/` now uses BaseLayout; stylesheet wiring is single-source in layout  |
+| 1.3 | Create and wire Nav in BaseLayout (Step 3.2)        | Complete | 2026-03-02 | Added `Nav.astro` later hardened a11y semantics and localized placeholder |
+| 1.4 | Create and wire Footer in BaseLayout (Step 3.3)     | Complete | 2026-03-02 | Footer attribution and source-link runtime contract validated on `/sv/`   |
+| 1.5 | Apply minimal semantic shell update on `/sv/`       | Complete | 2026-03-02 | Added missing semantic landmarks on current page shell                    |
+| 1.6 | Validate shell via targeted e2e commands            | Complete | 2026-03-02 | Fail-first run + passing rerun recorded in progress log                   |
 
 ## Progress Log
 
@@ -78,3 +78,12 @@ Global Tailwind CSS is temporarily imported in `src/pages/index.astro` to ensure
 - Relaxed brittle header composition assertion in `tests/unit/sv-index-layout.test.ts` to assert Nav presence inside `<header>` without requiring sole-child structure.
 - Consolidated duplicated e2e shell checks into one longer scenario in `tests/e2e/layout-shell.spec.ts` (single `page.goto('/sv/')`).
 - Verified fail-first then green with: `pnpm test tests/unit/sv-index-layout.test.ts` (fail then pass), `CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts` (fail then pass), plus required gates `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
+- Recorded explicit red-run evidence for Step 3.3 pre-implementation state: command `pnpm test tests/unit/sv-index-layout.test.ts` failed on Footer contract test `imports Footer and composes it with locale prop in BaseLayout footer`; `BaseLayout` still used `<slot name="footer" />`.
+- Ran `pnpm test tests/unit/sv-index-layout.test.ts`; targeted file passed (1/1) with Footer contract test `imports Footer and composes it with locale prop in BaseLayout footer` green, confirming Phase 2 is green for layout footer wiring.
+
+### 2026-03-02 (Phase 3 completion)
+
+- Extended `tests/e2e/layout-shell.spec.ts` with Step 3.3 footer runtime assertions for visible attribution text and Malmö source link `href` on `/sv/`.
+- Ran targeted red validation: `CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts` (failed while `playwright` preview served stale build output).
+- Rebuilt and re-ran targeted validation: `pnpm build && CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts` (passed).
+- Finalized memory-bank/task records to close Step 3.3 and complete `TASK001`.

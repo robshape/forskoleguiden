@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, Step 3.1, and Step 3.2 are complete with green quality gates.
+Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, and Steps 3.1-3.3 are complete with green quality gates.
 
 ## Completed Scaffolding Summary
 
@@ -14,8 +14,7 @@ Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.
 
 ## Current Priorities
 
-1. **Step 3.3 layout shell footer extraction** (`TASK001`) — pending; footer component wiring next.
-2. **Step 3.4 root redirect** (`TASK002`) — pending and independently implementable.
+1. **Step 3.4 root redirect** (`TASK002`) — pending and independently implementable.
 
 ## Recent Follow-up
 
@@ -33,7 +32,12 @@ Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.
 - Verified fresh-build nav e2e validation passes: `pnpm build && CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts`.
 - Marked `TASK006` complete and unblocked `TASK001` for Step 3.1-3.3 layout implementation.
 - Marked `TASK005` complete (Step 1 fully complete).
+- Completed Step 3.3 Phase 3 by extending `tests/e2e/layout-shell.spec.ts` with footer attribution text and Malmö source-link assertions on `/sv/`.
+- Captured red/green evidence for footer runtime contract:
+  - Red run (stale `dist/`): `CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts`.
+  - Green run (fresh build): `pnpm build && CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts`.
+- Marked `TASK001` complete after Step 3.3 validation and memory-bank status updates.
 
 ## Next Focus
 
-Complete Step 3.3 layout shell footer implementation in `TASK001`, then execute Step 3.4 redirect work in `TASK002`.
+Execute Step 3.4 redirect work in `TASK002`.

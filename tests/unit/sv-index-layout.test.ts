@@ -46,6 +46,32 @@ describe('/sv/ page layout composition', () => {
     expect(headerMatch?.[1]).toMatch(/<Nav\s+locale=\{locale\}\s*\/?>/)
   })
 
+  it('imports Footer and composes it with locale prop in BaseLayout footer', () => {
+    const layoutPath = resolve(process.cwd(), 'src/layouts/BaseLayout.astro')
+    const source = readFileSync(layoutPath, 'utf8')
+
+    expect(source).toMatch(
+      /import\s+Footer\s+from\s+['"]@\/components\/astro\/Footer\.astro['"]/,
+    )
+
+    const mainCloseIndex = source.indexOf('</main>')
+
+    expect(mainCloseIndex).toBeGreaterThanOrEqual(0)
+
+    const footerOpenIndex = source.indexOf('<footer>', mainCloseIndex)
+    const footerCloseIndex = source.indexOf('</footer>', footerOpenIndex)
+
+    expect(footerOpenIndex).toBeGreaterThanOrEqual(0)
+    expect(footerCloseIndex).toBeGreaterThan(footerOpenIndex)
+
+    const footerSource = source.slice(
+      footerOpenIndex,
+      footerCloseIndex + '</footer>'.length,
+    )
+
+    expect(footerSource).toContain('<Footer locale={locale} />')
+  })
+
   it('uses locale-based translation key for language placeholder in Nav', () => {
     const navPath = resolve(process.cwd(), 'src/components/astro/Nav.astro')
     const source = readFileSync(navPath, 'utf8')
