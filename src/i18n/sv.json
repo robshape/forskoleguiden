@@ -4,9 +4,11 @@
     "tagline": "Jämför förskolor i Malmö med officiella enkätresultat"
   },
   "nav": {
+    "ariaLabel": "Huvudnavigering",
     "directory": "Förskolor",
     "compare": "Jämför",
-    "about": "Om data"
+    "about": "Om data",
+    "languagePlaceholder": "Språk: SV | EN | AR (kommer snart)"
   },
   "directory": {
     "heading": "Förskolor i Malmö",

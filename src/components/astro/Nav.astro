@@ -1,0 +1,45 @@
+---
+import { t, type Locale } from '@/i18n/utils'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+---
+
+<nav
+  aria-label={t('nav.ariaLabel', locale)}
+  class="mx-auto flex w-full max-w-5xl flex-col gap-2 px-4 py-4"
+>
+  <a href={`/${locale}/`} class="text-lg font-semibold"> Förskoleguiden </a>
+
+  <ul class="flex flex-wrap items-center gap-2 text-sm">
+    <li>
+      <span aria-current="true" class="font-medium">Malmö</span>
+    </li>
+    <li>
+      <button
+        type="button"
+        disabled
+        aria-disabled="true"
+        class="cursor-not-allowed text-gray-400"
+      >
+        Stockholm
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+        disabled
+        aria-disabled="true"
+        class="cursor-not-allowed text-gray-400"
+      >
+        Göteborg
+      </button>
+    </li>
+  </ul>
+
+  <p class="text-sm">2025</p>
+  <p class="text-sm">{t('nav.languagePlaceholder', locale)}</p>
+</nav>

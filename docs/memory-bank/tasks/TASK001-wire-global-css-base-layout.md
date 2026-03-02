@@ -21,19 +21,19 @@ Global Tailwind CSS is temporarily imported in `src/pages/index.astro` to ensure
 
 ## Progress Tracking
 
-**Overall Status**: In Progress - 70%
+**Overall Status**: In Progress - 85%
 
 ### Subtasks
 
-| ID  | Description                                         | Status      | Updated    | Notes                                                                    |
-| --- | --------------------------------------------------- | ----------- | ---------- | ------------------------------------------------------------------------ |
-| 1.0 | Add e2e shell test for semantic landmarks (Phase 1) | Complete    | 2026-03-02 | Added `tests/e2e/layout-shell.spec.ts` with `html/header/main/footer`    |
-| 1.1 | Create BaseLayout for locale pages (Step 3.1)       | Complete    | 2026-03-02 | Added `src/layouts/BaseLayout.astro` with locale-aware document shell    |
-| 1.2 | Move global stylesheet import into BaseLayout       | Complete    | 2026-03-02 | `/sv/` now uses BaseLayout; stylesheet wiring is single-source in layout |
-| 1.3 | Create and wire Nav in BaseLayout (Step 3.2)        | Not Started | 2026-03-02 | Include Malmö/2025 static indicators                                     |
-| 1.4 | Create and wire Footer in BaseLayout (Step 3.3)     | Not Started | 2026-03-02 | Include attribution link text                                            |
-| 1.5 | Apply minimal semantic shell update on `/sv/`       | Complete    | 2026-03-02 | Added missing semantic landmarks on current page shell                   |
-| 1.6 | Validate shell via targeted e2e commands            | Complete    | 2026-03-02 | Fail-first run + passing rerun recorded in progress log                  |
+| ID  | Description                                         | Status      | Updated    | Notes                                                                     |
+| --- | --------------------------------------------------- | ----------- | ---------- | ------------------------------------------------------------------------- |
+| 1.0 | Add e2e shell test for semantic landmarks (Phase 1) | Complete    | 2026-03-02 | Added `tests/e2e/layout-shell.spec.ts` with `html/header/main/footer`     |
+| 1.1 | Create BaseLayout for locale pages (Step 3.1)       | Complete    | 2026-03-02 | Added `src/layouts/BaseLayout.astro` with locale-aware document shell     |
+| 1.2 | Move global stylesheet import into BaseLayout       | Complete    | 2026-03-02 | `/sv/` now uses BaseLayout; stylesheet wiring is single-source in layout  |
+| 1.3 | Create and wire Nav in BaseLayout (Step 3.2)        | Complete    | 2026-03-02 | Added `Nav.astro` later hardened a11y semantics and localized placeholder |
+| 1.4 | Create and wire Footer in BaseLayout (Step 3.3)     | Not Started | 2026-03-02 | Include attribution link text                                             |
+| 1.5 | Apply minimal semantic shell update on `/sv/`       | Complete    | 2026-03-02 | Added missing semantic landmarks on current page shell                    |
+| 1.6 | Validate shell via targeted e2e commands            | Complete    | 2026-03-02 | Fail-first run + passing rerun recorded in progress log                   |
 
 ## Progress Log
 
@@ -58,3 +58,23 @@ Global Tailwind CSS is temporarily imported in `src/pages/index.astro` to ensure
 - Refined `tests/unit/sv-index-layout.test.ts` to avoid brittle source-format coupling and removed step-number wording from test descriptions.
 - Removed redundant dead-code null guard from `tests/e2e/layout-shell.spec.ts`.
 - Verified fixes with fail-first then green validation: `pnpm test`, `pnpm lint`, `pnpm lint:md`, `pnpm format`, and `pnpm build && pnpm test:e2e tests/e2e/layout-shell.spec.ts`.
+
+### 2026-03-02 (later)
+
+- Completed Step 3.2 via dedicated implementation plan (`docs/plans/implement-step-3-2-navigation-shell-plan.md`) with all three phases closed.
+- Added fail-first nav contracts in `tests/unit/sv-index-layout.test.ts` and `tests/e2e/layout-shell.spec.ts`.
+- Implemented `src/components/astro/Nav.astro` with locale home link, Malmö active indicator, disabled Stockholm/Göteborg semantics (`aria-disabled="true"`), static year `2025`, and visible language placeholder text.
+- Wired `Nav` into `src/layouts/BaseLayout.astro` and removed duplicate page-level header slot content from `src/pages/sv/index.astro`.
+- Completed Phase 3 validation with green gates: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`, and `pnpm build && CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts`.
+- Remaining scope in TASK001: Step 3.3 footer component extraction and attribution wiring.
+
+### 2026-03-02 (review hardening follow-up)
+
+- Applied review-driven accessibility and maintainability patch for Step 3.2.
+- Replaced invalid `aria-disabled` on non-interactive spans with disabled `<button>` controls for Stockholm and Göteborg in `src/components/astro/Nav.astro`.
+- Switched city indicator markup to `<ul>/<li>` semantics for machine-readable nav structure.
+- Localized language placeholder via `t('nav.languagePlaceholder', locale)` and added matching keys to `src/i18n/sv.json`, `src/i18n/en.json`, and `src/i18n/ar.json`.
+- Localized nav landmark labeling by switching `Nav.astro` `aria-label` to `t('nav.ariaLabel', locale)` and adding `nav.ariaLabel` keys to all locale files.
+- Relaxed brittle header composition assertion in `tests/unit/sv-index-layout.test.ts` to assert Nav presence inside `<header>` without requiring sole-child structure.
+- Consolidated duplicated e2e shell checks into one longer scenario in `tests/e2e/layout-shell.spec.ts` (single `page.goto('/sv/')`).
+- Verified fail-first then green with: `pnpm test tests/unit/sv-index-layout.test.ts` (fail then pass), `CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts` (fail then pass), plus required gates `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.

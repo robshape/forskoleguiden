@@ -2,7 +2,7 @@
 
 ## In Progress
 
-- [TASK001] Implement Step 3.1-3.3 layout shell - Step 3.1 complete (Phase 3 `/sv/` migrated to `BaseLayout`); Step 3.2/3.3 pending
+- [TASK001] Implement Step 3.1-3.3 layout shell - Steps 3.1 and 3.2 complete (`BaseLayout` + `Nav`); Step 3.3 footer extraction pending
 
 ## Pending
 

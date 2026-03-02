@@ -1,4 +1,5 @@
 ---
+import Nav from '@/components/astro/Nav.astro'
 import type { Locale } from '@/i18n/utils'
 import '@/styles/global.css'
 
@@ -20,7 +21,7 @@ const { title, locale } = Astro.props
   </head>
   <body>
     <header>
-      <slot name="header" />
+      <Nav locale={locale} />
     </header>
     <main>
       <slot />

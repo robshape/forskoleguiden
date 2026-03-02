@@ -31,4 +31,29 @@ describe('/sv/ page layout composition', () => {
       '<link rel="icon" type="image/svg+xml" href="/favicon.svg" />',
     )
   })
+
+  it('imports Nav and composes it with locale prop in BaseLayout header', () => {
+    const layoutPath = resolve(process.cwd(), 'src/layouts/BaseLayout.astro')
+    const source = readFileSync(layoutPath, 'utf8')
+
+    expect(source).toMatch(
+      /import\s+Nav\s+from\s+['"]@\/components\/astro\/Nav\.astro['"]/,
+    )
+
+    const headerMatch = source.match(/<header>([\s\S]*?)<\/header>/)
+
+    expect(headerMatch).not.toBeNull()
+    expect(headerMatch?.[1]).toMatch(/<Nav\s+locale=\{locale\}\s*\/?>/)
+  })
+
+  it('uses locale-based translation key for language placeholder in Nav', () => {
+    const navPath = resolve(process.cwd(), 'src/components/astro/Nav.astro')
+    const source = readFileSync(navPath, 'utf8')
+
+    expect(source).toMatch(
+      /import\s+\{\s*t\s*,\s*type\s+Locale\s*\}\s+from\s+['"]@\/i18n\/utils['"]|import\s+\{\s*type\s+Locale\s*,\s*t\s*\}\s+from\s+['"]@\/i18n\/utils['"]/,
+    )
+    expect(source).toMatch(/t\('nav\.ariaLabel',\s*locale\)/)
+    expect(source).toMatch(/t\('nav\.languagePlaceholder',\s*locale\)/)
+  })
 })
