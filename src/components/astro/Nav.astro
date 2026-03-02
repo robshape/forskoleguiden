@@ -12,12 +12,12 @@ const { locale } = Astro.props
   aria-label={t('nav.ariaLabel', locale)}
   class="bg-surface border-b border-border"
 >
-  <div class="mx-auto flex w-full max-w-content items-center gap-2 px-4 py-4">
+  <div class="mx-auto flex h-nav w-full max-w-content items-center px-5">
     <a href={`/${locale}/`} class="text-xl font-bold text-start">
       Förskoleguiden
     </a>
     <span
-      class="ms-auto bg-gray-100 rounded-full px-4 py-1 text-sm font-semibold"
+      class="ms-auto flex h-7 min-w-[75px] items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-700"
     >
       {t('nav.languagePlaceholder', locale)}
     </span>
