@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, Steps 3.1-3.4, Step 3.5 design foundations implementation (Phases 1-3 revision), Phase A design foundations, and Phase B implementation-plan documentation updates are complete.
+Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, Steps 3.1-3.4, Step 3.5 design foundations implementation (Phases 1-3 revision), Phase A design foundations, Phase B implementation-plan documentation updates, and KCD test alignment are complete.
 
 ## Completed Scaffolding Summary
 
@@ -18,12 +18,20 @@ Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.
 
 ## Recent Follow-up
 
+- Completed KCD test alignment (2026-03-02):
+  - Aligned all tests with Kent C. Dodds's "Testing Trophy" and "Write fewer, longer tests" principles.
+  - **Phase 1 — Consolidated small unit tests**: `i18n-utils.test.ts` (8→2), `scoring.test.ts` (7→2), `i18n-sv.test.ts` (7→2), `i18n-locales.test.ts` (2→1), `data.test.ts` (5→2), `smoke.spec.ts` e2e (2→1).
+  - **Phase 2 — Removed redundant tests**: Deleted `root-redirect.test.ts` (redundant with e2e smoke test), deleted `types.test.ts` (redundant with TypeScript strict mode).
+  - **Phase 3 — Removed source-inspection tests**: Deleted `base-layout.test.ts`, `nav.test.ts`, `footer.test.ts`, `city-year-selector.test.ts`, `global-styles-phase-a.test.ts` (all tested implementation details via source regex/CSS class tokens, not behavior). Deleted `tests/unit/helpers/astro-source.ts` (no longer used). Added viewport-meta and favicon assertions to e2e `layout-shell.spec.ts`.
+  - **Final test count**: 13 unit tests + 3 e2e tests = 16 total (down from 60 unit + 4 e2e = 64 total).
+  - All quality gates passing: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`, `pnpm build`, `pnpm test:e2e`.
+
 - Completed review feedback fixes (2026-03-02):
   - Restored `<footer>` landmark in `BaseLayout.astro` — Footer component is back inside a proper `<footer>` element outside `<main>`, preserving ARIA `contentinfo` landmark for screen readers. Visual styling still has no border (matching mockup).
   - Extracted `SURVEY_YEAR = 2025` constant to `src/lib/constants.ts` — CityYearSelector imports it instead of hardcoding.
   - Added `target="_blank"` to external source link in `Footer.astro` (Malmö stad link opens in new tab).
   - Added i18n city name keys (`cityYear.cities.malmo/stockholm/goteborg`) to all 3 locale JSONs (sv, en, ar). Arabic uses transliterated names (مالمو, ستوكهولم, يوتيبوري). English uses "Gothenburg". CityYearSelector uses `t()` for all city names.
-  - All quality gates passing: 60 unit tests, 4 e2e tests, lint, format, build clean.
+  - All quality gates passing (pre-KCD-alignment counts): 60 unit tests, 4 e2e tests, lint, format, build clean.
 
 - Completed mockup alignment pass (2026-03-02):
   - Nav slimmed to brand + language pill only; removed CityYearSelector from nav.

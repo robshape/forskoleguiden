@@ -14,41 +14,40 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-describe('Step 1.4 data-loading utility', () => {
-  it('returns preschool index from getPreschoolIndex', () => {
+describe('preschool data loading', () => {
+  it('should load the index and individual surveys with correct relationships', () => {
     const index = getPreschoolIndex()
-
     expect(index.city).toBe('Malmö')
     expect(index.year).toBe(2025)
     expect(index.preschools.length).toBeGreaterThanOrEqual(5)
-  })
 
-  it('returns known preschool survey from getPreschoolSurvey', () => {
-    const index = getMalmoIndex()
+    // Load a known preschool and verify it matches the index entry
     const knownPreschool = index.preschools[0]
-
     expect(knownPreschool).toBeDefined()
 
     const survey = getPreschoolSurvey(knownPreschool.id)
     const helhetsbedomning = survey.questionGroups.find(
       (group) => group.name === 'Helhetsbedömning',
     )
-
     expect(survey.id).toBe(knownPreschool.id)
     expect(survey.preschoolName).toBe(knownPreschool.name)
     expect(survey.address).toBe(knownPreschool.address)
     expect(survey.surveyYear).toBe(index.year)
     expect(helhetsbedomning).toBeDefined()
-
     if (!helhetsbedomning) {
       return
     }
-
     expect(helhetsbedomning.questions.length).toBeGreaterThan(0)
     assertResponseShape(helhetsbedomning.questions[0].response)
+
+    // All surveys load in index order
+    const surveys = getAllPreschoolSurveys()
+    const expectedOrder = index.preschools.map((preschool) => preschool.id)
+    expect(surveys.length).toBe(index.preschools.length)
+    expect(surveys.map((s) => s.id)).toEqual(expectedOrder)
   })
 
-  it('throws clear error for unknown preschool id', () => {
+  it('should throw a clear error for unknown preschool IDs', () => {
     const missingId = 'nonexistent-preschool-id'
     const index = getMalmoIndex()
     const expectedPath = getMalmoSurveyFilePath(missingId, index.year)
@@ -57,16 +56,7 @@ describe('Step 1.4 data-loading utility', () => {
     expect(() => getPreschoolSurvey(missingId)).toThrowError(expectedPath)
   })
 
-  it('returns all surveys from getAllPreschoolSurveys in index order', () => {
-    const index = getMalmoIndex()
-    const surveys = getAllPreschoolSurveys()
-    const expectedOrder = index.preschools.map((preschool) => preschool.id)
-
-    expect(surveys.length).toBe(index.preschools.length)
-    expect(surveys.map((survey) => survey.id)).toEqual(expectedOrder)
-  })
-
-  it('reads Malmö index exactly once when loading all surveys', () => {
+  it('should read the index file exactly once when loading all surveys', () => {
     const indexPathSuffix = resolve('data/malmo/index.json')
 
     return (async () => {

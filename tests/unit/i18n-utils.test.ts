@@ -3,40 +3,28 @@ import { describe, expect, it } from 'vitest'
 import sv from '@/i18n/sv.json'
 import { getLocaleFromURL, t } from '@/i18n/utils'
 
-describe('Step 2.3 i18n utilities contract', () => {
-  describe('getLocaleFromURL', () => {
-    it("returns 'sv' for /sv/", () => {
-      expect(getLocaleFromURL('/sv/')).toBe('sv')
-    })
+describe('i18n utilities', () => {
+  it('should extract the correct locale from various URL formats', () => {
+    // Recognizes each supported locale from a pathname string
+    expect(getLocaleFromURL('/sv/')).toBe('sv')
+    expect(getLocaleFromURL('/en/compare')).toBe('en')
+    expect(getLocaleFromURL('/ar/')).toBe('ar')
 
-    it("returns 'en' for /en/compare", () => {
-      expect(getLocaleFromURL('/en/compare')).toBe('en')
-    })
+    // Defaults to Swedish when the path has no locale prefix
+    expect(getLocaleFromURL('/')).toBe('sv')
 
-    it("returns 'ar' for /ar/", () => {
-      expect(getLocaleFromURL('/ar/')).toBe('ar')
-    })
-
-    it("defaults to 'sv' for root path /", () => {
-      expect(getLocaleFromURL('/')).toBe('sv')
-    })
-
-    it('accepts URL objects', () => {
-      expect(getLocaleFromURL(new URL('https://x.test/en/compare'))).toBe('en')
-    })
+    // Also accepts a URL object, not just a string
+    expect(getLocaleFromURL(new URL('https://x.test/en/compare'))).toBe('en')
   })
 
-  describe('t', () => {
-    it('returns Swedish title for site.title in sv locale', () => {
-      expect(t('site.title', 'sv')).toBe(sv.site.title)
-    })
+  it('should resolve translation keys and fall back gracefully', () => {
+    // Returns the translated string for a valid dot-path key
+    expect(t('site.title', 'sv')).toBe(sv.site.title)
 
-    it('falls back to the key for missing key paths', () => {
-      expect(t('nonexistent.key', 'sv')).toBe('nonexistent.key')
-    })
+    // Falls back to the raw key string when the key does not exist
+    expect(t('nonexistent.key', 'sv')).toBe('nonexistent.key')
 
-    it('falls back to the key when lookup resolves to non-string', () => {
-      expect(t('site', 'sv')).toBe('site')
-    })
+    // Falls back to the raw key string when the lookup resolves to a non-string (object)
+    expect(t('site', 'sv')).toBe('site')
   })
 })

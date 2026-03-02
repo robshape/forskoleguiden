@@ -5,8 +5,8 @@ import type { PreschoolSurvey } from '@/lib/types'
 import { getMalmoIndex, getMalmoSurveyFilePath } from './helpers/malmo-data'
 import { assertResponseContract } from './helpers/survey-assertions'
 
-describe('Step 1.3 Malmö survey seed data contract', () => {
-  it('has one survey file per preschool id in index', () => {
+describe('Malmö survey data files', () => {
+  it('should have a survey file for every preschool in the index', () => {
     const index = getMalmoIndex()
 
     for (const preschool of index.preschools) {
@@ -19,7 +19,7 @@ describe('Step 1.3 Malmö survey seed data contract', () => {
     }
   })
 
-  it('keeps Helhetsbedömning group and response integrity for each existing survey file', () => {
+  it('should have valid Helhetsbedömning questions with correct response percentages in each survey', () => {
     const index = getMalmoIndex()
 
     for (const preschool of index.preschools) {

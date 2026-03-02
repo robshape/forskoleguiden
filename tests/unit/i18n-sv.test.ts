@@ -4,11 +4,9 @@ import sv from '@/i18n/sv.json'
 
 import { getByPath, type JsonObject } from './helpers/i18n'
 
-describe('Step 2.1 Swedish i18n contract', () => {
-  it('loads sv.json as an object with required Phase 1 namespaces', () => {
-    expect(sv).toBeDefined()
-    expect(typeof sv).toBe('object')
-
+describe('Swedish translation keys', () => {
+  it('should have all required namespaces, key paths, and approved Swedish copy', () => {
+    // Phase 1 namespaces must exist as objects
     for (const namespace of [
       'site',
       'nav',
@@ -19,6 +17,7 @@ describe('Step 2.1 Swedish i18n contract', () => {
       'summary',
       'attribution',
       'about',
+      'cityYear',
     ]) {
       const value = getByPath(sv as JsonObject, namespace)
 
@@ -27,9 +26,8 @@ describe('Step 2.1 Swedish i18n contract', () => {
         'object',
       )
     }
-  })
 
-  it('contains required Phase 1 key paths and labels', () => {
+    // Every required dot-path must resolve to a non-empty string
     const requiredPaths = [
       'site.title',
       'site.tagline',
@@ -61,6 +59,11 @@ describe('Step 2.1 Swedish i18n contract', () => {
       'nav.directory',
       'nav.compare',
       'nav.about',
+      'cityYear.heading',
+      'cityYear.surveyYear',
+      'cityYear.cities.malmo',
+      'cityYear.cities.stockholm',
+      'cityYear.cities.goteborg',
     ]
 
     for (const path of requiredPaths) {
@@ -76,9 +79,8 @@ describe('Step 2.1 Swedish i18n contract', () => {
         ).toBeGreaterThan(0)
       }
     }
-  })
 
-  it('uses approved Swedish copy for sort ranking and partly disagree response', () => {
+    // Approved Swedish copy for specific keys
     expect(getByPath(sv as JsonObject, 'directory.sort.ranking')).toBe(
       'Rankning',
     )
@@ -87,53 +89,40 @@ describe('Step 2.1 Swedish i18n contract', () => {
     )
   })
 
-  it('summary.higher includes required placeholders', () => {
-    const higher = getByPath(sv as JsonObject, 'summary.higher')
+  it('should include required template placeholders in summary and tray keys', () => {
+    // summary.higher / lower / similar must contain {left}, {right}, {question}
+    for (const key of ['summary.higher', 'summary.lower', 'summary.similar']) {
+      const value = getByPath(sv as JsonObject, key)
 
-    expect(typeof higher).toBe('string')
+      expect(typeof value, `${key} must be a string`).toBe('string')
 
-    if (typeof higher === 'string') {
-      expect(higher).toContain('{left}')
-      expect(higher).toContain('{right}')
-      expect(higher).toContain('{question}')
+      if (typeof value === 'string') {
+        expect(value, `${key} missing {left}`).toContain('{left}')
+        expect(value, `${key} missing {right}`).toContain('{right}')
+        expect(value, `${key} missing {question}`).toContain('{question}')
+      }
     }
-  })
 
-  it('summary.lower includes required placeholders', () => {
-    const lower = getByPath(sv as JsonObject, 'summary.lower')
-
-    expect(typeof lower).toBe('string')
-
-    if (typeof lower === 'string') {
-      expect(lower).toContain('{left}')
-      expect(lower).toContain('{right}')
-      expect(lower).toContain('{question}')
-    }
-  })
-
-  it('summary.similar includes required placeholders', () => {
-    const similar = getByPath(sv as JsonObject, 'summary.similar')
-
-    expect(typeof similar).toBe('string')
-
-    if (typeof similar === 'string') {
-      expect(similar).toContain('{left}')
-      expect(similar).toContain('{right}')
-      expect(similar).toContain('{question}')
-    }
-  })
-
-  it('includes compare tray count placeholder', () => {
+    // compareTray.selectedCount must contain {count}
     const selectedCount = getByPath(
       sv as JsonObject,
       'compareTray.selectedCount',
     )
 
-    expect(selectedCount).toBeDefined()
-    expect(typeof selectedCount).toBe('string')
+    expect(
+      selectedCount,
+      'compareTray.selectedCount must be defined',
+    ).toBeDefined()
+    expect(
+      typeof selectedCount,
+      'compareTray.selectedCount must be a string',
+    ).toBe('string')
 
     if (typeof selectedCount === 'string') {
-      expect(selectedCount).toContain('{count}')
+      expect(
+        selectedCount,
+        'compareTray.selectedCount missing {count}',
+      ).toContain('{count}')
     }
   })
 })

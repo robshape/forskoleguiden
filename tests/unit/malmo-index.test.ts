@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { getMalmoIndex } from './helpers/malmo-data'
 
-describe('Step 1.2 Malmö index seed data contract', () => {
-  it('has preschools array, >=5 entries, required keys, and valid operator types', () => {
+describe('Malmö preschool index data', () => {
+  it('should contain at least 5 preschools with valid IDs, names, addresses, and operator types', () => {
     const parsed = getMalmoIndex()
 
     expect(parsed.city).toBe('Malmö')

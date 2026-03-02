@@ -28,6 +28,13 @@ test('layout and navigation shell render required semantics on /sv/', async ({
   await expect(page.locator('main')).toHaveCount(1)
   await expect(page.locator('footer')).toHaveCount(1)
 
+  // Head meta: viewport with viewport-fit=cover and favicon
+  const viewportMeta = page.locator('meta[name="viewport"]')
+  await expect(viewportMeta).toHaveAttribute('content', /viewport-fit=cover/)
+  await expect(
+    page.locator('link[rel="icon"][href="/favicon.svg"]'),
+  ).toHaveCount(1)
+
   // Nav: brand link + compact language pill
   const nav = page.getByRole('navigation', { name: 'Huvudnavigering' })
   await expect(nav).toBeVisible()
@@ -35,6 +42,10 @@ test('layout and navigation shell render required semantics on /sv/', async ({
     nav.getByRole('link', { name: 'Förskoleguiden' }),
   ).toHaveAttribute('href', '/sv/')
   await expect(nav.getByText('SV | EN')).toBeVisible()
+
+  // Nav must not contain city picker or survey year (those belong in main)
+  await expect(nav).not.toContainText('Malmö')
+  await expect(nav).not.toContainText('2025')
 
   // City & Year selector lives in main content, not in nav
   const main = page.locator('main')

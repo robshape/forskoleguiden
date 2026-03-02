@@ -20,18 +20,31 @@ All data paths resolve from `process.cwd()`, which is the project root in both A
 
 `src/lib/scoring.ts` returns `null` from `computeOverallScore()` when the `Helhetsbedömning` question group is missing or present-but-empty. Downstream consumers sort `null` scores to the bottom via `byOverallScoreDesc()`. Dev-only `console.warn` fires for invalid response percentages (out-of-range or sums ≠ 100 ± 1).
 
+## Testing Philosophy — KCD Alignment
+
+All tests follow Kent C. Dodds's "Testing Trophy" and "Write fewer, longer tests" principles:
+
+- **Testing Trophy layering**: Static analysis (TypeScript strict mode, ESLint) → Unit tests (data/scoring/i18n contracts) → Integration/E2e tests (Playwright for runtime behavior). No redundant tests that duplicate what static analysis already covers.
+- **Fewer, longer tests**: Related assertions are grouped into single test blocks rather than isolated one-assertion-per-test. Example: `scoring.test.ts` has 2 tests covering all scoring scenarios instead of 7 separate tests.
+- **No source-inspection tests**: Tests must verify behavior and output, not implementation details. Tests that read `.astro` source files and regex-match CSS class tokens or HTML attributes were removed. Runtime behavior is verified via e2e tests instead.
+- **No redundant coverage**: Tests that duplicate coverage provided by other layers (e.g., `types.test.ts` duplicating TypeScript strict mode, `root-redirect.test.ts` duplicating e2e smoke test) are removed.
+- **Current test counts**: 13 unit tests + 3 e2e tests = 16 total.
+
 ## Shared Test Helper Pattern
 
 Test utilities live in `tests/unit/helpers/`:
 
 - `malmo-data.ts` — resolves file paths to index/survey JSON for test assertions.
 - `survey-assertions.ts` — exports `assertResponseShape` (basic 5-key shape check) and `assertResponseContract` (shape + range 0..100 + sum ~100 ± 1). All survey-data test files import from here rather than duplicating key lists.
+- `astro-source.ts` — **removed** during KCD test alignment (source-inspection helper no longer needed).
 
 ## Infrastructure Regression Guards
 
 Critical infrastructure invariants are tested as unit tests rather than relying on manual checks:
 
 - `tests/unit/gitignore.test.ts` — verifies `.gitignore` covers required paths (`node_modules/`, `dist/`, `.astro/`, `.DS_Store`, `test-results/`) using `git check-ignore`.
+
+Note: Source-inspection tests (`base-layout.test.ts`, `nav.test.ts`, `footer.test.ts`, `global-styles-phase-a.test.ts`, `city-year-selector.test.ts`) were removed during KCD test alignment — they tested CSS class tokens and HTML attributes in source text rather than runtime behavior. Viewport-meta and favicon checks moved to e2e `layout-shell.spec.ts`.
 
 ## Shell Composition Boundaries
 

@@ -19,8 +19,9 @@ const createSurvey = (
   questionGroups,
 })
 
-describe('Step 1.5 scoring utility', () => {
-  it('computeAgreeShare returns 85 from 60 + 25', () => {
+describe('scoring utilities', () => {
+  it('should compute agree shares and overall scores with correct rounding', () => {
+    // computeAgreeShare sums completely + partly agree percentages
     const agreeShare = computeAgreeShare({
       completelyAgreePercent: 60,
       partlyAgreePercent: 25,
@@ -28,12 +29,11 @@ describe('Step 1.5 scoring utility', () => {
       partlyDisagreePercent: 3,
       completelyDisagreePercent: 2,
     })
-
     expect(agreeShare).toBe(85)
-  })
 
-  it('computeOverallScore returns average 85 from agree shares 80 and 90', () => {
-    const survey = createSurvey([
+    // computeOverallScore averages agree shares across questions in Helhetsbedömning
+    // Two questions with agree shares 80 (60+20) and 90 (70+20) → average 85
+    const surveyWithTwoQuestions = createSurvey([
       {
         name: OVERALL_ASSESSMENT_GROUP,
         questions: [
@@ -60,12 +60,10 @@ describe('Step 1.5 scoring utility', () => {
         ],
       },
     ])
+    expect(computeOverallScore(surveyWithTwoQuestions)).toBe(85)
 
-    expect(computeOverallScore(survey)).toBe(85)
-  })
-
-  it('computeOverallScore returns rounded value with one decimal precision', () => {
-    const survey = createSurvey([
+    // Rounding: agree shares 80 (60+20) and 89 (69+20) → average 84.5
+    const surveyWithRounding = createSurvey([
       {
         name: OVERALL_ASSESSMENT_GROUP,
         questions: [
@@ -92,12 +90,12 @@ describe('Step 1.5 scoring utility', () => {
         ],
       },
     ])
-
-    expect(computeOverallScore(survey)).toBe(84.5)
+    expect(computeOverallScore(surveyWithRounding)).toBe(84.5)
   })
 
-  it('computeOverallScore returns null when Helhetsbedömning is missing', () => {
-    const survey = createSurvey([
+  it('should return null when the Helhetsbedömning group is missing or empty', () => {
+    // Missing group entirely
+    const surveyMissingGroup = createSurvey([
       {
         name: 'Trygghet och trivsel',
         questions: [
@@ -114,30 +112,25 @@ describe('Step 1.5 scoring utility', () => {
         ],
       },
     ])
+    expect(computeOverallScore(surveyMissingGroup)).toBeNull()
 
-    expect(computeOverallScore(survey)).toBeNull()
-  })
-
-  it('computeOverallScore returns null when Helhetsbedömning group is present but empty', () => {
-    const survey = createSurvey([
+    // Group exists but has zero questions
+    const surveyEmptyGroup = createSurvey([
       {
         name: OVERALL_ASSESSMENT_GROUP,
         questions: [],
       },
     ])
-
-    expect(computeOverallScore(survey)).toBeNull()
+    expect(computeOverallScore(surveyEmptyGroup)).toBeNull()
   })
 
-  it('sorts scores descending and keeps null scores at the bottom', () => {
+  it('should sort scores descending with nulls at the bottom', () => {
     const scores: Array<number | null> = [85, null, 72]
-
     const sorted = scores.slice().sort(byOverallScoreDesc)
-
     expect(sorted).toEqual([85, 72, null])
   })
 
-  it('warns in non-production mode for invalid response percentages', () => {
+  it('should warn for invalid response percentages in non-production', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     computeAgreeShare({

@@ -11,7 +11,7 @@ const REQUIRED_PATHS = [
 ] as const
 
 describe('.gitignore regression guard', () => {
-  it('keeps required paths ignored', () => {
+  it('should ignore node_modules, dist, .astro, .DS_Store, and test-results', () => {
     const output = execFileSync(
       'git',
       ['check-ignore', '-v', ...REQUIRED_PATHS],
