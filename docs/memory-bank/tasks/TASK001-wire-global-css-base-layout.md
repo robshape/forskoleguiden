@@ -1,8 +1,8 @@
 # [TASK001] - Implement Step 3.1-3.3 layout shell
 
-**Status**: Pending
+**Status**: In Progress
 **Added**: 2026-02-26
-**Updated**: 2026-02-26
+**Updated**: 2026-03-02
 
 ## Original Request
 
@@ -21,17 +21,19 @@ Global Tailwind CSS is temporarily imported in `src/pages/index.astro` to ensure
 
 ## Progress Tracking
 
-**Overall Status**: Not Started - 0%
+**Overall Status**: In Progress - 70%
 
 ### Subtasks
 
-| ID  | Description                                     | Status      | Updated    | Notes                                                  |
-| --- | ----------------------------------------------- | ----------- | ---------- | ------------------------------------------------------ |
-| 1.1 | Create BaseLayout for locale pages (Step 3.1)   | Not Started | 2026-02-26 | Includes `title`/`locale` props and semantic structure |
-| 1.2 | Move global stylesheet import into BaseLayout   | Not Started | 2026-02-26 | Keep import single-source                              |
-| 1.3 | Create and wire Nav in BaseLayout (Step 3.2)    | Not Started | 2026-02-26 | Include Malmö/2025 static indicators                   |
-| 1.4 | Create and wire Footer in BaseLayout (Step 3.3) | Not Started | 2026-02-26 | Include attribution link text                          |
-| 1.5 | Validate styles/layout across locale routes     | Not Started | 2026-02-26 | Run `pnpm build` and spot-check pages                  |
+| ID  | Description                                         | Status      | Updated    | Notes                                                                    |
+| --- | --------------------------------------------------- | ----------- | ---------- | ------------------------------------------------------------------------ |
+| 1.0 | Add e2e shell test for semantic landmarks (Phase 1) | Complete    | 2026-03-02 | Added `tests/e2e/layout-shell.spec.ts` with `html/header/main/footer`    |
+| 1.1 | Create BaseLayout for locale pages (Step 3.1)       | Complete    | 2026-03-02 | Added `src/layouts/BaseLayout.astro` with locale-aware document shell    |
+| 1.2 | Move global stylesheet import into BaseLayout       | Complete    | 2026-03-02 | `/sv/` now uses BaseLayout; stylesheet wiring is single-source in layout |
+| 1.3 | Create and wire Nav in BaseLayout (Step 3.2)        | Not Started | 2026-03-02 | Include Malmö/2025 static indicators                                     |
+| 1.4 | Create and wire Footer in BaseLayout (Step 3.3)     | Not Started | 2026-03-02 | Include attribution link text                                            |
+| 1.5 | Apply minimal semantic shell update on `/sv/`       | Complete    | 2026-03-02 | Added missing semantic landmarks on current page shell                   |
+| 1.6 | Validate shell via targeted e2e commands            | Complete    | 2026-03-02 | Fail-first run + passing rerun recorded in progress log                  |
 
 ## Progress Log
 
@@ -39,3 +41,20 @@ Global Tailwind CSS is temporarily imported in `src/pages/index.astro` to ensure
 
 - Created task from review feedback to track Step 3.1-3.3 layout shell work and CSS integration.
 - Confirmed current temporary state: stylesheet is imported in `src/pages/index.astro` until BaseLayout/Nav/Footer are introduced.
+
+### 2026-03-02
+
+- Created new targeted e2e test `tests/e2e/layout-shell.spec.ts` for Phase 1 shell criteria.
+- Performed fail-first run with `pnpm test:e2e tests/e2e/layout-shell.spec.ts`; first run failed because `/sv/` was missing a `<header>` landmark.
+- Applied a minimal semantic shell update on `src/pages/sv/index.astro` (added `header`, `main`, `footer`) without starting Step 3.2/3.3 component extraction.
+- Re-ran with `pnpm test:e2e tests/e2e/layout-shell.spec.ts` and confirmed pass.
+- Re-ran with `pnpm build && pnpm test:e2e tests/e2e/layout-shell.spec.ts` and confirmed pass.
+- Completed Phase 2 by creating `src/layouts/BaseLayout.astro` with `title`/`locale` props, full document structure, `lang`, conditional RTL `dir`, meta tags, and semantic `header/main/footer`.
+- Added `src/styles/global.css` import in `BaseLayout` to establish layout-level stylesheet wiring ahead of Phase 3 page migration.
+- Phase 3 complete: migrated `src/pages/sv/index.astro` to `BaseLayout` with `locale="sv"` and `title="Förskoleguiden"`.
+- Preserved visible shell text via layout slots (`header`, `main`, `footer`) without implementing Step 3.2/3.3 components.
+- Added fail-first unit coverage in `tests/unit/sv-index-layout.test.ts` to assert BaseLayout composition contract for `/sv/`.
+- Addressed review feedback for Step 3.1 hardening: restored favicon link in `BaseLayout` and switched stylesheet import to `@/styles/global.css` alias.
+- Refined `tests/unit/sv-index-layout.test.ts` to avoid brittle source-format coupling and removed step-number wording from test descriptions.
+- Removed redundant dead-code null guard from `tests/e2e/layout-shell.spec.ts`.
+- Verified fixes with fail-first then green validation: `pnpm test`, `pnpm lint`, `pnpm lint:md`, `pnpm format`, and `pnpm build && pnpm test:e2e tests/e2e/layout-shell.spec.ts`.

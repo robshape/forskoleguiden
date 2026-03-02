@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-01): Steps 0.5 through 0.11, Steps 1.1-1.5, and Steps 2.1-2.3 are complete with green quality gates.
+Current status (2026-03-02): Steps 0.5 through 0.11, Steps 1.1-1.5, Steps 2.1-2.3, and Step 3.1 are complete with green quality gates.
 
 ## Completed Scaffolding Summary
 
@@ -14,7 +14,7 @@ Current status (2026-03-01): Steps 0.5 through 0.11, Steps 1.1-1.5, and Steps 2.
 
 ## Current Priorities
 
-1. **Step 3.1-3.3 layout shell** (`TASK001`) — pending and now unblocked; next focus.
+1. **Step 3.2-3.3 layout shell** (`TASK001`) — pending; `Nav` and `Footer` component wiring next.
 2. **Step 3.4 root redirect** (`TASK002`) — pending and independently implementable.
 
 ## Recent Follow-up
@@ -24,10 +24,13 @@ Current status (2026-03-01): Steps 0.5 through 0.11, Steps 1.1-1.5, and Steps 2.
 - Completed Step 2.1 Swedish i18n contract using a test-first approach (`tests/unit/i18n-sv.test.ts` + `src/i18n/sv.json`).
 - Completed Step 2.2 placeholder locale implementation using `src/i18n/en.json` and `src/i18n/ar.json`, validated by locale parity coverage in `tests/unit/i18n-locales.test.ts`.
 - Completed Step 2.3 i18n utility implementation in `src/i18n/utils.ts` (`Locale`, `getLocaleFromURL()`, `t()`) and validated behavior in `tests/unit/i18n-utils.test.ts`.
+- Completed Step 3.1 Phase 3 migration by updating `src/pages/sv/index.astro` to use `src/layouts/BaseLayout.astro` with required `locale` and `title` props.
+- Added named `header`/`footer` slots in `src/layouts/BaseLayout.astro` to preserve existing visible shell text during migration.
+- Added a fail-first regression test `tests/unit/sv-index-layout.test.ts` that enforces `/sv/` BaseLayout composition.
 - Verified required repository gates pass: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
 - Marked `TASK006` complete and unblocked `TASK001` for Step 3.1-3.3 layout implementation.
 - Marked `TASK005` complete (Step 1 fully complete).
 
 ## Next Focus
 
-Complete Step 3.1-3.3 layout shell implementation in `TASK001`, then execute Step 3.4 redirect work in `TASK002`.
+Complete Step 3.2-3.3 layout shell implementation in `TASK001`, then execute Step 3.4 redirect work in `TASK002`.

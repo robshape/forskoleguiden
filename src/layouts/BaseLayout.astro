@@ -1,0 +1,32 @@
+---
+import type { Locale } from '@/i18n/utils'
+import '@/styles/global.css'
+
+interface Props {
+  title: string
+  locale: Locale
+}
+
+const { title, locale } = Astro.props
+---
+
+<!doctype html>
+<html lang={locale} dir={locale === 'ar' ? 'rtl' : undefined}>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <slot name="header" />
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <slot name="footer" />
+    </footer>
+  </body>
+</html>
