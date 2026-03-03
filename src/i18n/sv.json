@@ -29,7 +29,10 @@
       "municipal": "Kommunal",
       "independent": "Fristående"
     },
-    "addToCompare": "Lägg till i jämförelse"
+    "listAriaLabel": "Förskolelista",
+    "addToCompare": "Lägg till i jämförelse",
+    "noOverallScore": "Ingen helhetspoäng",
+    "scorePercent": "{score} %"
   },
   "compareTray": {
     "selectedCount": "{count} förskolor valda",

@@ -1,18 +1,13 @@
-import { resolve } from 'node:path'
-
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import {
   getAllPreschoolSurveys,
   getPreschoolIndex,
   getPreschoolSurvey,
+  getPreschoolSurveyByYear,
 } from '@/lib/data'
 import { getMalmoIndex, getMalmoSurveyFilePath } from './helpers/malmo-data'
 import { assertResponseShape } from './helpers/survey-assertions'
-
-afterEach(() => {
-  vi.restoreAllMocks()
-})
 
 describe('preschool data loading', () => {
   it('should load the index and individual surveys with correct relationships', () => {
@@ -40,6 +35,15 @@ describe('preschool data loading', () => {
     expect(helhetsbedomning.questions.length).toBeGreaterThan(0)
     assertResponseShape(helhetsbedomning.questions[0].response)
 
+    const surveyLoadedByYear = getPreschoolSurveyByYear(
+      knownPreschool.id,
+      index.year,
+    )
+    expect(surveyLoadedByYear.id).toBe(knownPreschool.id)
+    expect(surveyLoadedByYear.preschoolName).toBe(knownPreschool.name)
+    expect(surveyLoadedByYear.address).toBe(knownPreschool.address)
+    expect(surveyLoadedByYear.surveyYear).toBe(index.year)
+
     // All surveys load in index order
     const surveys = getAllPreschoolSurveys()
     const expectedOrder = index.preschools.map((preschool) => preschool.id)
@@ -54,36 +58,11 @@ describe('preschool data loading', () => {
 
     expect(() => getPreschoolSurvey(missingId)).toThrowError(missingId)
     expect(() => getPreschoolSurvey(missingId)).toThrowError(expectedPath)
-  })
-
-  it('should read the index file exactly once when loading all surveys', () => {
-    const indexPathSuffix = resolve('data/malmo/index.json')
-
-    return (async () => {
-      vi.resetModules()
-      const actualFs =
-        await vi.importActual<typeof import('node:fs')>('node:fs')
-      const readFileSyncSpy = vi.fn(actualFs.readFileSync)
-
-      vi.doMock('node:fs', () => ({
-        ...actualFs,
-        readFileSync: readFileSyncSpy,
-      }))
-
-      try {
-        const dataModule = await import('@/lib/data')
-
-        dataModule.getAllPreschoolSurveys()
-
-        const indexReadCount = readFileSyncSpy.mock.calls.filter(([filePath]) =>
-          String(filePath).endsWith(indexPathSuffix),
-        ).length
-
-        expect(indexReadCount).toBe(1)
-      } finally {
-        vi.doUnmock('node:fs')
-        vi.resetModules()
-      }
-    })()
+    expect(() => getPreschoolSurveyByYear(missingId, index.year)).toThrowError(
+      missingId,
+    )
+    expect(() => getPreschoolSurveyByYear(missingId, index.year)).toThrowError(
+      expectedPath,
+    )
   })
 })

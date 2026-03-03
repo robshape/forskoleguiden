@@ -16,6 +16,8 @@ For the full architectural overview, module boundaries, and data-flow rationale,
 
 All data paths resolve from `process.cwd()`, which is the project root in both Astro build and Vitest contexts.
 
+For routes that already have the survey year from `getPreschoolIndex()`, use `getPreschoolSurveyByYear(id, year)` to avoid repeated index-file reads inside per-preschool maps. Keep `getPreschoolSurvey(id)` as a convenience wrapper for call sites that do not yet have year context.
+
 ## Scoring / Null-Return Pattern
 
 `src/lib/scoring.ts` returns `null` from `computeOverallScore()` when the `Helhetsbedömning` question group is missing or present-but-empty. Downstream consumers sort `null` scores to the bottom via `byOverallScoreDesc()`. Dev-only `console.warn` fires for invalid response percentages (out-of-range or sums ≠ 100 ± 1).
@@ -59,6 +61,10 @@ Note: Source-inspection tests were removed during KCD test alignment — they te
 ## i18n City Names
 
 - City name keys follow the pattern `cityYear.cities.<slug>` (e.g., `cityYear.cities.malmo`). All three locale JSONs (sv, en, ar) must have identical key structures. Arabic uses transliterated names; English uses local English names (e.g., "Gothenburg" for Göteborg). Components use `t()` for all user-visible city names.
+
+## i18n Typing Pattern
+
+- In `src/i18n/utils.ts`, keep locale maps type-safe by defining `translations` with `satisfies Record<Locale, typeof sv>` so compile-time checks catch locale-structure drift. Keep `t()` as the single formatting path for user-facing copy, including placeholder interpolation (e.g., `{score}`).
 
 ## Code Organization
 

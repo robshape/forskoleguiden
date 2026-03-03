@@ -45,14 +45,22 @@ export const getPreschoolIndex = (): PreschoolIndex =>
     'Failed to load Malmö preschool index',
   )
 
-export const getPreschoolSurvey = (id: string): PreschoolSurvey => {
-  const index = getPreschoolIndex()
-  const surveyPath = getSurveyPath(id, index.year)
+export const getPreschoolSurveyByYear = (
+  id: string,
+  year: number,
+): PreschoolSurvey => {
+  const surveyPath = getSurveyPath(id, year)
 
   return readJsonFile<PreschoolSurvey>(
     surveyPath,
     `Failed to load Malmö preschool survey for id "${id}"`,
   )
+}
+
+export const getPreschoolSurvey = (id: string): PreschoolSurvey => {
+  const index = getPreschoolIndex()
+
+  return getPreschoolSurveyByYear(id, index.year)
 }
 
 export const getAllPreschoolSurveys = (): PreschoolSurvey[] => {

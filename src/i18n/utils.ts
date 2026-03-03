@@ -3,12 +3,14 @@ import en from '@/i18n/en.json'
 import sv from '@/i18n/sv.json'
 
 export type Locale = 'sv' | 'en' | 'ar'
+type TranslationParams = Record<string, string | number>
+type TranslationSchema = typeof sv
 
-const translations: Record<Locale, unknown> = {
+const translations = {
   sv,
   en,
   ar,
-}
+} satisfies Record<Locale, TranslationSchema>
 
 const localeSet = new Set<Locale>(['sv', 'en', 'ar'])
 
@@ -27,7 +29,26 @@ export function getLocaleFromURL(url: URL | string): Locale {
   return 'sv'
 }
 
-export function t(key: string, locale: Locale): string {
+const interpolateTemplate = (
+  template: string,
+  params?: TranslationParams,
+): string => {
+  if (!params) {
+    return template
+  }
+
+  return template.replace(/\{([a-zA-Z0-9_]+)\}/g, (match, token) => {
+    const value = params[token]
+
+    return value === undefined ? match : String(value)
+  })
+}
+
+export function t(
+  key: string,
+  locale: Locale,
+  params?: TranslationParams,
+): string {
   const value = key.split('.').reduce<unknown>((currentValue, currentKey) => {
     if (typeof currentValue !== 'object' || currentValue === null) {
       return undefined
@@ -36,5 +57,5 @@ export function t(key: string, locale: Locale): string {
     return (currentValue as Record<string, unknown>)[currentKey]
   }, translations[locale])
 
-  return typeof value === 'string' ? value : key
+  return typeof value === 'string' ? interpolateTemplate(value, params) : key
 }

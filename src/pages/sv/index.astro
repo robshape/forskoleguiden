@@ -1,8 +1,50 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import CityYearSelector from '@/components/astro/CityYearSelector.astro'
+import { t } from '@/i18n/utils'
+import { getPreschoolIndex, getPreschoolSurveyByYear } from '@/lib/data'
+import { computeOverallScore } from '@/lib/scoring'
+
+const locale = 'sv'
+const preschoolIndex = getPreschoolIndex()
+const surveyYear = preschoolIndex.year
+const pageTitle = t('site.title', locale)
+const noOverallScoreText = t('directory.noOverallScore', locale)
+const directoryListAriaLabel = t('directory.listAriaLabel', locale)
+
+const preschoolDirectory = preschoolIndex.preschools.map((preschool) => {
+  const overallScore = computeOverallScore(
+    getPreschoolSurveyByYear(preschool.id, surveyYear),
+  )
+
+  return {
+    ...preschool,
+    overallScore,
+  }
+})
 ---
 
-<BaseLayout locale="sv" title="Förskoleguiden">
-  <CityYearSelector locale="sv" />
+<BaseLayout locale={locale} title={pageTitle}>
+  <CityYearSelector locale={locale} />
+
+  <section aria-label={directoryListAriaLabel} class="mt-6">
+    <ul class="space-y-2">
+      {
+        preschoolDirectory.map((preschool) => (
+          <li>
+            <span>{preschool.name}</span>
+            <span class="ms-2 text-sm text-gray-600">
+              (
+              {preschool.overallScore === null
+                ? noOverallScoreText
+                : t('directory.scorePercent', locale, {
+                    score: preschool.overallScore,
+                  })}
+              )
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 </BaseLayout>

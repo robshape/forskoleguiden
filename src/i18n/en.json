@@ -29,7 +29,10 @@
       "municipal": "Municipal",
       "independent": "Independent"
     },
-    "addToCompare": "Add to comparison"
+    "listAriaLabel": "Preschool list",
+    "addToCompare": "Add to comparison",
+    "noOverallScore": "No overall score",
+    "scorePercent": "{score} %"
   },
   "compareTray": {
     "selectedCount": "{count} preschools selected",

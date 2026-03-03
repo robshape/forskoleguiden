@@ -29,7 +29,10 @@
       "municipal": "بلدية",
       "independent": "مستقلة"
     },
-    "addToCompare": "أضف إلى المقارنة"
+    "listAriaLabel": "قائمة رياض الأطفال",
+    "addToCompare": "أضف إلى المقارنة",
+    "noOverallScore": "لا توجد درجة إجمالية",
+    "scorePercent": "{score} %"
   },
   "compareTray": {
     "selectedCount": "تم اختيار {count} من رياض الأطفال",
