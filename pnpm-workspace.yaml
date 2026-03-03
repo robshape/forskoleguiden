@@ -1,0 +1,10 @@
+# Supply-chain security settings (requires pnpm >=9; project uses 10+).
+
+# Refuse to install packages published less than 10080 minutes (7 days) ago.
+# This guards against fast-moving typosquatting and package-hijacking attacks.
+# Side effect: adding/upgrading a dependency to a brand-new release will fail
+# for 7 days — if pnpm install fails unexpectedly in CI, check publish dates.
+minimumReleaseAge: 10080
+
+# Once a package's trust level is set, do not allow it to be downgraded.
+trustPolicy: no-downgrade
