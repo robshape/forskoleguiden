@@ -33,7 +33,7 @@
     "addToCompare": "Add to comparison",
     "compareButtonAriaLabel": "{action}: {name}",
     "noOverallScore": "No overall score",
-    "scorePercent": "{score} %",
+    "scorePercent": "{score}%",
     "scoreBadge": {
       "agreeShare": "Agree share",
       "overallAssessment": "Overall assessment"

@@ -21,11 +21,12 @@ const compareAriaLabel = t('directory.compareButtonAriaLabel', locale, {
   name,
 })
 const noOverallScoreText = t('directory.noOverallScore', locale)
+const displayScore = score !== null ? Math.round(score) : null
 const scorePercentText =
-  score === null
+  displayScore === null
     ? noOverallScoreText
     : t('directory.scorePercent', locale, {
-        score,
+        score: displayScore,
       })
 const scoreBadgeAgreeShareText = t('directory.scoreBadge.agreeShare', locale)
 const scoreBadgeOverallAssessmentText = t(
@@ -34,74 +35,79 @@ const scoreBadgeOverallAssessmentText = t(
 )
 
 const scoreBadgeToneClass =
-  score === null
+  displayScore === null
     ? 'bg-gray-100 text-gray-600'
-    : score >= 80
+    : displayScore >= 80
       ? 'bg-score-high-bg text-score-high-text'
-      : score >= 65
+      : displayScore >= 65
         ? 'bg-score-medium-bg text-score-medium-text'
         : 'bg-gray-200 text-gray-800'
 ---
 
 <article
   data-testid="preschool-card"
-  class="rounded-xl border border-border bg-surface p-4 shadow-sm"
+  class="flex flex-col gap-4 rounded-xl border border-border bg-surface p-4 shadow-sm"
 >
-  <div class="flex items-start justify-between gap-4">
-    <div class="min-w-0 flex-1">
-      <h3 class="text-lg font-semibold leading-snug text-gray-900">
-        <a
-          href={detailPageHref}
-          class="text-primary-700 underline-offset-2 hover:underline"
-        >
-          {name}
-        </a>
-      </h3>
-
-      <p class="mt-2 text-sm text-gray-600">{address}</p>
-
-      <p class="mt-3">
-        <span
-          class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700"
-        >
-          {operatorLabel}
-        </span>
-      </p>
-    </div>
-
-    <div class="shrink-0 text-right ltr:text-right rtl:text-left">
-      <div class="flex items-center gap-3">
-        <div
-          class={`flex h-16 w-16 items-center justify-center rounded-full text-sm font-bold ${scoreBadgeToneClass}`}
-        >
-          {
-            score === null ? (
-              <>
-                <span aria-hidden="true">—</span>
-                <span class="sr-only">{noOverallScoreText}</span>
-              </>
-            ) : (
-              scorePercentText
-            )
-          }
-        </div>
-
-        <p class="text-xs leading-tight text-gray-600">
-          <span class="block">{scoreBadgeAgreeShareText}</span>
-          <span class="block">{scoreBadgeOverallAssessmentText}</span>
-        </p>
-      </div>
-    </div>
+  <div>
+    <h3 class="text-base font-bold leading-snug text-gray-900">
+      <a
+        href={detailPageHref}
+        class="text-gray-900 hover:text-primary-700 hover:underline"
+      >
+        {name}
+      </a>
+    </h3>
+    <p class="mt-1 text-[13px] text-gray-500">
+      {operatorLabel} • {address}
+    </p>
   </div>
 
-  <div class="mt-4">
+  <div class="flex items-center justify-between">
+    <div class="flex flex-row items-center gap-3">
+      <div
+        class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${scoreBadgeToneClass}`}
+      >
+        {
+          score === null ? (
+            <>
+              <span aria-hidden="true">—</span>
+              <span class="sr-only">{noOverallScoreText}</span>
+            </>
+          ) : (
+            scorePercentText
+          )
+        }
+      </div>
+
+      <div class="flex flex-col text-left rtl:text-right">
+        <span class="text-[13px] font-medium text-gray-700">
+          {scoreBadgeAgreeShareText}
+        </span>
+        <span class="text-[11px] text-gray-500">
+          {scoreBadgeOverallAssessmentText}
+        </span>
+      </div>
+    </div>
+
     <button
       type="button"
       data-id={id}
       aria-label={compareAriaLabel}
-      class="inline-flex h-10 items-center justify-center rounded-lg border border-border bg-gray-100 px-4 text-sm font-semibold text-gray-800"
+      class="inline-flex h-8 shrink-0 whitespace-nowrap items-center justify-center gap-1.5 rounded-full bg-gray-100 px-4 text-[13px] font-semibold text-gray-700 hover:bg-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1"
     >
-      {compareLabel}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-3 w-3 shrink-0"
+      >
+        <path d="M8 3v10M3 8h10"></path>
+      </svg>
+      <span>{compareLabel}</span>
     </button>
   </div>
 </article>

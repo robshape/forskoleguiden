@@ -33,7 +33,7 @@
     "addToCompare": "Lägg till i jämförelse",
     "compareButtonAriaLabel": "{action}: {name}",
     "noOverallScore": "Ingen helhetspoäng",
-    "scorePercent": "{score} %",
+    "scorePercent": "{score}%",
     "scoreBadge": {
       "agreeShare": "Andel instämmande",
       "overallAssessment": "Helhetsbedömning"

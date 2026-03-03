@@ -33,7 +33,7 @@
     "addToCompare": "أضف إلى المقارنة",
     "compareButtonAriaLabel": "{action}: {name}",
     "noOverallScore": "لا توجد درجة إجمالية",
-    "scorePercent": "{score} %",
+    "scorePercent": "{score}%",
     "scoreBadge": {
       "agreeShare": "نسبة الموافقة",
       "overallAssessment": "التقييم العام"
