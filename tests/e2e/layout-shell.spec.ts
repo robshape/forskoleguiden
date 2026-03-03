@@ -16,10 +16,12 @@ const getFocusOutlineContract = async (selector: Locator) =>
 test('layout and navigation shell render required semantics on /sv/', async ({
   page,
 }) => {
-  const response = await page.goto('/sv/')
+  const response = await page.goto('/forskoleguiden/sv/')
 
   if (response === null) {
-    throw new Error('Expected non-null response from page.goto("/sv/")')
+    throw new Error(
+      'Expected non-null response from page.goto("/forskoleguiden/sv/")',
+    )
   }
 
   expect(response.status()).toBe(200)
@@ -32,7 +34,7 @@ test('layout and navigation shell render required semantics on /sv/', async ({
   const viewportMeta = page.locator('meta[name="viewport"]')
   await expect(viewportMeta).toHaveAttribute('content', /viewport-fit=cover/)
   await expect(
-    page.locator('link[rel="icon"][href="/favicon.svg"]'),
+    page.locator('link[rel="icon"][href="/forskoleguiden/favicon.svg"]'),
   ).toHaveCount(1)
 
   // Nav: brand link + compact language pill
@@ -40,7 +42,7 @@ test('layout and navigation shell render required semantics on /sv/', async ({
   await expect(nav).toBeVisible()
   await expect(
     nav.getByRole('link', { name: 'Förskoleguiden' }),
-  ).toHaveAttribute('href', '/sv/')
+  ).toHaveAttribute('href', '/forskoleguiden/sv/')
   await expect(nav.getByText('SV | EN')).toBeVisible()
 
   // Nav must not contain city picker or survey year (those belong in main)
@@ -85,10 +87,12 @@ test('layout and navigation shell render required semantics on /sv/', async ({
 test('keyboard navigation shows focus-visible outline on key shell links', async ({
   page,
 }) => {
-  const response = await page.goto('/sv/')
+  const response = await page.goto('/forskoleguiden/sv/')
 
   if (response === null) {
-    throw new Error('Expected non-null response from page.goto("/sv/")')
+    throw new Error(
+      'Expected non-null response from page.goto("/forskoleguiden/sv/")',
+    )
   }
 
   expect(response.status()).toBe(200)

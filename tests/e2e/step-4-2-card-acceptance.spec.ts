@@ -6,10 +6,11 @@ const escapeRegExp = (value: string): string =>
 test('given /sv/ directory when rendered then each preschool card shows required fields and detail link', async ({
   page,
 }) => {
-  const response = await page.goto('/sv/')
-
+  const response = await page.goto('/forskoleguiden/sv/')
   if (response === null) {
-    throw new Error('Expected non-null response from page.goto("/sv/")')
+    throw new Error(
+      'Expected non-null response from page.goto("/forskoleguiden/sv/")',
+    )
   }
 
   expect(response.status()).toBe(200)

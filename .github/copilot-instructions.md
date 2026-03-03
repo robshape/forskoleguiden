@@ -3,7 +3,7 @@
 ## IMPORTANT
 
 - ALWAYS pin dependencies to exact versions in `package.json` (no ^ or ~).
-- ALWAYS run `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test` after finishing a feature or task.
+- ALWAYS run `pnpm lint`, `pnpm lint:md`, `pnpm check`, `pnpm format`, `pnpm test` after finishing a feature or task.
 
 ## Project overview
 
@@ -19,9 +19,16 @@ Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents com
 
 Data flow: static JSON (build-time only) → Astro pre-renders HTML → Preact islands hydrate for interactivity → nanostores for client state → lz-string for shareable URL encoding.
 
+The `base` config is set to `/forskoleguiden` for GitHub Pages project-site deployment. Use `import.meta.env.BASE_URL` (no trailing slash) for all internal hrefs — never hardcode `/` as the root. The redirect in `astro.config.ts` uses the `base` variable to ensure the target includes the base prefix.
+
+## CI/CD
+
+GitHub Actions workflow at `.github/workflows/deploy.yml` triggers on push to `main`. Runs: lint → lint:md → format:check → type check (`pnpm check`) → unit tests → build → Playwright e2e → deploy to GitHub Pages. Uses `GITHUB_TOKEN` for all auth. Concurrency group `pages` cancels in-progress runs. Node and pnpm versions are pinned to exact semver (22.14.0 and 10.29.3). Build job has `timeout-minutes: 15`.
+
 ## Directory structure
 
 ```text
+.github/workflows/deploy.yml  — CI/CD: lint, test, build, deploy to GitHub Pages
 data/template.json            — Schema template for preschool JSON (reference only — actual shape is in src/lib/types.ts)
 data/malmo/index.json         — City directory: lists all preschool IDs, names, addresses, operator types
 data/malmo/2025/*.json        — Per-preschool survey data (one file per preschool, keyed by slug ID)

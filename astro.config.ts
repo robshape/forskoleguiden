@@ -3,11 +3,14 @@ import preact from '@astrojs/preact'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 
+const base = '/forskoleguiden'
+
 export default defineConfig({
   site: 'https://robshape.github.io/forskoleguiden',
+  base,
   output: 'static',
   redirects: {
-    '/': '/sv/',
+    '/': `${base}/sv/`,
   },
   integrations: [preact(), sitemap()],
   vite: {

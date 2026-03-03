@@ -4,7 +4,7 @@ For full rationale behind each technology choice, see `docs/tech-stack.md`. This
 
 ## Runtime Stack
 
-- **Astro 5.17.1** — static output mode, i18n routing (`sv`/`en`/`ar`, all prefix-routed), `@astrojs/preact` + `@astrojs/sitemap` integrations.
+- **Astro 5.17.1** — static output mode, `base: '/forskoleguiden'` for GitHub Pages project-site deployment, i18n routing (`sv`/`en`/`ar`, all prefix-routed), `@astrojs/preact` + `@astrojs/sitemap` integrations.
 - **Preact 10.28.4** — interactive islands via `client:load`/`client:visible`/`client:idle`.
 - **nanostores 1.1.1** + `@nanostores/preact 1.0.0` — cross-island state persisted via `sessionStorage`.
 - **lz-string 1.5.0** — URL-safe compression for shareable state links.
@@ -37,6 +37,9 @@ For full rationale behind each technology choice, see `docs/tech-stack.md`. This
 ## Deployment
 
 - **GitHub Pages** — static `dist/` folder deployed via GitHub Actions. Site URL: `https://robshape.github.io/forskoleguiden`.
+- **CI/CD workflow**: `.github/workflows/deploy.yml` triggers on push to `main`. Pipeline: checkout → pnpm install → lint + lint:md + format:check → type check (`pnpm check`) → unit tests → build → Playwright e2e → upload artifact → deploy to GitHub Pages. Node 22.14.0 and pnpm 10.29.3 pinned to exact semver. Build job capped at 15 min timeout.
+- Uses official GitHub Actions: `actions/checkout@v4`, `pnpm/action-setup@v4`, `actions/setup-node@v4` (with pnpm cache), `actions/configure-pages@v5`, `actions/upload-pages-artifact@v3`, `actions/deploy-pages@v4`.
+- All authentication uses `GITHUB_TOKEN` (GitHub Bot) — no PAT required.
 
 ## Key Constraints
 

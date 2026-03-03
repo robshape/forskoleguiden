@@ -1,0 +1,94 @@
+# Builds, tests, and deploys the static Astro site to GitHub Pages.
+# Triggers on every push to main.
+# Uses GITHUB_TOKEN (GitHub Bot) for all authentication — no PAT needed.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow only one concurrent deployment, skip in-progress runs for new pushes
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+# Permissions for GitHub Pages deployment + GITHUB_TOKEN
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  # ── Quality gates + build ──────────────────────────────────────────
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6.0.2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.2.0
+        with:
+          version: 10.29.3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.2.0
+        with:
+          node-version: 22.14.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # ── Lint & format checks ──────────────────────────────────────
+      - name: Lint (ESLint)
+        run: pnpm lint
+
+      - name: Lint Markdown
+        run: pnpm lint:md
+
+      - name: Check formatting (Prettier)
+        run: pnpm format:check
+
+      # ── Type checking ─────────────────────────────────────────────
+      - name: Type check (Astro)
+        run: pnpm check
+
+      # ── Unit tests ────────────────────────────────────────────────
+      - name: Run unit tests
+        run: pnpm test
+
+      # ── Build ─────────────────────────────────────────────────────
+      - name: Build site
+        run: pnpm build
+
+      # ── E2E tests (needs build output for pnpm preview) ──────────
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run e2e tests
+        run: pnpm test:e2e
+
+      # ── Upload artifact for GitHub Pages ──────────────────────────
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5.0.0
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4.0.0
+        with:
+          path: dist/
+
+  # ── Deploy to GitHub Pages ───────────────────────────────────────
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4.0.5

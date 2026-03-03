@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { locale } = Astro.props
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 ---
 
 <nav
@@ -13,7 +14,7 @@ const { locale } = Astro.props
   class="bg-surface border-b border-border"
 >
   <div class="mx-auto flex h-nav w-full max-w-content items-center px-5">
-    <a href={`/${locale}/`} class="text-xl font-bold text-start">
+    <a href={`${base}/${locale}/`} class="text-xl font-bold text-start">
       Förskoleguiden
     </a>
     <span

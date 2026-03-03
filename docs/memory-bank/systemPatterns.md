@@ -58,6 +58,13 @@ Note: Source-inspection tests were removed during KCD test alignment — they te
 
 - **`SURVEY_YEAR`** (`src/lib/constants.ts`): Shared build-time constant (`2025`) imported by components (e.g., CityYearSelector) instead of hardcoding. Centralizes the survey-year value for future year transitions.
 
+## Base Path Pattern
+
+- Astro `base: '/forskoleguiden'` is set in `astro.config.ts` for GitHub Pages project-site deployment (content served under `https://robshape.github.io/forskoleguiden/`).
+- Components normalize `import.meta.env.BASE_URL` by stripping any trailing slash: `const base = import.meta.env.BASE_URL.replace(/\/$/, '')`. This prevents double-slash hrefs if Astro ever changes BASE_URL to include a trailing slash. All internal `href` attributes use `${base}/...`.
+- The root redirect target in `astro.config.ts` uses the extracted `base` constant to keep the redirect URL in sync: `redirects: { '/': \`${base}/sv/\` }`.
+- E2e tests navigate to `/forskoleguiden/sv/` (not `/sv/`). The Playwright webServer health-check URL includes the base path.
+
 ## i18n City Names
 
 - City name keys follow the pattern `cityYear.cities.<slug>` (e.g., `cityYear.cities.malmo`). All three locale JSONs (sv, en, ar) must have identical key structures. Arabic uses transliterated names; English uses local English names (e.g., "Gothenburg" for Göteborg). Components use `t()` for all user-visible city names.
