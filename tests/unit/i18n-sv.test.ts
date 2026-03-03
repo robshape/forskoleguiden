@@ -59,7 +59,6 @@ describe('Swedish translation keys', () => {
       'summary.lower',
       'summary.similar',
       'attribution.text',
-      'attribution.sourceLinkLabel',
       'about.heading',
       'about.text',
       'nav.directory',

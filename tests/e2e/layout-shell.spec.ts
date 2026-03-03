@@ -73,10 +73,8 @@ test('layout and navigation shell render required semantics on /sv/', async ({
 
   // Attribution lives in <footer> landmark, outside <main>
   const footer = page.locator('footer')
-  await expect(footer).toContainText('Enkätdata kommer från Malmö stad.')
-
   const sourceLink = footer.getByRole('link', {
-    name: 'Källa hos Malmö stad',
+    name: 'Enkätdata kommer från Malmö stad.',
   })
   await expect(sourceLink).toHaveAttribute('href', MALMO_SOURCE_URL)
   await expect(sourceLink).toHaveAttribute('target', '_blank')
@@ -100,7 +98,7 @@ test('keyboard navigation shows focus-visible outline on key shell links', async
     .getByRole('link', { name: 'Förskoleguiden' })
   const attributionSourceLink = page
     .locator('footer')
-    .getByRole('link', { name: 'Källa hos Malmö stad' })
+    .getByRole('link', { name: 'Enkätdata kommer från Malmö stad.' })
 
   await page.keyboard.press('Tab')
   await expect(siteTitleLink).toBeFocused()

@@ -66,8 +66,7 @@
     "similar": "{left} and {right} have a similar share of agree responses for \"{question}\"."
   },
   "attribution": {
-    "text": "Survey data comes from Malmö stad.",
-    "sourceLinkLabel": "Source at Malmö stad"
+    "text": "Survey data comes from Malmö stad."
   },
   "about": {
     "heading": "About the data",

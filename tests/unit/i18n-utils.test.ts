@@ -22,7 +22,7 @@ describe('i18n utilities', () => {
     expect(t('site.title', 'sv')).toBe(sv.site.title)
 
     // Replaces template placeholders when params are provided
-    expect(t('directory.scorePercent', 'sv', { score: 87.5 })).toBe('87.5 %')
+    expect(t('directory.scorePercent', 'sv', { score: 87.5 })).toBe('87.5%')
 
     // Leaves unresolved placeholders untouched when param is missing
     expect(t('summary.higher', 'sv', { left: 'A', right: 'B' })).toContain(

@@ -66,8 +66,7 @@
     "similar": "لدى {left} و {right} نسبة متشابهة من الردود المتفقة لسؤال \"{question}\"."
   },
   "attribution": {
-    "text": "بيانات الاستبيان من Malmö stad.",
-    "sourceLinkLabel": "المصدر لدى Malmö stad"
+    "text": "بيانات الاستبيان من Malmö stad."
   },
   "about": {
     "heading": "حول البيانات",

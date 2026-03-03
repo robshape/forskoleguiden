@@ -66,8 +66,7 @@
     "similar": "{left} och {right} har liknande andel instämmande svar för \"{question}\"."
   },
   "attribution": {
-    "text": "Enkätdata kommer från Malmö stad.",
-    "sourceLinkLabel": "Källa hos Malmö stad"
+    "text": "Enkätdata kommer från Malmö stad."
   },
   "about": {
     "heading": "Om data",
