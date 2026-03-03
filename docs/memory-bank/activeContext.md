@@ -13,12 +13,16 @@ Key completed milestones:
 - **Step 4.1 (review hardening)**: Added `getPreschoolSurveyByYear(id, year)` for index-read optimization path, localized score/fallback text through `t()`, and tightened e2e naming/assertion diagnostics
 - **Step 4.1 (i18n utility enhancement)**: `t()` now supports placeholder interpolation with optional params (for example `{score}`), and `/sv` score rendering now uses centralized i18n interpolation instead of local string replacement
 - **Step 4.1 (follow-up hardening)**: Localized `/sv` list aria-label and page title via `t()`, added `directory.listAriaLabel` across locales, removed implementation-detail I/O-count tests from data loader unit tests, and strengthened i18n translation map typing
+- **Step 4.2 (Phase 2)**: Added reusable `src/components/astro/PreschoolCard.astro` with static card structure, detail-link URL pattern, operator badge, score badge treatment with defensive null handling, and a static compare button placeholder (`data-id`) for later interactive phases
+- **Step 4.2 (Phase 3)**: Integrated `PreschoolCard` into `src/pages/sv/index.astro` list rendering so `/sv/` now renders card-based list items with required name/address/operator/score/detail-link content; Step 4.2 acceptance e2e is green after selector alignment with current localized list semantics
+- **Step 4.2 (Phase 3 review revision)**: Hardened `tests/e2e/step-4-2-card-acceptance.spec.ts` to avoid brittle exact `section[aria-label=...]` selectors and index-order coupling by locating each card through detail-link href (`/sv/forskola/{id}/`) and asserting card contract fields per preschool
+- **Step 4.2 (a11y/i18n hardening patch)**: Removed Swedish bypass and hardcoded badge copy in `PreschoolCard` by routing all labels through `t()`, added per-preschool compare button aria-label interpolation, replaced redundant score `aria-label` with null-state `sr-only` text, added stable `data-testid="preschool-card"`, and updated e2e assertions to avoid `data.ts` coupling and fragile XPath ancestry
 - **Phase A/B**: UI styling + implementation-plan documentation updates for Steps 4–8
 
 ## Next Focus
 
-1. Begin Step 4.2 directory card component implementation with visual baseline from `docs/implementation-plan.md`.
-2. Keep Step 4.1 minimal route output stable while expanding only Step 4.2 scope.
+1. Start Step 4.3 work (ranking explanation/sort controls) now that Step 4.2 acceptance is complete.
+2. Keep Step 4.4+ and Step 5 interaction behaviors out of scope until Step 4.3 acceptance criteria are locked.
 
 ## Active Decisions
 

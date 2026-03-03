@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-03): Steps 0–3 and design foundations are complete. Step 4.1 route-level build-time data wiring is complete, including review hardening fixes and required quality gates.
+Current status (2026-03-03): Steps 0–3 and design foundations are complete. Step 4.1 route-level build-time data wiring and Step 4.2 card integration (Phases 1-3) are complete, including required quality gates.
 
 ## Completed Scaffolding Summary
 
@@ -21,13 +21,16 @@ Current status (2026-03-03): Steps 0–3 and design foundations are complete. St
 - **Step 4.1 (Directory route wiring)**: `src/pages/sv/index.astro` assembles build-time directory data using `getPreschoolIndex()`, `getPreschoolSurveyByYear(id, year)`, and `computeOverallScore()`. Review hardening added a year-based survey loader to avoid N+1 index reads on the page path, moved score/fallback copy into i18n locale files, and clarified the Step 4.1 e2e test name plus status assertion diagnostics. Validation is green for build + lint + markdown lint + format + unit + targeted/regression e2e gates.
 - **i18n utility interpolation**: `src/i18n/utils.ts` now supports optional interpolation params in `t(key, locale, params)` and preserves unresolved placeholders. `/sv` now renders score percent text via `t('directory.scorePercent', locale, { score })`; coverage updated in `tests/unit/i18n-utils.test.ts`.
 - **Step 4.1 follow-up patch**: `/sv` route now uses localized page title (`t('site.title', locale)`) and localized list aria-label (`t('directory.listAriaLabel', locale)`). Locale files include `directory.listAriaLabel` in `sv/en/ar`; data-loader tests were simplified to behavioral assertions only (removed readFileSync call-count checks) to align with KCD testing guidance.
+- **Step 4.2 (Phase 2 component only)**: Created `src/components/astro/PreschoolCard.astro` with required props (`id`, `name`, `address`, `operatorType`, `score`, `locale`), static detail link pattern (`/{locale}/forskola/{id}/`), operator badge, score percentage badge + supporting label text, defensive null-score fallback, and static compare placeholder button (`data-id={id}`). Phase 3 page integration is intentionally pending.
+- **Step 4.2 (Phase 3 integration)**: `src/pages/sv/index.astro` now renders `PreschoolCard` for each preschool entry (instead of plain inline list rows), preserving build-time data assembly and locale wiring. Acceptance e2e `tests/e2e/step-4-2-card-acceptance.spec.ts` is green on fresh build output (`pnpm build && CI=1 pnpm test:e2e tests/e2e/step-4-2-card-acceptance.spec.ts`) after minimal selector alignment to `directory.listAriaLabel` semantics and localized score-percent spacing.
+- **Step 4.2 (Phase 3 review revision)**: Acceptance e2e now verifies cards via stable detail-link href targeting (`/sv/forskola/{id}/`) per preschool index entry, removing dependence on exact section aria-label text and list-order/index-order coupling while preserving card contract assertions (name, address, operator label, and score-or-fallback presence).
+- **Step 4.2 (a11y/i18n hardening patch)**: `PreschoolCard` now uses i18n keys for compare label and score badge labels across locales (`sv/en/ar`), includes interpolated compare button `aria-label` with preschool name, removes redundant score-circle `aria-label` in favor of null-state `sr-only` text, and exposes `data-testid="preschool-card"` for resilient e2e selection. Step 4.2 e2e no longer imports `data.ts`/`fs` path; it validates rendered card contract via DOM structure and accessible-name assertions.
 - **KCD test alignment**: Consolidated 64 tests → 16 (13 unit + 3 e2e). Removed source-inspection tests, redundant coverage, and one-assertion-per-test patterns. Behavior verified via e2e instead.
 
 ## Current Priorities
 
-1. **Step 4 directory page foundation** — next implementation target after shell completion.
+1. **Step 4.3 directory ranking/sort controls** — next implementation target after Step 4.2 integration completion.
 
 ## Next Focus
 
-- Start Step 4.2 card component implementation with strict scope isolation from Step 4.3+ behavior.
-- Keep Step 4.1 acceptance test and shell smoke tests green during Step 4.2 work.
+- Begin Step 4.3 implementation planning/execution while keeping Step 4.4+ out of scope.
