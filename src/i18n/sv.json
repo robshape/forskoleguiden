@@ -30,7 +30,7 @@
       "independent": "Fristående"
     },
     "listAriaLabel": "Förskolelista",
-    "addToCompare": "Lägg till i jämförelse",
+    "addToCompare": "Jämför",
     "compareButtonAriaLabel": "{action}: {name}",
     "noOverallScore": "Ingen helhetspoäng",
     "scorePercent": "{score}%",

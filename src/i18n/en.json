@@ -30,7 +30,7 @@
       "independent": "Independent"
     },
     "listAriaLabel": "Preschool list",
-    "addToCompare": "Add to comparison",
+    "addToCompare": "Compare",
     "compareButtonAriaLabel": "{action}: {name}",
     "noOverallScore": "No overall score",
     "scorePercent": "{score}%",
