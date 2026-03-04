@@ -4,13 +4,16 @@ import CityYearSelector from '@/components/astro/CityYearSelector.astro'
 import PreschoolCard from '@/components/astro/PreschoolCard.astro'
 import { t } from '@/i18n/utils'
 import { getPreschoolIndex, getPreschoolSurveyByYear } from '@/lib/data'
-import { computeOverallScore } from '@/lib/scoring'
+import { byOverallScoreDesc, computeOverallScore } from '@/lib/scoring'
 
 const locale = 'sv'
 const preschoolIndex = getPreschoolIndex()
 const surveyYear = preschoolIndex.year
 const pageTitle = t('site.title', locale)
 const directoryListAriaLabel = t('directory.listAriaLabel', locale)
+const directoryHeading = t('directory.heading', locale)
+const rankingExplanation = t('directory.rankingExplanation', locale)
+const rankingSortLabel = t('directory.sort.ranking', locale)
 
 const preschoolDirectory = preschoolIndex.preschools.map((preschool) => {
   const overallScore = computeOverallScore(
@@ -22,16 +25,44 @@ const preschoolDirectory = preschoolIndex.preschools.map((preschool) => {
     overallScore,
   }
 })
+
+const sortedDirectory = [...preschoolDirectory].sort(
+  (leftPreschool, rightPreschool) => {
+    const byScore = byOverallScoreDesc(
+      leftPreschool.overallScore,
+      rightPreschool.overallScore,
+    )
+
+    if (byScore !== 0) {
+      return byScore
+    }
+
+    return leftPreschool.name.localeCompare(rightPreschool.name, locale)
+  },
+)
 ---
 
 <BaseLayout locale={locale} title={pageTitle}>
   <CityYearSelector locale={locale} />
 
   <section aria-label={directoryListAriaLabel} class="mt-6">
-    <ul class="space-y-2">
+    <div class="flex items-center justify-between gap-3">
+      <h2 class="text-lg font-semibold text-slate-900">
+        {`${directoryHeading} (${sortedDirectory.length})`}
+      </h2>
+      <span class="text-sm font-semibold text-primary-600"
+        >{rankingSortLabel}</span
+      >
+    </div>
+    <p class="mt-2 text-sm text-slate-700">{rankingExplanation}</p>
+
+    <ul class="mt-4 space-y-2">
       {
-        preschoolDirectory.map((preschool) => (
-          <li>
+        sortedDirectory.map((preschool, index) => (
+          <li class="flex items-start gap-3">
+            <span class="mt-6 inline-flex min-w-6 justify-center text-sm font-semibold text-slate-700">
+              {index + 1}
+            </span>
             <PreschoolCard
               id={preschool.id}
               name={preschool.name}

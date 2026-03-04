@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-04): Steps 0–3 and design foundations are complete. Step 4.1 route-level build-time data wiring and Step 4.2 card integration (Phases 1-3) are complete, including required quality gates. Test suites were renamed to domain-focused filenames across `tests/unit` and `tests/e2e`, with references synchronized in docs and memory-bank files.
+Current status (2026-03-04): Steps 0–3 and design foundations are complete. Step 4.1 route-level build-time data wiring, Step 4.2 card integration, and Step 4.3 directory ranking presentation are complete with required quality gates green.
 
 ## Completed Scaffolding Summary
 
@@ -26,6 +26,18 @@ Current status (2026-03-04): Steps 0–3 and design foundations are complete. St
 - **Step 4.2 (Phase 3 review revision)**: Acceptance e2e now verifies cards via stable detail-link href targeting (`/sv/forskola/{id}/`) per preschool index entry, removing dependence on exact section aria-label text and list-order/index-order coupling while preserving card contract assertions (name, address, operator label, and score-or-fallback presence).
 - **Step 4.2 (a11y/i18n hardening patch)**: `PreschoolCard` now uses i18n keys for compare label and score badge labels across locales (`sv/en/ar`), includes interpolated compare button `aria-label` with preschool name, removes redundant score-circle `aria-label` in favor of null-state `sr-only` text, and exposes `data-testid="preschool-card"` for resilient e2e selection. Step 4.2 e2e no longer imports `data.ts`/`fs` path; it validates rendered card contract via DOM structure and accessible-name assertions.
 - **Post-rename test hardening (2026-03-04)**: `tests/unit/data-loader-contract.test.ts` now throws explicitly when Helhetsbedömning is missing (no silent pass path), and `src/components/astro/PreschoolCard.astro` adds `data-testid="score-fallback"` so `tests/e2e/preschool-card-contract.spec.ts` can assert fallback behavior without brittle `.sr-only` class coupling.
+- **Step 4.3 (complete)**:
+  - `/sv/` directory now sorts preschools by descending overall score using `byOverallScoreDesc` with deterministic name tie-breaks.
+  - Directory list renders visible rank positions (`1..N`) for each card row.
+  - Heading row renders localized count text (`Förskolor i Malmö (N)`) and static active sort label (`Rankning`).
+  - Ranking transparency copy is rendered via `directory.rankingExplanation` i18n key.
+  - Locale parity updated across `src/i18n/sv.json`, `src/i18n/en.json`, and `src/i18n/ar.json`.
+  - Contract coverage added in `tests/e2e/directory-data-rendering.spec.ts` and Swedish copy contract extended in `tests/unit/i18n-swedish-copy-contract.test.ts`.
+  - Final validation passes: `pnpm lint`, `pnpm lint:md`, `pnpm check`, `pnpm format`, `pnpm test`, and `pnpm build && CI=1 pnpm test:e2e tests/e2e/directory-data-rendering.spec.ts`.
+- **Step 4.3 hardening follow-up (complete)**:
+  - Replaced in-place sort mutation in `/sv/` route with immutable `sortedDirectory` copy before sorting.
+  - Added visual rhythm fix by applying `mt-4` between ranking explanation text and directory list.
+  - Hardened Step 4.3 e2e contracts by documenting current score-derived order, switching heading-count assertion to regex (`\(\d+\)`), and replacing prefix-based rank checks with exact rank-span assertions.
 - **KCD test alignment**: Consolidated 64 tests → 16 (13 unit + 3 e2e). Removed source-inspection tests, redundant coverage, and one-assertion-per-test patterns. Behavior verified via e2e instead.
 
 ## Decision Log
@@ -40,8 +52,8 @@ Current status (2026-03-04): Steps 0–3 and design foundations are complete. St
 
 ## Current Priorities
 
-1. **Step 4.3 directory ranking/sort controls** — next implementation target after Step 4.2 integration completion.
+1. **Step 4.4 alphabetical sort toggle** — next implementation target after Step 4.3 completion.
 
 ## Next Focus
 
-- Begin Step 4.3 implementation planning/execution while keeping Step 4.4+ out of scope.
+- Begin Step 4.4 implementation planning/execution while keeping Step 5 compare-state behavior out of scope.

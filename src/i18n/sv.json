@@ -21,6 +21,7 @@
   },
   "directory": {
     "heading": "Förskolor i Malmö",
+    "rankingExplanation": "Rangordnat efter andel instämmande svar i Helhetsbedömningen",
     "sort": {
       "ranking": "Rankning",
       "alphabetical": "A–Ö"
