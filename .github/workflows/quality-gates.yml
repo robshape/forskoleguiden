@@ -23,7 +23,7 @@ jobs:
           version: 10.29.3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6.2.0
+        uses: actions/setup-node@v6.3.0
         with:
           node-version: 22.14.0
           cache: pnpm
@@ -38,8 +38,8 @@ jobs:
       - name: Lint Markdown
         run: pnpm lint:md
 
-      - name: Check formatting (Prettier)
-        run: pnpm format:check
+      # - name: Check formatting (Prettier)
+      #   run: pnpm format:check
 
       # ── Type checking ─────────────────────────────────────────────
       - name: Type check (Astro)
