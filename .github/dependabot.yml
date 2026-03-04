@@ -25,8 +25,6 @@ updates:
     commit-message:
       prefix: 'deps'
       prefix-development: 'deps(dev)'
-    labels:
-      - dependencies
     groups:
       # Astro framework ecosystem
       astro:
@@ -72,8 +70,6 @@ updates:
     open-pull-requests-limit: 5
     commit-message:
       prefix: 'ci'
-    labels:
-      - ci
     groups:
       # GitHub Pages deployment actions
       pages:
