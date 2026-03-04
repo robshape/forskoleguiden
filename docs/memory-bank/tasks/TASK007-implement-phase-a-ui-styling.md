@@ -42,11 +42,11 @@ Phase A is a foundational shell/design pass that should be completed before Step
 - Phase 1 completed with fail-first unit tests in `tests/unit/global-styles-phase-a.test.ts`, then implementation in `src/styles/global.css`.
 - Phase 2 completed with fail-first shell contract additions in `tests/unit/sv-index-layout.test.ts`, then `BaseLayout` class/structure updates.
 - Phase 3 completed with fail-first nav class contract additions in `tests/unit/sv-index-layout.test.ts`, then `Nav` styling updates.
-- Phase 4 completed with fail-first footer contract additions and focus-visible e2e assertions in `tests/e2e/layout-shell.spec.ts`, then `Footer` styling updates.
-- Resolved a Phase 4 e2e typing issue by typing the helper with Playwright `Locator` in `tests/e2e/layout-shell.spec.ts`.
+- Phase 4 completed with fail-first footer contract additions and focus-visible e2e assertions in `tests/e2e/layout-shell-accessibility.spec.ts`, then `Footer` styling updates.
+- Resolved a Phase 4 e2e typing issue by typing the helper with Playwright `Locator` in `tests/e2e/layout-shell-accessibility.spec.ts`.
 - Validated targeted and full gates as green:
   - `pnpm test tests/unit/sv-index-layout.test.ts`
-  - `pnpm build && CI=1 pnpm test:e2e tests/e2e/layout-shell.spec.ts`
+  - `pnpm build && CI=1 pnpm test:e2e tests/e2e/layout-shell-accessibility.spec.ts`
   - `pnpm lint && pnpm lint:md && pnpm format && pnpm test && pnpm build`
 - Added completion artifacts:
   - `docs/plans/implement-phase-a-ui-styling-phase-1-complete.md`

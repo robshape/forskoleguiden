@@ -15,9 +15,11 @@ Key completed milestones:
 - **Step 4.1 (follow-up hardening)**: Localized `/sv` list aria-label and page title via `t()`, added `directory.listAriaLabel` across locales, removed implementation-detail I/O-count tests from data loader unit tests, and strengthened i18n translation map typing
 - **Step 4.2 (Phase 2)**: Added reusable `src/components/astro/PreschoolCard.astro` with static card structure, detail-link URL pattern, operator badge, score badge treatment with defensive null handling, and a static compare button placeholder (`data-id`) for later interactive phases
 - **Step 4.2 (Phase 3)**: Integrated `PreschoolCard` into `src/pages/sv/index.astro` list rendering so `/sv/` now renders card-based list items with required name/address/operator/score/detail-link content; Step 4.2 acceptance e2e is green after selector alignment with current localized list semantics
-- **Step 4.2 (Phase 3 review revision)**: Hardened `tests/e2e/step-4-2-card-acceptance.spec.ts` to avoid brittle exact `section[aria-label=...]` selectors and index-order coupling by locating each card through detail-link href (`/sv/forskola/{id}/`) and asserting card contract fields per preschool
+- **Step 4.2 (Phase 3 review revision)**: Hardened `tests/e2e/preschool-card-contract.spec.ts` to avoid brittle exact `section[aria-label=...]` selectors and index-order coupling by locating each card through detail-link href (`/sv/forskola/{id}/`) and asserting card contract fields per preschool
 - **Step 4.2 (a11y/i18n hardening patch)**: Removed Swedish bypass and hardcoded badge copy in `PreschoolCard` by routing all labels through `t()`, added per-preschool compare button aria-label interpolation, replaced redundant score `aria-label` with null-state `sr-only` text, added stable `data-testid="preschool-card"`, and updated e2e assertions to avoid `data.ts` coupling and fragile XPath ancestry
+- **Test hardening patch (2026-03-04)**: Replaced silent early return in `tests/unit/data-loader-contract.test.ts` with explicit throw on missing Helhetsbedömning, and switched score-fallback detection in `tests/e2e/preschool-card-contract.spec.ts` from `.sr-only` class coupling to stable `data-testid="score-fallback"` contract via `PreschoolCard`
 - **Phase A/B**: UI styling + implementation-plan documentation updates for Steps 4–8
+- **Test-suite naming cleanup (2026-03-04)**: Renamed all `tests/unit` and `tests/e2e` files from step/generic names to domain-focused contract names; updated markdown/memory-bank references to keep command snippets copy-safe
 
 ## Next Focus
 

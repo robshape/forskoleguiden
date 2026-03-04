@@ -37,21 +37,21 @@ The layout task (Step 3.1-3.3) references `Locale` from Step 2.3, so Step 2 must
 ### 2026-03-01 (Step 2.3 completion + Phase 3 validation)
 
 - Completed Step 2.3 in `src/i18n/utils.ts` with canonical `Locale` type plus `getLocaleFromURL()` and `t()` helper behavior.
-- Validated helper behavior coverage in `tests/unit/i18n-utils.test.ts` and confirmed targeted + full test runs pass.
+- Validated helper behavior coverage in `tests/unit/i18n-utilities-behavior.test.ts` and confirmed targeted + full test runs pass.
 - Ran required repository gates for this phase and confirmed green outcomes: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
 - Marked TASK006 complete and unblocked TASK001 (Step 3.1-3.3 layout shell).
 
 ### 2026-03-01 (Step 2.2 completion)
 
 - Completed Step 2.2 by adding placeholder locale files `src/i18n/en.json` and `src/i18n/ar.json` with Swedish key-structure parity.
-- Preserved interpolation placeholders and validated parity with `tests/unit/i18n-locales.test.ts`.
+- Preserved interpolation placeholders and validated parity with `tests/unit/i18n-locale-key-parity.test.ts`.
 - Ran required repository gates and confirmed green results: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
 - Remaining scope in TASK006: Step 2.3 locale helpers (`Locale`, `getLocaleFromURL()`, `t()`) and subtask 6.4 helper behavior tests.
 
 ### 2026-03-01 (follow-up i18n fix)
 
 - Applied approved Step 2.1 i18n follow-up fixes with test-first flow:
-  - Extracted shared `getByPath` helper to `tests/unit/helpers/i18n.ts` and reused it in `tests/unit/i18n-sv.test.ts`.
+  - Extracted shared `getByPath` helper to `tests/unit/helpers/i18n.ts` and reused it in `tests/unit/i18n-swedish-copy-contract.test.ts`.
   - Added required-key non-empty string assertions, dedicated summary placeholder checks for `summary.higher|lower|similar`, and operator-type required paths.
   - Replaced `String(selectedCount)` cast usage with typed string handling in compare-tray placeholder test.
   - Added copy assertions for `directory.sort.ranking` (`Rankning`) and `responses.partlyDisagree` (`Instämmer inte delvis`).

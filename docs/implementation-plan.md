@@ -143,7 +143,7 @@ Create `playwright.config.ts`:
 - Set `webServer.command` to `pnpm preview` and `webServer.port` to `4321`.
 - Set test directory to `tests/e2e/`.
 
-Create a placeholder e2e test `tests/e2e/smoke.spec.ts` that navigates to `/sv/` and asserts: (a) the HTTP response status is 200, and (b) the page title does not contain "404".
+Create a placeholder e2e test `tests/e2e/homepage-routing-smoke.spec.ts` that navigates to `/sv/` and asserts: (a) the HTTP response status is 200, and (b) the page title does not contain "404".
 
 **Test:** Run `pnpm build && pnpm test:e2e`. The smoke e2e test passes. (Note: it will fail until a real `/sv/` page is created in Step 3.1, which is expected — re-run after Step 3.1 to confirm it passes.)
 

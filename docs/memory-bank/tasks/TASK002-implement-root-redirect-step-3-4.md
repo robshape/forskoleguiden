@@ -49,6 +49,6 @@ The root page currently remains a temporary placeholder. Redirect behavior is in
 
 - Replaced brittle source-text regex checks in `tests/unit/root-redirect.test.ts` with direct object assertions against imported Astro config.
 - Removed the vacuous file non-existence assertion for `src/pages/index.astro`.
-- Added runtime redirect e2e coverage in `tests/e2e/smoke.spec.ts` to assert `page.goto('/')` lands on `/sv/`.
-- Verified targeted validation: `pnpm test tests/unit/root-redirect.test.ts` and `pnpm build && CI=1 pnpm test:e2e tests/e2e/smoke.spec.ts`.
+- Added runtime redirect e2e coverage in `tests/e2e/homepage-routing-smoke.spec.ts` to assert `page.goto('/')` lands on `/sv/`.
+- Verified targeted validation: `pnpm test tests/unit/root-redirect.test.ts` and `pnpm build && CI=1 pnpm test:e2e tests/e2e/homepage-routing-smoke.spec.ts`.
 - Re-verified required quality gates: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.

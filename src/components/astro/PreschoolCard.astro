@@ -72,7 +72,9 @@ const scoreBadgeToneClass =
           score === null ? (
             <>
               <span aria-hidden="true">—</span>
-              <span class="sr-only">{noOverallScoreText}</span>
+              <span data-testid="score-fallback" class="sr-only">
+                {noOverallScoreText}
+              </span>
             </>
           ) : (
             scorePercentText

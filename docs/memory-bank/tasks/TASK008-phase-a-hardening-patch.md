@@ -26,7 +26,7 @@ This patch is a focused quality hardening pass, not a feature expansion. The goa
 
 - Update `Nav.astro` container/alignment/placeholder semantics and keep behavior unchanged.
 - Update `global.css` token scale and remove global anchor hover rule.
-- Harden `layout-shell.spec.ts` focus behavior and annotate color coupling.
+- Harden `layout-shell-accessibility.spec.ts` focus behavior and annotate color coupling.
 - Split `sv-index-layout.test.ts` into `base-layout`, `nav`, and `footer` suites.
 - Add reusable helper module for Astro source parsing and class-token assertions.
 - Re-run required repository quality gates.
@@ -41,7 +41,7 @@ This patch is a focused quality hardening pass, not a feature expansion. The goa
 | --- | -------------------------------- | -------- | ---------- | ------------------------------------------------------------------------------- |
 | 8.1 | Update Nav shell hardening       | Complete | 2026-03-02 | `max-w-content`, `text-start`, `ms-auto`, `<span>` placeholder                  |
 | 8.2 | Update global style tokens/rules | Complete | 2026-03-02 | Added `primary-50` and `primary-700`; removed global `a:hover` rule             |
-| 8.3 | Harden e2e focus assertions      | Complete | 2026-03-02 | Bounded tab loop + rgb↔token comment in `layout-shell.spec.ts`                  |
+| 8.3 | Harden e2e focus assertions      | Complete | 2026-03-02 | Bounded tab loop + rgb↔token comment in `layout-shell-accessibility.spec.ts`    |
 | 8.4 | Split and modularize unit tests  | Complete | 2026-03-02 | Replaced monolith with `base-layout`, `nav`, `footer` tests + helper module     |
 | 8.5 | Run lint/format/test/build gates | Complete | 2026-03-02 | `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`, `pnpm build` all green |
 
@@ -57,7 +57,7 @@ This patch is a focused quality hardening pass, not a feature expansion. The goa
 - Updated `src/styles/global.css`:
   - Added `--color-primary-50` and `--color-primary-700`.
   - Removed global `a:hover { @apply underline; }` rule.
-- Hardened `tests/e2e/layout-shell.spec.ts`:
+- Hardened `tests/e2e/layout-shell-accessibility.spec.ts`:
   - Kept keyboard interaction model while removing brittle second-tab assumption.
   - Added bounded tab loop until footer link focus.
   - Added comment mapping `rgb(37, 99, 235)` to `--color-primary-600`.

@@ -4,7 +4,7 @@ Phase 1 established a focused e2e contract for Step 4.1 and completed the red-to
 
 **Files created/changed**:
 
-- `tests/e2e/step-4-1-directory-data.spec.ts`
+- `tests/e2e/directory-data-rendering.spec.ts`
 - `src/pages/sv/index.astro`
 
 **Functions created/changed**:
@@ -13,7 +13,7 @@ Phase 1 established a focused e2e contract for Step 4.1 and completed the red-to
 
 **Tests created/changed**:
 
-- `renders at least one preschool from Malmö directory data on /sv/` in `tests/e2e/step-4-1-directory-data.spec.ts`
+- `renders at least one preschool from Malmö directory data on /sv/` in `tests/e2e/directory-data-rendering.spec.ts`
 
 **Review Status**: APPROVED
 

@@ -47,7 +47,7 @@ Step 3.1-3.3 layout work is not the next safe implementation target while founda
   - Returns `null` when `Helhetsbedömning` is missing or present-but-empty.
   - Exports `OVERALL_ASSESSMENT_GROUP` and `byOverallScoreDesc` for shared, non-duplicated downstream usage.
   - Adds non-production warnings for out-of-range/unexpected survey-response percentage inputs during score computation.
-- Confirmed scoring behavior with green tests in `tests/unit/scoring.test.ts`.
+- Confirmed scoring behavior with green tests in `tests/unit/scoring-overall-score-utilities.test.ts`.
 - Ran required Phase 3 quality gates to green: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
 - Marked TASK005 completed; next focus is Step 2 i18n foundation (`TASK006`).
 
@@ -57,18 +57,18 @@ Step 3.1-3.3 layout work is not the next safe implementation target while founda
   - Refactored `getAllPreschoolSurveys()` to read index/year once and load survey files directly (removed N+1 index reads).
   - Added deterministic regression test asserting Malmö index file is read exactly once during `getAllPreschoolSurveys()`.
   - Replaced silent-skip `try/catch` unknown-id assertion pattern with explicit `toThrowError` checks for both id and expected file path.
-  - Extracted shared response-shape assertions into `tests/unit/helpers/survey-assertions.ts` and reused in `data.test.ts` and `types.test.ts`.
+  - Extracted shared response-shape assertions into `tests/unit/helpers/survey-assertions.ts` and reused in `data-loader-contract.test.ts` and `types.test.ts`.
   - Added `src/lib/data.ts` comments documenting `process.cwd()` root assumption and trusted static JSON cast strategy.
 
 ### 2026-03-01
 
-- Confirmed Step 1.4 data-loading utility completion (`src/lib/data.ts`) with passing loader tests in `tests/unit/data.test.ts`.
+- Confirmed Step 1.4 data-loading utility completion (`src/lib/data.ts`) with passing loader tests in `tests/unit/data-loader-contract.test.ts`.
 - Ran required quality gates with green outcomes: `pnpm lint` (pass), `pnpm lint:md` (pass, 0 markdown errors), `pnpm format` (pass, unchanged writes), `pnpm test` (pass; 5 files, 10 tests).
 - Kept TASK005 in progress because Step 1.5 scoring utility remains not started.
 
 ### 2026-02-28
 
-- Reproduced Step 1.2 address-contract failure in `tests/unit/malmo-index.test.ts` (city-only addresses did not satisfy `/,\s*Malmö$/`).
+- Reproduced Step 1.2 address-contract failure in `tests/unit/malmo-directory-index-contract.test.ts` (city-only addresses did not satisfy `/,\s*Malmö$/`).
 - Fixed `data/malmo/index.json` addresses to varied, realistic street + city values ending with `, Malmö`.
 - Re-ran required quality gates to green: `pnpm lint` (pass), `pnpm lint:md` (pass), `pnpm format` (pass), `pnpm test` (pass).
 - Kept scope limited to Step 1.3 Phase 3 revision; Step 1.4/1.5 remains not started.
@@ -84,9 +84,9 @@ Step 3.1-3.3 layout work is not the next safe implementation target while founda
 - Added `totalRespondents` to `SurveyQuestion` and updated `data/template.json` accordingly.
 - Expanded Step 1.1 test coverage to include `PreschoolIndex`/`PreschoolIndexEntry` key sets and valid `operatorType` values.
 - Implemented Step 1.2 by creating `data/malmo/index.json` using official Malmö 2025 preschool names.
-- Added `tests/unit/malmo-index.test.ts` and verified it passes for the Step 1.2 index contract.
+- Added `tests/unit/malmo-directory-index-contract.test.ts` and verified it passes for the Step 1.2 index contract.
 - Re-ran quality gates successfully: `pnpm lint`, `pnpm lint:md`, `pnpm format`, `pnpm test`.
-- Applied review feedback to harden `tests/unit/malmo-index.test.ts`: imported canonical `PreschoolIndex` type, added root assertions for `city` and `year`, improved per-entry diagnostics, and enforced street-level address formatting.
+- Applied review feedback to harden `tests/unit/malmo-directory-index-contract.test.ts`: imported canonical `PreschoolIndex` type, added root assertions for `city` and `year`, improved per-entry diagnostics, and enforced street-level address formatting.
 - Replaced city-only address placeholders in `data/malmo/index.json` with realistic street-level Malmö addresses for all five preschools.
 - Documented `SurveyQuestion.totalRespondents` rationale in `docs/implementation-plan.md` to align spec and schema.
 - Set next implementation focus to Step 1.3 per-preschool survey seed files.

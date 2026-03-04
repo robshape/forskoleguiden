@@ -16,7 +16,7 @@ Step 4.2 is complete end-to-end: a fail-first acceptance test was added, a reusa
 - `docs/plans/implement-step-4-2-preschool-card-phase-3-complete.md`
 - `src/components/astro/PreschoolCard.astro`
 - `src/pages/sv/index.astro`
-- `tests/e2e/step-4-2-card-acceptance.spec.ts`
+- `tests/e2e/preschool-card-contract.spec.ts`
 - `docs/memory-bank/activeContext.md`
 - `docs/memory-bank/progress.md`
 

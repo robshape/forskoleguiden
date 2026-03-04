@@ -5,7 +5,7 @@ Integrated the reusable `PreschoolCard` into the Swedish directory route and bro
 **Files created/changed**:
 
 - `src/pages/sv/index.astro`
-- `tests/e2e/step-4-2-card-acceptance.spec.ts`
+- `tests/e2e/preschool-card-contract.spec.ts`
 - `docs/memory-bank/activeContext.md`
 - `docs/memory-bank/progress.md`
 
@@ -16,7 +16,7 @@ Integrated the reusable `PreschoolCard` into the Swedish directory route and bro
 
 **Tests created/changed**:
 
-- `tests/e2e/step-4-2-card-acceptance.spec.ts` (stabilized selectors and per-preschool card assertions)
+- `tests/e2e/preschool-card-contract.spec.ts` (stabilized selectors and per-preschool card assertions)
 
 **Review Status**: APPROVED
 

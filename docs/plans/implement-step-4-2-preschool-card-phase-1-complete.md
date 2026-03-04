@@ -4,7 +4,7 @@ Added a new Step 4.2 acceptance e2e test that enforces the preschool card contra
 
 **Files created/changed**:
 
-- `tests/e2e/step-4-2-card-acceptance.spec.ts`
+- `tests/e2e/preschool-card-contract.spec.ts`
 
 **Functions created/changed**:
 

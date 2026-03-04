@@ -37,9 +37,14 @@ test('given /sv/ directory when rendered then each preschool card shows required
 
     const hasPercentScore =
       (await card.getByText(/\d+(?:[.,]\d+)?\s*%/).count()) > 0
-    const hasNoScoreFallback =
-      (await card.locator('.sr-only').filter({ hasText: /.+/ }).count()) > 0
+    const hasScoreFallback =
+      (await card.getByTestId('score-fallback').count()) > 0
 
-    expect(hasPercentScore || hasNoScoreFallback).toBe(true)
+    if (hasPercentScore) {
+      expect(hasScoreFallback).toBe(false)
+      continue
+    }
+
+    expect(hasScoreFallback).toBe(true)
   }
 })

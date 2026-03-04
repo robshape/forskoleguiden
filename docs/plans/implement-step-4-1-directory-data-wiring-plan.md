@@ -6,7 +6,7 @@ Implement Step 4.1 by wiring build-time directory data loading on the Swedish ro
 
 1. **Phase 1: Add failing page-data behavior test**
    - **Objective**: Establish a red test proving `/sv/` does not yet render directory data.
-   - **Files/Functions to Modify/Create**: `tests/e2e/step-4-1-directory-data.spec.ts` (new)
+   - **Files/Functions to Modify/Create**: `tests/e2e/directory-data-rendering.spec.ts` (new)
    - **Tests to Write**: E2E test that expects at least one known preschool name from data to be visible on `/sv/`.
    - **Steps**:
      1. Add a focused e2e test for directory data visibility on `/sv/`.

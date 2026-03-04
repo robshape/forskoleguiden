@@ -30,7 +30,7 @@ describe('preschool data loading', () => {
     expect(survey.surveyYear).toBe(index.year)
     expect(helhetsbedomning).toBeDefined()
     if (!helhetsbedomning) {
-      return
+      throw new Error('helhetsbedomning group missing')
     }
     expect(helhetsbedomning.questions.length).toBeGreaterThan(0)
     assertResponseShape(helhetsbedomning.questions[0].response)
