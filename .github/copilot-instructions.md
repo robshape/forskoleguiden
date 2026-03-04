@@ -23,12 +23,19 @@ The `base` config is set to `/forskoleguiden` for GitHub Pages project-site depl
 
 ## CI/CD
 
-GitHub Actions workflow at `.github/workflows/deploy.yml` triggers on push to `main`. Runs: lint → lint:md → format:check → type check (`pnpm check`) → unit tests → build → Playwright e2e → deploy to GitHub Pages. Uses `GITHUB_TOKEN` for all auth. Concurrency group `pages` cancels in-progress runs. Node and pnpm versions are pinned to exact semver (22.14.0 and 10.29.3). Build job has `timeout-minutes: 15`.
+**Reusable quality-gates workflow** (`.github/workflows/quality-gates.yml`) — a `workflow_call` workflow containing all quality gate steps: checkout, pnpm/node setup, install, lint, lint:md, format:check, check, test, build, Playwright install, e2e. Takes no inputs — pure validation only. Both `deploy.yml` and `dependabot.yml` consume this reusable workflow instead of inlining steps. This pattern was chosen over a local composite action (`.github/actions/`) because Dependabot's `github-actions` ecosystem only scans `.github/workflows/*.yml` for action version updates.
+
+**Deploy workflow** (`.github/workflows/deploy.yml`) triggers on push to `main`. Calls `quality-gates.yml`, then a separate build job (gated on quality-gates passing) rebuilds, uploads the Pages artifact, and a deploy job deploys to GitHub Pages. Uses `GITHUB_TOKEN` for all auth. Concurrency group `pages` cancels in-progress runs. Node and pnpm versions are pinned to exact semver (22.14.0 and 10.29.3).
+
+**Dependabot** (`.github/dependabot.yml`) manages weekly automated dependency and GitHub Actions version updates with grouped PRs and commit prefixes (`deps:`, `ci:`). **`pnpm-workspace.yaml`** enforces `minimumReleaseAge: 4320` (3 days) for supply-chain security — Dependabot PRs may fail CI if a proposed version was published less than 3 days ago; this is expected and self-resolves once the package ages past the threshold.
+
+**Dependabot auto-merge workflow** (`.github/workflows/dependabot.yml`) triggers on `pull_request` (Dependabot PRs) and `push` to `main`. Calls `quality-gates.yml` (without pages artifact) on Dependabot PRs, then auto-approves and enables squash auto-merge once gates pass. On `push` to `main`, it updates open Dependabot PR branches to keep them current. Uses `GITHUB_TOKEN` only (no PAT). Requires "Allow auto-merge" enabled in repo settings.
 
 ## Directory structure
 
 ```text
-.github/workflows/deploy.yml  — CI/CD: lint, test, build, deploy to GitHub Pages
+.github/workflows/quality-gates.yml — Reusable workflow_call: lint, test, build, e2e (consumed by deploy.yml and dependabot.yml)
+.github/workflows/deploy.yml  — Calls quality-gates.yml + deploys to GitHub Pages
 data/template.json            — Schema template for preschool JSON (reference only — actual shape is in src/lib/types.ts)
 data/malmo/index.json         — City directory: lists all preschool IDs, names, addresses, operator types
 data/malmo/2025/*.json        — Per-preschool survey data (one file per preschool, keyed by slug ID)

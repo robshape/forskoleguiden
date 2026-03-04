@@ -1,0 +1,89 @@
+# Dependabot configuration — keeps npm deps and GitHub Actions up to date.
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+#
+# ── Interaction with pnpm minimumReleaseAge ──────────────────────────
+# pnpm-workspace.yaml sets minimumReleaseAge: 4320 (3 days). If Dependabot
+# opens a PR for a version published < 3 days ago, CI's `pnpm install
+# --frozen-lockfile` will reject it — this is the intended security behavior.
+# The PR will pass on re-run once the package ages past the threshold.
+# A weekly schedule minimizes this edge case since most versions detected
+# on a weekly scan are already several days old.
+
+version: 2
+
+updates:
+  # ── npm (pnpm) dependencies ──────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Stockholm
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
+    commit-message:
+      prefix: 'deps'
+      prefix-development: 'deps(dev)'
+    labels:
+      - dependencies
+    groups:
+      # Astro framework ecosystem
+      astro:
+        patterns:
+          - 'astro'
+          - '@astrojs/*'
+      # Interactive islands
+      preact:
+        patterns:
+          - 'preact'
+          - '@nanostores/*'
+          - 'nanostores'
+      # Styling
+      tailwind:
+        patterns:
+          - 'tailwindcss'
+          - '@tailwindcss/*'
+      # Testing tools
+      testing:
+        patterns:
+          - 'vitest'
+          - '@playwright/*'
+          - '@axe-core/*'
+      # Linting and formatting
+      linting:
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
+          - '@eslint/*'
+          - '@typescript-eslint/*'
+          - 'prettier'
+          - 'prettier-plugin-*'
+          - 'markdownlint-cli2'
+
+  # ── GitHub Actions ───────────────────────────────────────────────
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Stockholm
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'ci'
+    labels:
+      - ci
+    groups:
+      # GitHub Pages deployment actions
+      pages:
+        patterns:
+          - 'actions/configure-pages'
+          - 'actions/upload-pages-artifact'
+          - 'actions/deploy-pages'
+      # Build tooling actions
+      build-tooling:
+        patterns:
+          - 'actions/checkout'
+          - 'actions/setup-node'
+          - 'pnpm/action-setup'

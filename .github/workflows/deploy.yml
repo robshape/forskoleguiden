@@ -1,6 +1,9 @@
 # Builds, tests, and deploys the static Astro site to GitHub Pages.
 # Triggers on every push to main.
 # Uses GITHUB_TOKEN (GitHub Bot) for all authentication — no PAT needed.
+#
+# Quality gates (lint, test, build, e2e) are defined once in
+# quality-gates.yml and reused here via workflow_call.
 
 name: Deploy to GitHub Pages
 
@@ -21,10 +24,15 @@ permissions:
   id-token: write
 
 jobs:
-  # ── Quality gates + build ──────────────────────────────────────────
+  # ── Quality gates (lint, test, build, e2e) ─────────────────────────
+  quality-gates:
+    uses: ./.github/workflows/quality-gates.yml
+
+  # ── Build + upload Pages artifact ────────────────────────────────
   build:
+    needs: quality-gates
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6.0.2
@@ -43,36 +51,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # ── Lint & format checks ──────────────────────────────────────
-      - name: Lint (ESLint)
-        run: pnpm lint
-
-      - name: Lint Markdown
-        run: pnpm lint:md
-
-      - name: Check formatting (Prettier)
-        run: pnpm format:check
-
-      # ── Type checking ─────────────────────────────────────────────
-      - name: Type check (Astro)
-        run: pnpm check
-
-      # ── Unit tests ────────────────────────────────────────────────
-      - name: Run unit tests
-        run: pnpm test
-
-      # ── Build ─────────────────────────────────────────────────────
       - name: Build site
         run: pnpm build
 
-      # ── E2E tests (needs build output for pnpm preview) ──────────
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: Run e2e tests
-        run: pnpm test:e2e
-
-      # ── Upload artifact for GitHub Pages ──────────────────────────
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5.0.0
 

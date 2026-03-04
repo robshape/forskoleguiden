@@ -20,6 +20,7 @@ Key completed milestones:
 - **Test hardening patch (2026-03-04)**: Replaced silent early return in `tests/unit/data-loader-contract.test.ts` with explicit throw on missing Helhetsbedömning, and switched score-fallback detection in `tests/e2e/preschool-card-contract.spec.ts` from `.sr-only` class coupling to stable `data-testid="score-fallback"` contract via `PreschoolCard`
 - **Phase A/B**: UI styling + implementation-plan documentation updates for Steps 4–8
 - **Test-suite naming cleanup (2026-03-04)**: Renamed all `tests/unit` and `tests/e2e` files from step/generic names to domain-focused contract names; updated markdown/memory-bank references to keep command snippets copy-safe
+- **Dependabot auto-merge workflow (2026-03-04)**: Added `.github/workflows/dependabot.yml` — auto-tests, auto-approves, and squash-auto-merges Dependabot PRs after full quality gates pass; keeps open Dependabot branches updated when `main` advances
 
 ## Next Focus
 

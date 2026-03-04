@@ -1,0 +1,79 @@
+# Runs quality gates on Dependabot PRs, then auto-approves and squash-merges.
+# Also keeps open Dependabot PR branches up to date when main advances.
+#
+# Quality gates (lint, test, build, e2e) are defined once in
+# quality-gates.yml and reused here via workflow_call.
+#
+# Prerequisites:
+#   - "Allow auto-merge" must be enabled in repo Settings → General → Pull Requests.
+#   - If branch protection is configured, the quality-gates job name must be
+#     listed as a required status check for auto-merge to trigger.
+#
+# Uses GITHUB_TOKEN (GitHub Bot) for all authentication — no PAT needed.
+
+name: Dependabot
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Cancel previous runs for the same PR; push-to-main runs get unique groups.
+concurrency:
+  group: dependabot-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # ── Quality gates (reuses shared pipeline) ────────────────────────
+  quality-gates:
+    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+    uses: ./.github/workflows/quality-gates.yml
+
+  # ── Auto-approve + squash-merge ──────────────────────────────────
+  auto-merge:
+    needs: quality-gates
+    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approve PR
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge (squash)
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ── Keep Dependabot branches current with main ──────────────────
+  update-branches:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update open Dependabot PR branches
+        run: |
+          prs=$(gh pr list \
+            --author 'dependabot[bot]' \
+            --state open \
+            --json number \
+            --jq '.[].number' \
+            --repo "$GITHUB_REPOSITORY")
+
+          if [ -z "$prs" ]; then
+            echo "No open Dependabot PRs to update."
+            exit 0
+          fi
+
+          echo "$prs" | while read -r pr; do
+            echo "Updating PR #$pr branch to latest main…"
+            gh pr update-branch "$pr" --repo "$GITHUB_REPOSITORY" \
+              || echo "  Could not update PR #$pr (may already be up to date)"
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -30,6 +30,12 @@ For full rationale behind each technology choice, see `docs/tech-stack.md`. This
 - **pnpm** required (enforced via `engines` in `package.json`).
 - All dependencies pinned to exact versions (no `^` or `~`).
 
+### Supply-Chain Security
+
+- **`minimumReleaseAge: 4320`** (3 days) in `pnpm-workspace.yaml` — pnpm refuses to install any package version published less than 3 days ago, mitigating supply-chain attacks via freshly-published malicious versions.
+- **Dependabot** (`.github/dependabot.yml`) — weekly automated PRs for both npm (pnpm) dependencies and GitHub Actions versions. PRs are grouped by ecosystem with commit-message prefixes (`deps:` for npm, `ci:` for Actions).
+- **Interaction**: Dependabot may propose a version that is still within the 3-day quarantine window. In that case, `pnpm install` in CI will fail — this is expected security behavior. The PR can be merged once the package ages past the threshold, or the minimum release age can be temporarily overridden if the update is urgent and verified.
+
 ## Editor
 
 - Recommended VS Code extensions: `astro-build.astro-vscode`, `dbaeumer.vscode-eslint`, `esbenp.prettier-vscode`, `bradlc.vscode-tailwindcss`.
@@ -37,9 +43,11 @@ For full rationale behind each technology choice, see `docs/tech-stack.md`. This
 ## Deployment
 
 - **GitHub Pages** — static `dist/` folder deployed via GitHub Actions. Site URL: `https://robshape.github.io/forskoleguiden`.
-- **CI/CD workflow**: `.github/workflows/deploy.yml` triggers on push to `main`. Pipeline: checkout → pnpm install → lint + lint:md + format:check → type check (`pnpm check`) → unit tests → build → Playwright e2e → upload artifact → deploy to GitHub Pages. Node 22.14.0 and pnpm 10.29.3 pinned to exact semver. Build job capped at 15 min timeout.
-- Uses official GitHub Actions: `actions/checkout@v4`, `pnpm/action-setup@v4`, `actions/setup-node@v4` (with pnpm cache), `actions/configure-pages@v5`, `actions/upload-pages-artifact@v3`, `actions/deploy-pages@v4`.
+- **Reusable quality-gates workflow**: `.github/workflows/quality-gates.yml` is a `workflow_call` workflow containing all quality gate steps: checkout, pnpm/node setup, install, lint, lint:md, format:check, check, test, build, Playwright install, e2e. Takes no inputs — pure validation only. Both `deploy.yml` and `dependabot.yml` consume this reusable workflow. Chosen over a composite action because Dependabot's `github-actions` ecosystem only scans `.github/workflows/*.yml` for action version updates.
+- **Deploy workflow**: `.github/workflows/deploy.yml` triggers on push to `main`. Calls `quality-gates.yml`, then a separate build job (gated on quality-gates passing) rebuilds, uploads the Pages artifact, and a deploy job deploys to GitHub Pages. Node 22.14.0 and pnpm 10.29.3 pinned to exact semver.
+- Uses official GitHub Actions (pinned to exact semver): `actions/checkout@v6.0.2`, `pnpm/action-setup@v4.2.0`, `actions/setup-node@v6.2.0` (with pnpm cache), `actions/configure-pages@v5.0.0`, `actions/upload-pages-artifact@v4.0.0`, `actions/deploy-pages@v4.0.5`.
 - All authentication uses `GITHUB_TOKEN` (GitHub Bot) — no PAT required.
+- **Dependabot auto-merge workflow**: `.github/workflows/dependabot.yml` triggers on `pull_request` (Dependabot PRs) and `push` to `main`. Calls `quality-gates.yml` on Dependabot PRs, then auto-approves and enables squash auto-merge. On push to `main`, updates open Dependabot PR branches via `gh pr update-branch`. Uses `GITHUB_TOKEN` only. Requires "Allow auto-merge" enabled in repo settings.
 
 ## Key Constraints
 

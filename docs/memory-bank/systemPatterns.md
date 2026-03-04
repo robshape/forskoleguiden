@@ -58,6 +58,12 @@ Note: Source-inspection tests were removed during KCD test alignment — they te
 
 - **`SURVEY_YEAR`** (`src/lib/constants.ts`): Shared build-time constant (`2025`) imported by components (e.g., CityYearSelector) instead of hardcoding. Centralizes the survey-year value for future year transitions.
 
+## Reusable CI Workflow Pattern
+
+- **`quality-gates.yml`** (`.github/workflows/quality-gates.yml`) is a `workflow_call` reusable workflow that encapsulates all quality gate steps (checkout, pnpm/node setup, install, lint, lint:md, format:check, check, test, build, Playwright install, e2e). Takes no inputs — pure validation only. Artifact upload is the caller's responsibility (deploy.yml has a separate build job for that).
+- Both `deploy.yml` and `dependabot.yml` consume `quality-gates.yml` instead of inlining duplicate step definitions. This eliminates step drift between the two pipelines.
+- A reusable workflow was chosen over a local composite action (`.github/actions/`) because Dependabot's `github-actions` ecosystem only scans `.github/workflows/*.yml` for pinned action version updates — a composite action's pinned versions would not receive automated update PRs.
+
 ## Base Path Pattern
 
 - Astro `base: '/forskoleguiden'` is set in `astro.config.ts` for GitHub Pages project-site deployment (content served under `https://robshape.github.io/forskoleguiden/`).

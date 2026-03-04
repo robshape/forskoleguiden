@@ -28,6 +28,16 @@ Current status (2026-03-04): Steps 0–3 and design foundations are complete. St
 - **Post-rename test hardening (2026-03-04)**: `tests/unit/data-loader-contract.test.ts` now throws explicitly when Helhetsbedömning is missing (no silent pass path), and `src/components/astro/PreschoolCard.astro` adds `data-testid="score-fallback"` so `tests/e2e/preschool-card-contract.spec.ts` can assert fallback behavior without brittle `.sr-only` class coupling.
 - **KCD test alignment**: Consolidated 64 tests → 16 (13 unit + 3 e2e). Removed source-inspection tests, redundant coverage, and one-assertion-per-test patterns. Behavior verified via e2e instead.
 
+## Decision Log
+
+### 2026-03-04: `minimumReleaseAge` reduced from 7 days to 3 days
+
+- **Change**: `pnpm-workspace.yaml` `minimumReleaseAge` lowered from `10080` (7 days) to `4320` (3 days).
+- **Rationale**: Automated scanners (Socket.dev, Snyk, npm audit) and community reports typically flag malicious packages within 24–48 hours. 3 days provides margin beyond that window while reducing friction for dependency updates.
+- **Risk acknowledged**: Scanner detection is probabilistic, not guaranteed. A 3-day window is shorter than the previous 7-day window, which means a sophisticated, slow-to-detect attack has a narrower but non-zero chance of slipping through.
+- **Mitigating factors**: This is a low-sensitivity static site with no backend, no user accounts, no secrets at runtime, and no external API calls. The blast radius of a compromised dependency is limited to build-time code execution and static output. Weekly Dependabot schedule further reduces exposure to very-new releases. The `trustPolicy: no-downgrade` setting prevents trust-level regressions.
+- **Override mechanism**: For critical hotfixes that need a freshly-published package, add it to `minimumReleaseAgeExclude` in `pnpm-workspace.yaml` temporarily.
+
 ## Current Priorities
 
 1. **Step 4.3 directory ranking/sort controls** — next implementation target after Step 4.2 integration completion.
