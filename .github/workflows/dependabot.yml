@@ -30,13 +30,13 @@ permissions:
 jobs:
   # ── Quality gates (reuses shared pipeline) ────────────────────────
   quality-gates:
-    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+    if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
     uses: ./.github/workflows/quality-gates.yml
 
   # ── Auto-approve + squash-merge ──────────────────────────────────
   auto-merge:
     needs: quality-gates
-    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+    if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Approve PR
