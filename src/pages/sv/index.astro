@@ -13,7 +13,6 @@ const surveyYear = preschoolIndex.year
 const pageTitle = t('site.title', locale)
 const directoryListAriaLabel = t('directory.listAriaLabel', locale)
 const directoryHeading = t('directory.heading', locale)
-const rankingExplanation = t('directory.rankingExplanation', locale)
 const rankingSortLabel = t('directory.sort.ranking', locale)
 const alphabeticalSortLabel = t('directory.sort.alphabetical', locale)
 const sortGroupLabel = t('directory.sort.groupLabel', locale)
@@ -62,20 +61,16 @@ const sortedDirectory = [...preschoolDirectory].sort(
         locale={locale}
       />
     </div>
-    <p class="mt-2 text-sm text-slate-700">{rankingExplanation}</p>
 
     <ul id="sv-preschool-directory-list" class="mt-4 space-y-2">
       {
         sortedDirectory.map((preschool, index) => (
           <li
-            class="flex items-start gap-3"
+            class="block"
             data-name={preschool.name}
             data-rank-index-zero-based={index}
           >
-            <span
-              data-testid="rank-index"
-              class="mt-6 inline-flex min-w-6 justify-center text-sm font-semibold text-slate-700"
-            >
+            <span data-testid="rank-index" class="sr-only">
               {index + 1}
             </span>
             <PreschoolCard

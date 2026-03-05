@@ -37,20 +37,6 @@ test.describe('Swedish directory data rendering contracts', () => {
     )
   })
 
-  test('renders visible ranking-method explanation copy', async ({ page }) => {
-    await page.goto('/forskoleguiden/sv/')
-
-    await expect(
-      page.getByText(
-        'Rangordnat efter andel instämmande svar i Helhetsbedömningen',
-      ),
-    ).toBeVisible()
-
-    await expect(
-      page.locator('section[aria-label="Förskolelista"] > ul'),
-    ).toHaveClass(/mt-4/)
-  })
-
   test('renders rank index text 1..N for each card row', async ({ page }) => {
     await page.goto('/forskoleguiden/sv/')
 

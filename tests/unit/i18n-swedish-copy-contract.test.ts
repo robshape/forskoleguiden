@@ -35,7 +35,6 @@ describe('Swedish translation keys', () => {
       'directory.sort.ranking',
       'directory.sort.alphabetical',
       'directory.sort.groupLabel',
-      'directory.rankingExplanation',
       'directory.operatorType.municipal',
       'directory.operatorType.independent',
       'directory.listAriaLabel',
@@ -93,9 +92,6 @@ describe('Swedish translation keys', () => {
     )
     expect(getByPath(sv as JsonObject, 'directory.sort.groupLabel')).toBe(
       'Sortering',
-    )
-    expect(getByPath(sv as JsonObject, 'directory.rankingExplanation')).toBe(
-      'Rangordnat efter andel instämmande svar i Helhetsbedömningen',
     )
     expect(getByPath(sv as JsonObject, 'responses.partlyDisagree')).toBe(
       'Instämmer inte delvis',
