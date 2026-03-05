@@ -3,7 +3,7 @@
 ## IMPORTANT
 
 - ALWAYS pin dependencies to exact versions in `package.json` (no ^ or ~).
-- ALWAYS run `pnpm lint`, `pnpm lint:md`, `pnpm check`, `pnpm format`, `pnpm test` after finishing a feature or task.
+- ALWAYS run `pnpm lint`, `pnpm lint:md`, `pnpm format:check`, `pnpm check`, `pnpm test` after finishing a feature or task (matches CI gate order).
 
 ## Project overview
 
@@ -19,8 +19,6 @@ Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents com
 
 Data flow: static JSON (build-time only) → Astro pre-renders HTML → Preact islands hydrate for interactivity → nanostores for client state → lz-string for shareable URL encoding.
 
-The `base` config is set to `/forskoleguiden` for GitHub Pages project-site deployment. Use `import.meta.env.BASE_URL` (no trailing slash) for all internal hrefs — never hardcode `/` as the root. The redirect in `astro.config.ts` uses the `base` variable to ensure the target includes the base prefix.
-
 ## CI/CD
 
 **Reusable quality-gates workflow** (`.github/workflows/quality-gates.yml`) — a `workflow_call` workflow containing all quality gate steps: checkout, pnpm/node setup, install, lint, lint:md, format:check, check, test, build, Playwright install, e2e. Takes no inputs — pure validation only. Both `deploy.yml` and `dependabot.yml` consume this reusable workflow instead of inlining steps. This pattern was chosen over a local composite action (`.github/actions/`) because Dependabot's `github-actions` ecosystem only scans `.github/workflows/*.yml` for action version updates.
@@ -31,6 +29,10 @@ The `base` config is set to `/forskoleguiden` for GitHub Pages project-site depl
 
 **Dependabot auto-merge workflow** (`.github/workflows/dependabot.yml`) triggers on `pull_request` (Dependabot PRs) and `push` to `main`. Calls `quality-gates.yml` (without pages artifact) on Dependabot PRs, then auto-approves and enables squash auto-merge once gates pass. On `push` to `main`, it updates open Dependabot PR branches to keep them current. Uses `GITHUB_TOKEN` only (no PAT). Requires "Allow auto-merge" enabled in repo settings.
 
+## Base path
+
+The `base` config is set to `/forskoleguiden` for GitHub Pages project-site deployment. `src/lib/base-path.ts` exports `getBasePath()` which normalizes `import.meta.env.BASE_URL` (strips trailing slash). Use it for all internal hrefs: `${getBasePath()}/${locale}/path`. Never hardcode `/` as the root. E2e tests also use the base path: `page.goto('/forskoleguiden/sv/')`.
+
 ## Directory structure
 
 ```text
@@ -40,14 +42,15 @@ data/template.json            — Schema template for preschool JSON (reference 
 data/malmo/index.json         — City directory: lists all preschool IDs, names, addresses, operator types
 data/malmo/2025/*.json        — Per-preschool survey data (one file per preschool, keyed by slug ID)
 src/lib/types.ts              — TypeScript interfaces: PreschoolSurvey, PreschoolIndex, SurveyResponse, etc.
-src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurvey(id), getAllPreschoolSurveys()
+src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurvey(id), getPreschoolSurveyByYear(id, year), getAllPreschoolSurveys()
 src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc()
 src/lib/constants.ts          — Shared constants: MALMO_SOURCE_URL, SURVEY_YEAR
+src/lib/base-path.ts          — getBasePath(): normalizes import.meta.env.BASE_URL (strips trailing slash)
 src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path keys)
 src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
 src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
-src/components/astro/         — Static Astro components: Nav, Footer, CityYearSelector
-src/components/preact/        — Interactive Preact islands [planned]
+src/components/astro/         — Static Astro components: Nav, Footer, CityYearSelector, PreschoolCard
+src/components/preact/        — Interactive Preact islands: SortToggle
 src/features/                 — Feature-organized modules (directory, comparison, shortlist, sharing) [planned]
 src/pages/{sv,en,ar}/         — Astro file-based i18n routing (pages pass locale to BaseLayout)
 src/styles/global.css         — Tailwind v4 entry + @theme tokens (colors, spacing, shadows)
@@ -62,7 +65,7 @@ tests/e2e/**/*.spec.ts        — Playwright e2e tests
 - **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro. Astro components receive `locale: Locale` as a prop and call `t()` for all user-facing text — see `Nav.astro`, `Footer.astro` for the pattern.
 - **Layout pattern**: all pages wrap content in `<BaseLayout locale={locale} title={...}>`. BaseLayout sets `lang`, `dir` (RTL for Arabic), loads global CSS, and renders Nav + Footer.
 - **No `@astrojs/tailwind`** — Tailwind v4 uses the Vite plugin directly: `@tailwindcss/vite` in `astro.config.ts`. Design tokens are defined as `@theme` variables in `src/styles/global.css` (e.g. `--color-primary-600`, `--max-width-content`).
-- **i18n**: three locales (`sv`, `en`, `ar`), all prefix-routed (`/sv/`, `/en/`, `/ar/`). Swedish is default. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants. Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. All three locale JSONs must have identical key structures. `Locale` type and `getLocaleFromURL()` are exported from the same module.
+- **i18n**: three locales (`sv`, `en`, `ar`), all prefix-routed (`/sv/`, `/en/`, `/ar/`). Swedish is default. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants. Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. Supports interpolation: `t('compareTray.selectedCount', locale, { count: 3 })` replaces `{count}` in the template. All three locale JSONs must have identical key structures (enforced by unit test). `Locale` type and `getLocaleFromURL()` are exported from the same module.
 - **No runtime data fetching** — all preschool data read from `data/` at Astro build time via `src/lib/data.ts` loaders (uses `readFileSync` + `process.cwd()`).
 - **Formatting**: single quotes, no semicolons (`.prettierrc`). Prettier + prettier-plugin-astro.
 - **ESLint**: flat config (`eslint.config.js`) with `@typescript-eslint` + `eslint-plugin-astro`.
@@ -96,8 +99,9 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - **Unit tests**: `tests/unit/` with Vitest, node environment. Use `@/` and `@data/` aliases (mirrored in `vitest.config.ts`).
 - **Shared test helpers**: `tests/unit/helpers/` — `malmo-data.ts` loads real index/survey paths; `survey-assertions.ts` provides `assertResponseShape()` and `assertResponseContract()` for validating `SurveyResponse` objects.
 - **Data contract tests**: `tests/unit/malmo-survey-files-contract.test.ts` validates every JSON file in `data/malmo/2025/` against type contracts — add new preschool JSON and these tests enforce shape/range.
-- **E2e tests**: `tests/e2e/` with Playwright. Config auto-starts `pnpm preview` webserver. See `tests/e2e/homepage-routing-smoke.spec.ts` for the baseline pattern.
+- **E2e tests**: `tests/e2e/` with Playwright. Config auto-starts `pnpm preview` webserver. All e2e paths include the base path: `page.goto('/forskoleguiden/sv/')`. See `tests/e2e/homepage-routing-smoke.spec.ts` for routing, `tests/e2e/preschool-card-contract.spec.ts` for component contracts.
 - **Regression guards**: infrastructure invariants are tested as unit tests (e.g., `tests/unit/infrastructure-gitignore-regression.test.ts` verifies `.gitignore` entries).
+- **BDD-style test names**: test files use behavior-descriptive names (e.g., `scoring-overall-score-utilities.test.ts`, `i18n-locale-key-parity.test.ts`), not generic names.
 
 ## Accessibility requirements
 
