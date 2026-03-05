@@ -1,5 +1,3 @@
-/** @jsxImportSource preact */
-
 import type { Locale } from '@/i18n/utils'
 import { useEffect, useRef, useState } from 'preact/hooks'
 
