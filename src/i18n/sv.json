@@ -24,7 +24,8 @@
     "rankingExplanation": "Rangordnat efter andel instämmande svar i Helhetsbedömningen",
     "sort": {
       "ranking": "Rankning",
-      "alphabetical": "A–Ö"
+      "alphabetical": "A–Ö",
+      "groupLabel": "Sortering"
     },
     "operatorType": {
       "municipal": "Kommunal",

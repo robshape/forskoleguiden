@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-04): Steps 0–3 and design foundations are complete. Step 4.1 route-level build-time data wiring, Step 4.2 card integration, and Step 4.3 directory ranking presentation are complete with required quality gates green.
+Current status (2026-03-05): Steps 0–4 are complete through Step 4.4 sort toggle delivery. Required quality gates and targeted Step 4.4 e2e regressions are green.
 
 ## Completed Scaffolding Summary
 
@@ -38,6 +38,23 @@ Current status (2026-03-04): Steps 0–3 and design foundations are complete. St
   - Replaced in-place sort mutation in `/sv/` route with immutable `sortedDirectory` copy before sorting.
   - Added visual rhythm fix by applying `mt-4` between ranking explanation text and directory list.
   - Hardened Step 4.3 e2e contracts by documenting current score-derived order, switching heading-count assertion to regex (`\(\d+\)`), and replacing prefix-based rank checks with exact rank-span assertions.
+- **Step 4.4 (Phase 2 complete)**:
+  - Added `src/components/preact/SortToggle.tsx` and wired it into `/sv/` with `client:load`.
+  - Preserved default Step 4.3 ranking render (score-desc with deterministic name tie-break + visible rank indices) and kept existing heading/explanation copy intact.
+  - Added row metadata (`data-name`, `data-rank-order`) and list id wiring so `Rankning` / `A–Ö` toggles deterministically reorder cards and update visible row rank spans.
+  - Hardened TSX type-checking with file-scoped `/** @jsxImportSource preact */` in `src/components/preact/SortToggle.tsx` and added `src/env.d.ts` (`astro/client`) for stable Astro typing.
+  - Validation green: targeted sort-toggle e2e, full `directory-data-rendering` e2e spec, `pnpm lint`, `pnpm lint:md`, `pnpm check`, `pnpm format`, and `pnpm test`.
+- **Step 4.4 (Phase 3 complete)**:
+  - Strengthened sort-toggle e2e behavior contract in `tests/e2e/directory-data-rendering.spec.ts` to assert rank-index updates for known row content during mode toggles.
+  - Ran targeted e2e regressions for directory sorting and preschool-card contract; both pass.
+  - Completed required gate suite (`pnpm lint`, `pnpm lint:md`, `pnpm check`, `pnpm format`, `pnpm test`) with green status.
+- **Step 4.4 (review-feedback patch complete)**:
+  - Added localized sort group accessibility labels via `directory.sort.groupLabel` across `src/i18n/sv.json`, `src/i18n/en.json`, and `src/i18n/ar.json`; `/sv/` now passes `groupLabel` into `SortToggle`.
+  - Replaced fragile positional rank span selectors with stable `data-testid="rank-index"` hooks and renamed ranking metadata to explicit `data-rank-index-zero-based`.
+  - Added `aria-live="polite"` announcement region (`data-testid="sort-live-region"`) for sort mode changes.
+  - Added initial-effect mount guard and cached row metadata in `SortToggle` to avoid redundant initial DOM churn and repeated per-toggle DOM traversal.
+  - Tightened typing by using `Locale` for `SortToggle` locale props and renamed e2e suite label to `Swedish directory data rendering contracts`.
+  - Validation green: `pnpm lint`, `pnpm lint:md`, `pnpm check`, `pnpm format`, `pnpm test`, `pnpm build`, and `pnpm playwright test tests/e2e/directory-data-rendering.spec.ts`.
 - **KCD test alignment**: Consolidated 64 tests → 16 (13 unit + 3 e2e). Removed source-inspection tests, redundant coverage, and one-assertion-per-test patterns. Behavior verified via e2e instead.
 
 ## Decision Log
@@ -52,8 +69,8 @@ Current status (2026-03-04): Steps 0–3 and design foundations are complete. St
 
 ## Current Priorities
 
-1. **Step 4.4 alphabetical sort toggle** — next implementation target after Step 4.3 completion.
+1. **Step 5.1 compare-store foundation** — implement `compareIds`, `toggleCompare`, `clearCompare`, and max-cap behavior in `src/lib/state.ts`.
 
 ## Next Focus
 
-- Begin Step 4.4 implementation planning/execution while keeping Step 5 compare-state behavior out of scope.
+- Begin Step 5 implementation while keeping compare-tray and compare-button UI interactions for subsequent Step 5.2/5.3 tasks.

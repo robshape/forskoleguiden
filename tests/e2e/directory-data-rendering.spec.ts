@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test.describe('Swedish directory Step 4.3 contracts', () => {
+test.describe('Swedish directory data rendering contracts', () => {
   test('renders directory cards in default score-desc ranking order', async ({
     page,
   }) => {
@@ -62,9 +62,46 @@ test.describe('Swedish directory Step 4.3 contracts', () => {
     expect(rowCount).toBeGreaterThan(0)
 
     for (let index = 0; index < rowCount; index += 1) {
-      await expect(listRows.nth(index).locator('> span')).toHaveText(
+      await expect(listRows.nth(index).getByTestId('rank-index')).toHaveText(
         String(index + 1),
       )
     }
+  })
+
+  test('switches to alphabetical order when A–Ö is selected and restores ranking order when Rankning is selected', async ({
+    page,
+  }) => {
+    await page.goto('/forskoleguiden/sv/')
+
+    const listRows = page.locator(
+      'section[aria-label="Förskolelista"] > ul > li',
+    )
+    const firstPreschoolLink = page
+      .locator('section[aria-label="Förskolelista"] > ul > li')
+      .first()
+      .getByRole('link')
+      .first()
+    const bellevueRow = listRows.filter({
+      has: page.getByRole('link', {
+        name: 'Bellevuegårdens montessoriförskola',
+      }),
+    })
+
+    await expect(firstPreschoolLink).toHaveText(
+      'Bellevuegårdens montessoriförskola',
+    )
+    await expect(bellevueRow.getByTestId('rank-index')).toHaveText('1')
+
+    await page.getByRole('button', { name: 'A–Ö' }).click()
+    await expect(firstPreschoolLink).toHaveText('Almgårdens förskola')
+    await expect(bellevueRow.getByTestId('rank-index')).toHaveText('3')
+    await expect(page.getByTestId('sort-live-region')).toContainText('A–Ö')
+
+    await page.getByRole('button', { name: 'Rankning' }).click()
+    await expect(firstPreschoolLink).toHaveText(
+      'Bellevuegårdens montessoriförskola',
+    )
+    await expect(bellevueRow.getByTestId('rank-index')).toHaveText('1')
+    await expect(page.getByTestId('sort-live-region')).toContainText('Rankning')
   })
 })

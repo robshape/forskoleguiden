@@ -24,7 +24,8 @@
     "rankingExplanation": "Ranked by share of agree responses in Overall assessment",
     "sort": {
       "ranking": "Ranking",
-      "alphabetical": "A–Z"
+      "alphabetical": "A–Z",
+      "groupLabel": "Sorting"
     },
     "operatorType": {
       "municipal": "Municipal",

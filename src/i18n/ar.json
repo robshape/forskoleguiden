@@ -24,7 +24,8 @@
     "rankingExplanation": "مرتبة حسب نسبة الردود المتفقة في التقييم العام",
     "sort": {
       "ranking": "الترتيب",
-      "alphabetical": "أ–ي"
+      "alphabetical": "أ–ي",
+      "groupLabel": "الفرز"
     },
     "operatorType": {
       "municipal": "بلدية",

@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import CityYearSelector from '@/components/astro/CityYearSelector.astro'
 import PreschoolCard from '@/components/astro/PreschoolCard.astro'
+import SortToggle from '@/components/preact/SortToggle'
 import { t } from '@/i18n/utils'
 import { getPreschoolIndex, getPreschoolSurveyByYear } from '@/lib/data'
 import { byOverallScoreDesc, computeOverallScore } from '@/lib/scoring'
@@ -14,6 +15,8 @@ const directoryListAriaLabel = t('directory.listAriaLabel', locale)
 const directoryHeading = t('directory.heading', locale)
 const rankingExplanation = t('directory.rankingExplanation', locale)
 const rankingSortLabel = t('directory.sort.ranking', locale)
+const alphabeticalSortLabel = t('directory.sort.alphabetical', locale)
+const sortGroupLabel = t('directory.sort.groupLabel', locale)
 
 const preschoolDirectory = preschoolIndex.preschools.map((preschool) => {
   const overallScore = computeOverallScore(
@@ -50,17 +53,29 @@ const sortedDirectory = [...preschoolDirectory].sort(
       <h2 class="text-lg font-semibold text-slate-900">
         {`${directoryHeading} (${sortedDirectory.length})`}
       </h2>
-      <span class="text-sm font-semibold text-primary-600"
-        >{rankingSortLabel}</span
-      >
+      <SortToggle
+        client:load
+        listId="sv-preschool-directory-list"
+        rankingLabel={rankingSortLabel}
+        alphabeticalLabel={alphabeticalSortLabel}
+        groupLabel={sortGroupLabel}
+        locale={locale}
+      />
     </div>
     <p class="mt-2 text-sm text-slate-700">{rankingExplanation}</p>
 
-    <ul class="mt-4 space-y-2">
+    <ul id="sv-preschool-directory-list" class="mt-4 space-y-2">
       {
         sortedDirectory.map((preschool, index) => (
-          <li class="flex items-start gap-3">
-            <span class="mt-6 inline-flex min-w-6 justify-center text-sm font-semibold text-slate-700">
+          <li
+            class="flex items-start gap-3"
+            data-name={preschool.name}
+            data-rank-index-zero-based={index}
+          >
+            <span
+              data-testid="rank-index"
+              class="mt-6 inline-flex min-w-6 justify-center text-sm font-semibold text-slate-700"
+            >
               {index + 1}
             </span>
             <PreschoolCard
