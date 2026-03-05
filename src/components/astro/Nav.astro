@@ -1,12 +1,13 @@
 ---
 import { t, type Locale } from '@/i18n/utils'
+import { getBasePath } from '@/lib/base-path'
 
 interface Props {
   locale: Locale
 }
 
 const { locale } = Astro.props
-const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+const base = getBasePath()
 ---
 
 <nav
