@@ -4,10 +4,9 @@ For full rationale behind each technology choice, see `docs/tech-stack.md`. This
 
 ## Runtime Stack
 
-- **Astro 5.17.1** — static output mode, `base: '/forskoleguiden'` for GitHub Pages project-site deployment, i18n routing (`sv`/`en`/`ar`, all prefix-routed), `@astrojs/preact` + `@astrojs/sitemap` integrations.
+- **Astro 5.17.1** — static output mode, `base: '/forskoleguiden'` for GitHub Pages project-site deployment, i18n routing (`sv`/`en`/`ar`, all prefix-routed), `@astrojs/preact` integration.
 - **Preact 10.28.4** — interactive islands via `client:load`/`client:visible`/`client:idle`.
 - **nanostores 1.1.1** + `@nanostores/preact 1.0.0` — cross-island state persisted via `sessionStorage`.
-- **lz-string 1.5.0** — URL-safe compression for shareable state links.
 
 ## Styling
 

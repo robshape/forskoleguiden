@@ -2,7 +2,7 @@
 
 ## Architecture
 
-Static Astro MPA with selective Preact islands for interactivity. Zero JS by default; islands hydrate only where needed. The current shipped islands are the directory sort toggle and the per-card compare button, while compare tray, shortlist, and charts remain planned follow-up islands. Data flows from repository JSON at build time into pre-rendered pages. Client-side shared state is handled with nanostores and URL-state compression (lz-string) for share links.
+Static Astro MPA with selective Preact islands for interactivity. Zero JS by default; islands hydrate only where needed. The current shipped islands are the directory sort toggle and the per-card compare button, while compare tray, shortlist, and charts remain planned follow-up islands. Data flows from repository JSON at build time into pre-rendered pages. Client-side shared state is handled with nanostores; URL-state compression (lz-string) will be added when the sharing feature is built.
 
 For the full architectural overview, module boundaries, and data-flow rationale, see `docs/tech-stack.md`. Product constraints and behavior requirements are in `docs/prd.md`.
 
@@ -98,9 +98,12 @@ Note: Source-inspection tests were removed during KCD test alignment — they te
 
 - In `src/i18n/utils.ts`, keep locale maps type-safe by defining `translations` with `satisfies Record<Locale, typeof sv>` so compile-time checks catch locale-structure drift. Keep `t()` as the single formatting path for user-facing copy, including placeholder interpolation (e.g., `{score}`).
 
+## Island String Interpolation Pattern
+
+Preact islands receive pre-localized label strings from Astro props rather than importing `t()` directly. When a label depends on dynamic client state (e.g. `aria-pressed` toggling between "Compare" and "Added", or the tray showing a count), the island receives a _template string_ and interpolates at runtime. This is a conscious trade-off: the alternative (passing every possible pre-interpolated variant) scales poorly as state combinations grow. Accept this pattern — do not try to refactor it away.
+
 ## Code Organization
 
-- **By feature** (`src/features/`) for application modules — planned for later Step 5+ feature modules.
 - **`src/lib/`** for shared utilities: types, data loading, scoring, compare state.
 - **`src/pages/`** for Astro file-based routing with locale prefixes.
 - **`tests/unit/helpers/`** for shared test utilities.

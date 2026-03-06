@@ -100,13 +100,12 @@ forskoleguiden/
 ├── package.json
 │
 ├── data/                    # Static preschool JSON files
-│   ├── malmo/
-│   │   ├── index.json       # Directory index: name, address, id, operator type
-│   │   └── 2025/
-│   │       ├── preschool-slug-1.json
-│   │       ├── preschool-slug-2.json
-│   │       └── ...
-│   └── template.json        # Schema template
+│   └── malmo/
+│       ├── index.json       # Directory index: name, address, id, operator type
+│       └── 2025/
+│           ├── preschool-slug-1.json
+│           ├── preschool-slug-2.json
+│           └── ...
 │
 ├── public/                  # Static assets (favicon, OG images)
 │

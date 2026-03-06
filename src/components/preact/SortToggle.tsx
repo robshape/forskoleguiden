@@ -61,6 +61,8 @@ const updateRanks = (sortedRows: ListRow[]): void => {
   })
 }
 
+// Reorders server-rendered list items in-place — the list is pre-rendered by
+// Astro at build time and this island only changes their DOM order.
 const applySort = (
   listElement: HTMLUListElement,
   rows: ListRow[],

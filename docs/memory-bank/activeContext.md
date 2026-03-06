@@ -22,7 +22,6 @@ Key completed milestones:
 
 ## Active Decisions
 
-- `src/features/` directory is planned for later Step 5+ feature modules (not yet populated).
 - Session-backed compare state stays in `src/lib/state.ts` for now and must remain safe to import during Astro SSR/prerender.
 - Step 5.3 intentionally keeps the tray count-based only; selected preschool names and pluralization refinements stay out of scope until a later UX pass.
 - Step 5.3 keeps the compare CTA rendered as a focusable `aria-disabled` button until the matching `/jamfor/` route exists for the current locale. When the route is added later, the layout-level availability check can re-enable the live navigation path.

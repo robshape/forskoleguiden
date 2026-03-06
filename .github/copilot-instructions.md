@@ -17,7 +17,7 @@ Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents com
 - **Tailwind CSS v4** via `@tailwindcss/vite` plugin (NOT `@astrojs/tailwind`) — see `astro.config.ts`
 - **TypeScript** (strict) — `astro/tsconfigs/strict` base; path aliases `@/*` → `src/*`, `@data/*` → `data/*`
 
-Data flow: static JSON (build-time only) → Astro pre-renders HTML → Preact islands hydrate for interactivity → nanostores for client state → lz-string for shareable URL encoding.
+Data flow: static JSON (build-time only) → Astro pre-renders HTML → Preact islands hydrate for interactivity → nanostores for client state.
 
 ## CI/CD
 
@@ -38,7 +38,6 @@ The `base` config is set to `/forskoleguiden` for GitHub Pages project-site depl
 ```text
 .github/workflows/quality-gates.yml — Reusable workflow_call: lint, test, build, e2e (consumed by deploy.yml and dependabot.yml)
 .github/workflows/deploy.yml  — Calls quality-gates.yml + deploys to GitHub Pages
-data/template.json            — Schema template for preschool JSON (reference only — actual shape is in src/lib/types.ts)
 data/malmo/index.json         — City directory: lists all preschool IDs, names, addresses, operator types
 data/malmo/2025/*.json        — Per-preschool survey data (one file per preschool, keyed by slug ID)
 src/lib/types.ts              — TypeScript interfaces: PreschoolSurvey, PreschoolIndex, SurveyResponse, etc.
@@ -51,7 +50,6 @@ src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL(
 src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
 src/components/astro/         — Static Astro components: Nav, Footer, CityYearSelector, PreschoolCard
 src/components/preact/        — Interactive Preact islands: SortToggle
-src/features/                 — Feature-organized modules (directory, comparison, shortlist, sharing) [planned]
 src/pages/{sv,en,ar}/         — Astro file-based i18n routing (pages pass locale to BaseLayout)
 src/styles/global.css         — Tailwind v4 entry + @theme tokens (colors, spacing, shadows)
 tests/unit/**/*.test.ts       — Vitest unit tests
@@ -61,7 +59,7 @@ tests/e2e/**/*.spec.ts        — Playwright e2e tests
 
 ## Key conventions
 
-- **Organize by feature** (`src/features/directory/`, `src/features/comparison/`), not by type. Shared utilities go in `src/lib/`.
+- **Organize by feature**, not by type. Shared utilities go in `src/lib/`.
 - **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro. Astro components receive `locale: Locale` as a prop and call `t()` for all user-facing text — see `Nav.astro`, `Footer.astro` for the pattern.
 - **Layout pattern**: all pages wrap content in `<BaseLayout locale={locale} title={...}>`. BaseLayout sets `lang`, `dir` (RTL for Arabic), loads global CSS, and renders Nav + Footer.
 - **No `@astrojs/tailwind`** — Tailwind v4 uses the Vite plugin directly: `@tailwindcss/vite` in `astro.config.ts`. Design tokens are defined as `@theme` variables in `src/styles/global.css` (e.g. `--color-primary-600`, `--max-width-content`).

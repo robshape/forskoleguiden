@@ -63,6 +63,7 @@ describe('Swedish translation keys', () => {
       'attribution.text',
       'about.heading',
       'about.text',
+      'about.body',
       'nav.directory',
       'nav.compare',
       'nav.about',

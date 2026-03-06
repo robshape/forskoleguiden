@@ -72,6 +72,7 @@
   },
   "about": {
     "heading": "About the data",
-    "text": "The results are based on the Preschool Survey 2025 for Malmö."
+    "text": "The results are based on the Preschool Survey 2025 for Malmö.",
+    "body": "Preschool Guide uses official survey results from Malmö stad to help parents compare preschools."
   }
 }

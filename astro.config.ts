@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config'
 import preact from '@astrojs/preact'
-import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 
 const base = '/forskoleguiden'
@@ -12,15 +11,8 @@ export default defineConfig({
   redirects: {
     '/': `${base}/sv/`,
   },
-  integrations: [preact(), sitemap()],
+  integrations: [preact()],
   vite: {
     plugins: [tailwindcss()],
-  },
-  i18n: {
-    locales: ['sv', 'en', 'ar'],
-    defaultLocale: 'sv',
-    routing: {
-      prefixDefaultLocale: true,
-    },
   },
 })
