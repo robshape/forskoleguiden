@@ -19,6 +19,33 @@ Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents com
 
 Data flow: static JSON (build-time only) → Astro pre-renders HTML → Preact islands hydrate for interactivity → nanostores for client state.
 
+## State management
+
+`src/lib/state.ts` manages the compare shortlist with nanostores + `sessionStorage`:
+
+- `compareIds` — read-only atom of selected preschool IDs (max `MAX_COMPARE = 5`)
+- `toggleCompare(id)` — add/remove an ID; silently refuses when at max capacity
+- `clearCompare()` — reset all selections
+- Persistence: `listen()` callback writes to `sessionStorage` on every change; hydration reads persisted state on first client mount
+- **SSR-safe**: browser guards on `typeof window` / `typeof sessionStorage` prevent build-time and SSR crashes — safe to import in Astro front matter (the module just returns empty defaults server-side)
+- **MPA-safe**: `sessionStorage` survives Astro page navigations; Preact islands re-subscribe on each page's hydration
+
+Preact islands consume the store via `useStore(compareIds)` from `@nanostores/preact`. Never write to the internal atom directly — use `toggleCompare` / `clearCompare`.
+
+## Preact islands inventory
+
+| Island          | File                                      | Hydration              | Purpose                                                                              |
+| --------------- | ----------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------ |
+| `SortToggle`    | `src/components/preact/SortToggle.tsx`    | `client:load`          | Toggle ranking ↔ alphabetical sort; mutates DOM row order; `aria-live` announcements |
+| `CompareButton` | `src/components/preact/CompareButton.tsx` | `client:load`          | Select/deselect a preschool for comparison; `aria-pressed` toggle                    |
+| `CompareTray`   | `src/components/preact/CompareTray.tsx`   | `client:only="preact"` | Global compare summary bar; disabled CTA until compare page route exists             |
+
+**Hydration strategy guidance:**
+
+- `client:load` — default for small interactive widgets that must be immediately operable
+- `client:only="preact"` — use when the component's client state would conflict with SSR-rendered empty markup (e.g., CompareTray renders "0 selected" on server but sessionStorage may have saved selections)
+- `client:visible` / `client:idle` — prefer for below-the-fold or non-critical islands (none currently used but available)
+
 ## CI/CD
 
 **Reusable quality-gates workflow** (`.github/workflows/quality-gates.yml`) — a `workflow_call` workflow containing all quality gate steps: checkout, pnpm/node setup, install, lint, lint:md, format:check, check, test, build, Playwright install, e2e. Takes no inputs — pure validation only. Both `deploy.yml` and `dependabot.yml` consume this reusable workflow instead of inlining steps. This pattern was chosen over a local composite action (`.github/actions/`) because Dependabot's `github-actions` ecosystem only scans `.github/workflows/*.yml` for action version updates.
@@ -49,7 +76,7 @@ src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path 
 src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
 src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
 src/components/astro/         — Static Astro components: Nav, Footer, CityYearSelector, PreschoolCard
-src/components/preact/        — Interactive Preact islands: SortToggle
+src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray
 src/pages/{sv,en,ar}/         — Astro file-based i18n routing (pages pass locale to BaseLayout)
 src/styles/global.css         — Tailwind v4 entry + @theme tokens (colors, spacing, shadows)
 tests/unit/**/*.test.ts       — Vitest unit tests
@@ -60,7 +87,7 @@ tests/e2e/**/*.spec.ts        — Playwright e2e tests
 ## Key conventions
 
 - **Organize by feature**, not by type. Shared utilities go in `src/lib/`.
-- **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro. Astro components receive `locale: Locale` as a prop and call `t()` for all user-facing text — see `Nav.astro`, `Footer.astro` for the pattern.
+- **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro. Astro components receive `locale: Locale` as a prop and call `t()` for all user-facing text — see `Nav.astro`, `Footer.astro` for the pattern. Preact islands that depend on persisted client state (e.g., `sessionStorage`) should use `client:only="preact"` to avoid SSR/client hydration mismatches.
 - **Layout pattern**: all pages wrap content in `<BaseLayout locale={locale} title={...}>`. BaseLayout sets `lang`, `dir` (RTL for Arabic), loads global CSS, and renders Nav + Footer.
 - **No `@astrojs/tailwind`** — Tailwind v4 uses the Vite plugin directly: `@tailwindcss/vite` in `astro.config.ts`. Design tokens are defined as `@theme` variables in `src/styles/global.css` (e.g. `--color-primary-600`, `--max-width-content`).
 - **i18n**: three locales (`sv`, `en`, `ar`), all prefix-routed (`/sv/`, `/en/`, `/ar/`). Swedish is default. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants. Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. Supports interpolation: `t('compareTray.selectedCount', locale, { count: 3 })` replaces `{count}` in the template. All three locale JSONs must have identical key structures (enforced by unit test). `Locale` type and `getLocaleFromURL()` are exported from the same module.
