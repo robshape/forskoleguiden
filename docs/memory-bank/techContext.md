@@ -23,6 +23,7 @@ For full rationale behind each technology choice, see `docs/tech-stack.md`. This
 - **markdownlint-cli2 0.21.0** — globs configured in `.markdownlint-cli2.jsonc`. MD013/line-length disabled.
 - **Vitest 4.0.18** — unit tests in `tests/unit/`, node environment. Uses same path aliases as `tsconfig.json`.
 - **Playwright 1.58.2** — e2e tests in `tests/e2e/`. Config auto-starts `pnpm preview` as webserver on port 4321. `@axe-core/playwright` for accessibility auditing.
+- **Husky 9.1.7** — git hook runner. Installed as a `devDependency` with a `prepare` script so `husky` runs automatically on `pnpm install`. The committed `.husky/pre-commit` hook runs `pnpm validate` before every commit. CI install steps in `quality-gates.yml` and `deploy.yml` set `HUSKY: 0` to skip hook installation. Contract verified by `tests/unit/infrastructure-husky-pre-commit-contract.test.ts` (7 tests), including step-scoped assertions for the `Install dependencies` block.
 
 ## Package Management
 

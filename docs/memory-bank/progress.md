@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-06): Steps 0–5.4 are complete. MPA persistence for cross-page compare state is verified and covered by e2e tests. A minimal `/sv/om/` Astro page was added as the MPA navigation target. `pnpm lint`, `pnpm lint:md`, `pnpm format:check`, `pnpm check`, `pnpm test`, and `pnpm exec playwright test tests/e2e/compare-tray-interaction.spec.ts` are green. Test suite: 18 unit + 18 e2e = 36 total.
+Current status (2026-03-07): Steps 0–5.4 are complete and Husky pre-commit integration is in place. MPA persistence for cross-page compare state is verified and covered by e2e tests. A minimal `/sv/om/` Astro page was added as the MPA navigation target. Husky 9.1.7 runs `pnpm validate` before every commit; CI install steps use `HUSKY: 0`; and the workflow guard now proves that `HUSKY: 0` lives on the `Install dependencies` step itself. `pnpm validate` is green. Test suite: 25 unit + 18 e2e = 43 total.
 
 ## Completed Scaffolding Summary
 
@@ -11,6 +11,7 @@ Current status (2026-03-06): Steps 0–5.4 are complete. MPA persistence for cro
 - **Step 0.9 (Vitest)**: completed; unit test harness passing.
 - **Step 0.10 (Playwright)**: completed; e2e tests operational.
 - **Step 0.11 (.gitignore)**: completed with regression guard (`tests/unit/infrastructure-gitignore-regression.test.ts`).
+- **Husky pre-commit hook**: Husky 9.1.7 installed; `prepare` script wired; `.husky/pre-commit` runs `pnpm validate`; `HUSKY: 0` set in `quality-gates.yml` and `deploy.yml` install steps; 7-test unit contract in `tests/unit/infrastructure-husky-pre-commit-contract.test.ts`, including regression coverage for false-positive workflow matches.
 
 ## Feature Implementation Summary
 
@@ -23,17 +24,17 @@ Current status (2026-03-06): Steps 0–5.4 are complete. MPA persistence for cro
 - **Step 5.2 (Compare button UI)**: `src/components/preact/CompareButton.tsx` is wired into `PreschoolCard.astro` and subscribes to the shared compare store so directory cards reflect selected and unselected states with localized copy and `aria-pressed`. `tests/e2e/directory-data-rendering.spec.ts` now verifies selecting two compare buttons, then deselecting one while the remaining button stays selected.
 - **Step 5.3 (Compare tray UI)**: `src/components/preact/CompareTray.tsx` is mounted globally from `src/layouts/BaseLayout.astro` as a `client:only="preact"` island and reflects the shared compare store across pages. It renders only when selections exist, shows the localized selected count, disables the compare CTA until the matching compare page route exists, reserves body space with `--tray-height`, and exposes a clear action that resets both tray and compare-button state. `tests/e2e/compare-tray-interaction.spec.ts` covers empty-state hiding, count updates, disabled compare semantics, reload recovery after a full page refresh, clear behavior, keyboard operability, and footer visibility above the tray on a 375×812 viewport.
 - **Step 5.4 (Compare MPA persistence)**: `sessionStorage`-backed compare state confirmed to survive Astro cross-page navigations. Minimal `src/pages/sv/om/index.astro` added as MPA navigation target. Three new Playwright cross-page scenarios added to `tests/e2e/compare-tray-interaction.spec.ts` (9 total in that spec): tray selections remain after forward navigation and back, compare-button pressed state is restored after returning from a second page, clearing via the tray on a second page removes tray on return. No compare-store or island logic changes were needed.
-- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 18 unit + 18 e2e = 36 total.
+- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 25 unit + 18 e2e = 43 total.
 
 ## Verification Summary
 
-- Verified green after Step 5.4 completion: `pnpm lint`, `pnpm lint:md`, `pnpm format:check`, `pnpm check`, `pnpm test`, and `pnpm exec playwright test tests/e2e/compare-tray-interaction.spec.ts`.
+- Verified green after Husky integration via full `pnpm validate` run (2026-03-07).
 - `pnpm lint` — 0 ESLint errors.
-- `pnpm lint:md` — 40 markdown files linted with 0 errors.
+- `pnpm lint:md` — 52 markdown files linted with 0 errors.
 - `pnpm format:check` — all files match Prettier code style.
-- `pnpm check` — 0 errors, 0 warnings, 0 hints across 40 Astro files.
-- `pnpm test` — 9 passing test files, 18 passing unit tests.
-- `pnpm exec playwright test tests/e2e/compare-tray-interaction.spec.ts` — 9 passing tests (4.9 s).
+- `pnpm check` — 0 errors, 0 warnings, 0 hints across 41 Astro files.
+- `pnpm test` — 10 passing test files, 25 passing unit tests.
+- `pnpm build` — 2 pages built successfully.
 
 ## Decision Log
 

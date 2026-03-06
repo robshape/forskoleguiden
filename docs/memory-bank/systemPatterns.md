@@ -2,7 +2,7 @@
 
 ## Architecture
 
-Static Astro MPA with selective Preact islands for interactivity. Zero JS by default; islands hydrate only where needed. The current shipped islands are the directory sort toggle and the per-card compare button, while compare tray, shortlist, and charts remain planned follow-up islands. Data flows from repository JSON at build time into pre-rendered pages. Client-side shared state is handled with nanostores; URL-state compression (lz-string) will be added when the sharing feature is built.
+Static Astro MPA with selective Preact islands for interactivity. Zero JS by default; islands hydrate only where needed. The current shipped islands are the directory sort toggle, the per-card compare button, and the global compare tray, while shortlist and charts remain planned follow-up islands. Data flows from repository JSON at build time into pre-rendered pages. Client-side shared state is handled with nanostores; URL-state compression (lz-string) will be added when the sharing feature is built.
 
 For the full architectural overview, module boundaries, and data-flow rationale, see `docs/tech-stack.md`. Product constraints and behavior requirements are in `docs/prd.md`.
 
@@ -49,7 +49,7 @@ All tests follow Kent C. Dodds's "Testing Trophy" and "Write fewer, longer tests
 - **Fewer, longer tests**: Related assertions are grouped into single test blocks rather than isolated one-assertion-per-test. Example: `scoring-overall-score-utilities.test.ts` has 4 tests covering the core scoring behavior set in one cohesive suite.
 - **No source-inspection tests**: Tests must verify behavior and output, not implementation details. Tests that read `.astro` source files and regex-match CSS class tokens or HTML attributes were removed. Runtime behavior is verified via e2e tests instead.
 - **No redundant coverage**: Tests that duplicate coverage provided by other layers (e.g., `types.test.ts` duplicating TypeScript strict mode, `root-redirect.test.ts` duplicating e2e smoke test) are removed.
-- **Current test counts**: 18 unit tests + 15 e2e tests = 33 total.
+- **Current test counts**: 25 unit tests + 18 e2e tests = 43 total.
 
 ## Shared Test Helper Pattern
 
@@ -63,6 +63,7 @@ Test utilities live in `tests/unit/helpers/`:
 Critical infrastructure invariants are tested as unit tests rather than relying on manual checks:
 
 - `tests/unit/infrastructure-gitignore-regression.test.ts` — verifies `.gitignore` covers required paths (`node_modules/`, `dist/`, `.astro/`, `.DS_Store`, `test-results/`) using `git check-ignore`.
+- `tests/unit/infrastructure-husky-pre-commit-contract.test.ts` — verifies Husky 9.1.7 is a pinned devDependency, the `prepare` script is set to `"husky"`, the `.husky/pre-commit` hook exists and runs `pnpm validate`, and `HUSKY: 0` is set specifically on the `Install dependencies` step in both `quality-gates.yml` and `deploy.yml`; regression coverage guards against false-positive matches from unrelated workflow steps.
 
 Note: Source-inspection tests were removed during KCD test alignment — they tested implementation details rather than behavior. Runtime assertions (viewport-meta, favicon) moved to e2e `layout-shell-accessibility.spec.ts`.
 

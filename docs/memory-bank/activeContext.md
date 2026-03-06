@@ -2,7 +2,7 @@
 
 ## Current State
 
-Steps 0–5.4 are complete. The `/sv/` directory page now includes the full Step 5 compare foundation: ranked preschool cards, the shared compare store, store-backed compare buttons, a global compare tray mounted from `BaseLayout.astro`, and verified MPA persistence so compare selections survive Astro page navigations. A secondary `/sv/om/` page (`src/pages/sv/om/index.astro`) was added as the minimal MPA navigation target. The `compare-tray-interaction.spec.ts` Playwright suite was expanded with three cross-page persistence scenarios. `pnpm lint`, `pnpm lint:md`, `pnpm format:check`, `pnpm check`, `pnpm test`, and `pnpm exec playwright test tests/e2e/compare-tray-interaction.spec.ts` are all green. Test suite: 18 unit + 18 e2e = 36 total.
+Steps 0–5.4 are complete, and Husky pre-commit integration is in place. The `/sv/` directory page includes the full Step 5 compare foundation: ranked preschool cards, the shared compare store, store-backed compare buttons, a global compare tray mounted from `BaseLayout.astro`, and verified MPA persistence so compare selections survive Astro page navigations. A secondary `/sv/om/` page (`src/pages/sv/om/index.astro`) was added as the minimal MPA navigation target. The `compare-tray-interaction.spec.ts` Playwright suite covers nine cross-page persistence scenarios. Husky 9.1.7 was added with a `prepare` script and a `.husky/pre-commit` hook that runs `pnpm validate`; CI install steps set `HUSKY: 0` to skip hook registration there. The Husky workflow contract test now scopes `HUSKY: 0` to the `Install dependencies` step block so unrelated workflow steps cannot false-pass the guard. `pnpm validate` is green. Test suite: 25 unit + 18 e2e = 43 total.
 
 Key completed milestones:
 
@@ -14,6 +14,7 @@ Key completed milestones:
 - **Step 5.2**: compare button island wired into `PreschoolCard.astro` with localized selected/unselected labels, preschool-specific accessible naming, and e2e coverage for select/deselect pressed-state behavior
 - **Step 5.3**: global compare tray island in `src/components/preact/CompareTray.tsx`, mounted from `BaseLayout.astro` with locale-aware labels and build-time route-availability detection; tray visibility, disabled compare semantics, reload recovery, clear behavior, keyboard access, and footer-safe spacing covered by dedicated e2e tests
 - **Step 5.4**: MPA persistence verified — compare selections and compare-button pressed-state survive Astro cross-page navigations backed by `sessionStorage`; minimal `/sv/om/` Astro page added as MPA navigation target; three new Playwright cross-page persistence scenarios added to `compare-tray-interaction.spec.ts` (9 total in that spec)
+- **Husky pre-commit hook**: Husky 9.1.7 installed; `prepare` script wired so `husky` runs on `pnpm install`; `.husky/pre-commit` runs `pnpm validate` before every commit; CI install steps use `HUSKY: 0` so hook registration is skipped on CI; a 7-test unit contract covers all integration points, including step-scoped workflow assertions for the `Install dependencies` step; `pnpm validate` confirmed green (10 unit files, 25 unit tests, 2 pages built)
 
 ## Next Focus
 
