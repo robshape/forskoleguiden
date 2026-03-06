@@ -1,0 +1,15 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { t } from '@/i18n/utils'
+
+const locale = 'sv'
+const pageTitle = t('nav.about', locale)
+---
+
+<BaseLayout locale={locale} title={pageTitle}>
+  <h1 class="text-2xl font-bold text-slate-900">{pageTitle}</h1>
+  <p class="mt-4 text-slate-700">
+    Förskoleguiden använder officiella enkätresultat från Malmö stad för att
+    hjälpa föräldrar att jämföra förskolor.
+  </p>
+</BaseLayout>

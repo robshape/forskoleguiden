@@ -6,6 +6,7 @@
 
 ## Completed
 
+- [TASK013] Implement Step 5.4 compare MPA persistence - Completed 2026-03-06 (Phase 1 failing MPA persistence tests, Phase 2 /sv/om/ navigation target, Phase 3 verification/memory-bank sync complete)
 - [TASK012] Implement Step 5.3 compare tray - Completed 2026-03-06 (Phase 1 failing tray tests, Phase 2 global compare-tray island wiring, and Phase 3 verification/memory-bank sync complete)
 - [TASK011] Implement Step 5.2 compare button - Completed 2026-03-06 (Phase 1 failing test coverage, Phase 2 compare-button island wiring, and Phase 3 validation/memory-bank sync complete)
 - [TASK010] Implement Step 5.1 compare store - Completed 2026-03-06 (Phase 1 failing tests, Phase 2 SSR-safe `src/lib/state.ts` store, and Phase 3 verification/memory-bank sync complete)

@@ -235,3 +235,118 @@ test.describe('compare tray visibility and interaction behavior', () => {
     await expect(getCompareTray(page)).toBeVisible()
   })
 })
+
+// ---------------------------------------------------------------------------
+// MPA persistence — Phase 2 (/sv/om/ page is live)
+// ---------------------------------------------------------------------------
+
+test.describe('compare state MPA persistence across Astro page navigations', () => {
+  const SECONDARY_PAGE = '/forskoleguiden/sv/om/'
+
+  test('selected preschools remain in the tray after navigating to a second page and back', async ({
+    page,
+  }) => {
+    await navigateToDirectory(page)
+
+    await waitForCompareButtonReady(page, 'Bellevuegårdens montessoriförskola')
+    await waitForCompareButtonReady(page, 'Almgårdens förskola')
+
+    await getCompareButton(page, 'Bellevuegårdens montessoriförskola').click()
+    await getCompareButton(page, 'Almgårdens förskola').click()
+
+    await expect(getCompareTray(page)).toBeVisible()
+    await expect(getCompareTray(page)).toContainText('2')
+
+    // MPA navigation: full page load to secondary Astro page
+    const secondResponse = await page.goto(SECONDARY_PAGE)
+    if (secondResponse === null) {
+      throw new Error(
+        'Expected non-null response from page.goto("/forskoleguiden/sv/om/")',
+      )
+    }
+    expect(secondResponse.status(), 'Expected HTTP 200 from /sv/om/').toBe(200)
+
+    // MPA navigation back: another full page load
+    await navigateToDirectory(page)
+
+    // Tray and count must be restored from sessionStorage on island hydration
+    await expect(getCompareTray(page)).toBeVisible()
+    await expect(getCompareTray(page)).toContainText('2')
+
+    await expect(
+      getCompareButton(page, 'Bellevuegårdens montessoriförskola'),
+    ).toHaveAttribute('aria-pressed', 'true')
+    await expect(getCompareButton(page, 'Almgårdens förskola')).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
+  })
+
+  test('compare-button pressed state is restored after returning from a second Astro page', async ({
+    page,
+  }) => {
+    await navigateToDirectory(page)
+
+    await waitForCompareButtonReady(page, 'Bulltofta förskola')
+    await getCompareButton(page, 'Bulltofta förskola').click()
+    await expect(getCompareButton(page, 'Bulltofta förskola')).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
+
+    // Navigate away — MPA full page load to secondary page
+    const secondResponse = await page.goto(SECONDARY_PAGE)
+    if (secondResponse === null) {
+      throw new Error(
+        'Expected non-null response from page.goto("/forskoleguiden/sv/om/")',
+      )
+    }
+    expect(secondResponse.status(), 'Expected HTTP 200 from /sv/om/').toBe(200)
+
+    // Navigate back — another full page load
+    await navigateToDirectory(page)
+
+    // Pressed state must be restored on island re-hydration from sessionStorage
+    await expect(getCompareButton(page, 'Bulltofta förskola')).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
+  })
+
+  test('clearing compare via the tray on a second page removes tray on return to the directory', async ({
+    page,
+  }) => {
+    await navigateToDirectory(page)
+
+    await waitForCompareButtonReady(page, 'Bladins internationella förskola')
+    await getCompareButton(page, 'Bladins internationella förskola').click()
+    await expect(getCompareTray(page)).toBeVisible()
+
+    // Navigate to secondary page — it must mount the compare tray via BaseLayout
+    const secondResponse = await page.goto(SECONDARY_PAGE)
+    if (secondResponse === null) {
+      throw new Error(
+        'Expected non-null response from page.goto("/forskoleguiden/sv/om/")',
+      )
+    }
+    expect(secondResponse.status(), 'Expected HTTP 200 from /sv/om/').toBe(200)
+
+    // Clear selections via the tray on the secondary page
+    const secondPageTray = getCompareTray(page)
+    await expect(secondPageTray).toBeVisible()
+    const clearButton = secondPageTray.getByRole('button', { name: 'Rensa' })
+    await clearButton.click()
+
+    // Return to directory — tray must be absent and button must be unpressed
+    await navigateToDirectory(page)
+
+    const directoryTray = getCompareTray(page)
+    const directoryTrayCount = await directoryTray.count()
+    if (directoryTrayCount > 0) {
+      await expect(directoryTray).not.toBeVisible()
+    }
+    await expect(
+      getCompareButton(page, 'Bladins internationella förskola'),
+    ).toHaveAttribute('aria-pressed', 'false')
+  })
+})
