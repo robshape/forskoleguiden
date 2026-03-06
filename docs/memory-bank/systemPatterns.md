@@ -6,6 +6,15 @@ Static Astro MPA with selective Preact islands for interactivity. Zero JS by def
 
 For the full architectural overview, module boundaries, and data-flow rationale, see `docs/tech-stack.md`. Product constraints and behavior requirements are in `docs/prd.md`.
 
+## SessionStorage-Backed Nanostore State
+
+- `src/lib/state.ts` keeps compare selections in an `atom<string[]>` so Preact islands can share state across page navigations.
+- Hydration and persistence must stay behind browser guards (`window` / `sessionStorage` checks) so module evaluation remains safe during Astro SSR/prerender and Vitest node imports.
+- Enforce the five-item cap in store helpers (`MAX_COMPARE`, `toggleCompare`) rather than UI components so every entry point honors the same limit.
+- Keep the writable atom private and export a read-only store via `readonlyType(...)` so consumers cannot mutate compare state directly.
+- Use `listen()` rather than `subscribe()` for persistence side effects so browser-backed stores do not immediately write default state back to `sessionStorage` on registration.
+- Export persistence keys such as `COMPARE_STORAGE_KEY` from the store module so tests and other consumers reuse the same literal.
+
 ## Data Loading Pattern
 
 `src/lib/data.ts` uses a `readJsonFile<T>(filePath, context)` generic helper that:
@@ -30,7 +39,7 @@ All tests follow Kent C. Dodds's "Testing Trophy" and "Write fewer, longer tests
 - **Fewer, longer tests**: Related assertions are grouped into single test blocks rather than isolated one-assertion-per-test. Example: `scoring-overall-score-utilities.test.ts` has 4 tests covering the core scoring behavior set in one cohesive suite.
 - **No source-inspection tests**: Tests must verify behavior and output, not implementation details. Tests that read `.astro` source files and regex-match CSS class tokens or HTML attributes were removed. Runtime behavior is verified via e2e tests instead.
 - **No redundant coverage**: Tests that duplicate coverage provided by other layers (e.g., `types.test.ts` duplicating TypeScript strict mode, `root-redirect.test.ts` duplicating e2e smoke test) are removed.
-- **Current test counts**: 15 unit tests + 8 e2e tests = 23 total.
+- **Current test counts**: 18 unit tests + 8 e2e tests = 26 total.
 
 ## Shared Test Helper Pattern
 
@@ -81,8 +90,8 @@ Note: Source-inspection tests were removed during KCD test alignment — they te
 
 ## Code Organization
 
-- **By feature** (`src/features/`) for application modules — planned for Step 4+.
-- **`src/lib/`** for shared utilities: types, data loading, scoring.
+- **By feature** (`src/features/`) for application modules — planned for later Step 5+ feature modules.
+- **`src/lib/`** for shared utilities: types, data loading, scoring, compare state.
 - **`src/pages/`** for Astro file-based routing with locale prefixes.
 - **`tests/unit/helpers/`** for shared test utilities.
 - **`data/`** for static JSON; `data/malmo/index.json` is the directory, `data/malmo/2025/*.json` are per-preschool survey files.
