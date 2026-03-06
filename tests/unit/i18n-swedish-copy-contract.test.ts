@@ -39,6 +39,7 @@ describe('Swedish translation keys', () => {
       'directory.operatorType.independent',
       'directory.listAriaLabel',
       'directory.addToCompare',
+      'directory.addedToCompare',
       'directory.compareButtonAriaLabel',
       'directory.noOverallScore',
       'directory.scorePercent',
@@ -92,6 +93,9 @@ describe('Swedish translation keys', () => {
     )
     expect(getByPath(sv as JsonObject, 'directory.sort.groupLabel')).toBe(
       'Sortering',
+    )
+    expect(getByPath(sv as JsonObject, 'directory.addedToCompare')).toBe(
+      'Tillagd',
     )
     expect(getByPath(sv as JsonObject, 'responses.partlyDisagree')).toBe(
       'Instämmer inte delvis',

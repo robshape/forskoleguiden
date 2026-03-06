@@ -1,6 +1,28 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
 
 test.describe('Swedish directory data rendering contracts', () => {
+  const getDirectoryCard = (page: Page, name: string) =>
+    page.getByTestId('preschool-card').filter({
+      has: page.getByRole('link', { name }),
+    })
+
+  const waitForCompareButtonToBeInteractive = async (button: Locator) => {
+    await expect(button).toHaveAttribute('aria-pressed', 'false')
+
+    await expect(async () => {
+      // Reset any prior retry attempt so each probe starts from the same state.
+      if ((await button.getAttribute('aria-pressed')) === 'true') {
+        await button.click()
+        await expect(button).toHaveAttribute('aria-pressed', 'false')
+      }
+
+      await button.click()
+      await expect(button).toHaveAttribute('aria-pressed', 'true')
+      await button.click()
+      await expect(button).toHaveAttribute('aria-pressed', 'false')
+    }).toPass()
+  }
+
   test('renders directory cards in default score-desc ranking order', async ({
     page,
   }) => {
@@ -89,5 +111,41 @@ test.describe('Swedish directory data rendering contracts', () => {
     )
     await expect(bellevueRow.getByTestId('rank-index')).toHaveText('1')
     await expect(page.getByTestId('sort-live-region')).toContainText('Rankning')
+  })
+
+  test('selects two preschool compare buttons and deselects one while keeping pressed-state semantics in sync', async ({
+    page,
+  }) => {
+    await page.goto('/forskoleguiden/sv/')
+
+    const bellevueButton = getDirectoryCard(
+      page,
+      'Bellevuegårdens montessoriförskola',
+    ).getByRole('button')
+    const bladinsButton = getDirectoryCard(
+      page,
+      'Bladins internationella förskola',
+    ).getByRole('button')
+
+    await waitForCompareButtonToBeInteractive(bellevueButton)
+    await waitForCompareButtonToBeInteractive(bladinsButton)
+
+    await expect(bellevueButton).toHaveText('Jämför')
+    await expect(bladinsButton).toHaveText('Jämför')
+
+    await bellevueButton.click()
+    await bladinsButton.click()
+
+    await expect(bellevueButton).toHaveText(/Tillagd/)
+    await expect(bellevueButton).toHaveAttribute('aria-pressed', 'true')
+    await expect(bladinsButton).toHaveText(/Tillagd/)
+    await expect(bladinsButton).toHaveAttribute('aria-pressed', 'true')
+
+    await bellevueButton.click()
+
+    await expect(bellevueButton).toHaveText('Jämför')
+    await expect(bellevueButton).toHaveAttribute('aria-pressed', 'false')
+    await expect(bladinsButton).toHaveText(/Tillagd/)
+    await expect(bladinsButton).toHaveAttribute('aria-pressed', 'true')
   })
 })

@@ -2,7 +2,7 @@
 
 ## Architecture
 
-Static Astro MPA with selective Preact islands for interactivity. Zero JS by default; islands hydrate only where needed (compare tray, shortlist, charts). Data flows from repository JSON at build time into pre-rendered pages. Client-side shared state is handled with nanostores and URL-state compression (lz-string) for share links.
+Static Astro MPA with selective Preact islands for interactivity. Zero JS by default; islands hydrate only where needed. The current shipped islands are the directory sort toggle and the per-card compare button, while compare tray, shortlist, and charts remain planned follow-up islands. Data flows from repository JSON at build time into pre-rendered pages. Client-side shared state is handled with nanostores and URL-state compression (lz-string) for share links.
 
 For the full architectural overview, module boundaries, and data-flow rationale, see `docs/tech-stack.md`. Product constraints and behavior requirements are in `docs/prd.md`.
 
@@ -39,7 +39,7 @@ All tests follow Kent C. Dodds's "Testing Trophy" and "Write fewer, longer tests
 - **Fewer, longer tests**: Related assertions are grouped into single test blocks rather than isolated one-assertion-per-test. Example: `scoring-overall-score-utilities.test.ts` has 4 tests covering the core scoring behavior set in one cohesive suite.
 - **No source-inspection tests**: Tests must verify behavior and output, not implementation details. Tests that read `.astro` source files and regex-match CSS class tokens or HTML attributes were removed. Runtime behavior is verified via e2e tests instead.
 - **No redundant coverage**: Tests that duplicate coverage provided by other layers (e.g., `types.test.ts` duplicating TypeScript strict mode, `root-redirect.test.ts` duplicating e2e smoke test) are removed.
-- **Current test counts**: 18 unit tests + 8 e2e tests = 26 total.
+- **Current test counts**: 18 unit tests + 9 e2e tests = 27 total.
 
 ## Shared Test Helper Pattern
 

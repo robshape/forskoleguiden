@@ -32,6 +32,7 @@
     },
     "listAriaLabel": "Förskolelista",
     "addToCompare": "Jämför",
+    "addedToCompare": "Tillagd",
     "compareButtonAriaLabel": "{action}: {name}",
     "noOverallScore": "Ingen helhetspoäng",
     "scorePercent": "{score}%",

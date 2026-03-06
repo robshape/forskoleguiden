@@ -1,4 +1,5 @@
 ---
+import CompareButton from '@/components/preact/CompareButton'
 import { t, type Locale } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
 import type { OperatorType } from '@/lib/types'
@@ -18,10 +19,8 @@ const base = getBasePath()
 const detailPageHref = `${base}/${locale}/forskola/${id}/`
 const operatorLabel = t(`directory.operatorType.${operatorType}`, locale)
 const compareLabel = t('directory.addToCompare', locale)
-const compareAriaLabel = t('directory.compareButtonAriaLabel', locale, {
-  action: compareLabel,
-  name,
-})
+const addedCompareLabel = t('directory.addedToCompare', locale)
+const compareButtonAriaLabel = t('directory.compareButtonAriaLabel', locale)
 const noOverallScoreText = t('directory.noOverallScore', locale)
 const displayScore = score !== null ? Math.round(score) : null
 const scorePercentText =
@@ -92,26 +91,13 @@ const scoreBadgeToneClass =
         </span>
       </div>
     </div>
-
-    <button
-      type="button"
-      data-id={id}
-      aria-label={compareAriaLabel}
-      class="inline-flex h-8 shrink-0 whitespace-nowrap items-center justify-center gap-1.5 rounded-full bg-gray-100 px-4 text-[13px] font-semibold text-gray-700 hover:bg-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1"
-    >
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 16 16"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="h-3 w-3 shrink-0"
-      >
-        <path d="M8 3v10M3 8h10"></path>
-      </svg>
-      <span>{compareLabel}</span>
-    </button>
+    <CompareButton
+      client:visible
+      id={id}
+      name={name}
+      addLabel={compareLabel}
+      addedLabel={addedCompareLabel}
+      ariaLabelTemplate={compareButtonAriaLabel}
+    />
   </div>
 </article>
