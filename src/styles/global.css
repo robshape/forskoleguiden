@@ -19,6 +19,12 @@
 }
 
 @layer base {
+  /* Reserve space below the fold for the fixed compare tray.
+     The tray island writes --tray-height to documentElement when visible. */
+  body {
+    padding-bottom: var(--tray-height, 0px);
+  }
+
   :where(
     a,
     button,

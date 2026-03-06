@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-06): Steps 0–5.2 are complete through the compare-button Phase 3 closure. `pnpm lint`, `pnpm lint:md`, `pnpm format:check`, `pnpm check`, and `pnpm test` are green. Targeted compare-button browser coverage also passes with `pnpm exec playwright test tests/e2e/directory-data-rendering.spec.ts` (5 tests). Test suite: 18 unit + 9 e2e = 27 total.
+Current status (2026-03-06): Steps 0–5.3 are complete through the compare-tray reload fix. `pnpm exec playwright test tests/e2e/compare-tray-interaction.spec.ts`, `pnpm lint`, `pnpm lint:md`, `pnpm format:check`, `pnpm check`, and `pnpm test` are green. Test suite: 18 unit + 15 e2e = 33 total.
 
 ## Completed Scaffolding Summary
 
@@ -21,15 +21,16 @@ Current status (2026-03-06): Steps 0–5.2 are complete through the compare-butt
 - **Step 4 (Directory page)**: `/sv/` renders ranked preschool cards via `PreschoolCard.astro` with build-time score computation, deterministic score-desc ranking with name tie-breaks, visible rank indices, heading/count row, and ranking explanation copy. Interactive `SortToggle` Preact island (`client:load`) provides Rankning/A–Ö switching with aria-live announcements, cached row metadata, and localized group labels. All user-visible text flows through `t()`. E2e contracts cover card fields, ordering, rank indices, and sort toggling.
 - **Step 5.1 (Compare store foundation)**: `src/lib/state.ts` exports `MAX_COMPARE`, `COMPARE_STORAGE_KEY`, a read-only `compareIds` store, `toggleCompare()`, and `clearCompare()` with SSR-safe `sessionStorage` hydration/persistence behind browser guards. Persistence uses `listen()` to avoid immediate default writes, and `tests/unit/compare-store-state-behavior.test.ts` now covers default SSR state, toggle/clear write-back, five-item cap, persisted hydration, and invalid/corrupt storage fallback.
 - **Step 5.2 (Compare button UI)**: `src/components/preact/CompareButton.tsx` is wired into `PreschoolCard.astro` and subscribes to the shared compare store so directory cards reflect selected and unselected states with localized copy and `aria-pressed`. `tests/e2e/directory-data-rendering.spec.ts` now verifies selecting two compare buttons, then deselecting one while the remaining button stays selected.
-- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 18 unit + 9 e2e = 27 total.
+- **Step 5.3 (Compare tray UI)**: `src/components/preact/CompareTray.tsx` is mounted globally from `src/layouts/BaseLayout.astro` as a `client:only="preact"` island and reflects the shared compare store across pages. It renders only when selections exist, shows the localized selected count, disables the compare CTA until the matching compare page route exists, reserves body space with `--tray-height`, and exposes a clear action that resets both tray and compare-button state. `tests/e2e/compare-tray-interaction.spec.ts` covers empty-state hiding, count updates, disabled compare semantics, reload recovery after a full page refresh, clear behavior, keyboard operability, and footer visibility above the tray on a 375×812 viewport.
+- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 18 unit + 15 e2e = 33 total.
 
 ## Verification Summary
 
-- Verified green in the current workspace context: `pnpm lint`, `pnpm lint:md`, `pnpm format:check`, `pnpm check`, and `pnpm test`.
-- `pnpm lint:md` reported 31 markdown files linted with 0 errors.
-- `pnpm check` reported 0 errors, 0 warnings, and 0 hints across 37 files.
+- Verified green in the current workspace context: `pnpm exec playwright test tests/e2e/compare-tray-interaction.spec.ts`, `pnpm lint`, `pnpm lint:md`, `pnpm format:check`, `pnpm check`, and `pnpm test`.
+- `pnpm exec playwright test tests/e2e/compare-tray-interaction.spec.ts` reported 6 passing tests.
+- `pnpm lint:md` reported 34 markdown files linted with 0 errors.
+- `pnpm check` reported 0 errors, 0 warnings, and 0 hints across 39 files.
 - `pnpm test` reported 9 passing files and 18 passing unit tests.
-- Focused Step 5.2 browser verification also passed: `pnpm exec playwright test tests/e2e/directory-data-rendering.spec.ts` ran 5 passing tests.
 
 ## Decision Log
 
@@ -43,9 +44,9 @@ Current status (2026-03-06): Steps 0–5.2 are complete through the compare-butt
 
 ## Current Priorities
 
-1. **Step 5.3 compare tray UI** — surface persistent selections and the compare call-to-action across the directory flow.
-2. **Step 5.4+ compare flow follow-ups** — stay deferred until the tray UX is implemented and verified.
+1. **Next compare-flow step** — build on the finished compare tray without changing its tested behavior contract.
+2. **Step 5.4+ follow-ups** — keep comparison-page routing and any tray-detail enhancements scoped to their planned steps.
 
 ## Next Focus
 
-- Continue Step 5 with compare tray work only; do not pull Step 5.4+ implementation forward.
+- Continue Step 5+ compare-flow work from the now-stable tray foundation; when the compare page route lands, re-enable the tray CTA by satisfying the build-time route-availability check rather than changing the Step 5.3 disabled contract ad hoc.

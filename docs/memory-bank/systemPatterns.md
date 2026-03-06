@@ -15,6 +15,16 @@ For the full architectural overview, module boundaries, and data-flow rationale,
 - Use `listen()` rather than `subscribe()` for persistence side effects so browser-backed stores do not immediately write default state back to `sessionStorage` on registration.
 - Export persistence keys such as `COMPARE_STORAGE_KEY` from the store module so tests and other consumers reuse the same literal.
 
+## Global Compare Tray Mount Pattern
+
+- The compare tray lives in `src/components/preact/CompareTray.tsx` and is mounted once from `src/layouts/BaseLayout.astro` with `client:only="preact"` so it can initialize directly from browser-persisted compare state without SSR/client hydration mismatches after a reload.
+- Keep the tray island dumb: pass localized labels and the locale/base-aware compare href from Astro rather than importing translation helpers or recomputing routing inside Preact.
+- Determine compare-page availability in `BaseLayout.astro` with a build-time `import.meta.glob('/src/pages/*/jamfor/index.astro')` check and pass a boolean prop into the tray. If the route is missing for the current locale, render a focusable `aria-disabled` button instead of a live link.
+- The tray must return `null` when `compareIds` is empty so the hidden-state contract is enforced by rendering, not by CSS toggles.
+- The tray writes its measured height to a global `--tray-height` CSS variable. Base styles consume that variable on `body` to reserve enough bottom space so the fixed tray cannot obscure footer or end-of-page content.
+- For Step 5.3 specifically, avoid SSR hydration for the tray because compare selections are session-backed client state. A server-rendered empty tray can mismatch with persisted browser state on reload; `client:only` sidesteps that class of bug cleanly.
+- The Step 5.3 tray is intentionally count-based only. If future work needs selected preschool names in the tray, pass a lookup map deliberately rather than broadening the shared store API.
+
 ## Data Loading Pattern
 
 `src/lib/data.ts` uses a `readJsonFile<T>(filePath, context)` generic helper that:
@@ -39,7 +49,7 @@ All tests follow Kent C. Dodds's "Testing Trophy" and "Write fewer, longer tests
 - **Fewer, longer tests**: Related assertions are grouped into single test blocks rather than isolated one-assertion-per-test. Example: `scoring-overall-score-utilities.test.ts` has 4 tests covering the core scoring behavior set in one cohesive suite.
 - **No source-inspection tests**: Tests must verify behavior and output, not implementation details. Tests that read `.astro` source files and regex-match CSS class tokens or HTML attributes were removed. Runtime behavior is verified via e2e tests instead.
 - **No redundant coverage**: Tests that duplicate coverage provided by other layers (e.g., `types.test.ts` duplicating TypeScript strict mode, `root-redirect.test.ts` duplicating e2e smoke test) are removed.
-- **Current test counts**: 18 unit tests + 9 e2e tests = 27 total.
+- **Current test counts**: 18 unit tests + 15 e2e tests = 33 total.
 
 ## Shared Test Helper Pattern
 

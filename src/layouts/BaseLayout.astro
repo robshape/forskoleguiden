@@ -1,7 +1,8 @@
 ---
 import Nav from '@/components/astro/Nav.astro'
 import Footer from '@/components/astro/Footer.astro'
-import type { Locale } from '@/i18n/utils'
+import CompareTray from '@/components/preact/CompareTray'
+import { t, type Locale } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
 import '@/styles/global.css'
 
@@ -12,6 +13,16 @@ interface Props {
 
 const { title, locale } = Astro.props
 const base = getBasePath()
+const compareHref = `${base}/${locale}/jamfor/`
+const selectedCountTemplate = t('compareTray.selectedCount', locale)
+const showComparisonLabel = t('compareTray.showComparison', locale)
+const clearLabel = t('compareTray.clear', locale)
+
+// Detect at build time whether the compare page route exists for the current
+// locale. The tray uses this to decide between a live link and a disabled button.
+const comparePages = import.meta.glob('/src/pages/*/jamfor/index.astro')
+const compareRouteAvailable =
+  `/src/pages/${locale}/jamfor/index.astro` in comparePages
 ---
 
 <!doctype html>
@@ -36,5 +47,13 @@ const base = getBasePath()
     <footer>
       <Footer locale={locale} />
     </footer>
+    <CompareTray
+      client:only="preact"
+      compareHref={compareHref}
+      compareRouteAvailable={compareRouteAvailable}
+      selectedCountTemplate={selectedCountTemplate}
+      showComparisonLabel={showComparisonLabel}
+      clearLabel={clearLabel}
+    />
   </body>
 </html>

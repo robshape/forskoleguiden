@@ -4,10 +4,9 @@
 
 ## Pending
 
-- [TASK012] Implement Step 5.3 compare tray - Planned next to surface persistent selections and compare CTA
-
 ## Completed
 
+- [TASK012] Implement Step 5.3 compare tray - Completed 2026-03-06 (Phase 1 failing tray tests, Phase 2 global compare-tray island wiring, and Phase 3 verification/memory-bank sync complete)
 - [TASK011] Implement Step 5.2 compare button - Completed 2026-03-06 (Phase 1 failing test coverage, Phase 2 compare-button island wiring, and Phase 3 validation/memory-bank sync complete)
 - [TASK010] Implement Step 5.1 compare store - Completed 2026-03-06 (Phase 1 failing tests, Phase 2 SSR-safe `src/lib/state.ts` store, and Phase 3 verification/memory-bank sync complete)
 - [TASK009] Implement Phase B UI styling plan update - Completed 2026-03-02 (Phase B documentation closure complete: Step 3.5 baseline and visual-design subsections added for Steps 4.2-4.4, 5.2-5.3, 6.1-6.2, 7.2, 7.4, and 8.1; memory-bank status synchronized)

@@ -6,6 +6,12 @@ export const COMPARE_STORAGE_KEY = 'compareIds'
 export const MAX_COMPARE = 5
 
 export type CompareIdsStore = ReadableAtom<readonly string[]>
+type CompareIdsAtom = ReturnType<typeof atom<string[]>>
+
+interface CompareStoreContainer {
+  store: CompareIdsAtom
+  persistenceBound: boolean
+}
 
 const hasBrowserStorage = (): boolean =>
   typeof window !== 'undefined' && typeof sessionStorage !== 'undefined'
@@ -48,13 +54,39 @@ const persistCompareIds = (ids: readonly string[]): void => {
   }
 }
 
-const compareIdsStore = atom<string[]>(readPersistedCompareIds())
+const createCompareStoreContainer = (): CompareStoreContainer => ({
+  store: atom<string[]>(readPersistedCompareIds()),
+  persistenceBound: false,
+})
+
+const getCompareStoreContainer = (): CompareStoreContainer => {
+  if (typeof window === 'undefined') {
+    return createCompareStoreContainer()
+  }
+
+  const browserWindow = window as Window & {
+    __forskoleguidenCompareStore__?: CompareStoreContainer
+  }
+
+  if (!browserWindow.__forskoleguidenCompareStore__) {
+    browserWindow.__forskoleguidenCompareStore__ = createCompareStoreContainer()
+  }
+
+  return browserWindow.__forskoleguidenCompareStore__
+}
+
+const compareStoreContainer = getCompareStoreContainer()
+const compareIdsStore = compareStoreContainer.store
 
 export const compareIds: CompareIdsStore = readonlyType(compareIdsStore)
 
-compareIdsStore.listen((ids) => {
-  persistCompareIds(ids)
-})
+if (!compareStoreContainer.persistenceBound) {
+  compareIdsStore.listen((ids) => {
+    persistCompareIds(ids)
+  })
+
+  compareStoreContainer.persistenceBound = true
+}
 
 export const toggleCompare = (id: string): void => {
   const currentIds = compareIdsStore.get()
