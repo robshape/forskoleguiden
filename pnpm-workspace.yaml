@@ -11,3 +11,7 @@ minimumReleaseAge: 4320
 
 # Once a package's trust level is set, do not allow it to be downgraded.
 trustPolicy: no-downgrade
+trustPolicyExclude:
+  - 'chokidar@4.0.3'
+  - 'semver@6.3.1'
+  - 'vite@6.4.1'
