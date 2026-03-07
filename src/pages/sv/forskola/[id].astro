@@ -4,12 +4,30 @@ import CompareButton from '@/components/preact/CompareButton'
 import { t } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
 import { getPreschoolIndex, getPreschoolSurveyByYear } from '@/lib/data'
-import type { PreschoolIndexEntry, PreschoolSurvey } from '@/lib/types'
+import type {
+  PreschoolIndexEntry,
+  PreschoolSurvey,
+  SurveyResponse,
+} from '@/lib/types'
 
 interface Props {
   preschool: PreschoolIndexEntry
   survey: PreschoolSurvey
 }
+
+const RESPONSE_ROWS: Array<{ field: keyof SurveyResponse; i18nKey: string }> = [
+  { field: 'completelyAgreePercent', i18nKey: 'responses.completelyAgree' },
+  { field: 'partlyAgreePercent', i18nKey: 'responses.partlyAgree' },
+  {
+    field: 'neitherAgreeNorDisagreePercent',
+    i18nKey: 'responses.neitherAgreeNorDisagree',
+  },
+  { field: 'partlyDisagreePercent', i18nKey: 'responses.partlyDisagree' },
+  {
+    field: 'completelyDisagreePercent',
+    i18nKey: 'responses.completelyDisagree',
+  },
+]
 
 export function getStaticPaths() {
   const index = getPreschoolIndex()
@@ -86,10 +104,14 @@ const helhetsBedömning = survey.questionGroups.find(
           {helhetsBedömning.questions.map((question) => (
             <li class="rounded-lg border border-border bg-surface p-4">
               <p class="text-sm font-medium text-gray-800">{question.text}</p>
-              <p class="mt-2 text-sm text-gray-600">
-                {question.response.completelyAgreePercent}%{' '}
-                {t('responses.completelyAgree', locale)}
-              </p>
+              <ul class="mt-2 space-y-1">
+                {RESPONSE_ROWS.map((row) => (
+                  <li class="flex items-center justify-between text-sm text-gray-600">
+                    <span>{t(row.i18nKey, locale)}</span>
+                    <span>{question.response[row.field]}%</span>
+                  </li>
+                ))}
+              </ul>
             </li>
           ))}
         </ul>

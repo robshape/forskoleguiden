@@ -44,7 +44,7 @@ For routes that already have the survey year from `getPreschoolIndex()`, use `ge
 - Type the detail-page props explicitly at the route boundary (`Astro.props as Props`) so drift between `getStaticPaths()` props and the page usage becomes a compile-time error rather than a runtime failure.
 - Reuse the existing `CompareButton` island on detail pages with `client:only="preact"`, matching the directory-card pattern and preserving sessionStorage-backed compare-state hydration safety.
 - Keep page-level landmark copy localized through existing i18n keys where practical; avoid hardcoding labels such as back-navigation landmarks when the visible link text already comes from `t()`.
-- Step 6.1 intentionally renders a minimal visible percentage for each Helhetsbedömning question; Step 6.2 is the planned place for the full five-response breakdown.
+- Render the detail-page Helhetsbedömning breakdown from a stable ordered mapping of `SurveyResponse` field names to `responses.*` i18n keys so label order, field access, and zero-value rendering stay deterministic.
 
 ## Scoring / Null-Return Pattern
 

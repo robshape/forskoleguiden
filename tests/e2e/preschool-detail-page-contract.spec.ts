@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator } from '@playwright/test'
 
 type PreschoolIndexEntry = {
   id: string
@@ -23,6 +23,26 @@ const index = JSON.parse(
 // Canonical test subject: Almgårdens förskola (municipal)
 const TEST_ID = 'almgardens-forskola'
 const TEST_URL = `/forskoleguiden/sv/forskola/${TEST_ID}/`
+
+type ExpectedResponseRow = {
+  label: string
+  value: string
+}
+
+async function expectQuestionResponseRows(
+  questionCard: Locator,
+  expectedRows: ExpectedResponseRow[],
+) {
+  const rows = questionCard.locator(':scope > ul > li')
+
+  await expect(rows).toHaveCount(expectedRows.length)
+
+  for (const [index, expectedRow] of expectedRows.entries()) {
+    const row = rows.nth(index)
+    await expect(row).toContainText(expectedRow.label)
+    await expect(row).toContainText(expectedRow.value)
+  }
+}
 
 test.describe('Swedish preschool detail pages contract', () => {
   test('directory card links navigate to the correct detail page', async ({
@@ -132,14 +152,54 @@ test.describe('Swedish preschool detail pages contract', () => {
     ).toBeVisible()
   })
 
-  test('detail page renders survey response percentage values', async ({
+  test('detail page renders all five canonical Helhetsbedömning response labels', async ({
     page,
   }) => {
     await page.goto(TEST_URL)
 
-    // At least one percentage value must be rendered for the Helhetsbedömning responses
-    const percentValues = page.getByText(/\d+\s*%/)
-    await expect(percentValues.first()).toBeVisible()
+    // All five Swedish response labels must be visible — sourced from sv.json responses.*
+    // Each label renders once per question so .first() avoids strict-mode violations.
+    await expect(page.getByText('Instämmer helt').first()).toBeVisible()
+    await expect(page.getByText('Instämmer delvis').first()).toBeVisible()
+    await expect(page.getByText('Varken eller').first()).toBeVisible()
+    await expect(page.getByText('Instämmer inte delvis').first()).toBeVisible()
+    await expect(page.getByText('Instämmer inte alls').first()).toBeVisible()
+  })
+
+  test('detail page renders exact response percentages per Helhetsbedömning question including zero values', async ({
+    page,
+  }) => {
+    await page.goto(TEST_URL)
+
+    const questionCards = page.locator(
+      'section[aria-labelledby="helhetsbedomning-heading"] > ul > li',
+    )
+
+    // Question 1: Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola
+    // Source (almgardens-forskola.json): completelyAgree=67, partlyAgree=28, neither=0, partlyDisagree=2, completelyDisagree=2
+    const q1 = questionCards.filter({
+      hasText: 'Utifrån helheten sett är jag nöjd',
+    })
+    await expectQuestionResponseRows(q1, [
+      { label: 'Instämmer helt', value: '67%' },
+      { label: 'Instämmer delvis', value: '28%' },
+      { label: 'Varken eller', value: '0%' },
+      { label: 'Instämmer inte delvis', value: '2%' },
+      { label: 'Instämmer inte alls', value: '2%' },
+    ])
+
+    // Question 2: Jag skulle rekommendera mitt barns förskola till en annan förälder
+    // Source (almgardens-forskola.json): completelyAgree=70, partlyAgree=23, neither=1, partlyDisagree=0, completelyDisagree=6
+    const q2 = questionCards.filter({
+      hasText: 'Jag skulle rekommendera',
+    })
+    await expectQuestionResponseRows(q2, [
+      { label: 'Instämmer helt', value: '70%' },
+      { label: 'Instämmer delvis', value: '23%' },
+      { label: 'Varken eller', value: '1%' },
+      { label: 'Instämmer inte delvis', value: '0%' },
+      { label: 'Instämmer inte alls', value: '6%' },
+    ])
   })
 
   test('detail page renders an interactive CompareButton for the preschool', async ({

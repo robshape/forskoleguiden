@@ -6,6 +6,8 @@
 
 ## Completed
 
+- [TASK016] Implement Step 6.2 preschool detail response breakdown - Completed 2026-03-07 (failing contract, full five-label rendering, validation, and memory-bank sync complete)
+
 - [TASK015] Implement Step 6.1 preschool detail page - Completed 2026-03-07 (Phase 1 failing detail-page contract, Phase 2 static Swedish route implementation, Phase 3 verification/memory-bank sync complete)
 - [TASK014] Add Husky pre-commit validate hook - Completed 2026-03-07 (Phase 1 failing contract tests, Phase 2 Husky wiring, Phase 3 verification/memory-bank sync complete)
 - [TASK013] Implement Step 5.4 compare MPA persistence - Completed 2026-03-06 (Phase 1 failing MPA persistence tests, Phase 2 /sv/om/ navigation target, Phase 3 verification/memory-bank sync complete)
