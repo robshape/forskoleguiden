@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-07): Steps 0–5.4 are complete and Husky pre-commit integration is in place. MPA persistence for cross-page compare state is verified and covered by e2e tests. A minimal `/sv/om/` Astro page was added as the MPA navigation target. Husky 9.1.7 runs `pnpm validate` before every commit; CI install steps use `HUSKY: 0`; and the workflow guard now proves that `HUSKY: 0` lives on the `Install dependencies` step itself. `pnpm validate` is green. Test suite: 25 unit + 18 e2e = 43 total.
+Current status (2026-03-07): Steps 0–6.1 are complete and Husky pre-commit integration is in place. The repo now includes statically generated Swedish preschool detail pages, and the compare-button interaction works there with the same sessionStorage-backed behavior as the directory page. A follow-up hardening pass localized the back-navigation landmark label, typed the detail-page props explicitly, and added a directory-to-detail click-path contract. `pnpm validate` is green, and the test suite now stands at 25 unit + 26 e2e = 51 total.
 
 ## Completed Scaffolding Summary
 
@@ -24,17 +24,21 @@ Current status (2026-03-07): Steps 0–5.4 are complete and Husky pre-commit int
 - **Step 5.2 (Compare button UI)**: `src/components/preact/CompareButton.tsx` is wired into `PreschoolCard.astro` and subscribes to the shared compare store so directory cards reflect selected and unselected states with localized copy and `aria-pressed`. `tests/e2e/directory-data-rendering.spec.ts` now verifies selecting two compare buttons, then deselecting one while the remaining button stays selected.
 - **Step 5.3 (Compare tray UI)**: `src/components/preact/CompareTray.tsx` is mounted globally from `src/layouts/BaseLayout.astro` as a `client:only="preact"` island and reflects the shared compare store across pages. It renders only when selections exist, shows the localized selected count, disables the compare CTA until the matching compare page route exists, reserves body space with `--tray-height`, and exposes a clear action that resets both tray and compare-button state. `tests/e2e/compare-tray-interaction.spec.ts` covers empty-state hiding, count updates, disabled compare semantics, reload recovery after a full page refresh, clear behavior, keyboard operability, and footer visibility above the tray on a 375×812 viewport.
 - **Step 5.4 (Compare MPA persistence)**: `sessionStorage`-backed compare state confirmed to survive Astro cross-page navigations. Minimal `src/pages/sv/om/index.astro` added as MPA navigation target. Three new Playwright cross-page scenarios added to `tests/e2e/compare-tray-interaction.spec.ts` (9 total in that spec): tray selections remain after forward navigation and back, compare-button pressed state is restored after returning from a second page, clearing via the tray on a second page removes tray on return. No compare-store or island logic changes were needed.
-- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 25 unit + 18 e2e = 43 total.
+- **Step 6.1 (Preschool detail page route)**: Added `src/pages/sv/forskola/[id].astro` with `getStaticPaths()` backed by `getPreschoolIndex()` and `getPreschoolSurveyByYear()`. Each generated detail page renders the preschool name, operator/address metadata, survey year, Helhetsbedömning question text, visible percentage values, and the existing `CompareButton` island. A follow-up patch typed `Astro.props` explicitly and localized the back-navigation landmark label. Playwright coverage in `tests/e2e/preschool-detail-page-contract.spec.ts` now verifies route generation for every preschool, direct detail-page content, compare-button interaction, and the click-through path from the directory.
+- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 25 unit + 26 e2e = 51 total.
 
 ## Verification Summary
 
-- Verified green after Husky integration via full `pnpm validate` run (2026-03-07).
+- Verified Step 6.1 with `pnpm build && pnpm test:e2e -- tests/e2e/preschool-detail-page-contract.spec.ts`.
+- Reran related regressions with `pnpm test:e2e -- tests/e2e/preschool-card-contract.spec.ts tests/e2e/compare-tray-interaction.spec.ts tests/e2e/directory-data-rendering.spec.ts`.
+- Ran `pnpm validate` successfully after a Prettier cleanup and a `pnpm install` resync that removed stale `vite@7.3.1` from `node_modules` and restored the lockfile's pinned `vite@6.4.1`. Reran `pnpm validate` after the review-follow-up patch and it remained green.
+
 - `pnpm lint` — 0 ESLint errors.
-- `pnpm lint:md` — 52 markdown files linted with 0 errors.
+- `pnpm lint:md` — 0 markdown lint errors.
 - `pnpm format:check` — all files match Prettier code style.
-- `pnpm check` — 0 errors, 0 warnings, 0 hints across 41 Astro files.
-- `pnpm test` — 10 passing test files, 25 passing unit tests.
-- `pnpm build` — 2 pages built successfully.
+- `pnpm check` — 0 errors, 0 warnings, 0 hints.
+- `pnpm test` — 10 passing unit test files, 25 passing unit tests.
+- `pnpm build` — build passes and includes the generated Swedish preschool detail pages.
 
 ## Decision Log
 
@@ -48,9 +52,9 @@ Current status (2026-03-07): Steps 0–5.4 are complete and Husky pre-commit int
 
 ## Current Priorities
 
-1. **Next compare-flow step** — Step 5.5+ or the comparison page route; build on the stable compare tray and MPA-persistence foundation.
-2. **Keep contracts stable** — the `/sv/om/` page is a minimal MPA target; do not add content to it without a scoped step.
+1. **Step 6.2 follow-up** — add the full five-response breakdown on preschool detail pages without breaking the new Step 6.1 route contract.
+2. **Comparison route** — implement `/sv/jamfor/` so the existing compare tray CTA can activate via the established route-availability check.
 
 ## Next Focus
 
-- Begin Step 5.5+ or the comparison page route from the now-stable MPA-persistence foundation; when the compare page route lands, re-enable the tray CTA by satisfying the build-time route-availability check rather than changing the Step 5.3 disabled contract ad hoc.
+- Build on the now-stable directory, compare, and detail-page foundation by implementing Step 6.2 or Step 7 next; when the compare page route lands, re-enable the tray CTA by satisfying the build-time route-availability check rather than changing the Step 5.3 disabled contract ad hoc.

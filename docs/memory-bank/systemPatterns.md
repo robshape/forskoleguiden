@@ -37,6 +37,15 @@ All data paths resolve from `process.cwd()`, which is the project root in both A
 
 For routes that already have the survey year from `getPreschoolIndex()`, use `getPreschoolSurveyByYear(id, year)` to avoid repeated index-file reads inside per-preschool maps. Keep `getPreschoolSurvey(id)` as a convenience wrapper for call sites that do not yet have year context.
 
+## Static Preschool Detail Route Pattern
+
+- Swedish preschool detail pages live at `src/pages/sv/forskola/[id].astro` and use `getStaticPaths()` to map every preschool in `getPreschoolIndex()` to a generated route.
+- Each route should pass both the index entry and the matching `PreschoolSurvey` into the page props so the template does not need to reread shared data inside the render body.
+- Type the detail-page props explicitly at the route boundary (`Astro.props as Props`) so drift between `getStaticPaths()` props and the page usage becomes a compile-time error rather than a runtime failure.
+- Reuse the existing `CompareButton` island on detail pages with `client:only="preact"`, matching the directory-card pattern and preserving sessionStorage-backed compare-state hydration safety.
+- Keep page-level landmark copy localized through existing i18n keys where practical; avoid hardcoding labels such as back-navigation landmarks when the visible link text already comes from `t()`.
+- Step 6.1 intentionally renders a minimal visible percentage for each Helhetsbedömning question; Step 6.2 is the planned place for the full five-response breakdown.
+
 ## Scoring / Null-Return Pattern
 
 `src/lib/scoring.ts` returns `null` from `computeOverallScore()` when the `Helhetsbedömning` question group is missing or present-but-empty. Downstream consumers sort `null` scores to the bottom via `byOverallScoreDesc()`. Dev-only `console.warn` fires for invalid response percentages (out-of-range or sums ≠ 100 ± 1).
@@ -49,7 +58,7 @@ All tests follow Kent C. Dodds's "Testing Trophy" and "Write fewer, longer tests
 - **Fewer, longer tests**: Related assertions are grouped into single test blocks rather than isolated one-assertion-per-test. Example: `scoring-overall-score-utilities.test.ts` has 4 tests covering the core scoring behavior set in one cohesive suite.
 - **No source-inspection tests**: Tests must verify behavior and output, not implementation details. Tests that read `.astro` source files and regex-match CSS class tokens or HTML attributes were removed. Runtime behavior is verified via e2e tests instead.
 - **No redundant coverage**: Tests that duplicate coverage provided by other layers (e.g., `types.test.ts` duplicating TypeScript strict mode, `root-redirect.test.ts` duplicating e2e smoke test) are removed.
-- **Current test counts**: 25 unit tests + 18 e2e tests = 43 total.
+- **Current test counts**: 25 unit tests + 26 e2e tests = 51 total.
 
 ## Shared Test Helper Pattern
 
