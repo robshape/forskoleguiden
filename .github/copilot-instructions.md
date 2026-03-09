@@ -72,15 +72,16 @@ src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), 
 src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc()
 src/lib/constants.ts          — Shared constants: MALMO_SOURCE_URL, SURVEY_YEAR
 src/lib/base-path.ts          — getBasePath(): normalizes import.meta.env.BASE_URL (strips trailing slash)
+src/lib/survey-responses.ts   — RESPONSE_ROWS: canonical field-to-i18n mapping for the five response labels
 src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path keys)
 src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
 src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
 src/components/astro/         — Static Astro components: Nav, Footer, CityYearSelector, PreschoolCard
 src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray
-src/pages/{sv,en,ar}/         — Astro file-based i18n routing (pages pass locale to BaseLayout)
+src/pages/sv/                 — Swedish pages: index, om/ (about), forskola/[id].astro (detail)
 src/styles/global.css         — Tailwind v4 entry + @theme tokens (colors, spacing, shadows)
 tests/unit/**/*.test.ts       — Vitest unit tests
-tests/unit/helpers/           — Shared test utilities (malmo-data.ts, survey-assertions.ts)
+tests/unit/helpers/           — Shared test utilities (malmo-data.ts, survey-assertions.ts, i18n.ts)
 tests/e2e/**/*.spec.ts        — Playwright e2e tests
 ```
 
@@ -90,11 +91,11 @@ tests/e2e/**/*.spec.ts        — Playwright e2e tests
 - **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro. Astro components receive `locale: Locale` as a prop and call `t()` for all user-facing text — see `Nav.astro`, `Footer.astro` for the pattern. Preact islands that depend on persisted client state (e.g., `sessionStorage`) should use `client:only="preact"` to avoid SSR/client hydration mismatches.
 - **Layout pattern**: all pages wrap content in `<BaseLayout locale={locale} title={...}>`. BaseLayout sets `lang`, `dir` (RTL for Arabic), loads global CSS, and renders Nav + Footer.
 - **No `@astrojs/tailwind`** — Tailwind v4 uses the Vite plugin directly: `@tailwindcss/vite` in `astro.config.ts`. Design tokens are defined as `@theme` variables in `src/styles/global.css` (e.g. `--color-primary-600`, `--max-width-content`).
-- **i18n**: three locales (`sv`, `en`, `ar`), all prefix-routed (`/sv/`, `/en/`, `/ar/`). Swedish is default. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants. Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. Supports interpolation: `t('compareTray.selectedCount', locale, { count: 3 })` replaces `{count}` in the template. All three locale JSONs must have identical key structures (enforced by unit test). `Locale` type and `getLocaleFromURL()` are exported from the same module.
+- **i18n**: three locales (`sv`, `en`, `ar`) defined in `src/i18n/`. Currently **only Swedish pages exist** (`/sv/`); EN/AR page routes are planned but not yet built — see `docs/implementation-plan.md`. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants when added. Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. Supports interpolation: `t('compareTray.selectedCount', locale, { count: 3 })` replaces `{count}` in the template. All three locale JSONs must have identical key structures (enforced by unit test). `Locale` type and `getLocaleFromURL()` are exported from the same module.
 - **No runtime data fetching** — all preschool data read from `data/` at Astro build time via `src/lib/data.ts` loaders (uses `readFileSync` + `process.cwd()`).
-- **Formatting**: single quotes, no semicolons (`.prettierrc`). Prettier + prettier-plugin-astro.
-- **ESLint**: flat config (`eslint.config.js`) with `@typescript-eslint` + `eslint-plugin-astro`.
-- **Markdown linting**: `pnpm lint:md` uses markdownlint-cli2 (MD013/line-length disabled).
+- **Formatting**: single quotes, no semicolons — see `.prettierrc`.
+- **Linting**: ESLint flat config + `@typescript-eslint` + `eslint-plugin-astro`; markdownlint-cli2 for Markdown (MD013 disabled).
+- **Pre-commit**: Husky runs `pnpm validate` before every commit. CI skips this via `HUSKY=0`.
 
 ## Data model
 
@@ -102,8 +103,9 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 
 ## Scoring & comparison logic
 
+- `OVERALL_ASSESSMENT_GROUP` — constant (`'Helhetsbedömning'`) preventing string drift across codebase
 - `computeAgreeShare(response)` → `completelyAgreePercent + partlyAgreePercent` (see `src/lib/scoring.ts`)
-- `computeOverallScore(survey)` → average agree share across all questions in "Helhetsbedömning"; returns `null` if group is missing
+- `computeOverallScore(survey)` → average agree share across all questions in the overall assessment group; returns `null` if group is missing
 - `byOverallScoreDesc` — comparator for descending sort by overall score (nulls sort last)
 - Deterministic text summaries: delta ≥ 5 pp → "higher"; ≤ −5 pp → "lower"; otherwise "similar". Neutral template phrases only.
 
@@ -118,6 +120,7 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - `pnpm lint` — ESLint (flat config)
 - `pnpm lint:md` — Markdown linting
 - `pnpm format` — Prettier (writes); `pnpm format:check` (CI-safe check)
+- `pnpm validate` — runs lint + lint:md + format:check + check + test + build sequentially
 
 ## Testing patterns
 
@@ -142,3 +145,10 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - Mobile-first targeting iPhone 13 mini viewport
 - Shortlist limited to 5 preschools (matches Malmö municipality application)
 - URL share links must stay under ~2,000 chars
+
+## Project documentation
+
+- `docs/implementation-plan.md` — multi-phase feature roadmap (Steps 0–8)
+- `docs/prd.md` — product requirements and user flows
+- `docs/tech-stack.md` — architectural decisions and technology rationale
+- `docs/memory-bank/` — living project context: active work, progress, system patterns, tasks
