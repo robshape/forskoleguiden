@@ -8,6 +8,7 @@ interface Props {
   rankingLabel: string
   alphabeticalLabel: string
   groupLabel: string
+  sortLabel: string
   locale: Locale
 }
 
@@ -83,9 +84,10 @@ export default function SortToggle({
   rankingLabel,
   alphabeticalLabel,
   groupLabel,
+  sortLabel,
   locale,
 }: Props) {
-  const [sortMode, setSortMode] = useState<SortMode>('ranking')
+  const [sortMode, setSortMode] = useState<SortMode>('alphabetical')
   const [announcement, setAnnouncement] = useState('')
   const hasHydratedRef = useRef(false)
   const cachedListElementRef = useRef<HTMLUListElement | null>(null)
@@ -133,17 +135,7 @@ export default function SortToggle({
       role="group"
       aria-label={groupLabel}
     >
-      <button
-        type="button"
-        aria-pressed={sortMode === 'ranking'}
-        class={`inline-flex h-8 items-center rounded-full border border-border px-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 ${rankingButtonClass}`}
-        onClick={() => {
-          setSortMode('ranking')
-          setAnnouncement(`${groupLabel}: ${rankingLabel}`)
-        }}
-      >
-        {rankingLabel}
-      </button>
+      <span class="text-sm font-medium text-slate-700">{sortLabel}</span>
       <button
         type="button"
         aria-pressed={sortMode === 'alphabetical'}
@@ -154,6 +146,17 @@ export default function SortToggle({
         }}
       >
         {alphabeticalLabel}
+      </button>
+      <button
+        type="button"
+        aria-pressed={sortMode === 'ranking'}
+        class={`inline-flex h-8 items-center rounded-full border border-border px-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 ${rankingButtonClass}`}
+        onClick={() => {
+          setSortMode('ranking')
+          setAnnouncement(`${groupLabel}: ${rankingLabel}`)
+        }}
+      >
+        {rankingLabel}
       </button>
       <span
         data-testid="sort-live-region"

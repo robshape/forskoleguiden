@@ -9,7 +9,7 @@ Key completed milestones:
 - **Step 1**: Data layer (types, data loading, scoring) in `src/lib/`
 - **Step 2**: i18n foundation (sv/en/ar locales, `t()` with interpolation, locale routing)
 - **Step 3**: Layout shell + design foundations (BaseLayout, Nav, Footer, CityYearSelector, global tokens)
-- **Step 4**: Directory page — build-time data assembly, PreschoolCard component, score-desc ranking with deterministic tie-breaks, interactive SortToggle Preact island, full a11y (aria-live, localized labels, keyboard focus)
+- **Step 4**: Directory page — build-time data assembly, PreschoolCard component (full-card clickable), default alphabetical sort with Betyg (rating) toggle, pre-computed rank indices, interactive SortToggle Preact island, city selector heading simplified to "Stad", survey year in footer attribution, full a11y (aria-live, localized labels, keyboard focus)
 - **Step 5.1**: compare-store foundation in `src/lib/state.ts` with `compareIds`, `toggleCompare`, `clearCompare`, SSR-safe `sessionStorage` hydration/persistence, and unit coverage for default/toggle/clear/max-cap/hydration behavior
 - **Step 5.2**: compare button island wired into `PreschoolCard.astro` with localized selected/unselected labels, preschool-specific accessible naming, and e2e coverage for select/deselect pressed-state behavior
 - **Step 5.3**: global compare tray island in `src/components/preact/CompareTray.tsx`, mounted from `BaseLayout.astro` with locale-aware labels and build-time route-availability detection; tray visibility, disabled compare semantics, reload recovery, clear behavior, keyboard access, and footer-safe spacing covered by dedicated e2e tests

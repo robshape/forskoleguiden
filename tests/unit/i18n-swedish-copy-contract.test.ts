@@ -35,6 +35,7 @@ describe('Swedish translation keys', () => {
       'directory.sort.ranking',
       'directory.sort.alphabetical',
       'directory.sort.groupLabel',
+      'directory.sort.label',
       'directory.operatorType.municipal',
       'directory.operatorType.independent',
       'directory.listAriaLabel',
@@ -89,9 +90,7 @@ describe('Swedish translation keys', () => {
     }
 
     // Approved Swedish copy for specific keys
-    expect(getByPath(sv as JsonObject, 'directory.sort.ranking')).toBe(
-      'Rankning',
-    )
+    expect(getByPath(sv as JsonObject, 'directory.sort.ranking')).toBe('Betyg')
     expect(getByPath(sv as JsonObject, 'directory.sort.groupLabel')).toBe(
       'Sortering',
     )
@@ -137,6 +136,20 @@ describe('Swedish translation keys', () => {
         selectedCount,
         'compareTray.selectedCount missing {count}',
       ).toContain('{count}')
+    }
+
+    // attribution.text must contain {year}
+    const attributionText = getByPath(sv as JsonObject, 'attribution.text')
+
+    expect(attributionText, 'attribution.text must be defined').toBeDefined()
+    expect(typeof attributionText, 'attribution.text must be a string').toBe(
+      'string',
+    )
+
+    if (typeof attributionText === 'string') {
+      expect(attributionText, 'attribution.text missing {year}').toContain(
+        '{year}',
+      )
     }
   })
 })

@@ -124,7 +124,8 @@ test.describe('Swedish preschool detail pages contract', () => {
     await page.goto(TEST_URL)
 
     // The survey year 2025 must be explicitly visible on the page
-    await expect(page.getByText(/2025/)).toBeVisible()
+    const contentYear = page.locator('main').getByText(/2025/)
+    await expect(contentYear).toBeVisible()
   })
 
   test('detail page renders Helhetsbedömning section heading and question texts', async ({

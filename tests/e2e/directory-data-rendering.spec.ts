@@ -23,7 +23,7 @@ test.describe('Swedish directory data rendering contracts', () => {
     }).toPass()
   }
 
-  test('renders directory cards in default score-desc ranking order', async ({
+  test('renders directory cards in default alphabetical order', async ({
     page,
   }) => {
     const response = await page.goto('/forskoleguiden/sv/')
@@ -39,13 +39,12 @@ test.describe('Swedish directory data rendering contracts', () => {
       .locator('[data-testid="preschool-card"] h3 a')
       .allTextContents()
 
-    // Score-desc order from current Malmö 2025 data: 98.5 > 94.5 > 94.0 > 91.0 > 88.5
     expect(renderedNames.map((name) => name.trim())).toEqual([
+      'Almgårdens förskola',
+      'Augustenborgs förskola',
       'Bellevuegårdens montessoriförskola',
       'Bladins internationella förskola',
-      'Almgårdens förskola',
       'Bulltofta förskola',
-      'Augustenborgs förskola',
     ])
   })
 
@@ -59,8 +58,11 @@ test.describe('Swedish directory data rendering contracts', () => {
     )
   })
 
-  test('renders rank index text 1..N for each card row', async ({ page }) => {
+  test('renders rank index text 1..N for each card row when sorting by Betyg', async ({
+    page,
+  }) => {
     await page.goto('/forskoleguiden/sv/')
+    await page.getByRole('button', { name: 'Betyg' }).click()
 
     const listRows = page.locator(
       'section[aria-label="Förskolelista"] > ul > li',
@@ -76,7 +78,7 @@ test.describe('Swedish directory data rendering contracts', () => {
     }
   })
 
-  test('switches to alphabetical order when A–Ö is selected and restores ranking order when Rankning is selected', async ({
+  test('starts in alphabetical order, switches to ranking order when Betyg is selected, and back to alphabetical', async ({
     page,
   }) => {
     await page.goto('/forskoleguiden/sv/')
@@ -95,22 +97,20 @@ test.describe('Swedish directory data rendering contracts', () => {
       }),
     })
 
+    await expect(firstPreschoolLink).toHaveText('Almgårdens förskola')
+    await expect(bellevueRow.getByTestId('rank-index')).toHaveText('3')
+
+    await page.getByRole('button', { name: 'Betyg' }).click()
     await expect(firstPreschoolLink).toHaveText(
       'Bellevuegårdens montessoriförskola',
     )
     await expect(bellevueRow.getByTestId('rank-index')).toHaveText('1')
+    await expect(page.getByTestId('sort-live-region')).toContainText('Betyg')
 
     await page.getByRole('button', { name: 'A–Ö' }).click()
     await expect(firstPreschoolLink).toHaveText('Almgårdens förskola')
     await expect(bellevueRow.getByTestId('rank-index')).toHaveText('3')
     await expect(page.getByTestId('sort-live-region')).toContainText('A–Ö')
-
-    await page.getByRole('button', { name: 'Rankning' }).click()
-    await expect(firstPreschoolLink).toHaveText(
-      'Bellevuegårdens montessoriförskola',
-    )
-    await expect(bellevueRow.getByTestId('rank-index')).toHaveText('1')
-    await expect(page.getByTestId('sort-live-region')).toContainText('Rankning')
   })
 
   test('selects two preschool compare buttons and deselects one while keeping pressed-state semantics in sync', async ({

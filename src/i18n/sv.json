@@ -11,7 +11,7 @@
     "languagePlaceholder": "SV | EN"
   },
   "cityYear": {
-    "heading": "STAD & ÅR",
+    "heading": "Stad",
     "surveyYear": "Enkätår:",
     "cities": {
       "malmo": "Malmö",
@@ -22,9 +22,10 @@
   "directory": {
     "heading": "Förskolor i Malmö",
     "sort": {
-      "ranking": "Rankning",
+      "ranking": "Betyg",
       "alphabetical": "A–Ö",
-      "groupLabel": "Sortering"
+      "groupLabel": "Sortering",
+      "label": "Sortera:"
     },
     "operatorType": {
       "municipal": "Kommunal",
@@ -68,7 +69,7 @@
     "similar": "{left} och {right} har liknande andel instämmande svar för \"{question}\"."
   },
   "attribution": {
-    "text": "Enkätdata kommer från Malmö stad."
+    "text": "Enkätdata ({year}) kommer från Malmö stad."
   },
   "about": {
     "heading": "Om data",

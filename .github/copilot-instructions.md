@@ -34,11 +34,11 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 
 ## Preact islands inventory
 
-| Island          | File                                      | Hydration              | Purpose                                                                              |
-| --------------- | ----------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------ |
-| `SortToggle`    | `src/components/preact/SortToggle.tsx`    | `client:load`          | Toggle ranking ↔ alphabetical sort; mutates DOM row order; `aria-live` announcements |
-| `CompareButton` | `src/components/preact/CompareButton.tsx` | `client:load`          | Select/deselect a preschool for comparison; `aria-pressed` toggle                    |
-| `CompareTray`   | `src/components/preact/CompareTray.tsx`   | `client:only="preact"` | Global compare summary bar; disabled CTA until compare page route exists             |
+| Island          | File                                      | Hydration              | Purpose                                                                                                       |
+| --------------- | ----------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `SortToggle`    | `src/components/preact/SortToggle.tsx`    | `client:load`          | Toggle alphabetical ↔ rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements |
+| `CompareButton` | `src/components/preact/CompareButton.tsx` | `client:load`          | Select/deselect a preschool for comparison; `aria-pressed` toggle                                             |
+| `CompareTray`   | `src/components/preact/CompareTray.tsx`   | `client:only="preact"` | Global compare summary bar; disabled CTA until compare page route exists                                      |
 
 **Hydration strategy guidance:**
 

@@ -1,5 +1,5 @@
 ---
-import { MALMO_SOURCE_URL } from '@/lib/constants'
+import { MALMO_SOURCE_URL, SURVEY_YEAR } from '@/lib/constants'
 import { t, type Locale } from '@/i18n/utils'
 
 interface Props {
@@ -19,6 +19,6 @@ const { locale } = Astro.props
     referrerpolicy="no-referrer"
     class="text-primary-600 underline"
   >
-    {t('attribution.text', locale)}
+    {t('attribution.text', locale, { year: String(SURVEY_YEAR) })}
   </a>
 </div>

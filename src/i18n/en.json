@@ -11,7 +11,7 @@
     "languagePlaceholder": "SV | EN"
   },
   "cityYear": {
-    "heading": "CITY & YEAR",
+    "heading": "City",
     "surveyYear": "Survey Year:",
     "cities": {
       "malmo": "Malmö",
@@ -22,9 +22,10 @@
   "directory": {
     "heading": "Preschools in Malmö",
     "sort": {
-      "ranking": "Ranking",
+      "ranking": "Rating",
       "alphabetical": "A–Z",
-      "groupLabel": "Sorting"
+      "groupLabel": "Sorting",
+      "label": "Sort by:"
     },
     "operatorType": {
       "municipal": "Municipal",
@@ -68,7 +69,7 @@
     "similar": "{left} and {right} have a similar share of agree responses for \"{question}\"."
   },
   "attribution": {
-    "text": "Survey data comes from Malmö stad."
+    "text": "Survey data ({year}) comes from Malmö stad."
   },
   "about": {
     "heading": "About the data",

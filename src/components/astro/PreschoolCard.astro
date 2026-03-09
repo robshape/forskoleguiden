@@ -47,13 +47,13 @@ const scoreBadgeToneClass =
 
 <article
   data-testid="preschool-card"
-  class="flex flex-col gap-4 rounded-xl border border-border bg-surface p-4 shadow-sm"
+  class="group relative flex flex-col gap-4 rounded-xl border border-border bg-surface p-4 shadow-sm transition-all hover:border-primary-300 hover:shadow-md active:scale-[0.99]"
 >
   <div>
     <h3 class="text-base font-bold leading-snug text-gray-900">
       <a
         href={detailPageHref}
-        class="text-gray-900 hover:text-primary-700 hover:underline"
+        class="text-gray-900 group-hover:text-primary-700 group-hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 before:absolute before:inset-0 before:z-0"
       >
         {name}
       </a>
@@ -66,7 +66,7 @@ const scoreBadgeToneClass =
   <div class="flex items-center justify-between">
     <div class="flex flex-row items-center gap-3">
       <div
-        class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${scoreBadgeToneClass}`}
+        class={`flex h-10 min-w-[2.5rem] shrink-0 items-center justify-center rounded-lg px-2 text-sm font-bold ${scoreBadgeToneClass}`}
       >
         {
           score === null ? (
@@ -91,13 +91,15 @@ const scoreBadgeToneClass =
         </span>
       </div>
     </div>
-    <CompareButton
-      client:only="preact"
-      id={id}
-      name={name}
-      addLabel={compareLabel}
-      addedLabel={addedCompareLabel}
-      ariaLabelTemplate={compareButtonAriaLabel}
-    />
+    <div class="relative z-10">
+      <CompareButton
+        client:only="preact"
+        id={id}
+        name={name}
+        addLabel={compareLabel}
+        addedLabel={addedCompareLabel}
+        ariaLabelTemplate={compareButtonAriaLabel}
+      />
+    </div>
   </div>
 </article>

@@ -49,13 +49,13 @@ test('layout and navigation shell render required semantics on /sv/', async ({
   await expect(nav).not.toContainText('Malmö')
   await expect(nav).not.toContainText('2025')
 
-  // City & Year selector lives in main content, not in nav
+  // City selector lives in main content, not in nav
   const main = page.locator('main')
   const citySection = main.getByRole('region', {
-    name: 'STAD & ÅR',
+    name: 'Stad',
   })
   await expect(citySection).toBeVisible()
-  await expect(citySection.getByText('STAD & ÅR')).toBeVisible()
+  await expect(citySection.getByText('Stad')).toBeVisible()
 
   const cityList = citySection.getByRole('list')
   await expect(cityList).toBeVisible()
@@ -69,14 +69,11 @@ test('layout and navigation shell render required semantics on /sv/', async ({
     cityList.getByRole('button', { name: 'Göteborg' }),
   ).toBeDisabled()
 
-  // Survey year with bold year value
-  await expect(citySection.getByText('Enkätår:')).toBeVisible()
-  await expect(citySection.getByText('2025')).toBeVisible()
-
+  // Survey year removed from here in recent feature
   // Attribution lives in <footer> landmark, outside <main>
   const footer = page.locator('footer')
   const sourceLink = footer.getByRole('link', {
-    name: 'Enkätdata kommer från Malmö stad.',
+    name: 'Enkätdata (2025) kommer från Malmö stad.',
   })
   await expect(sourceLink).toHaveAttribute('href', MALMO_SOURCE_URL)
   await expect(sourceLink).toHaveAttribute('target', '_blank')
@@ -102,7 +99,7 @@ test('keyboard navigation shows focus-visible outline on key shell links', async
     .getByRole('link', { name: 'Förskoleguiden' })
   const attributionSourceLink = page
     .locator('footer')
-    .getByRole('link', { name: 'Enkätdata kommer från Malmö stad.' })
+    .getByRole('link', { name: 'Enkätdata (2025) kommer från Malmö stad.' })
 
   await page.keyboard.press('Tab')
   await expect(siteTitleLink).toBeFocused()

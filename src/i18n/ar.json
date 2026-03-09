@@ -11,7 +11,7 @@
     "languagePlaceholder": "SV | EN"
   },
   "cityYear": {
-    "heading": "المدينة والسنة",
+    "heading": "المدينة",
     "surveyYear": "سنة الاستبيان:",
     "cities": {
       "malmo": "مالمو",
@@ -22,9 +22,10 @@
   "directory": {
     "heading": "رياض الأطفال في مالمو",
     "sort": {
-      "ranking": "الترتيب",
+      "ranking": "التقييم",
       "alphabetical": "أ–ي",
-      "groupLabel": "الفرز"
+      "groupLabel": "الفرز",
+      "label": "فرز حسب:"
     },
     "operatorType": {
       "municipal": "بلدية",
@@ -68,7 +69,7 @@
     "similar": "لدى {left} و {right} نسبة متشابهة من الردود المتفقة لسؤال \"{question}\"."
   },
   "attribution": {
-    "text": "بيانات الاستبيان من Malmö stad."
+    "text": "بيانات الاستبيان ({year}) من Malmö stad."
   },
   "about": {
     "heading": "حول البيانات",
