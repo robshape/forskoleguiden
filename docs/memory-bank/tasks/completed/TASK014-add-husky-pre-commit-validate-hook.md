@@ -61,8 +61,8 @@ The repo already had a `pnpm validate` script that runs the full quality-gate se
 - A final rerun caught one Prettier formatting issue in this task file; formatted it and reran `pnpm validate` successfully.
 - Final results: 0 ESLint errors; 52 markdown files, 0 lint errors; all files Prettier-clean; 41 Astro files, 0 errors/warnings/hints; 10 unit test files, 23 unit tests all passed; 2 pages built successfully.
 - Updated `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/techContext.md`, `docs/memory-bank/systemPatterns.md`, and `docs/memory-bank/tasks/_index.md`.
-- Created `docs/memory-bank/tasks/TASK014-add-husky-pre-commit-validate-hook.md` (this file).
-- Created `docs/plans/add-husky-pre-commit-validate-hook-phase-3-complete.md`.
+- Created `docs/memory-bank/tasks/completed/TASK014-add-husky-pre-commit-validate-hook.md` (this file).
+- Created `docs/plans/completed/add-husky-pre-commit-validate-hook-phase-3-complete.md`.
 - TASK014 marked Completed; entry added at the top of the Completed section in `_index.md`.
 
 ### 2026-03-07 — Post-completion follow-up

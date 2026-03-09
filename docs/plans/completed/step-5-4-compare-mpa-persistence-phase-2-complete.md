@@ -6,7 +6,7 @@ Phase 2 made the Step 5.4 cross-page persistence contract pass by adding the sma
 
 - src/pages/sv/om/index.astro
 - tests/e2e/compare-tray-interaction.spec.ts
-- docs/plans/step-5-4-compare-mpa-persistence-phase-2-complete.md
+- docs/plans/completed/step-5-4-compare-mpa-persistence-phase-2-complete.md
 
 **Functions created/changed**:
 

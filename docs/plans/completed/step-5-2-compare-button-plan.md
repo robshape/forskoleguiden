@@ -27,7 +27,7 @@ Implement the Step 5.2 compare-button UI by locking the toggle behavior in brows
 3. **Phase 3: Verify And Document**
    - **Objective**: Validate the completed Step 5.2 work and sync the project memory.
 
-- **Files/Functions to Modify/Create**: `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/systemPatterns.md`, `docs/memory-bank/tasks/_index.md`, `docs/memory-bank/tasks/TASK011-implement-step-5-2-compare-button.md`, `docs/memory-bank/tasks/TASK012-implement-step-5-3-compare-tray.md`
+- **Files/Functions to Modify/Create**: `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/systemPatterns.md`, `docs/memory-bank/tasks/_index.md`, `docs/memory-bank/tasks/completed/TASK011-implement-step-5-2-compare-button.md`, `docs/memory-bank/tasks/completed/TASK012-implement-step-5-3-compare-tray.md`
 - **Tests to Write**: none.
 - **Steps**:
   1. Run `pnpm lint`, `pnpm lint:md`, `pnpm format:check`, `pnpm check`, and `pnpm test`.

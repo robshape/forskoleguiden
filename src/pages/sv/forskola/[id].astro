@@ -4,30 +4,14 @@ import CompareButton from '@/components/preact/CompareButton'
 import { t } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
 import { getPreschoolIndex, getPreschoolSurveyByYear } from '@/lib/data'
-import type {
-  PreschoolIndexEntry,
-  PreschoolSurvey,
-  SurveyResponse,
-} from '@/lib/types'
+import { OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
+import { RESPONSE_ROWS } from '@/lib/survey-responses'
+import type { PreschoolIndexEntry, PreschoolSurvey } from '@/lib/types'
 
 interface Props {
   preschool: PreschoolIndexEntry
   survey: PreschoolSurvey
 }
-
-const RESPONSE_ROWS: Array<{ field: keyof SurveyResponse; i18nKey: string }> = [
-  { field: 'completelyAgreePercent', i18nKey: 'responses.completelyAgree' },
-  { field: 'partlyAgreePercent', i18nKey: 'responses.partlyAgree' },
-  {
-    field: 'neitherAgreeNorDisagreePercent',
-    i18nKey: 'responses.neitherAgreeNorDisagree',
-  },
-  { field: 'partlyDisagreePercent', i18nKey: 'responses.partlyDisagree' },
-  {
-    field: 'completelyDisagreePercent',
-    i18nKey: 'responses.completelyDisagree',
-  },
-]
 
 export function getStaticPaths() {
   const index = getPreschoolIndex()
@@ -55,7 +39,7 @@ const backLabel = t('compare.actions.backToDirectory', locale)
 const surveyYearLabel = t('cityYear.surveyYear', locale)
 
 const helhetsBedömning = survey.questionGroups.find(
-  (group) => group.name === 'Helhetsbedömning',
+  (group) => group.name === OVERALL_ASSESSMENT_GROUP,
 )
 ---
 

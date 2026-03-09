@@ -18,7 +18,7 @@ Ran the full `pnpm validate` quality-gate suite to verify the finished Husky int
 - `docs/memory-bank/techContext.md` — added Husky 9.1.7 entry to Quality Tooling section
 - `docs/memory-bank/systemPatterns.md` — added Husky contract test to Infrastructure Regression Guards; corrected test counts (25 unit + 18 e2e = 43 total)
 - `docs/memory-bank/tasks/_index.md` — added TASK014 to Completed section
-- `docs/memory-bank/tasks/TASK014-add-husky-pre-commit-validate-hook.md` — new task file
+- `docs/memory-bank/tasks/completed/TASK014-add-husky-pre-commit-validate-hook.md` — new task file
 
 **Task**: TASK014 marked Completed
 

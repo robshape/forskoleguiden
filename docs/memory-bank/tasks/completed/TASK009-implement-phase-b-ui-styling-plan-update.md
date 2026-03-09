@@ -10,7 +10,7 @@ Implement Phase 1 from `docs/plans/implement-phase-b-ui-styling-plan.md` by crea
 
 Scope for this phase:
 
-- Create `docs/memory-bank/tasks/TASK009-implement-phase-b-ui-styling-plan-update.md`.
+- Create `docs/memory-bank/tasks/completed/TASK009-implement-phase-b-ui-styling-plan-update.md`.
 - Update `docs/memory-bank/tasks/_index.md`.
 - Keep the task focused on implementing Phase B in `docs/plans/implement-phase-b-ui-styling-plan.md` as documentation-only work.
 

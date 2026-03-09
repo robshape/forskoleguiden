@@ -4,9 +4,9 @@ Phase 1 added the missing red-state Playwright coverage for compare-state persis
 
 **Files created/changed**:
 
-- docs/plans/step-5-4-compare-mpa-persistence-plan.md
-- docs/plans/step-5-4-compare-mpa-persistence-phase-1-complete.md
-- docs/memory-bank/tasks/TASK013-implement-step-5-4-compare-mpa-persistence.md
+- docs/plans/completed/step-5-4-compare-mpa-persistence-plan.md
+- docs/plans/completed/step-5-4-compare-mpa-persistence-phase-1-complete.md
+- docs/memory-bank/tasks/completed/TASK013-implement-step-5-4-compare-mpa-persistence.md
 - docs/memory-bank/tasks/\_index.md
 - tests/e2e/compare-tray-interaction.spec.ts
 

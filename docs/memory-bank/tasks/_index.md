@@ -6,6 +6,8 @@
 
 ## Completed
 
+Individual task files for completed work are archived in `tasks/completed/`.
+
 - [TASK016] Implement Step 6.2 preschool detail response breakdown - Completed 2026-03-07 (failing contract, full five-label rendering, validation, and memory-bank sync complete)
 
 - [TASK015] Implement Step 6.1 preschool detail page - Completed 2026-03-07 (Phase 1 failing detail-page contract, Phase 2 static Swedish route implementation, Phase 3 verification/memory-bank sync complete)

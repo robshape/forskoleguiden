@@ -52,6 +52,6 @@ The compare store already persists to `sessionStorage` and the tray recovers aft
 - Ran full quality-gate suite in CI-gate order: `pnpm lint` (0 errors), `pnpm lint:md` (40 files, 0 errors), `pnpm format:check` (all files clean), `pnpm check` (40 Astro files, 0 errors/warnings/hints), `pnpm test` (9 test files, 18 unit tests passed).
 - Ran targeted spec: `pnpm exec playwright test tests/e2e/compare-tray-interaction.spec.ts` — 9/9 passed in 4.9 s.
 - No fixes needed; all gates passed on first run.
-- Updated `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/tasks/TASK013-implement-step-5-4-compare-mpa-persistence.md`, and `docs/memory-bank/tasks/_index.md`.
-- Created `docs/plans/step-5-4-compare-mpa-persistence-phase-3-complete.md`.
+- Updated `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/tasks/completed/TASK013-implement-step-5-4-compare-mpa-persistence.md`, and `docs/memory-bank/tasks/_index.md`.
+- Created `docs/plans/completed/step-5-4-compare-mpa-persistence-phase-3-complete.md`.
 - TASK013 marked Completed; moved to Completed section in `_index.md`.

@@ -26,7 +26,7 @@ Implement Step 5.4 by locking compare-state persistence across real Astro MPA na
 
 3. **Phase 3: Verify and document completion**
    - **Objective**: Confirm Step 5.4 is complete and non-regressive.
-   - **Files/Functions to Modify/Create**: `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/tasks/_index.md`, `docs/memory-bank/tasks/TASK013-implement-step-5-4-compare-mpa-persistence.md`, and the phase completion note.
+   - **Files/Functions to Modify/Create**: `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/tasks/_index.md`, `docs/memory-bank/tasks/completed/TASK013-implement-step-5-4-compare-mpa-persistence.md`, and the phase completion note.
    - **Tests to Write**: none.
    - **Steps**:
      1. Re-run the Step 5.4 e2e coverage.

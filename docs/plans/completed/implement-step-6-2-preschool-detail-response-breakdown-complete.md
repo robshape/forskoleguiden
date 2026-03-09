@@ -10,16 +10,16 @@ Step 6.2 is complete. Swedish preschool detail pages now render the full five-ca
 
 **All Files Created/Modified**:
 
-- docs/plans/implement-step-6-2-preschool-detail-response-breakdown-plan.md
-- docs/plans/implement-step-6-2-preschool-detail-response-breakdown-phase-1-complete.md
-- docs/plans/implement-step-6-2-preschool-detail-response-breakdown-phase-2-complete.md
-- docs/plans/implement-step-6-2-preschool-detail-response-breakdown-phase-3-complete.md
-- docs/plans/implement-step-6-2-preschool-detail-response-breakdown-complete.md
+- docs/plans/completed/implement-step-6-2-preschool-detail-response-breakdown-plan.md
+- docs/plans/completed/implement-step-6-2-preschool-detail-response-breakdown-phase-1-complete.md
+- docs/plans/completed/implement-step-6-2-preschool-detail-response-breakdown-phase-2-complete.md
+- docs/plans/completed/implement-step-6-2-preschool-detail-response-breakdown-phase-3-complete.md
+- docs/plans/completed/implement-step-6-2-preschool-detail-response-breakdown-complete.md
 - docs/memory-bank/activeContext.md
 - docs/memory-bank/progress.md
 - docs/memory-bank/systemPatterns.md
 - docs/memory-bank/tasks/\_index.md
-- docs/memory-bank/tasks/TASK016-implement-step-6-2-preschool-detail-response-breakdown.md
+- docs/memory-bank/tasks/completed/TASK016-implement-step-6-2-preschool-detail-response-breakdown.md
 - src/pages/sv/forskola/[id].astro
 - tests/e2e/preschool-detail-page-contract.spec.ts
 

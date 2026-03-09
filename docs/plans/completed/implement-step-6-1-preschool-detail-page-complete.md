@@ -10,10 +10,10 @@ Implemented Step 6.1 for the Swedish preschool detail route as statically genera
 
 **All Files Created/Modified**:
 
-- docs/plans/implement-step-6-1-preschool-detail-page-plan.md
-- docs/plans/implement-step-6-1-preschool-detail-page-phase-1-complete.md
-- docs/plans/implement-step-6-1-preschool-detail-page-phase-2-complete.md
-- docs/plans/implement-step-6-1-preschool-detail-page-phase-3-complete.md
+- docs/plans/completed/implement-step-6-1-preschool-detail-page-plan.md
+- docs/plans/completed/implement-step-6-1-preschool-detail-page-phase-1-complete.md
+- docs/plans/completed/implement-step-6-1-preschool-detail-page-phase-2-complete.md
+- docs/plans/completed/implement-step-6-1-preschool-detail-page-phase-3-complete.md
 - src/pages/sv/forskola/[id].astro
 - tests/e2e/preschool-detail-page-contract.spec.ts
 

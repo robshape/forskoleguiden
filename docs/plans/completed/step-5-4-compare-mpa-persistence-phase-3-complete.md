@@ -21,9 +21,9 @@ Phase 3 ran the full CI-gate quality-gate sequence and updated the memory-bank d
 
 - docs/memory-bank/activeContext.md
 - docs/memory-bank/progress.md
-- docs/memory-bank/tasks/TASK013-implement-step-5-4-compare-mpa-persistence.md
+- docs/memory-bank/tasks/completed/TASK013-implement-step-5-4-compare-mpa-persistence.md
 - docs/memory-bank/tasks/\_index.md
-- docs/plans/step-5-4-compare-mpa-persistence-phase-3-complete.md
+- docs/plans/completed/step-5-4-compare-mpa-persistence-phase-3-complete.md
 
 **Documentation updates summary**:
 

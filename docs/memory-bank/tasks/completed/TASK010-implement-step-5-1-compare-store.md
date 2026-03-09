@@ -6,7 +6,7 @@
 
 ## Original Request
 
-Implement Step 5.1 from the approved compare-store plan in `docs/plans/step-5-1-compare-store-plan.md`.
+Implement Step 5.1 from the approved compare-store plan in `docs/plans/completed/step-5-1-compare-store-plan.md`.
 
 Scope for this task:
 

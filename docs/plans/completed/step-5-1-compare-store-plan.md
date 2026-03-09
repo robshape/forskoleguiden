@@ -25,7 +25,7 @@ Implement the Step 5.1 compare-state foundation by defining the store contract i
 
 3. **Phase 3: Verify and Document**
    - **Objective**: Validate the store against repo quality gates and record the completed work.
-   - **Files/Functions to Modify/Create**: `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/tasks/_index.md`, `docs/memory-bank/tasks/TASK010-implement-step-5-1-compare-store.md`
+   - **Files/Functions to Modify/Create**: `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/tasks/_index.md`, `docs/memory-bank/tasks/completed/TASK010-implement-step-5-1-compare-store.md`
    - **Tests to Write**: none.
    - **Steps**:
      1. Run `pnpm lint`, `pnpm lint:md`, `pnpm format:check`, `pnpm check`, and `pnpm test`.

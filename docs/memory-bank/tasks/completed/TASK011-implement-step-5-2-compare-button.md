@@ -6,7 +6,7 @@
 
 ## Original Request
 
-Implement Step 5.2 from the approved compare-button plan in `docs/plans/step-5-2-compare-button-plan.md`.
+Implement Step 5.2 from the approved compare-button plan in `docs/plans/completed/step-5-2-compare-button-plan.md`.
 
 Scope for this task:
 

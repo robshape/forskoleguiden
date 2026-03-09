@@ -4,7 +4,7 @@ Phase 3 verified the completed compare tray work and the follow-up defect patch 
 
 **Files created/changed**:
 
-- docs/plans/step-5-3-compare-tray-phase-3-complete.md
+- docs/plans/completed/step-5-3-compare-tray-phase-3-complete.md
 
 **Functions created/changed**:
 

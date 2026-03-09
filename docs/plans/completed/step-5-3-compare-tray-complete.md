@@ -12,10 +12,10 @@ The implementation stayed scoped to the tray itself: it did not pull the later c
 
 **All Files Created/Modified**:
 
-- docs/plans/step-5-3-compare-tray-plan.md
-- docs/plans/step-5-3-compare-tray-phase-1-complete.md
-- docs/plans/step-5-3-compare-tray-phase-2-complete.md
-- docs/plans/step-5-3-compare-tray-phase-3-complete.md
+- docs/plans/completed/step-5-3-compare-tray-plan.md
+- docs/plans/completed/step-5-3-compare-tray-phase-1-complete.md
+- docs/plans/completed/step-5-3-compare-tray-phase-2-complete.md
+- docs/plans/completed/step-5-3-compare-tray-phase-3-complete.md
 - src/components/preact/CompareTray.tsx
 - src/layouts/BaseLayout.astro
 - tests/e2e/compare-tray-interaction.spec.ts

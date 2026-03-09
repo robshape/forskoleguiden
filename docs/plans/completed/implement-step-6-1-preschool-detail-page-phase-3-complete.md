@@ -6,7 +6,7 @@ Verified the new Swedish preschool detail route against targeted e2e coverage, e
 
 - src/pages/sv/forskola/[id].astro
 - tests/e2e/preschool-detail-page-contract.spec.ts
-- docs/plans/implement-step-6-1-preschool-detail-page-plan.md
+- docs/plans/completed/implement-step-6-1-preschool-detail-page-plan.md
 
 **Functions created/changed**:
 

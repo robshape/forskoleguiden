@@ -24,7 +24,7 @@ Restore `pnpm check` by fixing the missing Node.js type dependency at the root i
 
 3. **Phase 3: Validate and document recovery**
    - **Objective**: Reconfirm the repo's full quality baseline and update project documentation to reflect the fix.
-   - **Files/Functions to Modify/Create**: `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/tasks/_index.md`, `docs/memory-bank/tasks/TASK014-restore-pnpm-check-node-types.md`
+   - **Files/Functions to Modify/Create**: `docs/memory-bank/activeContext.md`, `docs/memory-bank/progress.md`, `docs/memory-bank/tasks/_index.md`, `docs/memory-bank/tasks/completed/TASK014-restore-pnpm-check-node-types.md`
    - **Tests to Write**: None, per user instruction to skip test additions for this fix.
    - **Steps**:
      1. Run `pnpm validate` in full after `pnpm check` is green.

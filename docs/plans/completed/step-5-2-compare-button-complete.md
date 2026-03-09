@@ -10,10 +10,10 @@ Step 5.2 is complete. The work locked compare-button behavior in tests first, th
 
 **All Files Created/Modified**:
 
-- docs/plans/step-5-2-compare-button-plan.md
-- docs/plans/step-5-2-compare-button-phase-1-complete.md
-- docs/plans/step-5-2-compare-button-phase-2-complete.md
-- docs/plans/step-5-2-compare-button-complete.md
+- docs/plans/completed/step-5-2-compare-button-plan.md
+- docs/plans/completed/step-5-2-compare-button-phase-1-complete.md
+- docs/plans/completed/step-5-2-compare-button-phase-2-complete.md
+- docs/plans/completed/step-5-2-compare-button-complete.md
 - src/components/preact/CompareButton.tsx
 - src/components/astro/PreschoolCard.astro
 - src/i18n/sv.json
@@ -25,8 +25,8 @@ Step 5.2 is complete. The work locked compare-button behavior in tests first, th
 - docs/memory-bank/progress.md
 - docs/memory-bank/systemPatterns.md
 - docs/memory-bank/tasks/\_index.md
-- docs/memory-bank/tasks/TASK011-implement-step-5-2-compare-button.md
-- docs/memory-bank/tasks/TASK012-implement-step-5-3-compare-tray.md
+- docs/memory-bank/tasks/completed/TASK011-implement-step-5-2-compare-button.md
+- docs/memory-bank/tasks/completed/TASK012-implement-step-5-3-compare-tray.md
 
 **Key Functions/Classes Added**:
 

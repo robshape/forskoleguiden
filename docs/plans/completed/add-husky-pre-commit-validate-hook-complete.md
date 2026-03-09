@@ -21,11 +21,11 @@ Implemented Husky-based pre-commit validation for the repo so every local commit
 - docs/memory-bank/techContext.md
 - docs/memory-bank/systemPatterns.md
 - docs/memory-bank/tasks/\_index.md
-- docs/memory-bank/tasks/TASK014-add-husky-pre-commit-validate-hook.md
-- docs/plans/add-husky-pre-commit-validate-hook-plan.md
-- docs/plans/add-husky-pre-commit-validate-hook-phase-1-complete.md
-- docs/plans/add-husky-pre-commit-validate-hook-phase-2-complete.md
-- docs/plans/add-husky-pre-commit-validate-hook-phase-3-complete.md
+- docs/memory-bank/tasks/completed/TASK014-add-husky-pre-commit-validate-hook.md
+- docs/plans/completed/add-husky-pre-commit-validate-hook-plan.md
+- docs/plans/completed/add-husky-pre-commit-validate-hook-phase-1-complete.md
+- docs/plans/completed/add-husky-pre-commit-validate-hook-phase-2-complete.md
+- docs/plans/completed/add-husky-pre-commit-validate-hook-phase-3-complete.md
 
 **Key Functions/Classes Added**:
 

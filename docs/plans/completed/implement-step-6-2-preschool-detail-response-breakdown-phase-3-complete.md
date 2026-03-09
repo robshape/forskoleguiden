@@ -4,7 +4,7 @@ Validated the Step 6.2 detail-page change with the targeted preschool-detail e2e
 
 **Files created/changed**:
 
-- docs/memory-bank/tasks/TASK016-implement-step-6-2-preschool-detail-response-breakdown.md
+- docs/memory-bank/tasks/completed/TASK016-implement-step-6-2-preschool-detail-response-breakdown.md
 - src/pages/sv/forskola/[id].astro
 
 **Functions created/changed**:
