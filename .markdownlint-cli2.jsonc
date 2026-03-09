@@ -4,5 +4,5 @@
   },
   "fix": true,
   "gitignore": true,
-  "globs": ["./**/*.md", "!.github/skills/"]
+  "globs": ["./**/*.md"]
 }
