@@ -8,6 +8,8 @@
 
 Individual task files for completed work are archived in `tasks/completed/`.
 
+- [TASK022] Implement Step 8.1 comparison SVG chart - Completed 2026-03-10 (reusable BarChart island, visible question headings, chart-adjacent data table; 2 formatting fixes; pnpm validate green)
+
 - [TASK021] Implement Step 7.4 mobile comparison refinement - Completed 2026-03-10 (added failing iPhone 13 mini comparison contract, sticky first-column + horizontal-scroll comparison table refinement, validation and memory-bank sync complete)
 
 - [TASK020] Implement Step 7.3 empty and single-selection states e2e - Completed 2026-03-10 (test-only step: real-flow empty-to-single journey + one-school clear-state e2e coverage, Prettier fix, validation and memory-bank sync complete)

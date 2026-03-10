@@ -56,7 +56,8 @@
     "actions": {
       "backToDirectory": "Back to preschools",
       "clearSelection": "Clear selection"
-    }
+    },
+    "chartAriaLabel": "Bar chart for: {question}"
   },
   "responses": {
     "completelyAgree": "Completely agree",

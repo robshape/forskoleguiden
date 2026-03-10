@@ -56,7 +56,8 @@
     "actions": {
       "backToDirectory": "Tillbaka till förskolor",
       "clearSelection": "Rensa val"
-    }
+    },
+    "chartAriaLabel": "Stapeldiagram för: {question}"
   },
   "responses": {
     "completelyAgree": "Instämmer helt",

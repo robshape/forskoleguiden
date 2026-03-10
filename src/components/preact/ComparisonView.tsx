@@ -1,8 +1,9 @@
 import { useStore } from '@nanostores/preact'
 
-import type { PreschoolSurvey } from '@/lib/types'
+import type { PreschoolSurvey, SurveyResponse } from '@/lib/types'
 import { compareIds } from '@/lib/state'
 import { OVERALL_ASSESSMENT_GROUP, computeAgreeShare } from '@/lib/scoring'
+import BarChart from './BarChart'
 
 interface Props {
   heading: string
@@ -13,6 +14,10 @@ interface Props {
   questionColumnLabel: string
   backToDirectoryLabel: string
   surveys: PreschoolSurvey[]
+  /** 5 localized response category labels in RESPONSE_ROWS order */
+  categoryLabels: string[]
+  /** Template for the chart aria-label; "{question}" is replaced with question text */
+  chartAriaLabelTemplate: string
 }
 
 export default function ComparisonView({
@@ -24,6 +29,8 @@ export default function ComparisonView({
   questionColumnLabel,
   backToDirectoryLabel,
   surveys,
+  categoryLabels,
+  chartAriaLabelTemplate,
 }: Props) {
   const ids = useStore(compareIds)
 
@@ -134,6 +141,42 @@ export default function ComparisonView({
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div class="mt-8 space-y-6">
+        {questions.map((question, qi) => {
+          const chartResponses: SurveyResponse[] = []
+          const chartNames: string[] = []
+
+          for (const survey of selectedSurveys) {
+            const group = survey.questionGroups.find(
+              (g) => g.name === OVERALL_ASSESSMENT_GROUP,
+            )
+            const q = group?.questions.find((c) => c.text === question.text)
+            if (q) {
+              chartResponses.push(q.response)
+              chartNames.push(survey.preschoolName)
+            }
+          }
+
+          if (chartResponses.length === 0) return null
+
+          return (
+            <div key={question.text}>
+              <h2 class="text-sm font-semibold text-gray-800 mb-2">
+                {question.text}
+              </h2>
+              <BarChart
+                responses={chartResponses}
+                preschoolNames={chartNames}
+                questionText={question.text}
+                categoryLabels={categoryLabels}
+                ariaLabelTemplate={chartAriaLabelTemplate}
+                chartIndex={qi}
+              />
+            </div>
+          )
+        })}
       </div>
     </div>
   )

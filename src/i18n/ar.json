@@ -56,7 +56,8 @@
     "actions": {
       "backToDirectory": "العودة إلى رياض الأطفال",
       "clearSelection": "مسح الاختيار"
-    }
+    },
+    "chartAriaLabel": "رسم بياني شريطي لـ: {question}"
   },
   "responses": {
     "completelyAgree": "أوافق تمامًا",

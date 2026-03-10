@@ -53,6 +53,7 @@ describe('Swedish translation keys', () => {
       'compare.questionColumnLabel',
       'compare.actions.backToDirectory',
       'compare.actions.clearSelection',
+      'compare.chartAriaLabel',
       'compareTray.showComparison',
       'compareTray.clear',
       'responses.completelyAgree',
