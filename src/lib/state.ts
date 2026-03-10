@@ -59,6 +59,9 @@ const createCompareStoreContainer = (): CompareStoreContainer => ({
   persistenceBound: false,
 })
 
+// Stores the singleton on `window` so independently-hydrated Preact islands
+// on the same MPA page share one nanostore instance. A plain module-level
+// variable would create separate instances per island bundle in production.
 const getCompareStoreContainer = (): CompareStoreContainer => {
   if (typeof window === 'undefined') {
     return createCompareStoreContainer()
