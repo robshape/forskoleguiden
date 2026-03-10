@@ -49,6 +49,8 @@ describe('Swedish translation keys', () => {
       'compare.heading',
       'compare.emptyStateTitle',
       'compare.emptyStateBody',
+      'compare.singleSelectionPrompt',
+      'compare.questionColumnLabel',
       'compare.actions.backToDirectory',
       'compare.actions.clearSelection',
       'compareTray.showComparison',

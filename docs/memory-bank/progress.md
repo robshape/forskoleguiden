@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-10): Steps 0–7.1 are complete and Husky pre-commit integration is in place. The repo now ships a comparison route shell at `/sv/jamfor/` with a `client:only="preact"` `ComparisonView` island that renders the empty state. The compare tray CTA for Swedish is a live navigation link — the existing `BaseLayout.astro` route-availability check enabled it when the new route landed, with no tray logic changes. A follow-up fix removed the redirect-on-clear regression, so clearing compare selections on `/sv/jamfor/` now keeps the user on the comparison page and shows the empty state as specified. Step 7.1 intentionally stops at the shell; full data rendering is deferred to Step 7.2. `pnpm validate` is green, and the test suite now stands at 25 unit + 30 e2e = 55 total.
+Current status (2026-03-10): Steps 0–7.2 are complete and Husky pre-commit integration is in place. The repo now ships a fully data-backed comparison view at `/sv/jamfor/`: the Astro route loads all Malmö survey files at build time, and the `client:only="preact"` `ComparisonView` island renders the empty state for 0 selections, a prompt plus one-school results for 1 selection, and a side-by-side Helhetsbedömning comparison table for 2–5 selections. The compare tray CTA for Swedish remains a live navigation link, and the clear-on-comparison-page regression remains fixed. `pnpm validate` is green after the Step 7.2 work, and the test suite now stands at 26 unit + 32 e2e = 58 total.
 
 ## Completed Scaffolding Summary
 
@@ -27,7 +27,9 @@ Current status (2026-03-10): Steps 0–7.1 are complete and Husky pre-commit int
 - **Step 6.1 (Preschool detail page route)**: Added `src/pages/sv/forskola/[id].astro` with `getStaticPaths()` backed by `getPreschoolIndex()` and `getPreschoolSurveyByYear()`. Each generated detail page renders the preschool name, operator/address metadata, survey year, Helhetsbedömning question text, visible percentage values, and the existing `CompareButton` island. A follow-up patch typed `Astro.props` explicitly and localized the back-navigation landmark label. Playwright coverage in `tests/e2e/preschool-detail-page-contract.spec.ts` now verifies route generation for every preschool, direct detail-page content, compare-button interaction, and the click-through path from the directory.
 - **Step 6.2 (Detail-page response breakdown)**: The detail page now renders all five canonical response rows per Helhetsbedömning question using a stable field-to-i18n mapping in `src/pages/sv/forskola/[id].astro`. The detail-page Playwright contract now verifies the ordered Swedish label/value pairs for `almgardens-forskola`, including duplicate `2%` rows and `0%` rows that must not be omitted.
 - **Step 7.1 (Comparison route shell)**: `src/pages/sv/jamfor/index.astro` added as the Swedish comparison route. Mounts `ComparisonView` (`client:only="preact"`) with localized heading and empty-state props. The compare tray CTA for Swedish became a live navigation link via the existing `BaseLayout.astro` route-availability check with no tray changes. A review-driven follow-up removed dead unused survey props before scope was confirmed. A later bugfix removed the redirect-on-clear behavior from `ComparisonView`, so the page now stays on `/sv/jamfor/` and renders the empty state after `Rensa`. `tests/e2e/comparison-page-route-shell.spec.ts` now covers route availability, direct empty-state rendering, and the clear-state transition (3 tests); `compare-tray-interaction.spec.ts` covers the now-live CTA plus the corrected keyboard clear behavior.
-- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 25 unit + 29 e2e = 54 total.
+- **Step 7.2 (ComparisonView table rendering)**: `src/pages/sv/jamfor/index.astro` now calls `getAllPreschoolSurveys()` and passes the serialized data set plus localized single-selection copy into `ComparisonView`. The island reuses `compareIds`, `OVERALL_ASSESSMENT_GROUP`, and `computeAgreeShare()` to render a mobile-safe comparison table in selection order. The one-selected-preschool state now shows both a localized prompt and that preschool's results, and the 2–5 state renders the expected question rows and agree-share percentages. `tests/e2e/comparison-page-route-shell.spec.ts` now covers the one-selected and three-selected states, and `tests/unit/i18n-swedish-copy-contract.test.ts` regression-guards the new `compare.singleSelectionPrompt` key.
+- **Step 7.2 follow-up hardening**: comparison-state handling now falls back to the empty state when persisted compare IDs no longer resolve to any loaded survey, preventing a blank comparison shell after data changes. The comparison table now labels its question column explicitly, uses caption-backed semantics for assistive technology support, and resolves comparison cells by question text while the Malmö survey contract test locks the canonical Helhetsbedömning question order.
+- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 26 unit + 32 e2e = 58 total.
 
 ## Verification Summary
 
@@ -36,12 +38,14 @@ Current status (2026-03-10): Steps 0–7.1 are complete and Husky pre-commit int
 - Reran related regressions with `pnpm test:e2e -- tests/e2e/preschool-card-contract.spec.ts tests/e2e/compare-tray-interaction.spec.ts tests/e2e/directory-data-rendering.spec.ts`.
 - Ran `pnpm validate` successfully after a Prettier cleanup and a `pnpm install` resync that removed stale `vite@7.3.1` from `node_modules` and restored the lockfile's pinned `vite@6.4.1`. Reran `pnpm validate` after the review-follow-up patch and it remained green.
 - Verified Step 7.1 with `pnpm validate` and `pnpm test:e2e -- tests/e2e/comparison-page-route-shell.spec.ts tests/e2e/compare-tray-interaction.spec.ts` (12/12 passing) after removing the redirect-on-clear regression from `ComparisonView`.
+- Verified Step 7.2 with `pnpm test:e2e --grep "comparison page"`, `pnpm test:e2e`, and `pnpm validate` after revising the one-selected-preschool state to show both the prompt and the selected preschool's results.
+- Verified the Step 7.2 follow-up hardening with `pnpm exec playwright test tests/e2e/comparison-page-route-shell.spec.ts --reporter=line`, focused unit coverage for `malmo-survey-files-contract.test.ts` and `i18n-swedish-copy-contract.test.ts`, and a final `pnpm validate`.
 
 - `pnpm lint` — 0 ESLint errors.
 - `pnpm lint:md` — 0 markdown lint errors.
 - `pnpm format:check` — all files match Prettier code style.
 - `pnpm check` — 0 errors, 0 warnings, 0 hints.
-- `pnpm test` — 10 passing unit test files, 25 passing unit tests.
+- `pnpm test` — 10 passing unit test files, 26 passing unit tests.
 - `pnpm build` — build passes and includes the generated Swedish preschool detail pages and comparison route shell.
 
 ## Decision Log
@@ -56,9 +60,9 @@ Current status (2026-03-10): Steps 0–7.1 are complete and Husky pre-commit int
 
 ## Current Priorities
 
-1. **Step 7.2** — wire selected preschool survey data into `ComparisonView` and render the side-by-side comparison table.
-2. **Shared response-row reuse** — keep the comparison view on the existing `src/lib/survey-responses.ts` mapping so canonical response labels stay consistent across detail and comparison pages.
+1. **Step 7.4** — refine the mobile comparison presentation for narrow viewports beyond the current overflow-x table baseline.
+2. **Step 8** — add accessible SVG chart rendering, legend, and chart-adjacent table fallback on the comparison page.
 
 ## Next Focus
 
-- Implement Step 7.2 by reading the `compareIds` store inside `ComparisonView`, reintroducing only the survey data needed for selected preschools, and rendering the Helhetsbedömning comparison rows while reusing `src/lib/survey-responses.ts`.
+- Decide whether Step 7.3 is already satisfied by the current empty and one-selected states, then move on to the Step 7.4 mobile comparison refinement.

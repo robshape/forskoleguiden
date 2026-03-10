@@ -8,6 +8,8 @@
 
 Individual task files for completed work are archived in `tasks/completed/`.
 
+- [TASK019] Implement Step 7.2 comparison view - Completed 2026-03-10 (added failing comparison-state contracts, threaded serialized survey data into `/sv/jamfor/`, implemented one-selected and 2–5 selected comparison rendering, validation and memory-bank sync complete)
+
 - [TASK018] Fix Step 7.1 comparison clear-state regression - Completed 2026-03-10 (comparison page now stays on `/sv/jamfor/` after `Rensa`, targeted e2e regression added, validation and memory-bank sync complete)
 
 - [TASK017] Implement Step 7.1 comparison page route shell - Completed 2026-03-09 (Phase 1 route shell + empty-state e2e, Phase 2 ComparisonView island + tray CTA wiring, Phase 2 follow-up removed dead survey props, Phase 3 verification/memory-bank sync complete)

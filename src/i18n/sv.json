@@ -51,6 +51,8 @@
     "heading": "Jämför förskolor",
     "emptyStateTitle": "Inga förskolor valda",
     "emptyStateBody": "Välj förskolor i listan för att se en jämförelse.",
+    "singleSelectionPrompt": "Välj minst en förskola till för att se en jämförelse.",
+    "questionColumnLabel": "Fråga",
     "actions": {
       "backToDirectory": "Tillbaka till förskolor",
       "clearSelection": "Rensa val"

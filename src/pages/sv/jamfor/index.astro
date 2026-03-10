@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 import ComparisonView from '@/components/preact/ComparisonView'
 import { t } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
+import { getAllPreschoolSurveys } from '@/lib/data'
 
 const locale = 'sv'
 const pageTitle = t('compare.heading', locale)
@@ -12,7 +13,11 @@ const directoryHref = `${base}/${locale}/`
 
 const emptyStateTitle = t('compare.emptyStateTitle', locale)
 const emptyStateBody = t('compare.emptyStateBody', locale)
+const singleSelectionPrompt = t('compare.singleSelectionPrompt', locale)
+const questionColumnLabel = t('compare.questionColumnLabel', locale)
 const backToDirectoryLabel = t('compare.actions.backToDirectory', locale)
+
+const surveys = getAllPreschoolSurveys()
 ---
 
 <BaseLayout locale={locale} title={pageTitle}>
@@ -22,6 +27,9 @@ const backToDirectoryLabel = t('compare.actions.backToDirectory', locale)
     directoryHref={directoryHref}
     emptyStateTitle={emptyStateTitle}
     emptyStateBody={emptyStateBody}
+    singleSelectionPrompt={singleSelectionPrompt}
+    questionColumnLabel={questionColumnLabel}
     backToDirectoryLabel={backToDirectoryLabel}
+    surveys={surveys}
   />
 </BaseLayout>

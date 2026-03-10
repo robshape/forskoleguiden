@@ -51,6 +51,8 @@
     "heading": "قارن بين رياض الأطفال",
     "emptyStateTitle": "لم يتم اختيار أي روضة أطفال",
     "emptyStateBody": "اختر رياض الأطفال من القائمة لعرض المقارنة.",
+    "singleSelectionPrompt": "اختر روضة أطفال إضافية على الأقل لعرض المقارنة.",
+    "questionColumnLabel": "السؤال",
     "actions": {
       "backToDirectory": "العودة إلى رياض الأطفال",
       "clearSelection": "مسح الاختيار"

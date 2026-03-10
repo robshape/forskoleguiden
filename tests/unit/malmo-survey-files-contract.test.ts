@@ -5,6 +5,11 @@ import type { PreschoolSurvey } from '@/lib/types'
 import { getMalmoIndex, getMalmoSurveyFilePath } from './helpers/malmo-data'
 import { assertResponseContract } from './helpers/survey-assertions'
 
+const CANONICAL_HELHETSBEDOMNING_QUESTIONS = [
+  'Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola',
+  'Jag skulle rekommendera mitt barns förskola till en annan förälder',
+]
+
 describe('Malmö survey data files', () => {
   it('should have a survey file for every preschool in the index', () => {
     const index = getMalmoIndex()
@@ -70,6 +75,11 @@ describe('Malmö survey data files', () => {
         helhetsbedomning.questions.length,
         `${surveyFilePath} Helhetsbedömning must contain exactly 2 questions`,
       ).toBe(2)
+
+      expect(
+        helhetsbedomning.questions.map((question) => question.text),
+        `${surveyFilePath} Helhetsbedömning questions must match the canonical ordered question texts`,
+      ).toEqual(CANONICAL_HELHETSBEDOMNING_QUESTIONS)
 
       for (const [
         questionIndex,

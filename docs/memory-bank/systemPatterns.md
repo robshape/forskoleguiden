@@ -46,6 +46,16 @@ For routes that already have the survey year from `getPreschoolIndex()`, use `ge
 - Keep page-level landmark copy localized through existing i18n keys where practical; avoid hardcoding labels such as back-navigation landmarks when the visible link text already comes from `t()`.
 - Render the detail-page Helhetsbedömning breakdown from a stable ordered mapping of `SurveyResponse` field names to `responses.*` i18n keys so label order, field access, and zero-value rendering stay deterministic.
 
+## ComparisonView Build-Time Data + Client Filter Pattern
+
+- The Swedish comparison route at `src/pages/sv/jamfor/index.astro` loads all surveys at build time with `getAllPreschoolSurveys()` and passes the full serialized data set into `src/components/preact/ComparisonView.tsx`.
+- `ComparisonView` remains `client:only="preact"` because selection state comes entirely from the sessionStorage-backed `compareIds` nanostore.
+- Filter selected preschools by iterating `compareIds` and resolving each id against the preloaded survey list. This preserves user selection order without introducing a second sorting rule.
+- The same semantic HTML table rendering path can support both the 1-selected and 2–5-selected states. For a single selected preschool, render the comparison prompt plus the one-column result table rather than branching to a separate presentation component.
+- Use `OVERALL_ASSESSMENT_GROUP` and `computeAgreeShare()` from `src/lib/scoring.ts` rather than reimplementing comparison math in the island.
+- Keep the comparison table wrapped in `overflow-x-auto` as the baseline mobile-safe rendering strategy until the dedicated Step 7.4 responsive pass.
+- Expose stable selectors such as `data-testid="single-selection-prompt"` and `data-testid="comparison-table"` so Playwright can assert all selection states without relying on styling or structure trivia.
+
 ## Scoring / Null-Return Pattern
 
 `src/lib/scoring.ts` returns `null` from `computeOverallScore()` when the `Helhetsbedömning` question group is missing or present-but-empty. Downstream consumers sort `null` scores to the bottom via `byOverallScoreDesc()`. Dev-only `console.warn` fires for invalid response percentages (out-of-range or sums ≠ 100 ± 1).
@@ -58,7 +68,7 @@ All tests follow Kent C. Dodds's "Testing Trophy" and "Write fewer, longer tests
 - **Fewer, longer tests**: Related assertions are grouped into single test blocks rather than isolated one-assertion-per-test. Example: `scoring-overall-score-utilities.test.ts` has 4 tests covering the core scoring behavior set in one cohesive suite.
 - **No source-inspection tests**: Tests must verify behavior and output, not implementation details. Tests that read `.astro` source files and regex-match CSS class tokens or HTML attributes were removed. Runtime behavior is verified via e2e tests instead.
 - **No redundant coverage**: Tests that duplicate coverage provided by other layers (e.g., `types.test.ts` duplicating TypeScript strict mode, `root-redirect.test.ts` duplicating e2e smoke test) are removed.
-- **Current test counts**: 25 unit tests + 26 e2e tests = 51 total.
+- **Current test counts**: 26 unit tests + 32 e2e tests = 58 total.
 
 ## Shared Test Helper Pattern
 
