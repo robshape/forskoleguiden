@@ -53,7 +53,10 @@
     "vitest": "4.0.18"
   },
   "lint-staged": {
-    "*.{ts,tsx,mts,cts,astro}": "eslint --no-warn-ignored",
+    "*.{ts,tsx,mts,cts,astro}": [
+      "astro check",
+      "eslint --no-warn-ignored"
+    ],
     "*.md": "markdownlint-cli2",
     "*": "prettier --check --ignore-unknown"
   }
