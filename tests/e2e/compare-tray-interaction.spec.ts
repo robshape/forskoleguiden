@@ -49,7 +49,7 @@ test.describe('compare tray visibility and interaction behavior', () => {
     }
   })
 
-  test('tray appears after selecting preschools and shows correct count and disabled compare CTA', async ({
+  test('tray appears after selecting preschools and shows correct count and live compare CTA link', async ({
     page,
   }) => {
     await navigateToDirectory(page)
@@ -73,13 +73,16 @@ test.describe('compare tray visibility and interaction behavior', () => {
     await getCompareButton(page, 'Bladins internationella förskola').click()
     await expect(tray).toContainText('2')
 
-    // Compare CTA must be a disabled button while the compare-page route does not exist.
+    // Compare CTA must be a live link to the comparison route once it exists.
     // i18n key: compareTray.showComparison => "Visa jämförelse"
-    const compareCTA = tray.getByRole('button', { name: 'Visa jämförelse' })
+    const compareCTA = tray.getByRole('link', { name: 'Visa jämförelse' })
     await expect(compareCTA).toBeVisible()
-    await expect(compareCTA).toHaveAttribute('aria-disabled', 'true')
+    await expect(compareCTA).toHaveAttribute(
+      'href',
+      '/forskoleguiden/sv/jamfor/',
+    )
     await expect(
-      tray.getByRole('link', { name: 'Visa jämförelse' }),
+      tray.getByRole('button', { name: 'Visa jämförelse' }),
     ).toHaveCount(0)
   })
 
@@ -140,15 +143,18 @@ test.describe('compare tray visibility and interaction behavior', () => {
     const tray = getCompareTray(page)
     await expect(tray).toBeVisible()
 
-    // Compare CTA in the tray must be focusable via Tab even when disabled
-    // (aria-disabled keeps it in the tab order unlike the HTML disabled attribute)
-    const compareCTA = tray.getByRole('button', { name: 'Visa jämförelse' })
+    // Compare CTA in the tray must be a live link once the route exists,
+    // keyboard-focusable and navigating to the comparison route on Enter.
+    const compareCTA = tray.getByRole('link', { name: 'Visa jämförelse' })
     await expect(compareCTA).toBeVisible()
-    await expect(compareCTA).toHaveAttribute('aria-disabled', 'true')
+    await expect(compareCTA).toHaveAttribute(
+      'href',
+      '/forskoleguiden/sv/jamfor/',
+    )
     await compareCTA.focus()
     await expect(compareCTA).toBeFocused()
     await page.keyboard.press('Enter')
-    await expect(page).toHaveURL('/forskoleguiden/sv/')
+    await expect(page).toHaveURL('/forskoleguiden/sv/jamfor/')
 
     // Clear button in the tray must be focusable and operable via keyboard
     const clearButton = tray.getByRole('button', { name: 'Rensa' })
@@ -156,13 +162,17 @@ test.describe('compare tray visibility and interaction behavior', () => {
     await expect(clearButton).toBeFocused()
     await page.keyboard.press('Enter')
 
-    // After keyboard-clear, tray must no longer be visible
+    await expect(page).toHaveURL('/forskoleguiden/sv/jamfor/')
+
+    // The comparison page empty state must be visible after the keyboard-clear
+    // i18n key: compare.emptyStateTitle => "Inga förskolor valda"
+    await expect(page.getByText('Inga förskolor valda')).toBeVisible()
+
+    // Tray must no longer be visible once all selections are cleared
     const trayCount = await tray.count()
     if (trayCount > 0) {
       await expect(tray).not.toBeVisible()
     }
-
-    await expect(bellevueButton).toHaveAttribute('aria-pressed', 'false')
   })
 
   test('footer attribution link remains scrollable above the tray on a 375×812 viewport', async ({

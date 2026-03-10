@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import ComparisonView from '@/components/preact/ComparisonView'
+import { t } from '@/i18n/utils'
+import { getBasePath } from '@/lib/base-path'
+
+const locale = 'sv'
+const pageTitle = t('compare.heading', locale)
+
+const base = getBasePath()
+const directoryHref = `${base}/${locale}/`
+
+const emptyStateTitle = t('compare.emptyStateTitle', locale)
+const emptyStateBody = t('compare.emptyStateBody', locale)
+const backToDirectoryLabel = t('compare.actions.backToDirectory', locale)
+---
+
+<BaseLayout locale={locale} title={pageTitle}>
+  <ComparisonView
+    client:only="preact"
+    heading={pageTitle}
+    directoryHref={directoryHref}
+    emptyStateTitle={emptyStateTitle}
+    emptyStateBody={emptyStateBody}
+    backToDirectoryLabel={backToDirectoryLabel}
+  />
+</BaseLayout>
