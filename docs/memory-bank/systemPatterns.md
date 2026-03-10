@@ -99,9 +99,15 @@ Note: Source-inspection tests were removed during KCD test alignment — they te
 
 ## Reusable CI Workflow Pattern
 
-- **`quality-gates.yml`** (`.github/workflows/quality-gates.yml`) is a `workflow_call` reusable workflow that encapsulates all quality gate steps (checkout, pnpm/node setup, install, lint, lint:md, format:check, check, test, build, Playwright install, e2e). Takes no inputs — pure validation only. Artifact upload is the caller's responsibility (deploy.yml has a separate build job for that).
+- **`quality-gates.yml`** (`.github/workflows/quality-gates.yml`) is a `workflow_call` reusable workflow that encapsulates all quality gate steps (checkout, pnpm/node setup, install, lint, lint:md, format:check, check, test, build, Playwright install, Chromium e2e, narrow WebKit e2e). Takes no inputs — pure validation only. Artifact upload is the caller's responsibility (deploy.yml has a separate build job for that).
 - Both `deploy.yml` and `dependabot.yml` consume `quality-gates.yml` instead of inlining duplicate step definitions. This eliminates step drift between the two pipelines.
 - A reusable workflow was chosen over a local composite action (`.github/actions/`) because Dependabot's `github-actions` ecosystem only scans `.github/workflows/*.yml` for pinned action version updates — a composite action's pinned versions would not receive automated update PRs.
+
+## Narrow WebKit Regression Pattern
+
+- Keep the default Playwright run Chromium-first for speed, then add browser-specific follow-up coverage only where the UI depends on engine-sensitive behavior.
+- Step 7.4 mobile comparison coverage follows this pattern: the main comparison spec remains part of the default suite, while `playwright.webkit.config.ts` runs only `tests/e2e/comparison-page-mobile-webkit.spec.ts` with the `iPhone 13 mini` device profile.
+- CI installs both Chromium and WebKit in `quality-gates.yml`, but the WebKit run stays narrow by calling `pnpm test:e2e:webkit` instead of duplicating the full e2e suite across browsers.
 
 ## Base Path Pattern
 

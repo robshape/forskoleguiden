@@ -392,3 +392,132 @@ test.describe('comparison page empty-state and single-selection UI flow', () => 
     await expect(page.getByTestId('comparison-table')).not.toBeAttached()
   })
 })
+
+// ---------------------------------------------------------------------------
+// Tests — Step 7.4 mobile comparison refinement contracts
+// ---------------------------------------------------------------------------
+
+test.describe('Step 7.4 mobile comparison refinement contracts', () => {
+  test('mobile viewport (375×812): 4-preschool comparison table is DOM-complete and scroll container overflows horizontally', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+
+    // Seed 4 known preschool IDs into sessionStorage
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate(() => {
+      sessionStorage.setItem(
+        'compareIds',
+        JSON.stringify([
+          'almgardens-forskola',
+          'augustenborgs-forskola',
+          'bellevuegardens-montessoriforskola',
+          'bladins-internationella-forskola',
+        ]),
+      )
+    })
+
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status()).toBe(200)
+
+    // Comparison table must exist in the DOM
+    const table = page.getByTestId('comparison-table')
+    await expect(table).toBeVisible()
+
+    // All 4 preschool column headers must be reachable in the DOM
+    await expect(
+      table.getByRole('columnheader', { name: 'Almgårdens förskola' }),
+    ).toBeAttached()
+    await expect(
+      table.getByRole('columnheader', { name: 'Augustenborgs förskola' }),
+    ).toBeAttached()
+    await expect(
+      table.getByRole('columnheader', {
+        name: 'Bellevuegårdens montessoriförskola',
+      }),
+    ).toBeAttached()
+    await expect(
+      table.getByRole('columnheader', {
+        name: 'Bladins internationella förskola',
+      }),
+    ).toBeAttached()
+
+    // Both Helhetsbedömning question row headers must be present
+    await expect(
+      table.getByRole('rowheader', {
+        name: 'Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola',
+      }),
+    ).toBeAttached()
+    await expect(
+      table.getByRole('rowheader', {
+        name: 'Jag skulle rekommendera mitt barns förskola till en annan förälder',
+      }),
+    ).toBeAttached()
+
+    // The scroll container must actually overflow horizontally on a 375 px viewport
+    // with 4 preschool columns. Step 7.4 requires each preschool column to have a
+    // minimum width so the table is wider than the screen and reliably scrollable.
+    const overflows = await page.evaluate(() => {
+      const container = document.querySelector(
+        '[data-testid="comparison-scroll"]',
+      ) as HTMLElement | null
+      if (!container) return null
+      return container.scrollWidth > container.clientWidth
+    })
+    expect(
+      overflows,
+      'expected scroll container to overflow horizontally on 375 px viewport with 4 preschool columns — fix by adding min-width to preschool columns',
+    ).toBe(true)
+
+    // Step 7.4 core UX requirement: the question-label column must be sticky so
+    // row labels remain visible when the user scrolls the table horizontally.
+    // Checks both the CSS property and actual visual pinning after a real scroll.
+    const firstRowHeader = page
+      .locator('[data-testid="comparison-table"] tbody th[scope="row"]')
+      .first()
+
+    const preScrollBox = await firstRowHeader.boundingBox()
+    expect(
+      preScrollBox,
+      'expected sticky row header to be visible and have a layout box before scroll',
+    ).not.toBeNull()
+
+    const isSticky = await firstRowHeader.evaluate(
+      (el) => window.getComputedStyle(el).position === 'sticky',
+    )
+    expect(
+      isSticky,
+      'expected question-label column (tbody th[scope="row"]) to have position:sticky — fix by adding sticky left-0 classes',
+    ).toBe(true)
+
+    // Scroll the container 200 px to the right and prove the sticky column
+    // does not move in the viewport (its x position stays constant).
+    await page.evaluate(() => {
+      const container = document.querySelector(
+        '[data-testid="comparison-scroll"]',
+      ) as HTMLElement | null
+      if (container) container.scrollLeft = 200
+    })
+    await page.waitForFunction(() => {
+      const container = document.querySelector(
+        '[data-testid="comparison-scroll"]',
+      ) as HTMLElement | null
+      return container ? container.scrollLeft > 0 : false
+    })
+
+    const postScrollBox = await firstRowHeader.boundingBox()
+    expect(
+      postScrollBox,
+      'expected sticky row header to remain visible after horizontal scroll',
+    ).not.toBeNull()
+    expect(
+      Math.abs(postScrollBox!.x - preScrollBox!.x),
+      'expected sticky question column to remain pinned at the same viewport x position after 200 px horizontal scroll',
+    ).toBeLessThan(3)
+  })
+})

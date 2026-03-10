@@ -74,18 +74,18 @@ export default function ComparisonView({
       >
         ← {backToDirectoryLabel}
       </a>
-      <div class="mt-6 overflow-x-auto">
+      <div data-testid="comparison-scroll" class="mt-6 overflow-x-auto">
         <table
           aria-label={heading}
           data-testid="comparison-table"
-          class="w-full border-collapse text-sm"
+          class="w-auto min-w-full border-collapse text-sm"
         >
           <caption class="sr-only">{heading}</caption>
           <thead>
             <tr>
               <th
                 scope="col"
-                class="w-48 px-4 py-3 text-left font-medium text-gray-500"
+                class="sticky left-0 z-10 bg-white w-32 min-w-32 px-4 py-3 text-left font-medium text-gray-500"
               >
                 {questionColumnLabel}
               </th>
@@ -93,7 +93,7 @@ export default function ComparisonView({
                 <th
                   key={survey.id}
                   scope="col"
-                  class="px-4 py-3 text-left font-semibold text-gray-900"
+                  class="min-w-40 px-4 py-3 text-left font-semibold text-gray-900"
                 >
                   {survey.preschoolName}
                 </th>
@@ -108,7 +108,9 @@ export default function ComparisonView({
               >
                 <th
                   scope="row"
-                  class="px-4 py-3 text-left font-normal text-gray-700"
+                  class={`sticky left-0 z-10 px-4 py-3 text-left font-normal text-gray-700 ${
+                    qi % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                  }`}
                 >
                   {question.text}
                 </th>

@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-10): Steps 0–7.3 are complete and Husky pre-commit integration is in place. The repo now ships a fully data-backed comparison view at `/sv/jamfor/`: the Astro route loads all Malmö survey files at build time, and the `client:only="preact"` `ComparisonView` island renders the empty state for 0 selections, a prompt plus one-school results for 1 selection, and a side-by-side Helhetsbedömning comparison table for 2–5 selections. The compare tray CTA for Swedish remains a live navigation link, and the clear-on-comparison-page regression remains fixed. `pnpm validate` is green after the Step 7.3 work, and the test suite now stands at 26 unit + 34 e2e = 60 total.
+Current status (2026-03-10): Steps 0–7.4 are complete and Husky pre-commit integration is in place. The repo now ships a fully data-backed comparison view at `/sv/jamfor/`: the Astro route loads all Malmö survey files at build time, and the `client:only="preact"` `ComparisonView` island renders the empty state for 0 selections, a prompt plus one-school results for 1 selection, and a side-by-side Helhetsbedömning comparison table for 2–5 selections. Step 7.4 refined that table for the iPhone 13 mini target viewport with real horizontal overflow, a sticky question column, and dedicated mobile Playwright coverage. The compare tray CTA for Swedish remains a live navigation link, and the clear-on-comparison-page regression remains fixed. `pnpm validate` is green after the Step 7.4 work, and the test suite now stands at 26 unit + 36 e2e = 62 total.
 
 ## Completed Scaffolding Summary
 
@@ -30,7 +30,8 @@ Current status (2026-03-10): Steps 0–7.3 are complete and Husky pre-commit int
 - **Step 7.2 (ComparisonView table rendering)**: `src/pages/sv/jamfor/index.astro` now calls `getAllPreschoolSurveys()` and passes the serialized data set plus localized single-selection copy into `ComparisonView`. The island reuses `compareIds`, `OVERALL_ASSESSMENT_GROUP`, and `computeAgreeShare()` to render a mobile-safe comparison table in selection order. The one-selected-preschool state now shows both a localized prompt and that preschool's results, and the 2–5 state renders the expected question rows and agree-share percentages. `tests/e2e/comparison-page-route-shell.spec.ts` now covers the one-selected and three-selected states, and `tests/unit/i18n-swedish-copy-contract.test.ts` regression-guards the new `compare.singleSelectionPrompt` key.
 - **Step 7.2 follow-up hardening**: comparison-state handling now falls back to the empty state when persisted compare IDs no longer resolve to any loaded survey, preventing a blank comparison shell after data changes. The comparison table now labels its question column explicitly, uses caption-backed semantics for assistive technology support, and resolves comparison cells by question text while the Malmö survey contract test locks the canonical Helhetsbedömning question order.
 - **Step 7.3 (empty and single-selection states e2e)**: test-only step. Two new Playwright scenarios added to `tests/e2e/comparison-page-route-shell.spec.ts`: (1) empty-state back-link navigates to directory, one preschool selected via real compare-button UI and opened via tray CTA shows single-selection prompt and results table; (2) clearing one-preschool selection via compare tray stays on comparison page and shows empty state. Spec now stands at 8 tests. No production-code changes. A Prettier issue in the plan file was fixed before `pnpm validate` ran clean.
-- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 26 unit + 34 e2e = 60 total.
+- **Step 7.4 (mobile comparison refinement)**: `src/components/preact/ComparisonView.tsx` now keeps the question-label column sticky and guarantees real horizontal overflow at 375×812 by switching the comparison table to `w-auto min-w-full`, assigning a stable comparison-scroll wrapper, and enforcing minimum widths for the question and preschool columns. A new Playwright contract in `tests/e2e/comparison-page-route-shell.spec.ts` seeds four preschools, proves the table overflows horizontally, and asserts sticky row labels on the mobile viewport. Spec now stands at 9 tests.
+- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 26 unit + 36 e2e = 62 total.
 
 ## Verification Summary
 
@@ -42,6 +43,7 @@ Current status (2026-03-10): Steps 0–7.3 are complete and Husky pre-commit int
 - Verified Step 7.2 with `pnpm test:e2e --grep "comparison page"`, `pnpm test:e2e`, and `pnpm validate` after revising the one-selected-preschool state to show both the prompt and the selected preschool's results.
 - Verified the Step 7.2 follow-up hardening with `pnpm exec playwright test tests/e2e/comparison-page-route-shell.spec.ts --reporter=line`, focused unit coverage for `malmo-survey-files-contract.test.ts` and `i18n-swedish-copy-contract.test.ts`, and a final `pnpm validate`.
 - Verified Step 7.3 with `pnpm exec playwright test tests/e2e/comparison-page-route-shell.spec.ts --reporter=line` (8/8 passing) and `pnpm validate` (fixed Prettier issue in plan file, then fully green).
+- Verified Step 7.4 with `pnpm exec playwright test tests/e2e/comparison-page-route-shell.spec.ts` (9/9 passing, including the 375×812 mobile regression) and `pnpm validate` (lint, markdownlint, format:check, check, unit tests, and build all green).
 
 - `pnpm lint` — 0 ESLint errors.
 - `pnpm lint:md` — 0 markdown lint errors.
@@ -62,9 +64,9 @@ Current status (2026-03-10): Steps 0–7.3 are complete and Husky pre-commit int
 
 ## Current Priorities
 
-1. **Step 7.4** — refine the mobile comparison presentation for narrow viewports beyond the current overflow-x table baseline.
-2. **Step 8** — add accessible SVG chart rendering, legend, and chart-adjacent table fallback on the comparison page.
+1. **Step 8** — add accessible SVG chart rendering, legend, and chart-adjacent table fallback on the comparison page.
+2. **Step 9** — implement deterministic comparison summaries and summary text rendering.
 
 ## Next Focus
 
-- Move to Step 7.4 mobile comparison refinement.
+- Move to Step 8 accessible comparison charts and fallback tables.

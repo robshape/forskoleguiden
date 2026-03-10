@@ -57,7 +57,10 @@ jobs:
 
       # ── E2E tests (needs build output for pnpm preview) ──────────
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium webkit
 
       - name: Run e2e tests
         run: pnpm test:e2e
+
+      - name: Run WebKit e2e tests
+        run: pnpm test:e2e:webkit

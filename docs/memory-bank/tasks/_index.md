@@ -8,6 +8,8 @@
 
 Individual task files for completed work are archived in `tasks/completed/`.
 
+- [TASK021] Implement Step 7.4 mobile comparison refinement - Completed 2026-03-10 (added failing iPhone 13 mini comparison contract, sticky first-column + horizontal-scroll comparison table refinement, validation and memory-bank sync complete)
+
 - [TASK020] Implement Step 7.3 empty and single-selection states e2e - Completed 2026-03-10 (test-only step: real-flow empty-to-single journey + one-school clear-state e2e coverage, Prettier fix, validation and memory-bank sync complete)
 
 - [TASK019] Implement Step 7.2 comparison view - Completed 2026-03-10 (added failing comparison-state contracts, threaded serialized survey data into `/sv/jamfor/`, implemented one-selected and 2–5 selected comparison rendering, validation and memory-bank sync complete)
