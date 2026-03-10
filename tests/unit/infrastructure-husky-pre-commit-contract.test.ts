@@ -21,7 +21,7 @@ function extractStepBlock(yaml: string, stepName: string): string | null {
 }
 
 describe('Husky pre-commit hook infrastructure contract', () => {
-  it('should have a pinned husky devDependency in package.json', () => {
+  it('should have pinned husky and lint-staged devDependencies in package.json', () => {
     const pkg = JSON.parse(
       readFileSync(resolve(ROOT, 'package.json'), 'utf8'),
     ) as {
@@ -36,6 +36,16 @@ describe('Husky pre-commit hook infrastructure contract', () => {
       huskyVersion,
       'husky version must be pinned (no ^ or ~ prefix)',
     ).toMatch(/^\d+\.\d+\.\d+$/)
+
+    const lintStagedVersion = pkg.devDependencies?.['lint-staged']
+    expect(
+      lintStagedVersion,
+      'lint-staged must be present in devDependencies',
+    ).toBeDefined()
+    expect(
+      lintStagedVersion,
+      'lint-staged version must be pinned (no ^ or ~ prefix)',
+    ).toMatch(/^\d+\.\d+\.\d+$/)
   })
 
   it('should have a prepare script set to "husky" in package.json', () => {
@@ -47,13 +57,45 @@ describe('Husky pre-commit hook infrastructure contract', () => {
     expect(pkg.scripts?.prepare).toBe('husky')
   })
 
-  it('should have a .husky/pre-commit hook that runs pnpm validate', () => {
+  it('should have a .husky/pre-commit hook that runs lint-staged and astro check', () => {
     const hookPath = resolve(ROOT, '.husky', 'pre-commit')
     expect(existsSync(hookPath), '.husky/pre-commit file must exist').toBe(true)
     const content = readFileSync(hookPath, 'utf8')
-    expect(content, '.husky/pre-commit must invoke pnpm validate').toContain(
-      'pnpm validate',
+    expect(content, '.husky/pre-commit must invoke lint-staged').toContain(
+      'lint-staged',
     )
+    expect(
+      content,
+      '.husky/pre-commit must invoke pnpm check for type checking',
+    ).toContain('pnpm check')
+  })
+
+  it('should have a lint-staged config in package.json covering code, markdown, and formatting', () => {
+    const pkg = JSON.parse(
+      readFileSync(resolve(ROOT, 'package.json'), 'utf8'),
+    ) as {
+      'lint-staged'?: Record<string, string>
+    }
+    const config = pkg['lint-staged']
+    expect(
+      config,
+      'lint-staged config must be present in package.json',
+    ).toBeDefined()
+
+    const keys = Object.keys(config!)
+    const values = Object.values(config!)
+    expect(
+      values.some((v) => v.includes('eslint')),
+      'lint-staged must run eslint on code files',
+    ).toBe(true)
+    expect(
+      keys.some((k) => k.includes('.md')),
+      'lint-staged must have a glob for markdown files',
+    ).toBe(true)
+    expect(
+      values.some((v) => v.includes('prettier')),
+      'lint-staged must run prettier',
+    ).toBe(true)
   })
 
   it('should disable Husky via HUSKY=0 env in the quality-gates.yml install step', () => {

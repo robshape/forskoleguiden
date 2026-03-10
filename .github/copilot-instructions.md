@@ -120,7 +120,9 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - `pnpm lint` — ESLint (flat config)
 - `pnpm lint:md` — Markdown linting
 - `pnpm format` — Prettier (writes); `pnpm format:check` (CI-safe check)
-- `pnpm validate` — runs lint + lint:md + format:check + check + test + build sequentially
+- `pnpm validate` — runs lint + lint:md + format:check + check + test + build sequentially (used in CI)
+
+**Pre-commit hook**: `.husky/pre-commit` runs `lint-staged` (ESLint, markdownlint, Prettier on staged files only) followed by `pnpm check` (Astro type checking). Full `pnpm validate` runs in CI via `quality-gates.yml`. The `lint-staged` config lives in `package.json` under the `"lint-staged"` key.
 
 ## Testing patterns
 

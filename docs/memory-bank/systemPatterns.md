@@ -72,7 +72,7 @@ Test utilities live in `tests/unit/helpers/`:
 Critical infrastructure invariants are tested as unit tests rather than relying on manual checks:
 
 - `tests/unit/infrastructure-gitignore-regression.test.ts` — verifies `.gitignore` covers required paths (`node_modules/`, `dist/`, `.astro/`, `.DS_Store`, `test-results/`) using `git check-ignore`.
-- `tests/unit/infrastructure-husky-pre-commit-contract.test.ts` — verifies Husky 9.1.7 is a pinned devDependency, the `prepare` script is set to `"husky"`, the `.husky/pre-commit` hook exists and runs `pnpm validate`, and `HUSKY: 0` is set specifically on the `Install dependencies` step in both `quality-gates.yml` and `deploy.yml`; regression coverage guards against false-positive matches from unrelated workflow steps.
+- `tests/unit/infrastructure-husky-pre-commit-contract.test.ts` — verifies Husky and lint-staged are pinned devDependencies, the `prepare` script is set to `"husky"`, the `.husky/pre-commit` hook exists and runs `lint-staged` + `pnpm check`, the `lint-staged` config in `package.json` covers ESLint/markdownlint/Prettier, and `HUSKY: 0` is set specifically on the `Install dependencies` step in both `quality-gates.yml` and `deploy.yml`; regression coverage guards against false-positive matches from unrelated workflow steps.
 
 Note: Source-inspection tests were removed during KCD test alignment — they tested implementation details rather than behavior. Runtime assertions (viewport-meta, favicon) moved to e2e `layout-shell-accessibility.spec.ts`.
 

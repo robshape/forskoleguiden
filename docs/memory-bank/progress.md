@@ -11,7 +11,7 @@ Current status (2026-03-10): Steps 0–7.1 are complete and Husky pre-commit int
 - **Step 0.9 (Vitest)**: completed; unit test harness passing.
 - **Step 0.10 (Playwright)**: completed; e2e tests operational.
 - **Step 0.11 (.gitignore)**: completed with regression guard (`tests/unit/infrastructure-gitignore-regression.test.ts`).
-- **Husky pre-commit hook**: Husky 9.1.7 installed; `prepare` script wired; `.husky/pre-commit` runs `pnpm validate`; `HUSKY: 0` set in `quality-gates.yml` and `deploy.yml` install steps; 7-test unit contract in `tests/unit/infrastructure-husky-pre-commit-contract.test.ts`, including regression coverage for false-positive workflow matches.
+- **Husky pre-commit hook**: Husky 9.1.7 installed; `prepare` script wired; `.husky/pre-commit` runs `lint-staged` (ESLint + markdownlint + Prettier on staged files) followed by `pnpm check` (Astro type checking); full `pnpm validate` runs in CI only; `lint-staged` 16.3.2 added as pinned devDependency with config in `package.json`; `HUSKY: 0` set in `quality-gates.yml` and `deploy.yml` install steps; 8-test unit contract in `tests/unit/infrastructure-husky-pre-commit-contract.test.ts`.
 
 ## Feature Implementation Summary
 
