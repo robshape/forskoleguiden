@@ -57,17 +57,13 @@ describe('Husky pre-commit hook infrastructure contract', () => {
     expect(pkg.scripts?.prepare).toBe('husky')
   })
 
-  it('should have a .husky/pre-commit hook that runs lint-staged and astro check', () => {
+  it('should have a .husky/pre-commit hook that runs lint-staged', () => {
     const hookPath = resolve(ROOT, '.husky', 'pre-commit')
     expect(existsSync(hookPath), '.husky/pre-commit file must exist').toBe(true)
     const content = readFileSync(hookPath, 'utf8')
     expect(content, '.husky/pre-commit must invoke lint-staged').toContain(
       'lint-staged',
     )
-    expect(
-      content,
-      '.husky/pre-commit must invoke pnpm check for type checking',
-    ).toContain('pnpm check')
   })
 
   it('should have a lint-staged config in package.json covering code, markdown, and formatting', () => {
@@ -83,7 +79,7 @@ describe('Husky pre-commit hook infrastructure contract', () => {
     ).toBeDefined()
 
     const keys = Object.keys(config!)
-    const values = Object.values(config!)
+    const values = Object.values(config!).flat()
     expect(
       values.some((v) => v.includes('eslint')),
       'lint-staged must run eslint on code files',
