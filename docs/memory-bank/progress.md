@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-10): Steps 0–7.2 are complete and Husky pre-commit integration is in place. The repo now ships a fully data-backed comparison view at `/sv/jamfor/`: the Astro route loads all Malmö survey files at build time, and the `client:only="preact"` `ComparisonView` island renders the empty state for 0 selections, a prompt plus one-school results for 1 selection, and a side-by-side Helhetsbedömning comparison table for 2–5 selections. The compare tray CTA for Swedish remains a live navigation link, and the clear-on-comparison-page regression remains fixed. `pnpm validate` is green after the Step 7.2 work, and the test suite now stands at 26 unit + 32 e2e = 58 total.
+Current status (2026-03-10): Steps 0–7.3 are complete and Husky pre-commit integration is in place. The repo now ships a fully data-backed comparison view at `/sv/jamfor/`: the Astro route loads all Malmö survey files at build time, and the `client:only="preact"` `ComparisonView` island renders the empty state for 0 selections, a prompt plus one-school results for 1 selection, and a side-by-side Helhetsbedömning comparison table for 2–5 selections. The compare tray CTA for Swedish remains a live navigation link, and the clear-on-comparison-page regression remains fixed. `pnpm validate` is green after the Step 7.3 work, and the test suite now stands at 26 unit + 34 e2e = 60 total.
 
 ## Completed Scaffolding Summary
 
@@ -29,7 +29,8 @@ Current status (2026-03-10): Steps 0–7.2 are complete and Husky pre-commit int
 - **Step 7.1 (Comparison route shell)**: `src/pages/sv/jamfor/index.astro` added as the Swedish comparison route. Mounts `ComparisonView` (`client:only="preact"`) with localized heading and empty-state props. The compare tray CTA for Swedish became a live navigation link via the existing `BaseLayout.astro` route-availability check with no tray changes. A review-driven follow-up removed dead unused survey props before scope was confirmed. A later bugfix removed the redirect-on-clear behavior from `ComparisonView`, so the page now stays on `/sv/jamfor/` and renders the empty state after `Rensa`. `tests/e2e/comparison-page-route-shell.spec.ts` now covers route availability, direct empty-state rendering, and the clear-state transition (3 tests); `compare-tray-interaction.spec.ts` covers the now-live CTA plus the corrected keyboard clear behavior.
 - **Step 7.2 (ComparisonView table rendering)**: `src/pages/sv/jamfor/index.astro` now calls `getAllPreschoolSurveys()` and passes the serialized data set plus localized single-selection copy into `ComparisonView`. The island reuses `compareIds`, `OVERALL_ASSESSMENT_GROUP`, and `computeAgreeShare()` to render a mobile-safe comparison table in selection order. The one-selected-preschool state now shows both a localized prompt and that preschool's results, and the 2–5 state renders the expected question rows and agree-share percentages. `tests/e2e/comparison-page-route-shell.spec.ts` now covers the one-selected and three-selected states, and `tests/unit/i18n-swedish-copy-contract.test.ts` regression-guards the new `compare.singleSelectionPrompt` key.
 - **Step 7.2 follow-up hardening**: comparison-state handling now falls back to the empty state when persisted compare IDs no longer resolve to any loaded survey, preventing a blank comparison shell after data changes. The comparison table now labels its question column explicitly, uses caption-backed semantics for assistive technology support, and resolves comparison cells by question text while the Malmö survey contract test locks the canonical Helhetsbedömning question order.
-- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 26 unit + 32 e2e = 58 total.
+- **Step 7.3 (empty and single-selection states e2e)**: test-only step. Two new Playwright scenarios added to `tests/e2e/comparison-page-route-shell.spec.ts`: (1) empty-state back-link navigates to directory, one preschool selected via real compare-button UI and opened via tray CTA shows single-selection prompt and results table; (2) clearing one-preschool selection via compare tray stays on comparison page and shows empty state. Spec now stands at 8 tests. No production-code changes. A Prettier issue in the plan file was fixed before `pnpm validate` ran clean.
+- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 26 unit + 34 e2e = 60 total.
 
 ## Verification Summary
 
@@ -40,6 +41,7 @@ Current status (2026-03-10): Steps 0–7.2 are complete and Husky pre-commit int
 - Verified Step 7.1 with `pnpm validate` and `pnpm test:e2e -- tests/e2e/comparison-page-route-shell.spec.ts tests/e2e/compare-tray-interaction.spec.ts` (12/12 passing) after removing the redirect-on-clear regression from `ComparisonView`.
 - Verified Step 7.2 with `pnpm test:e2e --grep "comparison page"`, `pnpm test:e2e`, and `pnpm validate` after revising the one-selected-preschool state to show both the prompt and the selected preschool's results.
 - Verified the Step 7.2 follow-up hardening with `pnpm exec playwright test tests/e2e/comparison-page-route-shell.spec.ts --reporter=line`, focused unit coverage for `malmo-survey-files-contract.test.ts` and `i18n-swedish-copy-contract.test.ts`, and a final `pnpm validate`.
+- Verified Step 7.3 with `pnpm exec playwright test tests/e2e/comparison-page-route-shell.spec.ts --reporter=line` (8/8 passing) and `pnpm validate` (fixed Prettier issue in plan file, then fully green).
 
 - `pnpm lint` — 0 ESLint errors.
 - `pnpm lint:md` — 0 markdown lint errors.
@@ -65,4 +67,4 @@ Current status (2026-03-10): Steps 0–7.2 are complete and Husky pre-commit int
 
 ## Next Focus
 
-- Decide whether Step 7.3 is already satisfied by the current empty and one-selected states, then move on to the Step 7.4 mobile comparison refinement.
+- Move to Step 7.4 mobile comparison refinement.

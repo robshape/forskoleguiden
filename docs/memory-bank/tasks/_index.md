@@ -8,6 +8,8 @@
 
 Individual task files for completed work are archived in `tasks/completed/`.
 
+- [TASK020] Implement Step 7.3 empty and single-selection states e2e - Completed 2026-03-10 (test-only step: real-flow empty-to-single journey + one-school clear-state e2e coverage, Prettier fix, validation and memory-bank sync complete)
+
 - [TASK019] Implement Step 7.2 comparison view - Completed 2026-03-10 (added failing comparison-state contracts, threaded serialized survey data into `/sv/jamfor/`, implemented one-selected and 2–5 selected comparison rendering, validation and memory-bank sync complete)
 
 - [TASK018] Fix Step 7.1 comparison clear-state regression - Completed 2026-03-10 (comparison page now stays on `/sv/jamfor/` after `Rensa`, targeted e2e regression added, validation and memory-bank sync complete)

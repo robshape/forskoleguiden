@@ -261,3 +261,134 @@ test.describe('comparison page selection state contracts', () => {
     await expect(table.getByText('100%')).toBeVisible()
   })
 })
+
+// ---------------------------------------------------------------------------
+// Tests — Step 7.3 UI flow (real interaction, no sessionStorage seeding)
+// ---------------------------------------------------------------------------
+
+test.describe('comparison page empty-state and single-selection UI flow', () => {
+  test('empty-state back-link navigates to directory; one preschool selected via real UI and opened via tray CTA shows single-selection prompt and results table', async ({
+    page,
+  }) => {
+    // Step 1: Visit comparison page with no selections
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status()).toBe(200)
+
+    // Empty state: heading and explanatory body text
+    await expect(
+      page.getByRole('heading', { name: 'Inga förskolor valda' }),
+    ).toBeVisible()
+    await expect(
+      page.locator('p', {
+        hasText: 'Välj förskolor i listan för att se en jämförelse.',
+      }),
+    ).toBeVisible()
+
+    // Step 2: Click the back link → verify navigation to the directory
+    // i18n key: compare.actions.backToDirectory => "Tillbaka till förskolor"
+    const backLink = page.getByRole('link', { name: 'Tillbaka till förskolor' })
+    await expect(backLink).toBeVisible()
+    await backLink.click()
+    await expect(page).toHaveURL(DIRECTORY_URL)
+
+    // Step 3: Select one preschool using the real compare button UI
+    const targetName = 'Almgårdens förskola'
+    const card = page
+      .getByTestId('preschool-card')
+      .filter({ has: page.getByRole('link', { name: targetName }) })
+    // Use the button's accessible name (aria-label template: "{action}: {name}").
+    // A regex anchored on the preschool name matches both the initial
+    // "Jämför: Almgårdens förskola" and the selected "Tillagd: Almgårdens förskola"
+    // labels, so the locator stays valid across the state transition.
+    const compareButton = card.getByRole('button', {
+      name: new RegExp(targetName),
+    })
+    await expect(compareButton).toHaveAttribute('aria-pressed', 'false')
+    await compareButton.click()
+    await expect(compareButton).toHaveAttribute('aria-pressed', 'true')
+
+    // Step 4: Open the comparison page via the compare tray CTA
+    const tray = page.getByTestId('compare-tray')
+    await expect(tray).toBeVisible()
+    // i18n key: compareTray.showComparison => "Visa jämförelse"
+    const compareCTA = tray.getByRole('link', { name: 'Visa jämförelse' })
+    await expect(compareCTA).toBeVisible()
+    await compareCTA.click()
+    await expect(page).toHaveURL(COMPARISON_URL)
+
+    // Step 5: Assert single-selection prompt and the selected preschool's results table
+    await expect(page.getByTestId('single-selection-prompt')).toBeVisible()
+    const table = page.getByTestId('comparison-table')
+    await expect(table).toBeVisible()
+    await expect(table).toHaveAttribute('aria-label', 'Jämför förskolor')
+    await expect(
+      table.getByRole('columnheader', { name: 'Fråga' }),
+    ).toBeVisible()
+    await expect(
+      table.getByRole('columnheader', { name: targetName }),
+    ).toBeVisible()
+  })
+
+  test('clearing one-preschool selection via compare tray stays on comparison page and shows empty state', async ({
+    page,
+  }) => {
+    // Seed sessionStorage with exactly one preschool
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate(() => {
+      sessionStorage.setItem(
+        'compareIds',
+        JSON.stringify(['almgardens-forskola']),
+      )
+    })
+
+    // Navigate to the comparison page (one preschool loaded from sessionStorage)
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status()).toBe(200)
+
+    // Single-selection prompt and table must be visible
+    await expect(page.getByTestId('single-selection-prompt')).toBeVisible()
+    await expect(page.getByTestId('comparison-table')).toBeVisible()
+
+    // Compare tray must be visible
+    const tray = page.getByTestId('compare-tray')
+    await expect(tray).toBeVisible()
+
+    // i18n key: compareTray.clear => "Rensa"
+    const clearButton = tray.getByRole('button', { name: 'Rensa' })
+    await expect(clearButton).toBeVisible()
+    await clearButton.click()
+
+    // Page must stay on the comparison route after clearing
+    await expect(page).toHaveURL(COMPARISON_URL)
+
+    // Empty state must appear — heading, body text, and back link
+    // i18n key: compare.emptyStateTitle => "Inga förskolor valda"
+    await expect(
+      page.getByRole('heading', { name: 'Inga förskolor valda' }),
+    ).toBeVisible()
+    // i18n key: compare.emptyStateBody => "Välj förskolor i listan för att se en jämförelse."
+    await expect(
+      page.locator('p', {
+        hasText: 'Välj förskolor i listan för att se en jämförelse.',
+      }),
+    ).toBeVisible()
+    // i18n key: compare.actions.backToDirectory => "Tillbaka till förskolor"
+    const backLink = page.getByRole('link', { name: 'Tillbaka till förskolor' })
+    await expect(backLink).toBeVisible()
+    await expect(backLink).toHaveAttribute('href', DIRECTORY_URL)
+
+    // Single-selection prompt and table must be gone
+    await expect(page.getByTestId('single-selection-prompt')).not.toBeAttached()
+    await expect(page.getByTestId('comparison-table')).not.toBeAttached()
+  })
+})
