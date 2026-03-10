@@ -34,11 +34,12 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 
 ## Preact islands inventory
 
-| Island          | File                                      | Hydration              | Purpose                                                                                                       |
-| --------------- | ----------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `SortToggle`    | `src/components/preact/SortToggle.tsx`    | `client:load`          | Toggle alphabetical ↔ rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements |
-| `CompareButton` | `src/components/preact/CompareButton.tsx` | `client:load`          | Select/deselect a preschool for comparison; `aria-pressed` toggle                                             |
-| `CompareTray`   | `src/components/preact/CompareTray.tsx`   | `client:only="preact"` | Global compare summary bar; disabled CTA until compare page route exists                                      |
+| Island           | File                                       | Hydration              | Purpose                                                                                                       |
+| ---------------- | ------------------------------------------ | ---------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `SortToggle`     | `src/components/preact/SortToggle.tsx`     | `client:load`          | Toggle alphabetical ↔ rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements |
+| `CompareButton`  | `src/components/preact/CompareButton.tsx`  | `client:load`          | Select/deselect a preschool for comparison; `aria-pressed` toggle                                             |
+| `CompareTray`    | `src/components/preact/CompareTray.tsx`    | `client:only="preact"` | Global compare summary bar; links to `/sv/jamfor/` comparison page                                            |
+| `ComparisonView` | `src/components/preact/ComparisonView.tsx` | `client:only="preact"` | Comparison page content: reads `compareIds` store, renders selected preschools side-by-side with survey data  |
 
 **Hydration strategy guidance:**
 
@@ -77,8 +78,8 @@ src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path 
 src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
 src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
 src/components/astro/         — Static Astro components: Nav, Footer, CityYearSelector, PreschoolCard
-src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray
-src/pages/sv/                 — Swedish pages: index, om/ (about), forskola/[id].astro (detail)
+src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray, ComparisonView
+src/pages/sv/                 — Swedish pages: index, om/ (about), forskola/[id].astro (detail), jamfor/ (comparison)
 src/styles/global.css         — Tailwind v4 entry + @theme tokens (colors, spacing, shadows)
 tests/unit/**/*.test.ts       — Vitest unit tests
 tests/unit/helpers/           — Shared test utilities (malmo-data.ts, survey-assertions.ts, i18n.ts)
@@ -95,7 +96,7 @@ tests/e2e/**/*.spec.ts        — Playwright e2e tests
 - **No runtime data fetching** — all preschool data read from `data/` at Astro build time via `src/lib/data.ts` loaders (uses `readFileSync` + `process.cwd()`).
 - **Formatting**: single quotes, no semicolons — see `.prettierrc`.
 - **Linting**: ESLint flat config + `@typescript-eslint` + `eslint-plugin-astro`; markdownlint-cli2 for Markdown (MD013 disabled).
-- **Pre-commit**: Husky runs `pnpm validate` before every commit. CI skips this via `HUSKY=0`.
+- **Pre-commit**: Husky runs `lint-staged` + `pnpm check` before every commit. CI skips Husky via `HUSKY=0`.
 
 ## Data model
 
@@ -151,7 +152,7 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 
 ## Project documentation
 
-- `docs/implementation-plan.md` — multi-phase feature roadmap (Steps 0–8)
+- `docs/implementation-plan.md` — multi-phase feature roadmap (Steps 0–9)
 - `docs/prd.md` — product requirements and user flows
 - `docs/tech-stack.md` — architectural decisions and technology rationale
 - `docs/memory-bank/` — living project context: active work, progress, system patterns, tasks
