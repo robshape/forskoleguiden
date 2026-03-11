@@ -4,6 +4,10 @@
 
 - ALWAYS pin dependencies to exact versions in `package.json` (no ^ or ~)
 - ALWAYS run `pnpm validate` after finishing a feature or task
+- ALWAYS read `docs/memory-bank/` when planning and before writing any code
+- ALWAYS read `docs/gdd.md` and/or `docs/prd.md` when planning and before writing any code
+- ALWAYS read `docs/tech-stack.md` when planning and before writing any code
+- After adding a major feature, completing a milestone, or finishing a task, ALWAYS update `docs/memory-bank/`
 
 ## Project overview
 
