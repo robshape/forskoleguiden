@@ -1,6 +1,6 @@
 # Progress
 
-Current status (2026-03-10): Steps 0–8.1 are complete and Husky pre-commit integration is in place. The repo now ships a fully data-backed comparison view at `/sv/jamfor/`: the Astro route loads all Malmö survey files at build time, and the `client:only="preact"` `ComparisonView` island renders the empty state for 0 selections, a prompt plus one-school results for 1 selection, and a side-by-side Helhetsbedömning comparison experience for 2–5 selections. Step 7.4 refined the comparison table for the iPhone 13 mini target viewport with real horizontal overflow and a sticky question column, and Step 8.1 now layers visible question headings, reusable pattern-filled SVG bar charts, and chart-adjacent data tables onto each comparison question. The compare tray CTA for Swedish remains a live navigation link, and the clear-on-comparison-page regression remains fixed. `pnpm validate` is green after the Step 8.1 work, and the test suite now stands at 26 unit + 37 e2e = 63 total.
+Current status (2026-03-11): Steps 0–8.2 are complete and Husky pre-commit integration is in place. The repo now ships a fully data-backed comparison view at `/sv/jamfor/`: the Astro route loads all Malmö survey files at build time, and the `client:only="preact"` `ComparisonView` island renders the empty state for 0 selections, a prompt plus one-school results for 1 selection, and a side-by-side Helhetsbedömning comparison experience for 2–5 selections. Step 7.4 refined the comparison table for the iPhone 13 mini target viewport with real horizontal overflow and a sticky question column, Step 8.1 layered visible question headings, reusable pattern-filled SVG bar charts, and chart-adjacent data tables onto each comparison question, and Step 8.2 completed the color-blind-safe five-pattern palette with distinct solid, diagonal, dotted, horizontal-line, and crosshatch encodings. The compare tray CTA for Swedish remains a live navigation link, and the clear-on-comparison-page regression remains fixed. `pnpm validate` is green after the Step 8.2 work, the focused Step 8.2 Playwright regression passes, and the test suite now stands at 26 unit + 41 e2e = 67 total.
 
 ## Completed Scaffolding Summary
 
@@ -32,7 +32,9 @@ Current status (2026-03-10): Steps 0–8.1 are complete and Husky pre-commit int
 - **Step 7.3 (empty and single-selection states e2e)**: test-only step. Two new Playwright scenarios added to `tests/e2e/comparison-page-route-shell.spec.ts`: (1) empty-state back-link navigates to directory, one preschool selected via real compare-button UI and opened via tray CTA shows single-selection prompt and results table; (2) clearing one-preschool selection via compare tray stays on comparison page and shows empty state. Spec now stands at 8 tests. No production-code changes. A Prettier issue in the plan file was fixed before `pnpm validate` ran clean.
 - **Step 7.4 (mobile comparison refinement)**: `src/components/preact/ComparisonView.tsx` now keeps the question-label column sticky and guarantees real horizontal overflow at 375×812 by switching the comparison table to `w-auto min-w-full`, assigning a stable comparison-scroll wrapper, and enforcing minimum widths for the question and preschool columns. A new Playwright contract in `tests/e2e/comparison-page-route-shell.spec.ts` seeds four preschools, proves the table overflows horizontally, and asserts sticky row labels on the mobile viewport. Spec now stands at 9 tests.
 - **Step 8.1 (comparison SVG chart)**: Added `src/components/preact/BarChart.tsx` as a reusable pure-render Preact component for horizontal stacked SVG charts using pattern-backed fills across the five canonical response categories. `src/components/preact/ComparisonView.tsx` now renders a visible heading, the chart, and a chart-adjacent data table for each Helhetsbedömning question, while `src/pages/sv/jamfor/index.astro` resolves localized category labels from `RESPONSE_ROWS` and passes a localized `compare.chartAriaLabel` template into the island. Locale parity was preserved by adding the key to `src/i18n/sv.json`, `src/i18n/en.json`, and `src/i18n/ar.json`. `tests/e2e/comparison-page-route-shell.spec.ts` now verifies SVG structure, second-chart percentage titles, visible question headings, and the chart data-table alternative. `tests/unit/i18n-swedish-copy-contract.test.ts` now requires the new chart aria-label key.
-- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 26 unit + 37 e2e = 63 total.
+- **Step 8.2 (chart pattern refinement)**: `src/components/preact/BarChart.tsx` now uses a discriminated pattern model so each response category renders with a distinct SVG primitive: solid fill, diagonal stripe, dot, horizontal line, or crosshatch. The partly-disagree palette moved to orange, and `tests/e2e/comparison-page-route-shell.spec.ts` now includes a focused Step 8.2 regression that proves the neutral, partly-disagree, and completely-disagree categories expose the expected dot, horizontal-line, and crosshatch structures. Verification included the targeted Playwright contract plus a final `pnpm validate` run.
+- **Step 8.2 hardening follow-up**: The Step 8.2 regression now targets the semantic chart by accessible name and stable pattern id suffixes instead of DOM order, and `src/components/preact/BarChart.tsx` now binds response fields and visual encodings in a single `RESPONSE_SERIES` structure. This removes the main selector brittleness and split-array semantic drift risk without changing chart output.
+- **KCD test alignment**: Tests follow "fewer, longer tests" and Testing Trophy principles. Current count: 26 unit + 41 e2e = 67 total.
 
 ## Verification Summary
 
@@ -46,6 +48,8 @@ Current status (2026-03-10): Steps 0–8.1 are complete and Husky pre-commit int
 - Verified Step 7.3 with `pnpm exec playwright test tests/e2e/comparison-page-route-shell.spec.ts --reporter=line` (8/8 passing) and `pnpm validate` (fixed Prettier issue in plan file, then fully green).
 - Verified Step 7.4 with `pnpm exec playwright test tests/e2e/comparison-page-route-shell.spec.ts` (9/9 passing, including the 375×812 mobile regression) and `pnpm validate` (lint, markdownlint, format:check, check, unit tests, and build all green).
 - Verified Step 8.1 with targeted failing-first unit and e2e contracts, a reviewed implementation pass, a reviewed accessibility-focused revision pass, and a final `pnpm validate` after formatting cleanup. Focused comparison-page Playwright coverage reached 11 passing tests and the full suite remained green under `pnpm validate`.
+- Verified Step 8.2 with a failing-first chart-pattern Playwright contract, a reviewed `BarChart` palette refactor, `pnpm exec playwright test tests/e2e/comparison-page-route-shell.spec.ts --grep "Step 8.2 chart pattern structure"`, and a final `pnpm validate` after formatting the exact files Prettier flagged.
+- Verified the Step 8.2 hardening follow-up with the targeted semantic-selector regression, `pnpm check`, and a final `pnpm validate` after formatting the changed plan/task/source files.
 
 - `pnpm lint` — 0 ESLint errors.
 - `pnpm lint:md` — 0 markdown lint errors.
@@ -66,9 +70,9 @@ Current status (2026-03-10): Steps 0–8.1 are complete and Husky pre-commit int
 
 ## Current Priorities
 
-1. **Step 8 follow-up** — add any remaining explicit legend and chart-a11y refinements from Steps 8.2–8.5.
+1. **Step 8 follow-up** — add any remaining explicit legend and chart-a11y refinements from Steps 8.3–8.5.
 2. **Step 9** — implement deterministic comparison summaries and summary text rendering.
 
 ## Next Focus
 
-- Move to Step 8 follow-up chart refinements and Step 9 comparison summaries.
+- Move to Step 8.3–8.5 chart refinements and Step 9 comparison summaries.

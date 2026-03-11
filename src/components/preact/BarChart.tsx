@@ -18,23 +18,40 @@ const LABEL_ROW_HEIGHT = 14
 const ROW_HEIGHT = LABEL_ROW_HEIGHT + BAR_HEIGHT + 10
 
 // 5 visually-distinct, color-blind-accessible pattern definitions.
-// Each pattern pairs a background fill with an optional diagonal stripe.
-type PatternDef = { bg: string; stripe: string | null }
-const PATTERN_DEFS: PatternDef[] = [
-  { bg: '#1d4ed8', stripe: null }, // completely agree: solid dark blue
-  { bg: '#93c5fd', stripe: '#1d4ed8' }, // partly agree: light blue + diagonal
-  { bg: '#d1d5db', stripe: null }, // neither: solid gray
-  { bg: '#fca5a5', stripe: '#c2410c' }, // partly disagree: light red + diagonal
-  { bg: '#dc2626', stripe: null }, // completely disagree: solid dark red
-]
+// Each type encodes a unique SVG structure so categories remain distinguishable
+// without color alone: solid, diagonal stripe, dots, horizontal lines, crosshatch.
+type PatternDef =
+  | { type: 'solid'; bg: string }
+  | { type: 'diagonal'; bg: string; stripe: string }
+  | { type: 'dots'; bg: string; dotColor: string }
+  | { type: 'horizontal'; bg: string; lineColor: string }
+  | { type: 'crosshatch'; bg: string; lineColor: string }
 
-const RESPONSE_FIELDS: (keyof SurveyResponse)[] = [
-  'completelyAgreePercent',
-  'partlyAgreePercent',
-  'neitherAgreeNorDisagreePercent',
-  'partlyDisagreePercent',
-  'completelyDisagreePercent',
-]
+// Single source of truth: each entry binds a response field to its visual encoding.
+// Positional alignment between field and pattern is enforced by this structure.
+const RESPONSE_SERIES: { field: keyof SurveyResponse; pattern: PatternDef }[] =
+  [
+    {
+      field: 'completelyAgreePercent',
+      pattern: { type: 'solid', bg: '#1d4ed8' },
+    },
+    {
+      field: 'partlyAgreePercent',
+      pattern: { type: 'diagonal', bg: '#93c5fd', stripe: '#1d4ed8' },
+    },
+    {
+      field: 'neitherAgreeNorDisagreePercent',
+      pattern: { type: 'dots', bg: '#e5e7eb', dotColor: '#374151' },
+    },
+    {
+      field: 'partlyDisagreePercent',
+      pattern: { type: 'horizontal', bg: '#fed7aa', lineColor: '#c2410c' },
+    },
+    {
+      field: 'completelyDisagreePercent',
+      pattern: { type: 'crosshatch', bg: '#fca5a5', lineColor: '#991b1b' },
+    },
+  ]
 
 export default function BarChart({
   responses,
@@ -59,7 +76,7 @@ export default function BarChart({
       >
         <title>{ariaLabel}</title>
         <defs>
-          {PATTERN_DEFS.map((pDef, catIdx) => {
+          {RESPONSE_SERIES.map(({ pattern: pDef }, catIdx) => {
             const patternId = `chart-${chartIndex}-cat-${catIdx}`
             const tileSize = 8
             return (
@@ -73,13 +90,47 @@ export default function BarChart({
                 patternUnits="userSpaceOnUse"
               >
                 <rect width={tileSize} height={tileSize} fill={pDef.bg} />
-                {pDef.stripe !== null && (
+                {pDef.type === 'diagonal' && (
                   <path
                     d={`M 0 ${tileSize} L ${tileSize} 0`}
                     stroke={pDef.stripe}
                     strokeWidth={1.5}
                     fill="none"
                   />
+                )}
+                {pDef.type === 'dots' && (
+                  <circle
+                    cx={tileSize / 2}
+                    cy={tileSize / 2}
+                    r={1.5}
+                    fill={pDef.dotColor}
+                  />
+                )}
+                {pDef.type === 'horizontal' && (
+                  <line
+                    x1={0}
+                    y1={tileSize / 2}
+                    x2={tileSize}
+                    y2={tileSize / 2}
+                    stroke={pDef.lineColor}
+                    strokeWidth={1.5}
+                  />
+                )}
+                {pDef.type === 'crosshatch' && (
+                  <>
+                    <path
+                      d={`M 0 ${tileSize} L ${tileSize} 0`}
+                      stroke={pDef.lineColor}
+                      strokeWidth={1.5}
+                      fill="none"
+                    />
+                    <path
+                      d={`M 0 0 L ${tileSize} ${tileSize}`}
+                      stroke={pDef.lineColor}
+                      strokeWidth={1.5}
+                      fill="none"
+                    />
+                  </>
                 )}
               </pattern>
             )
@@ -95,7 +146,7 @@ export default function BarChart({
           const barY = y + LABEL_ROW_HEIGHT
 
           let xOffset = 0
-          const segments = RESPONSE_FIELDS.map((field, catIdx) => {
+          const segments = RESPONSE_SERIES.map(({ field }, catIdx) => {
             const percent = response[field] as number
             const segWidth = (percent / 100) * BAR_TOTAL_WIDTH
             const segX = xOffset
@@ -164,7 +215,10 @@ export default function BarChart({
               </th>
               {responses.map((response, rowIdx) => (
                 <td key={rowIdx} class="py-1 px-2 text-gray-900">
-                  {Math.round(response[RESPONSE_FIELDS[catIdx]] as number)}%
+                  {Math.round(
+                    response[RESPONSE_SERIES[catIdx].field] as number,
+                  )}
+                  %
                 </td>
               ))}
             </tr>

@@ -763,3 +763,72 @@ test.describe('Step 8.1 follow-up: accessible table names and visible row labels
     ).toBeVisible()
   })
 })
+
+// ---------------------------------------------------------------------------
+// Tests — Step 8.2 chart pattern structure contracts
+// ---------------------------------------------------------------------------
+
+test.describe('Step 8.2 chart pattern structure', () => {
+  test('comparison charts expose five distinct pattern types: neutral has dot, partly-disagree uses horizontal line, completely-disagree uses crosshatch', async ({
+    page,
+  }) => {
+    // Seed two known preschools so the comparison view renders with charts
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate(() => {
+      sessionStorage.setItem(
+        'compareIds',
+        JSON.stringify(['almgardens-forskola', 'augustenborgs-forskola']),
+      )
+    })
+
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status()).toBe(200)
+
+    // Comparison view must be active before asserting chart internals
+    await expect(page.getByTestId('comparison-table')).toBeVisible()
+
+    // Locate the first Helhetsbedömning chart by its accessible name rather than
+    // document order, so the selector stays valid if unrelated charts are added.
+    const q1ChartName =
+      'Stapeldiagram för: Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola'
+    const firstChart = page.getByRole('img', { name: q1ChartName })
+
+    // 1. The first chart must define exactly five <pattern> elements in <defs> —
+    //    one per response category.
+    const patterns = firstChart.locator('defs pattern')
+    await expect(patterns).toHaveCount(5)
+
+    // 2. The neutral (neither-agree-nor-disagree) pattern must contain a <circle>
+    //    so it is distinguishable from solid fills by shape, not colour alone.
+    //    Selected by stable id suffix "-cat-2" instead of DOM order.
+    const neutralPattern = firstChart.locator('pattern[id$="-cat-2"]')
+    await expect(
+      neutralPattern.locator('circle'),
+      'neutral pattern (cat-2) must contain a <circle> for dot encoding',
+    ).toHaveCount(1)
+
+    // 3. The partly-disagree pattern must use a horizontal <line> structure,
+    //    not a diagonal. Horizontal lines are directionally distinct from the
+    //    partly-agree diagonal stripe.
+    const partlyDisagreePattern = firstChart.locator('pattern[id$="-cat-3"]')
+    await expect(
+      partlyDisagreePattern.locator('line'),
+      'partly-disagree pattern (cat-3) must contain a <line> element for horizontal-line encoding',
+    ).toHaveCount(1)
+
+    // 4. The completely-disagree pattern must use a crosshatch structure,
+    //    which requires two <path> elements (one diagonal in each direction).
+    const completelyDisagreePattern = firstChart.locator(
+      'pattern[id$="-cat-4"]',
+    )
+    await expect(
+      completelyDisagreePattern.locator('path'),
+      'completely-disagree pattern (cat-4) must contain two <path> elements for crosshatch encoding',
+    ).toHaveCount(2)
+  })
+})

@@ -8,6 +8,10 @@
 
 Individual task files for completed work are archived in `tasks/completed/`.
 
+- [TASK024] Harden Step 8.2 chart patterns - Completed 2026-03-11 (semantic chart selectors, unified `RESPONSE_SERIES` metadata, targeted regression and `pnpm validate` green)
+
+- [TASK023] Implement Step 8.2 chart pattern refinement - Completed 2026-03-11 (added failing chart-pattern regression, implemented five distinct SVG pattern encodings, targeted Playwright check and `pnpm validate` green)
+
 - [TASK022] Implement Step 8.1 comparison SVG chart - Completed 2026-03-10 (reusable BarChart island, visible question headings, chart-adjacent data table; 2 formatting fixes; pnpm validate green)
 
 - [TASK021] Implement Step 7.4 mobile comparison refinement - Completed 2026-03-10 (added failing iPhone 13 mini comparison contract, sticky first-column + horizontal-scroll comparison table refinement, validation and memory-bank sync complete)
