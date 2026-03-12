@@ -5,13 +5,15 @@
 - ALWAYS pin dependencies to exact versions in `package.json` (no ^ or ~)
 - ALWAYS run `pnpm validate` after finishing a feature or task
 - ALWAYS read `docs/memory-bank/` when planning and before writing any code
-- ALWAYS read `docs/gdd.md` and/or `docs/prd.md` when planning and before writing any code
+- ALWAYS read `docs/prd.md` when planning and before writing any code
 - ALWAYS read `docs/tech-stack.md` when planning and before writing any code
 - After adding a major feature, completing a milestone, or finishing a task, ALWAYS update `docs/memory-bank/`
 
 ## Project overview
 
 Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents compare preschools side-by-side using official survey ratings, build a "pick 5" shortlist, and share via URL-encoded state. No backend, no accounts, no external APIs at runtime. Implementation follows the phased plan in `docs/implementation-plan.md`.
+
+**Current phase**: Steps 0–8.5 complete (infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, accessibility, CI/CD). Step 9 (deterministic comparison summaries) is next. See `docs/memory-bank/progress.md` for detailed status.
 
 ## Architecture
 
@@ -43,6 +45,7 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 | `SortToggle`     | `src/components/preact/SortToggle.tsx`     | `client:load`          | Toggle alphabetical ↔ rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements |
 | `CompareButton`  | `src/components/preact/CompareButton.tsx`  | `client:only="preact"` | Select/deselect a preschool for comparison; `aria-pressed` toggle                                             |
 | `CompareTray`    | `src/components/preact/CompareTray.tsx`    | `client:only="preact"` | Global compare summary bar; links to `/sv/jamfor/` comparison page                                            |
+| `BarChart`       | `src/components/preact/BarChart.tsx`       | `client:only="preact"` | Accessible stacked bar chart for survey responses; pattern fills + ARIA + `<table>` text alternative          |
 | `ComparisonView` | `src/components/preact/ComparisonView.tsx` | `client:only="preact"` | Comparison page content: reads `compareIds` store, renders selected preschools side-by-side with survey data  |
 
 **Hydration strategy guidance:**
@@ -68,6 +71,8 @@ The `base` config is set to `/forskoleguiden` for GitHub Pages project-site depl
 ## Directory structure
 
 ```text
+.github/instructions/              — File-scoped instruction files (memory-bank workflow)
+.github/skills/                    — Agent skills: tdd/, frontend-design/
 .github/workflows/quality-gates.yml — Reusable workflow_call: lint, test, build, e2e (consumed by deploy.yml and dependabot.yml)
 .github/workflows/deploy.yml  — Calls quality-gates.yml + deploys to GitHub Pages
 data/malmo/index.json         — City directory: lists all preschool IDs, names, addresses, operator types
@@ -154,6 +159,13 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - Mobile-first targeting iPhone 13 mini viewport
 - Shortlist limited to 5 preschools (matches Malmö municipality application)
 - URL share links must stay under ~2,000 chars
+
+## Agent customizations
+
+- `.github/instructions/memory-bank.instructions.md` — memory bank workflow (applied to all files via `applyTo: '**'`)
+- `.github/skills/tdd/SKILL.md` — test-driven development with red-green-refactor loop
+- `.github/skills/frontend-design/SKILL.md` — production-grade frontend interface design
+- User-level `agents.instructions.md` — shared agent preferences (modularity, BDD tests, pnpm enforcement)
 
 ## Project documentation
 
