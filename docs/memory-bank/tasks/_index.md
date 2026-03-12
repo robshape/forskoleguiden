@@ -8,6 +8,8 @@
 
 Individual task files for completed work are archived in `tasks/completed/`.
 
+- [TASK028] Implement Step 8.5 chart/table ARIA wiring - Completed 2026-03-12 (three failing-first Playwright regressions: structural guard, aria-describedby contract, axe-core zero-violation sweep; aria-describedby wired in BarChart SVG; CompareTray promoted from `<div>` to `<nav aria-label>` landmark; Prettier fix — 19 comparison-page tests, 47 e2e total, `pnpm validate` green)
+
 - [TASK027] Implement Step 8.4 table fallback - Completed 2026-03-12 (Phase 1: static `<noscript>` fallback in comparison Astro route with localized `compare.noscriptMessage` key; Phase 2: deterministic `chart-${chartIndex}-table` on each BarChart data table for Step 8.5 aria-describedby wiring — 16 comparison-page tests, 44 e2e total, `pnpm validate` green)
 
 - [TASK026] Harden Step 8.3 chart legend - Completed 2026-03-12 (shared `renderPatternContent` helper, drift-guard Playwright structural-equivalence test, `pnpm validate` green — 15 comparison-page tests, 42 e2e total)

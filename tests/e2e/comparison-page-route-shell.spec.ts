@@ -1,3 +1,4 @@
+import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 // ---------------------------------------------------------------------------
@@ -423,15 +424,16 @@ test.describe('Step 8.1 accessible SVG chart on comparison page', () => {
 
     // There should be one SVG chart per Helhetsbedömning question (2 questions for
     // these preschools). Each chart must declare role="img" for screen readers.
-    const charts = page.locator('svg[role="img"]')
-    await expect(charts).toHaveCount(2)
-
-    // Each chart must carry an aria-label so assistive tech can announce its purpose.
-    // The label is expected to be driven by the i18n key compare.chartAriaLabel.
-    const firstChart = charts.nth(0)
-    const secondChart = charts.nth(1)
-    await expect(firstChart).toHaveAttribute('aria-label', /.+/)
-    await expect(secondChart).toHaveAttribute('aria-label', /.+/)
+    // Located by accessible name (set via compare.chartAriaLabel i18n key) so the
+    // locator targets the intended chart and is not sensitive to page-wide SVG count.
+    const q1ChartName =
+      'Stapeldiagram för: Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola'
+    const q2ChartName =
+      'Stapeldiagram för: Jag skulle rekommendera mitt barns förskola till en annan förälder'
+    const firstChart = page.getByRole('img', { name: q1ChartName })
+    const secondChart = page.getByRole('img', { name: q2ChartName })
+    await expect(firstChart).toBeAttached()
+    await expect(secondChart).toBeAttached()
 
     // Each chart must define at least one <pattern> inside a <defs> element.
     // Patterns encode segment fills accessibly (not color-only), satisfying WCAG.
@@ -732,9 +734,14 @@ test.describe('Step 8.1 follow-up: accessible table names and visible row labels
     // ── 2. Visible preschool label for every bar row in each SVG chart ─────
     // Each chart SVG must render visible <text> elements so sighted users can
     // tell which bar belongs to which preschool without relying on colour alone.
-    const charts = page.locator('svg[role="img"]')
+    // Located by accessible name so the locator targets the intended chart rather
+    // than relying on page-wide svg[role="img"] document order.
+    const q1Name =
+      'Stapeldiagram för: Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola'
+    const q2Name =
+      'Stapeldiagram för: Jag skulle rekommendera mitt barns förskola till en annan förälder'
 
-    const firstChart = charts.nth(0)
+    const firstChart = page.getByRole('img', { name: q1Name })
     await expect(
       firstChart
         .locator('text')
@@ -748,7 +755,7 @@ test.describe('Step 8.1 follow-up: accessible table names and visible row labels
         .first(),
     ).toBeVisible()
 
-    const secondChart = charts.nth(1)
+    const secondChart = page.getByRole('img', { name: q2Name })
     await expect(
       secondChart
         .locator('text')
@@ -954,6 +961,151 @@ test.describe('Step 8.3 chart legend', () => {
         `cat-${catIdx}: legend swatch pattern children [${result.legend}] must structurally match chart pattern children [${result.chart}]`,
       ).toBe(result.chart)
     }
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Tests — Step 8.5 chart/table ARIA wiring
+// ---------------------------------------------------------------------------
+
+test.describe('Step 8.5 chart/table ARIA wiring', () => {
+  // Seed helpers reused by all three tests in this block
+  const SEED_IDS = ['almgardens-forskola', 'augustenborgs-forskola']
+
+  // ── Structural guard / precondition ──────────────────────────────────────
+  // This test verifies that the chart data table ids (chart-0-table / chart-1-table)
+  // already exist in the DOM as a consequence of Step 8.1 work.  It is NOT a
+  // Step 8.5 acceptance criterion — it is a precondition guard that confirms the
+  // infrastructure the aria-describedby wiring depends on is already in place.
+  // If this test fails, the root cause is a regression in an earlier step, not
+  // a missing Step 8.5 wiring.
+  test('[structural guard] chart-0-table and chart-1-table ids exist in the DOM — precondition for aria-describedby wiring', async ({
+    page,
+  }) => {
+    // Seed sessionStorage with two known preschools so the comparison view renders
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate((ids) => {
+      sessionStorage.setItem('compareIds', JSON.stringify(ids))
+    }, SEED_IDS)
+
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status(), `Expected HTTP 200 from ${COMPARISON_URL}`).toBe(
+      200,
+    )
+
+    // Wait for comparison view to be active before asserting table ids
+    await expect(page.getByTestId('comparison-table')).toBeVisible()
+
+    // chart-0-table and chart-1-table are deterministic ids assigned to the
+    // chart-data-table elements by BarChart (chartIndex prop: 0 = Q1, 1 = Q2).
+    // Their presence is required before aria-describedby can point at them.
+    await expect(
+      page.locator('#chart-0-table'),
+      'chart-0-table id must be present in the DOM (Step 8.1 precondition)',
+    ).toBeAttached()
+    await expect(
+      page.locator('#chart-1-table'),
+      'chart-1-table id must be present in the DOM (Step 8.1 precondition)',
+    ).toBeAttached()
+  })
+
+  test('each comparison chart SVG carries aria-describedby pointing at its matching chart data table id', async ({
+    page,
+  }) => {
+    // Seed sessionStorage with two known preschools so the comparison view renders
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate((ids) => {
+      sessionStorage.setItem('compareIds', JSON.stringify(ids))
+    }, SEED_IDS)
+
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status(), `Expected HTTP 200 from ${COMPARISON_URL}`).toBe(
+      200,
+    )
+
+    // Wait for comparison view to be active
+    await expect(page.getByTestId('comparison-table')).toBeVisible()
+
+    // Locate each chart by its accessible name so the assertion targets the
+    // intended chart regardless of any other role="img" elements on the page.
+    const q1Chart = page.getByRole('img', {
+      name: 'Stapeldiagram för: Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola',
+    })
+    const q2Chart = page.getByRole('img', {
+      name: 'Stapeldiagram för: Jag skulle rekommendera mitt barns förskola till en annan förälder',
+    })
+
+    // Each chart SVG must carry aria-describedby pointing at the deterministic
+    // id of its adjacent data table so screen readers can access the full data.
+    // Chart Q1 → chart-0-table; Chart Q2 → chart-1-table
+    await expect(
+      q1Chart,
+      'Q1 chart SVG must have aria-describedby="chart-0-table"',
+    ).toHaveAttribute('aria-describedby', 'chart-0-table')
+    await expect(
+      q2Chart,
+      'Q2 chart SVG must have aria-describedby="chart-1-table"',
+    ).toHaveAttribute('aria-describedby', 'chart-1-table')
+  })
+
+  test('comparison page with charts rendered has zero axe-core violations', async ({
+    page,
+  }) => {
+    // Seed sessionStorage with two known preschools so the comparison view renders
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate((ids) => {
+      sessionStorage.setItem('compareIds', JSON.stringify(ids))
+    }, SEED_IDS)
+
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status(), `Expected HTTP 200 from ${COMPARISON_URL}`).toBe(
+      200,
+    )
+
+    // Wait for comparison view to be fully active and both chart SVGs to be visible
+    // before handing the page to axe-core.  Analysing before islands have hydrated
+    // can yield false positives from partially-rendered markup.
+    // Charts are located by accessible name so the wait is not sensitive to
+    // page-wide svg[role="img"] count assumptions.
+    await expect(page.getByTestId('comparison-table')).toBeVisible()
+    const q1Chart = page.getByRole('img', {
+      name: 'Stapeldiagram för: Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola',
+    })
+    const q2Chart = page.getByRole('img', {
+      name: 'Stapeldiagram för: Jag skulle rekommendera mitt barns förskola till en annan förälder',
+    })
+    await expect(q1Chart).toBeVisible()
+    await expect(q2Chart).toBeVisible()
+
+    // Run axe-core on the full comparison page (charts rendered) and assert zero violations
+    const results = await new AxeBuilder({ page }).analyze()
+    expect(
+      results.violations,
+      `axe found ${results.violations.length} violation(s):\n${JSON.stringify(
+        results.violations.map((v) => ({
+          id: v.id,
+          description: v.description,
+          nodes: v.nodes.length,
+        })),
+        null,
+        2,
+      )}`,
+    ).toHaveLength(0)
   })
 })
 

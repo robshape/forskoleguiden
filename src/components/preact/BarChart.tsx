@@ -123,6 +123,7 @@ export default function BarChart({
       <svg
         role="img"
         aria-label={ariaLabel}
+        aria-describedby={`chart-${chartIndex}-table`}
         viewBox={`0 0 ${BAR_TOTAL_WIDTH} ${svgHeight}`}
         width={BAR_TOTAL_WIDTH}
         height={svgHeight}

@@ -19,7 +19,7 @@ export default function CompareTray({
   compareRouteAvailable,
 }: Props) {
   const ids = useStore(compareIds)
-  const trayRef = useRef<HTMLDivElement>(null)
+  const trayRef = useRef<HTMLElement>(null)
 
   // Write tray height to a CSS variable so the body can reserve space below the
   // fold and prevent the fixed tray from obscuring bottom-page content.
@@ -50,9 +50,10 @@ export default function CompareTray({
   )
 
   return (
-    <div
+    <nav
       ref={trayRef}
       data-testid="compare-tray"
+      aria-label={showComparisonLabel}
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white shadow-lg"
     >
@@ -86,6 +87,6 @@ export default function CompareTray({
           </button>
         </div>
       </div>
-    </div>
+    </nav>
   )
 }
