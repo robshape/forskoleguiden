@@ -16,6 +16,7 @@ const BAR_TOTAL_WIDTH = 300
 const BAR_HEIGHT = 24
 const LABEL_ROW_HEIGHT = 14
 const ROW_HEIGHT = LABEL_ROW_HEIGHT + BAR_HEIGHT + 10
+const TILE_SIZE = 8
 
 // 5 visually-distinct, color-blind-accessible pattern definitions.
 // Each type encodes a unique SVG structure so categories remain distinguishable
@@ -26,6 +27,59 @@ type PatternDef =
   | { type: 'dots'; bg: string; dotColor: string }
   | { type: 'horizontal'; bg: string; lineColor: string }
   | { type: 'crosshatch'; bg: string; lineColor: string }
+
+// Shared helper: renders the interior of one SVG <pattern> tile.
+// Used by both the main chart <defs> and the legend swatch <defs> so the two
+// can never drift out of structural sync.
+function renderPatternContent(pDef: PatternDef) {
+  return (
+    <>
+      <rect width={TILE_SIZE} height={TILE_SIZE} fill={pDef.bg} />
+      {pDef.type === 'diagonal' && (
+        <path
+          d={`M 0 ${TILE_SIZE} L ${TILE_SIZE} 0`}
+          stroke={pDef.stripe}
+          strokeWidth={1.5}
+          fill="none"
+        />
+      )}
+      {pDef.type === 'dots' && (
+        <circle
+          cx={TILE_SIZE / 2}
+          cy={TILE_SIZE / 2}
+          r={1.5}
+          fill={pDef.dotColor}
+        />
+      )}
+      {pDef.type === 'horizontal' && (
+        <line
+          x1={0}
+          y1={TILE_SIZE / 2}
+          x2={TILE_SIZE}
+          y2={TILE_SIZE / 2}
+          stroke={pDef.lineColor}
+          strokeWidth={1.5}
+        />
+      )}
+      {pDef.type === 'crosshatch' && (
+        <>
+          <path
+            d={`M 0 ${TILE_SIZE} L ${TILE_SIZE} 0`}
+            stroke={pDef.lineColor}
+            strokeWidth={1.5}
+            fill="none"
+          />
+          <path
+            d={`M 0 0 L ${TILE_SIZE} ${TILE_SIZE}`}
+            stroke={pDef.lineColor}
+            strokeWidth={1.5}
+            fill="none"
+          />
+        </>
+      )}
+    </>
+  )
+}
 
 // Single source of truth: each entry binds a response field to its visual encoding.
 // Positional alignment between field and pattern is enforced by this structure.
@@ -78,60 +132,17 @@ export default function BarChart({
         <defs>
           {RESPONSE_SERIES.map(({ pattern: pDef }, catIdx) => {
             const patternId = `chart-${chartIndex}-cat-${catIdx}`
-            const tileSize = 8
             return (
               <pattern
                 key={patternId}
                 id={patternId}
                 x={0}
                 y={0}
-                width={tileSize}
-                height={tileSize}
+                width={TILE_SIZE}
+                height={TILE_SIZE}
                 patternUnits="userSpaceOnUse"
               >
-                <rect width={tileSize} height={tileSize} fill={pDef.bg} />
-                {pDef.type === 'diagonal' && (
-                  <path
-                    d={`M 0 ${tileSize} L ${tileSize} 0`}
-                    stroke={pDef.stripe}
-                    strokeWidth={1.5}
-                    fill="none"
-                  />
-                )}
-                {pDef.type === 'dots' && (
-                  <circle
-                    cx={tileSize / 2}
-                    cy={tileSize / 2}
-                    r={1.5}
-                    fill={pDef.dotColor}
-                  />
-                )}
-                {pDef.type === 'horizontal' && (
-                  <line
-                    x1={0}
-                    y1={tileSize / 2}
-                    x2={tileSize}
-                    y2={tileSize / 2}
-                    stroke={pDef.lineColor}
-                    strokeWidth={1.5}
-                  />
-                )}
-                {pDef.type === 'crosshatch' && (
-                  <>
-                    <path
-                      d={`M 0 ${tileSize} L ${tileSize} 0`}
-                      stroke={pDef.lineColor}
-                      strokeWidth={1.5}
-                      fill="none"
-                    />
-                    <path
-                      d={`M 0 0 L ${tileSize} ${tileSize}`}
-                      stroke={pDef.lineColor}
-                      strokeWidth={1.5}
-                      fill="none"
-                    />
-                  </>
-                )}
+                {renderPatternContent(pDef)}
               </pattern>
             )
           })}
@@ -180,6 +191,47 @@ export default function BarChart({
           )
         })}
       </svg>
+
+      {/* Legend: one swatch + label per response category */}
+      <div
+        data-testid="chart-legend"
+        class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-700"
+      >
+        {RESPONSE_SERIES.map(({ pattern: pDef }, catIdx) => {
+          const legendPatternId = `legend-${chartIndex}-cat-${catIdx}`
+          const swatchSize = 14
+          return (
+            <div key={catIdx} class="flex items-center gap-1">
+              <svg
+                data-testid="chart-legend-swatch"
+                width={swatchSize}
+                height={swatchSize}
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <pattern
+                    id={legendPatternId}
+                    x={0}
+                    y={0}
+                    width={TILE_SIZE}
+                    height={TILE_SIZE}
+                    patternUnits="userSpaceOnUse"
+                  >
+                    {renderPatternContent(pDef)}
+                  </pattern>
+                </defs>
+                <rect
+                  width={swatchSize}
+                  height={swatchSize}
+                  fill={`url(#${legendPatternId})`}
+                />
+              </svg>
+              <span>{categoryLabels[catIdx] ?? ''}</span>
+            </div>
+          )
+        })}
+      </div>
 
       <table
         data-testid="chart-data-table"

@@ -8,6 +8,10 @@
 
 Individual task files for completed work are archived in `tasks/completed/`.
 
+- [TASK026] Harden Step 8.3 chart legend - Completed 2026-03-12 (shared `renderPatternContent` helper, drift-guard Playwright structural-equivalence test, `pnpm validate` green — 15 comparison-page tests, 42 e2e total)
+
+- [TASK025] Implement Step 8.3 chart legend - Completed 2026-03-12 (failing legend Playwright contract, inline swatch SVGs in BarChart with locally-scoped pattern defs, `pnpm validate` green)
+
 - [TASK024] Harden Step 8.2 chart patterns - Completed 2026-03-11 (semantic chart selectors, unified `RESPONSE_SERIES` metadata, targeted regression and `pnpm validate` green)
 
 - [TASK023] Implement Step 8.2 chart pattern refinement - Completed 2026-03-11 (added failing chart-pattern regression, implemented five distinct SVG pattern encodings, targeted Playwright check and `pnpm validate` green)

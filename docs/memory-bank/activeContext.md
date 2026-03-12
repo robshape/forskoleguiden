@@ -2,13 +2,13 @@
 
 ## Current State
 
-Steps 0–8.2 are complete. The site ships a Swedish preschool directory at `/sv/`, detail pages at `/sv/forskola/[id]/`, and a comparison page at `/sv/jamfor/` with a mobile-optimized sticky-column table plus per-question accessible SVG charts and chart-adjacent data tables. Step 8.2 refined the comparison chart palette so all five response categories now use distinct SVG encodings: solid, diagonal stripes, dots, horizontal lines, and crosshatch, and the immediate hardening follow-up made the regression selectors semantic and unified `BarChart` response/pattern metadata under `RESPONSE_SERIES`. Compare state is backed by `sessionStorage` via nanostores, shared across all Preact islands. Husky pre-commit runs `lint-staged` + `pnpm check`. Test suite: 26 unit + 41 e2e = 67 total. `pnpm validate` is green, and the focused Step 8.2 Playwright regression passes.
+Steps 0–8.3 are complete. The site ships a Swedish preschool directory at `/sv/`, detail pages at `/sv/forskola/[id]/`, and a comparison page at `/sv/jamfor/` with a mobile-optimized sticky-column table plus per-question accessible SVG charts, chart-adjacent data tables, and a visible legend per chart. Step 8.2 refined the comparison chart palette so all five response categories use distinct SVG encodings (solid, diagonal stripes, dots, horizontal lines, and crosshatch), and Step 8.3 added an inline legend beneath each chart so every swatch is labelled. The Step 8.2 hardening follow-up unified `BarChart` response/pattern metadata under `RESPONSE_SERIES`, and the Step 8.3 hardening follow-up extracted a shared `renderPatternContent` helper so chart and legend patterns can never drift structurally. Compare state is backed by `sessionStorage` via nanostores, shared across all Preact islands. Husky pre-commit runs `lint-staged` + `pnpm check`. Test suite: 26 unit + 42 e2e = 68 total. `pnpm validate` is green.
 
 For the detailed history of completed milestones, see `progress.md`.
 
 ## Next Focus
 
-1. Implement Steps 8.3–8.5 follow-up chart refinements where needed (explicit legend treatment, tighter chart/table semantics, and any additional a11y coverage).
+1. Implement Steps 8.4–8.5 follow-up chart refinements where needed (tighter chart/table semantics and any remaining a11y coverage).
 2. Implement Step 9 — deterministic comparison summaries and summary text rendering.
 
 ## Active Decisions

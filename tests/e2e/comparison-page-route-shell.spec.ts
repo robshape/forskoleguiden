@@ -832,3 +832,127 @@ test.describe('Step 8.2 chart pattern structure', () => {
     ).toHaveCount(2)
   })
 })
+
+// ---------------------------------------------------------------------------
+// Tests — Step 8.3 chart legend contracts
+// ---------------------------------------------------------------------------
+
+test.describe('Step 8.3 chart legend', () => {
+  test('each comparison chart renders a visible legend with all five canonical Swedish response labels and a swatch per category', async ({
+    page,
+  }) => {
+    // Seed two known preschools so the comparison view renders with charts
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate(() => {
+      sessionStorage.setItem(
+        'compareIds',
+        JSON.stringify(['almgardens-forskola', 'augustenborgs-forskola']),
+      )
+    })
+
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status()).toBe(200)
+
+    // Comparison view must be active before asserting chart legends
+    await expect(page.getByTestId('comparison-table')).toBeVisible()
+
+    // There are 2 Helhetsbedömning questions → 2 charts → 2 legends
+    const legends = page.getByTestId('chart-legend')
+    await expect(
+      legends,
+      'expected one chart-legend per chart (2 total for 2 Helhetsbedömning questions)',
+    ).toHaveCount(2)
+
+    // Every legend must show all five canonical Swedish response labels
+    // and a visible swatch per category.
+    // i18n keys: responses.completelyAgree … responses.completelyDisagree
+    const CANONICAL_LABELS = [
+      'Instämmer helt',
+      'Instämmer delvis',
+      'Varken eller',
+      'Instämmer inte delvis',
+      'Instämmer inte alls',
+    ]
+
+    for (const legend of await legends.all()) {
+      for (const label of CANONICAL_LABELS) {
+        await expect(
+          legend.getByText(label),
+          `legend must contain visible label "${label}"`,
+        ).toBeVisible()
+      }
+
+      // Each of the five legend items must have a visible swatch element
+      const swatches = legend.getByTestId('chart-legend-swatch')
+      await expect(
+        swatches,
+        'legend must have exactly 5 swatches — one per response category',
+      ).toHaveCount(5)
+    }
+  })
+
+  test('legend swatch patterns mirror chart patterns structurally for all five categories — drift guard', async ({
+    page,
+  }) => {
+    // Seed two known preschools so the comparison view renders charts
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate(() => {
+      sessionStorage.setItem(
+        'compareIds',
+        JSON.stringify(['almgardens-forskola', 'augustenborgs-forskola']),
+      )
+    })
+
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status()).toBe(200)
+
+    await expect(page.getByTestId('comparison-table')).toBeVisible()
+
+    // For each of the 5 response categories, compare the child element tag names
+    // of the chart-0 pattern against the corresponding legend-0 swatch pattern.
+    // This guards against the duplicated pattern markup in BarChart drifting out of sync.
+    const CATEGORY_COUNT = 5
+
+    for (let catIdx = 0; catIdx < CATEGORY_COUNT; catIdx++) {
+      const chartPatternId = `chart-0-cat-${catIdx}`
+      const legendPatternId = `legend-0-cat-${catIdx}`
+
+      const result = await page.evaluate(
+        ({ chartId, legendId }) => {
+          const chartEl = document.getElementById(chartId)
+          const legendEl = document.getElementById(legendId)
+          const childTags = (el: Element) =>
+            [...el.children].map((c) => c.tagName.toLowerCase()).join(',')
+          return {
+            chart: chartEl ? childTags(chartEl) : null,
+            legend: legendEl ? childTags(legendEl) : null,
+          }
+        },
+        { chartId: chartPatternId, legendId: legendPatternId },
+      )
+
+      expect(
+        result.chart,
+        `chart pattern "${chartPatternId}" must exist in the DOM`,
+      ).not.toBeNull()
+      expect(
+        result.legend,
+        `legend swatch pattern "${legendPatternId}" must exist in the DOM`,
+      ).not.toBeNull()
+      expect(
+        result.legend,
+        `cat-${catIdx}: legend swatch pattern children [${result.legend}] must structurally match chart pattern children [${result.chart}]`,
+      ).toBe(result.chart)
+    }
+  })
+})
