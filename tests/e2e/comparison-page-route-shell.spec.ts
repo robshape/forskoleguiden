@@ -956,3 +956,49 @@ test.describe('Step 8.3 chart legend', () => {
     }
   })
 })
+
+// ---------------------------------------------------------------------------
+// Tests — Step 8.4 no-JS static fallback
+// ---------------------------------------------------------------------------
+
+test.describe('Step 8.4 no-JS static fallback', () => {
+  test('comparison page includes a static <noscript> element with a message directing users to individual preschool pages when JavaScript is unavailable', async ({
+    page,
+  }) => {
+    const response = await page.goto(COMPARISON_URL)
+
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+
+    expect(response.status(), `Expected HTTP 200 from ${COMPARISON_URL}`).toBe(
+      200,
+    )
+
+    // The static HTML must include a <noscript> element — present in the raw
+    // server response regardless of whether JavaScript is enabled in the browser.
+    // We read response.text() (the raw HTTP body) rather than page.content()
+    // (which is the live DOM after JS runs and may strip <noscript> content).
+    // i18n key: compare.noscriptMessage
+    const pageSource = await response.text()
+    expect(
+      pageSource,
+      'expected a <noscript> element to be present in the comparison page HTML',
+    ).toContain('<noscript>')
+
+    // The noscript message must mention JavaScript (the word appears literally in
+    // all three locale strings) and must include some directional copy.
+    // We check against the Swedish locale since this is the /sv/jamfor/ route.
+    expect(
+      pageSource,
+      'expected the <noscript> content to contain "JavaScript"',
+    ).toContain('JavaScript')
+
+    expect(
+      pageSource,
+      'expected the <noscript> content to mention preschool pages (Swedish: "förskola")',
+    ).toContain('förskola')
+  })
+})

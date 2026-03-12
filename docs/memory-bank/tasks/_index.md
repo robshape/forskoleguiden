@@ -8,6 +8,8 @@
 
 Individual task files for completed work are archived in `tasks/completed/`.
 
+- [TASK027] Implement Step 8.4 table fallback - Completed 2026-03-12 (Phase 1: static `<noscript>` fallback in comparison Astro route with localized `compare.noscriptMessage` key; Phase 2: deterministic `chart-${chartIndex}-table` on each BarChart data table for Step 8.5 aria-describedby wiring — 16 comparison-page tests, 44 e2e total, `pnpm validate` green)
+
 - [TASK026] Harden Step 8.3 chart legend - Completed 2026-03-12 (shared `renderPatternContent` helper, drift-guard Playwright structural-equivalence test, `pnpm validate` green — 15 comparison-page tests, 42 e2e total)
 
 - [TASK025] Implement Step 8.3 chart legend - Completed 2026-03-12 (failing legend Playwright contract, inline swatch SVGs in BarChart with locally-scoped pattern defs, `pnpm validate` green)

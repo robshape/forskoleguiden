@@ -18,6 +18,7 @@ const singleSelectionPrompt = t('compare.singleSelectionPrompt', locale)
 const questionColumnLabel = t('compare.questionColumnLabel', locale)
 const backToDirectoryLabel = t('compare.actions.backToDirectory', locale)
 const chartAriaLabelTemplate = t('compare.chartAriaLabel', locale)
+const noscriptMessage = t('compare.noscriptMessage', locale)
 const categoryLabels = RESPONSE_ROWS.map(({ i18nKey }) => t(i18nKey, locale))
 
 const surveys = getAllPreschoolSurveys()
@@ -37,4 +38,5 @@ const surveys = getAllPreschoolSurveys()
     categoryLabels={categoryLabels}
     surveys={surveys}
   />
+  <noscript>{noscriptMessage}</noscript>
 </BaseLayout>

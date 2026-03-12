@@ -57,7 +57,8 @@
       "backToDirectory": "Back to preschools",
       "clearSelection": "Clear selection"
     },
-    "chartAriaLabel": "Bar chart for: {question}"
+    "chartAriaLabel": "Bar chart for: {question}",
+    "noscriptMessage": "This page requires JavaScript. Visit each preschool's page directly for more information."
   },
   "responses": {
     "completelyAgree": "Completely agree",

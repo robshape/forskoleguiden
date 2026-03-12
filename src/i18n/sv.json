@@ -57,7 +57,8 @@
       "backToDirectory": "Tillbaka till förskolor",
       "clearSelection": "Rensa val"
     },
-    "chartAriaLabel": "Stapeldiagram för: {question}"
+    "chartAriaLabel": "Stapeldiagram för: {question}",
+    "noscriptMessage": "Den här sidan kräver JavaScript. Besök varje förskolas sida direkt för mer information."
   },
   "responses": {
     "completelyAgree": "Instämmer helt",

@@ -234,6 +234,7 @@ export default function BarChart({
       </div>
 
       <table
+        id={`chart-${chartIndex}-table`}
         data-testid="chart-data-table"
         aria-label={questionText}
         class="mt-2 w-full border-collapse text-xs text-gray-700"

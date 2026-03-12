@@ -57,7 +57,8 @@
       "backToDirectory": "العودة إلى رياض الأطفال",
       "clearSelection": "مسح الاختيار"
     },
-    "chartAriaLabel": "رسم بياني شريطي لـ: {question}"
+    "chartAriaLabel": "رسم بياني شريطي لـ: {question}",
+    "noscriptMessage": "تتطلب هذه الصفحة JavaScript. قم بزيارة صفحة كل روضة أطفال مباشرةً لمزيد من المعلومات."
   },
   "responses": {
     "completelyAgree": "أوافق تمامًا",
