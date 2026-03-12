@@ -41,7 +41,7 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 | Island           | File                                       | Hydration              | Purpose                                                                                                       |
 | ---------------- | ------------------------------------------ | ---------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `SortToggle`     | `src/components/preact/SortToggle.tsx`     | `client:load`          | Toggle alphabetical ↔ rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements |
-| `CompareButton`  | `src/components/preact/CompareButton.tsx`  | `client:load`          | Select/deselect a preschool for comparison; `aria-pressed` toggle                                             |
+| `CompareButton`  | `src/components/preact/CompareButton.tsx`  | `client:only="preact"` | Select/deselect a preschool for comparison; `aria-pressed` toggle                                             |
 | `CompareTray`    | `src/components/preact/CompareTray.tsx`    | `client:only="preact"` | Global compare summary bar; links to `/sv/jamfor/` comparison page                                            |
 | `ComparisonView` | `src/components/preact/ComparisonView.tsx` | `client:only="preact"` | Comparison page content: reads `compareIds` store, renders selected preschools side-by-side with survey data  |
 
@@ -78,6 +78,7 @@ src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallSc
 src/lib/constants.ts          — Shared constants: MALMO_SOURCE_URL, SURVEY_YEAR
 src/lib/base-path.ts          — getBasePath(): normalizes import.meta.env.BASE_URL (strips trailing slash)
 src/lib/survey-responses.ts   — RESPONSE_ROWS: canonical field-to-i18n mapping for the five response labels
+src/lib/chart-patterns.tsx    — RESPONSE_SERIES (derived from RESPONSE_ROWS), PatternDef type, renderPatternContent(), TILE_SIZE
 src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path keys)
 src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
 src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
@@ -100,7 +101,7 @@ tests/e2e/**/*.spec.ts        — Playwright e2e tests
 - **No runtime data fetching** — all preschool data read from `data/` at Astro build time via `src/lib/data.ts` loaders (uses `readFileSync` + `process.cwd()`).
 - **Formatting**: single quotes, no semicolons — see `.prettierrc`.
 - **Linting**: ESLint flat config + `@typescript-eslint` + `eslint-plugin-astro`; markdownlint-cli2 for Markdown (MD013 disabled).
-- **Pre-commit**: Husky runs `lint-staged` + `pnpm check` before every commit. CI skips Husky via `HUSKY=0`.
+- **Pre-commit**: Husky runs `lint-staged` before every commit. The `lint-staged` config runs `astro check` + ESLint on TS/Astro files, markdownlint on Markdown, and Prettier on all files. CI skips Husky via `HUSKY=0`.
 
 ## Data model
 
@@ -128,7 +129,7 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - `pnpm format` — Prettier (writes); `pnpm format:check` (CI-safe check)
 - `pnpm validate` — runs lint + lint:md + format:check + check + test + build sequentially (used in CI)
 
-**Pre-commit hook**: `.husky/pre-commit` runs `lint-staged` (ESLint, markdownlint, Prettier on staged files only) followed by `pnpm check` (Astro type checking). Full `pnpm validate` runs in CI via `quality-gates.yml`. The `lint-staged` config lives in `package.json` under the `"lint-staged"` key.
+**Pre-commit hook**: `.husky/pre-commit` runs `lint-staged` on staged files only. The `lint-staged` config in `package.json` runs `astro check` + ESLint on `.ts/.tsx/.astro` files, markdownlint on `.md` files, and `prettier --check` on all files. Full `pnpm validate` runs in CI via `quality-gates.yml`.
 
 ## Testing patterns
 

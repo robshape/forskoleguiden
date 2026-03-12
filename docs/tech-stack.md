@@ -14,7 +14,7 @@
 | i18n — routing       | **Astro built-in i18n**                             | File-based locale routing (`/sv/`, `/en/`, `/ar/`), default locale prefix optional, `getRelativeLocaleUrl()` helpers                                                                                                                                                                           |
 | i18n — strings       | **Hand-rolled `t()` + JSON files**                  | One JSON file per locale (`sv.json`, `en.json`, `ar.json`), a tiny `t(key)` helper. Zero dependencies, trivially debuggable. If the project outgrows this, Paraglide JS is the upgrade path                                                                                                    |
 | Charts               | **Preact SVG components** (runtime-rendered)        | Preact island components render `<svg>` elements at hydration time. Full control over ARIA attributes, pattern fills, and non-color encoding. Static `<table>` fallback rendered by Astro for no-JS. No chart library dependency. Upgrade path: Chart.js post-MVP if visualization scope grows |
-| URL state encoding   | **lz-string**                                       | Compresses JSON payloads into URL-safe base64; ~5 KB, zero dependencies, widely used for stateful shareable URLs                                                                                                                                                                               |
+| URL state encoding   | _(not yet implemented)_                             | Planned for Phase 2 sharing feature. lz-string was previously considered but is not currently installed                                                                                                                                                                                        |
 | Testing — unit       | **Vitest**                                          | Native ESM, fast, Astro-recommended, compatible with Preact/JSX                                                                                                                                                                                                                                |
 | Testing — e2e / a11y | **Playwright** + **@axe-core/playwright**           | Cross-browser e2e, built-in accessibility auditing equivalent to Lighthouse a11y checks                                                                                                                                                                                                        |
 | Linting & formatting | **ESLint** + **Prettier** + **eslint-plugin-astro** | Standard toolchain; astro plugin understands `.astro` files                                                                                                                                                                                                                                    |
@@ -110,15 +110,9 @@ forskoleguiden/
 ├── public/                  # Static assets (favicon, OG images)
 │
 ├── src/
-│   ├── components/          # Shared UI components [planned]
-│   │   ├── astro/           # Static Astro components (layout, nav, footer) [planned]
-│   │   └── preact/          # Interactive islands (CompareTray, ShortlistPanel, Chart) [planned]
-│   │
-│   ├── features/            # Feature-organized modules [planned]
-│   │   ├── directory/       # Preschool list, sorting, filtering [planned]
-│   │   ├── comparison/      # Side-by-side view, summary generation [planned]
-│   │   ├── shortlist/       # Pick-five logic [planned]
-│   │   └── sharing/         # URL encoding/decoding, mailto [planned]
+│   ├── components/
+│   │   ├── astro/           # Static Astro components (Nav, Footer, CityYearSelector, PreschoolCard)
+│   │   └── preact/          # Interactive islands (SortToggle, CompareButton, CompareTray, ComparisonView, BarChart)
 │   │
 │   ├── i18n/                # Translation files and helpers
 │   │   ├── sv.json
@@ -126,18 +120,20 @@ forskoleguiden/
 │   │   ├── ar.json
 │   │   └── utils.ts         # t() helper, locale detection
 │   │
-│   ├── layouts/             # Astro layouts (BaseLayout, with RTL support) [planned]
+│   ├── layouts/             # Astro layouts (BaseLayout with RTL support)
 │   │
 │   ├── lib/                 # Shared utilities
 │   │   ├── types.ts         # TypeScript types for preschool data
-│   │   ├── state.ts         # nanostores atoms (compare set, shortlist, locale) [planned]
-│   │   └── url-state.ts     # lz-string encode/decode for shareable URLs [planned]
+│   │   ├── data.ts          # Build-time data loaders
+│   │   ├── scoring.ts       # Scoring: computeAgreeShare, computeOverallScore, byOverallScoreDesc
+│   │   ├── state.ts         # nanostores atoms (compare set) + sessionStorage persistence
+│   │   ├── constants.ts     # Shared constants (MALMO_SOURCE_URL, SURVEY_YEAR)
+│   │   ├── base-path.ts     # getBasePath(): normalizes import.meta.env.BASE_URL
+│   │   ├── survey-responses.ts  # RESPONSE_ROWS: canonical field-to-i18n mapping
+│   │   └── chart-patterns.tsx   # RESPONSE_SERIES, PatternDef, renderPatternContent, TILE_SIZE
 │   │
 │   ├── pages/               # Astro file-based routing
-│   │   ├── sv/              # Swedish routes (default locale)
-│   │   ├── en/              # English routes
-│   │   ├── ar/              # Arabic routes
-│   │   └── index.astro      # Root redirect to /sv/
+│   │   └── sv/              # Swedish routes (default locale; en/ar planned)
 │   │
 │   └── styles/              # Global styles, Tailwind base
 │
@@ -174,10 +170,7 @@ Browser loads static HTML instantly
 Preact islands hydrate for interactivity (compare tray, charts, shortlist)
         │
         ▼
-nanostores manage shared client state
-        │
-        ▼
-URL state encoding (lz-string) enables shareable links
+nanostores manage shared client state (sessionStorage persistence)
 ```
 
 ---
@@ -228,11 +221,9 @@ If a post-MVP pipeline generates JSON automatically (PDF → JSON), adding Zod v
   "dependencies": {
     "astro": "5.x",
     "@astrojs/preact": "4.x",
-    "@astrojs/sitemap": "3.x",
     "preact": "10.x",
     "@nanostores/preact": "1.x",
-    "nanostores": "1.x",
-    "lz-string": "1.x"
+    "nanostores": "1.x"
   },
   "devDependencies": {
     "tailwindcss": "4.x",
@@ -251,7 +242,7 @@ If a post-MVP pipeline generates JSON automatically (PDF → JSON), adding Zod v
 }
 ```
 
-Total production dependencies: **7 packages** — all lightweight, well-maintained, and zero-backend.
+Total production dependencies: **5 packages** — all lightweight, well-maintained, and zero-backend.
 
 ---
 

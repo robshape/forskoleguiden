@@ -6,6 +6,14 @@ interface Props {
 }
 
 const { locale } = Astro.props
+
+const lockIconPath =
+  'M8 1a3.5 3.5 0 0 0-3.5 3.5V7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7V4.5A3.5 3.5 0 0 0 8 1Zm2 6V4.5a2 2 0 1 0-4 0V7h4Z'
+
+const disabledCities = [
+  { key: 'stockholm' as const },
+  { key: 'goteborg' as const },
+]
 ---
 
 <section aria-label={t('cityYear.heading', locale)} class="flex flex-col gap-4">
@@ -23,49 +31,28 @@ const { locale } = Astro.props
         {t('cityYear.cities.malmo', locale)}
       </button>
     </li>
-    <li>
-      <button
-        type="button"
-        disabled
-        aria-disabled="true"
-        class="inline-flex gap-1.5 min-w-[6.25rem] items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
-          fill="currentColor"
-          class="w-3.5 h-3.5 opacity-75"
-          aria-hidden="true"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M8 1a3.5 3.5 0 0 0-3.5 3.5V7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7V4.5A3.5 3.5 0 0 0 8 1Zm2 6V4.5a2 2 0 1 0-4 0V7h4Z"
-            clip-rule="evenodd"></path>
-        </svg>
-        {t('cityYear.cities.stockholm', locale)}
-      </button>
-    </li>
-    <li>
-      <button
-        type="button"
-        disabled
-        aria-disabled="true"
-        class="inline-flex gap-1.5 min-w-[6.25rem] items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
-          fill="currentColor"
-          class="w-3.5 h-3.5 opacity-75"
-          aria-hidden="true"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M8 1a3.5 3.5 0 0 0-3.5 3.5V7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7V4.5A3.5 3.5 0 0 0 8 1Zm2 6V4.5a2 2 0 1 0-4 0V7h4Z"
-            clip-rule="evenodd"></path>
-        </svg>
-        {t('cityYear.cities.goteborg', locale)}
-      </button>
-    </li>
+    {
+      disabledCities.map((city) => (
+        <li>
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            class="inline-flex gap-1.5 min-w-[6.25rem] items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-400 cursor-not-allowed"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="w-3.5 h-3.5 opacity-75"
+              aria-hidden="true"
+            >
+              <path fill-rule="evenodd" d={lockIconPath} clip-rule="evenodd" />
+            </svg>
+            {t(`cityYear.cities.${city.key}`, locale)}
+          </button>
+        </li>
+      ))
+    }
   </ul>
 </section>
