@@ -92,7 +92,7 @@ export default function ComparisonView({
             <tr>
               <th
                 scope="col"
-                class="sticky left-0 z-10 bg-white w-32 min-w-32 px-4 py-3 text-left font-medium text-gray-500"
+                class="sticky left-0 z-10 w-32 min-w-32 bg-white px-4 py-3 text-left font-medium text-gray-500"
               >
                 {questionColumnLabel}
               </th>
@@ -163,7 +163,7 @@ export default function ComparisonView({
 
           return (
             <div key={question.text}>
-              <h2 class="text-sm font-semibold text-gray-800 mb-2">
+              <h2 class="mb-2 text-sm font-semibold text-gray-800">
                 {question.text}
               </h2>
               <BarChart

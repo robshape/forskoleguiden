@@ -55,9 +55,9 @@ export default function CompareTray({
       data-testid="compare-tray"
       aria-label={showComparisonLabel}
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
-      class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white shadow-lg"
+      class="fixed inset-x-0 bottom-0 z-50 border-t border-gray-200 bg-white shadow-lg"
     >
-      <div class="max-w-content mx-auto flex items-center justify-between gap-4 px-5 py-3">
+      <div class="mx-auto flex max-w-content items-center justify-between gap-4 px-5 py-3">
         <span class="text-sm font-medium text-gray-700">
           {selectedCountText}
         </span>
@@ -65,7 +65,7 @@ export default function CompareTray({
           {compareRouteAvailable ? (
             <a
               href={compareHref}
-              class="inline-flex items-center rounded-full bg-primary-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1"
+              class="inline-flex items-center rounded-full bg-primary-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none"
             >
               {showComparisonLabel}
             </a>
@@ -81,7 +81,7 @@ export default function CompareTray({
           <button
             type="button"
             onClick={clearCompare}
-            class="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1"
+            class="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none"
           >
             {clearLabel}
           </button>

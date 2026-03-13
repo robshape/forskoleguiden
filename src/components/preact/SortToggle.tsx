@@ -122,12 +122,12 @@ export default function SortToggle({
   const rankingButtonClass =
     sortMode === 'ranking'
       ? 'bg-primary-600 text-white'
-      : 'bg-surface text-slate-700 hover:bg-gray-100'
+      : 'bg-surface text-gray-700 hover:bg-gray-100'
 
   const alphabeticalButtonClass =
     sortMode === 'alphabetical'
       ? 'bg-primary-600 text-white'
-      : 'bg-surface text-slate-700 hover:bg-gray-100'
+      : 'bg-surface text-gray-700 hover:bg-gray-100'
 
   return (
     <div
@@ -135,11 +135,11 @@ export default function SortToggle({
       role="group"
       aria-label={groupLabel}
     >
-      <span class="text-sm font-medium text-slate-700">{sortLabel}</span>
+      <span class="text-sm font-medium text-gray-700">{sortLabel}</span>
       <button
         type="button"
         aria-pressed={sortMode === 'alphabetical'}
-        class={`inline-flex h-8 items-center rounded-full border border-border px-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 ${alphabeticalButtonClass}`}
+        class={`inline-flex h-8 items-center rounded-full border border-border px-3 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${alphabeticalButtonClass}`}
         onClick={() => {
           setSortMode('alphabetical')
           setAnnouncement(`${groupLabel}: ${alphabeticalLabel}`)
@@ -150,7 +150,7 @@ export default function SortToggle({
       <button
         type="button"
         aria-pressed={sortMode === 'ranking'}
-        class={`inline-flex h-8 items-center rounded-full border border-border px-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 ${rankingButtonClass}`}
+        class={`inline-flex h-8 items-center rounded-full border border-border px-3 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${rankingButtonClass}`}
         onClick={() => {
           setSortMode('ranking')
           setAnnouncement(`${groupLabel}: ${rankingLabel}`)

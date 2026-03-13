@@ -18,7 +18,7 @@ For full rationale behind each technology choice, see `docs/tech-stack.md`. This
 
 ## Quality Tooling
 
-- **ESLint 10.0.2** — flat config (`eslint.config.js`). Uses `@eslint/compat` `includeIgnoreFile()` to read `.gitignore` for ignore patterns. `@typescript-eslint` recommended rules enabled. `eslint-plugin-astro` flat/recommended config.
+- **ESLint 10.0.2** — flat config (`eslint.config.js`). Uses `@eslint/compat` `includeIgnoreFile()` to read `.gitignore` for ignore patterns. `@typescript-eslint` recommended rules enabled. `eslint-plugin-astro` flat/recommended config. `eslint-plugin-better-tailwindcss` 4.3.2 validates Tailwind v4 class usage (ordering via `enforce-consistent-class-order`, canonical form via `enforce-canonical-classes`, unknown class detection via `no-unknown-classes`; `enforce-consistent-line-wrapping` disabled to avoid conflicts with Prettier). Configured with `entryPoint: 'src/styles/global.css'` for Tailwind v4 theme resolution.
 - **Prettier 3.8.1** — with `prettier-plugin-astro`. Single quotes, no semicolons. Prettier 3.0+ reads `.gitignore` automatically (no `.prettierignore` needed). JSONC trailing comma override in `.prettierrc`.
 - **markdownlint-cli2 0.21.0** — globs configured in `.markdownlint-cli2.jsonc`. MD013/line-length disabled.
 - **Vitest 4.0.18** — unit tests in `tests/unit/`, node environment. Uses same path aliases as `tsconfig.json`.

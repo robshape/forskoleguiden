@@ -34,13 +34,13 @@ const compareRouteAvailable =
     <title>{title}</title>
   </head>
   <body
-    class="bg-page font-sans text-gray-900 min-h-screen flex flex-col antialiased"
+    class="flex min-h-screen flex-col bg-page font-sans text-gray-900 antialiased"
   >
     <header>
       <Nav locale={locale} />
     </header>
     <main class="flex-1">
-      <div class="max-w-content mx-auto px-5 pt-5 pb-8">
+      <div class="mx-auto max-w-content px-5 pt-5 pb-8">
         <slot />
       </div>
     </main>

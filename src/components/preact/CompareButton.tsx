@@ -38,7 +38,7 @@ export default function CompareButton({
       type="button"
       aria-label={ariaLabel}
       aria-pressed={isSelected}
-      class={`inline-flex h-8 shrink-0 whitespace-nowrap items-center justify-center gap-1.5 rounded-full px-4 text-[13px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 ${buttonClass}`}
+      class={`inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-full px-4 text-[13px] font-semibold whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${buttonClass}`}
       onClick={() => {
         toggleCompare(id)
       }}
@@ -51,7 +51,7 @@ export default function CompareButton({
         stroke-width="2.5"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="h-3 w-3 shrink-0"
+        class="size-3 shrink-0"
       >
         {isSelected ? (
           <path d="M3 8.5 6.5 12 13 5.5"></path>

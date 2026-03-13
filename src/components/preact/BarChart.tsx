@@ -163,7 +163,7 @@ export default function BarChart({
               <th
                 key={name}
                 scope="col"
-                class="py-1 px-2 text-left font-semibold text-gray-800"
+                class="px-2 py-1 text-left font-semibold text-gray-800"
               >
                 {name}
               </th>
@@ -178,12 +178,12 @@ export default function BarChart({
             >
               <th
                 scope="row"
-                class="py-1 pr-3 text-left font-normal text-gray-600 w-36"
+                class="w-36 py-1 pr-3 text-left font-normal text-gray-600"
               >
                 {label}
               </th>
               {responses.map((response, rowIdx) => (
-                <td key={rowIdx} class="py-1 px-2 text-gray-900">
+                <td key={rowIdx} class="px-2 py-1 text-gray-900">
                   {Math.round(
                     response[RESPONSE_SERIES[catIdx].field] as number,
                   )}
