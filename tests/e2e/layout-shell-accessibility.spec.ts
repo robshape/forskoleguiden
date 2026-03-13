@@ -1,4 +1,4 @@
-import { expect, test, type Locator } from '@playwright/test'
+import { expect, test, type Locator } from './fixtures'
 import { MALMO_SOURCE_URL } from '../../src/lib/constants'
 
 const getFocusOutlineContract = async (selector: Locator) =>

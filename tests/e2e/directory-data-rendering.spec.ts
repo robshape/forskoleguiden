@@ -1,4 +1,4 @@
-import { expect, test, type Locator, type Page } from '@playwright/test'
+import { expect, test, type Locator, type Page } from './fixtures'
 
 test.describe('Swedish directory data rendering contracts', () => {
   const getDirectoryCard = (page: Page, name: string) =>

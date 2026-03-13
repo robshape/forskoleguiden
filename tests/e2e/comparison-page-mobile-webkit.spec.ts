@@ -1,12 +1,12 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 // ---------------------------------------------------------------------------
-// WebKit / iPhone 13 mini regression for Step 7.4 mobile comparison refinement
+// WebKit / iPhone 13 mini regression for mobile comparison refinement
 //
 // Run independently via: pnpm test:e2e:webkit
 // Config: playwright.webkit.config.ts  (webkit-iphone13mini project, 375×812)
 //
-// These tests duplicate the core Step 7.4 contract from
+// These tests duplicate the core mobile comparison contract from
 // comparison-page-route-shell.spec.ts but execute on the WebKit engine so that
 // Safari-specific sticky-column behaviour is covered separately from the
 // default Chromium suite.
@@ -15,7 +15,7 @@ import { expect, test } from '@playwright/test'
 const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
 const DIRECTORY_URL = '/forskoleguiden/sv/'
 
-test.describe('Step 7.4 mobile comparison — WebKit/iPhone 13 mini', () => {
+test.describe('mobile comparison — WebKit/iPhone 13 mini', () => {
   test('4-preschool comparison table renders and sticky question column stays pinned during horizontal scroll', async ({
     page,
   }) => {

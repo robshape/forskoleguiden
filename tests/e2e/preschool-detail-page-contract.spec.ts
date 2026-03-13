@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
-import { expect, test, type Locator } from '@playwright/test'
+import { expect, test, type Locator } from './fixtures'
 
 type PreschoolIndexEntry = {
   id: string

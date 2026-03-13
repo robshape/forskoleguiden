@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 test('should load the Swedish homepage and redirect from root to /sv/', async ({
   page,

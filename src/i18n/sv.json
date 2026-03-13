@@ -8,7 +8,8 @@
     "directory": "Förskolor",
     "compare": "Jämför",
     "about": "Om data",
-    "languagePlaceholder": "SV | EN"
+    "languagePlaceholder": "SV | EN",
+    "languageComingSoon": "Fler språk kommer snart"
   },
   "cityYear": {
     "heading": "Stad",

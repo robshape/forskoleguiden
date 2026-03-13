@@ -1,5 +1,5 @@
 import { AxeBuilder } from '@axe-core/playwright'
-import { expect, test } from '@playwright/test'
+import { expect, test } from './fixtures'
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -9,7 +9,7 @@ const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
 const DIRECTORY_URL = '/forskoleguiden/sv/'
 
 // ---------------------------------------------------------------------------
-// Tests — failing (route does not exist yet; will pass once Phase 2 is done)
+// Tests
 // ---------------------------------------------------------------------------
 
 test.describe('comparison page route shell', () => {
@@ -123,7 +123,7 @@ test.describe('comparison page route shell', () => {
 })
 
 // ---------------------------------------------------------------------------
-// Tests — Step 7.2 contracts (failing until Phase 2 & 3 are implemented)
+// Tests — comparison page selection state contracts
 // ---------------------------------------------------------------------------
 
 test.describe('comparison page selection state contracts', () => {
@@ -264,7 +264,7 @@ test.describe('comparison page selection state contracts', () => {
 })
 
 // ---------------------------------------------------------------------------
-// Tests — Step 7.3 UI flow (real interaction, no sessionStorage seeding)
+// Tests — empty-state and single-selection UI flow (real interaction)
 // ---------------------------------------------------------------------------
 
 test.describe('comparison page empty-state and single-selection UI flow', () => {
@@ -395,10 +395,10 @@ test.describe('comparison page empty-state and single-selection UI flow', () => 
 })
 
 // ---------------------------------------------------------------------------
-// Tests — Step 8.1 SVG chart structure contracts
+// Tests — accessible SVG chart structure contracts
 // ---------------------------------------------------------------------------
 
-test.describe('Step 8.1 accessible SVG chart on comparison page', () => {
+test.describe('accessible SVG chart on comparison page', () => {
   test('two-preschool comparison renders one accessible SVG chart per Helhetsbedömning question, with pattern defs, pattern-filled rects, and percentage title elements', async ({
     page,
   }) => {
@@ -480,10 +480,10 @@ test.describe('Step 8.1 accessible SVG chart on comparison page', () => {
 })
 
 // ---------------------------------------------------------------------------
-// Tests — Step 8.1 review: visible question heading + chart data table
+// Tests — chart question heading and data table text alternative
 // ---------------------------------------------------------------------------
 
-test.describe('Step 8.1 review: chart question heading and data table text alternative', () => {
+test.describe('chart question heading and data table text alternative', () => {
   test('each chart section has a visible question heading and a visible data table with preschool columns and response category rows', async ({
     page,
   }) => {
@@ -561,10 +561,10 @@ test.describe('Step 8.1 review: chart question heading and data table text alter
 })
 
 // ---------------------------------------------------------------------------
-// Tests — Step 7.4 mobile comparison refinement contracts
+// Tests — mobile comparison refinement contracts
 // ---------------------------------------------------------------------------
 
-test.describe('Step 7.4 mobile comparison refinement contracts', () => {
+test.describe('mobile comparison refinement contracts', () => {
   test('mobile viewport (375×812): 4-preschool comparison table is DOM-complete and scroll container overflows horizontally', async ({
     page,
   }) => {
@@ -627,8 +627,8 @@ test.describe('Step 7.4 mobile comparison refinement contracts', () => {
     ).toBeAttached()
 
     // The scroll container must actually overflow horizontally on a 375 px viewport
-    // with 4 preschool columns. Step 7.4 requires each preschool column to have a
-    // minimum width so the table is wider than the screen and reliably scrollable.
+    // with 4 preschool columns. Each preschool column has a minimum width so
+    // the table is wider than the screen and reliably scrollable.
     const overflows = await page.evaluate(() => {
       const container = document.querySelector(
         '[data-testid="comparison-scroll"]',
@@ -641,7 +641,7 @@ test.describe('Step 7.4 mobile comparison refinement contracts', () => {
       'expected scroll container to overflow horizontally on 375 px viewport with 4 preschool columns — fix by adding min-width to preschool columns',
     ).toBe(true)
 
-    // Step 7.4 core UX requirement: the question-label column must be sticky so
+    // Core UX requirement: the question-label column must be sticky so
     // row labels remain visible when the user scrolls the table horizontally.
     // Checks both the CSS property and actual visual pinning after a real scroll.
     const firstRowHeader = page
@@ -690,10 +690,10 @@ test.describe('Step 7.4 mobile comparison refinement contracts', () => {
 })
 
 // ---------------------------------------------------------------------------
-// Tests — Step 8.1 follow-up: accessible table names and visible row labels
+// Tests — accessible table names and visible row labels
 // ---------------------------------------------------------------------------
 
-test.describe('Step 8.1 follow-up: accessible table names and visible row labels', () => {
+test.describe('accessible table names and visible row labels', () => {
   test('each chart data table has an accessible name tied to the question, and each chart SVG shows visible preschool name labels for every bar row', async ({
     page,
   }) => {
@@ -772,10 +772,10 @@ test.describe('Step 8.1 follow-up: accessible table names and visible row labels
 })
 
 // ---------------------------------------------------------------------------
-// Tests — Step 8.2 chart pattern structure contracts
+// Tests — chart pattern structure contracts
 // ---------------------------------------------------------------------------
 
-test.describe('Step 8.2 chart pattern structure', () => {
+test.describe('chart pattern structure', () => {
   test('comparison charts expose five distinct pattern types: neutral has dot, partly-disagree uses horizontal line, completely-disagree uses crosshatch', async ({
     page,
   }) => {
@@ -841,10 +841,10 @@ test.describe('Step 8.2 chart pattern structure', () => {
 })
 
 // ---------------------------------------------------------------------------
-// Tests — Step 8.3 chart legend contracts
+// Tests — chart legend contracts
 // ---------------------------------------------------------------------------
 
-test.describe('Step 8.3 chart legend', () => {
+test.describe('chart legend', () => {
   test('each comparison chart renders a visible legend with all five canonical Swedish response labels and a swatch per category', async ({
     page,
   }) => {
@@ -965,20 +965,19 @@ test.describe('Step 8.3 chart legend', () => {
 })
 
 // ---------------------------------------------------------------------------
-// Tests — Step 8.5 chart/table ARIA wiring
+// Tests — chart/table ARIA wiring
 // ---------------------------------------------------------------------------
 
-test.describe('Step 8.5 chart/table ARIA wiring', () => {
+test.describe('chart/table ARIA wiring', () => {
   // Seed helpers reused by all three tests in this block
   const SEED_IDS = ['almgardens-forskola', 'augustenborgs-forskola']
 
   // ── Structural guard / precondition ──────────────────────────────────────
   // This test verifies that the chart data table ids (chart-0-table / chart-1-table)
-  // already exist in the DOM as a consequence of Step 8.1 work.  It is NOT a
-  // Step 8.5 acceptance criterion — it is a precondition guard that confirms the
+  // already exist in the DOM.  It is a precondition guard that confirms the
   // infrastructure the aria-describedby wiring depends on is already in place.
-  // If this test fails, the root cause is a regression in an earlier step, not
-  // a missing Step 8.5 wiring.
+  // If this test fails, the root cause is a regression in chart rendering, not
+  // missing ARIA wiring.
   test('[structural guard] chart-0-table and chart-1-table ids exist in the DOM — precondition for aria-describedby wiring', async ({
     page,
   }) => {
@@ -1006,11 +1005,11 @@ test.describe('Step 8.5 chart/table ARIA wiring', () => {
     // Their presence is required before aria-describedby can point at them.
     await expect(
       page.locator('#chart-0-table'),
-      'chart-0-table id must be present in the DOM (Step 8.1 precondition)',
+      'chart-0-table id must be present in the DOM (structural precondition)',
     ).toBeAttached()
     await expect(
       page.locator('#chart-1-table'),
-      'chart-1-table id must be present in the DOM (Step 8.1 precondition)',
+      'chart-1-table id must be present in the DOM (structural precondition)',
     ).toBeAttached()
   })
 
@@ -1110,10 +1109,10 @@ test.describe('Step 8.5 chart/table ARIA wiring', () => {
 })
 
 // ---------------------------------------------------------------------------
-// Tests — Step 8.4 no-JS static fallback
+// Tests — no-JS static fallback
 // ---------------------------------------------------------------------------
 
-test.describe('Step 8.4 no-JS static fallback', () => {
+test.describe('no-JS static fallback', () => {
   test('comparison page includes a static <noscript> element with a message directing users to individual preschool pages when JavaScript is unavailable', async ({
     page,
   }) => {
