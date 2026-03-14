@@ -6,6 +6,7 @@
 
 ## Completed
 
+- [TASK029] Implement Step 9.1 deterministic comparison summary logic - Completed 2026-03-14
 - [TASK028] Implement Step 8.5 chart/table ARIA wiring - Completed 2026-03-12
 - [TASK027] Implement Step 8.4 table fallback - Completed 2026-03-12
 - [TASK026] Harden Step 8.3 chart legend - Completed 2026-03-12
