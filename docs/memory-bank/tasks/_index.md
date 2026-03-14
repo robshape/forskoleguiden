@@ -6,6 +6,7 @@
 
 ## Completed
 
+- [TASK030] Implement Step 9.2 deterministic summary text - Completed 2026-03-14
 - [TASK029] Implement Step 9.1 deterministic comparison summary logic - Completed 2026-03-14
 - [TASK028] Implement Step 8.5 chart/table ARIA wiring - Completed 2026-03-12
 - [TASK027] Implement Step 8.4 table fallback - Completed 2026-03-12

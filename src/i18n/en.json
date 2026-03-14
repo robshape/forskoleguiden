@@ -69,9 +69,9 @@
     "completelyDisagree": "Completely disagree"
   },
   "summary": {
-    "higher": "{left} has a higher share of agree responses than {right} for \"{question}\".",
-    "lower": "{left} has a lower share of agree responses than {right} for \"{question}\".",
-    "similar": "{left} and {right} have a similar share of agree responses for \"{question}\"."
+    "higher": "{left} ({leftPercent}%) has a higher share of agree responses than {right} ({rightPercent}%) for \"{question}\".",
+    "lower": "{left} ({leftPercent}%) has a lower share of agree responses than {right} ({rightPercent}%) for \"{question}\".",
+    "similar": "{left} ({leftPercent}%) and {right} ({rightPercent}%) have a similar share of agree responses for \"{question}\"."
   },
   "attribution": {
     "text": "Survey data ({year}) comes from Malmö stad."

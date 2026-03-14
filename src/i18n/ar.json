@@ -69,9 +69,9 @@
     "completelyDisagree": "لا أوافق إطلاقًا"
   },
   "summary": {
-    "higher": "لدى {left} نسبة أعلى من الردود المتفقة مقارنةً بـ {right} لسؤال \"{question}\".",
-    "lower": "لدى {left} نسبة أقل من الردود المتفقة مقارنةً بـ {right} لسؤال \"{question}\".",
-    "similar": "لدى {left} و {right} نسبة متشابهة من الردود المتفقة لسؤال \"{question}\"."
+    "higher": "لدى {left} ({leftPercent}%) نسبة أعلى من الردود المتفقة مقارنةً بـ {right} ({rightPercent}%) لسؤال \"{question}\".",
+    "lower": "لدى {left} ({leftPercent}%) نسبة أقل من الردود المتفقة مقارنةً بـ {right} ({rightPercent}%) لسؤال \"{question}\".",
+    "similar": "لدى {left} ({leftPercent}%) و {right} ({rightPercent}%) نسبة متشابهة من الردود المتفقة لسؤال \"{question}\"."
   },
   "attribution": {
     "text": "بيانات الاستبيان ({year}) من Malmö stad."

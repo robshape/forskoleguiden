@@ -106,7 +106,7 @@ describe('Swedish translation keys', () => {
   })
 
   it('should include required template placeholders in summary and tray keys', () => {
-    // summary.higher / lower / similar must contain {left}, {right}, {question}
+    // summary.higher / lower / similar must contain {left}, {right}, {leftPercent}, {rightPercent}, {question}
     for (const key of ['summary.higher', 'summary.lower', 'summary.similar']) {
       const value = getByPath(sv as JsonObject, key)
 
@@ -115,6 +115,10 @@ describe('Swedish translation keys', () => {
       if (typeof value === 'string') {
         expect(value, `${key} missing {left}`).toContain('{left}')
         expect(value, `${key} missing {right}`).toContain('{right}')
+        expect(value, `${key} missing {leftPercent}`).toContain('{leftPercent}')
+        expect(value, `${key} missing {rightPercent}`).toContain(
+          '{rightPercent}',
+        )
         expect(value, `${key} missing {question}`).toContain('{question}')
       }
     }
