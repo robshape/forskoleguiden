@@ -3,5 +3,4 @@
  * Centralizes `import.meta.env.BASE_URL` normalization so components
  * don't each duplicate the same replace pattern.
  */
-export const getBasePath = (): string =>
-  import.meta.env.BASE_URL.replace(/\/$/, '')
+export const getBasePath = () => import.meta.env.BASE_URL.replace(/\/$/, '')

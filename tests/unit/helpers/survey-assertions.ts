@@ -1,5 +1,4 @@
 import { expect } from 'vitest'
-
 import type { SurveyResponse } from '@/lib/types'
 
 export const expectedResponseKeys = [

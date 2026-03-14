@@ -1,13 +1,12 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-
 import type { PreschoolIndex, PreschoolSurvey } from '@/lib/types'
 
 // Assumes process.cwd() is the project root — valid for Astro build and Vitest.
 const MALMO_DATA_DIR = resolve(process.cwd(), 'data/malmo')
 const MALMO_INDEX_PATH = resolve(MALMO_DATA_DIR, 'index.json')
 
-const getErrorMessage = (error: unknown): string => {
+const getErrorMessage = (error: unknown) => {
   if (error instanceof Error) {
     return error.message
   }
@@ -36,19 +35,16 @@ const readJsonFile = <T>(filePath: string, context: string): T => {
   }
 }
 
-const getSurveyPath = (id: string, year: number): string =>
+const getSurveyPath = (id: string, year: number) =>
   resolve(MALMO_DATA_DIR, String(year), `${id}.json`)
 
-export const getPreschoolIndex = (): PreschoolIndex =>
+export const getPreschoolIndex = () =>
   readJsonFile<PreschoolIndex>(
     MALMO_INDEX_PATH,
     'Failed to load Malmö preschool index',
   )
 
-export const getPreschoolSurveyByYear = (
-  id: string,
-  year: number,
-): PreschoolSurvey => {
+export const getPreschoolSurveyByYear = (id: string, year: number) => {
   const surveyPath = getSurveyPath(id, year)
 
   return readJsonFile<PreschoolSurvey>(
@@ -57,13 +53,13 @@ export const getPreschoolSurveyByYear = (
   )
 }
 
-export const getPreschoolSurvey = (id: string): PreschoolSurvey => {
+export const getPreschoolSurvey = (id: string) => {
   const index = getPreschoolIndex()
 
   return getPreschoolSurveyByYear(id, index.year)
 }
 
-export const getAllPreschoolSurveys = (): PreschoolSurvey[] => {
+export const getAllPreschoolSurveys = () => {
   const index = getPreschoolIndex()
   const surveyYear = index.year
 

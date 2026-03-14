@@ -10,25 +10,15 @@ import { byOverallScoreDesc, computeOverallScore } from '@/lib/scoring'
 const locale = 'sv'
 const preschoolIndex = getPreschoolIndex()
 const surveyYear = preschoolIndex.year
-const pageTitle = t('site.title', locale)
-const directoryListAriaLabel = t('directory.listAriaLabel', locale)
-const directoryHeading = t('directory.heading', locale)
-const rankingSortLabel = t('directory.sort.ranking', locale)
-const alphabeticalSortLabel = t('directory.sort.alphabetical', locale)
-const sortGroupLabel = t('directory.sort.groupLabel', locale)
-const sortLabel = t('directory.sort.label', locale)
-
 const preschoolDirectory = preschoolIndex.preschools.map((preschool) => {
   const overallScore = computeOverallScore(
     getPreschoolSurveyByYear(preschool.id, surveyYear),
   )
-
   return {
     ...preschool,
     overallScore,
   }
 })
-
 const rankingSortedDirectory = [...preschoolDirectory].sort(
   (leftPreschool, rightPreschool) => {
     const byScore = byOverallScoreDesc(
@@ -43,22 +33,23 @@ const rankingSortedDirectory = [...preschoolDirectory].sort(
     return leftPreschool.name.localeCompare(rightPreschool.name, locale)
   },
 )
-
 const directoryWithRank = rankingSortedDirectory.map((preschool, index) => ({
   ...preschool,
   rankIndexZeroBased: index,
 }))
-
 const defaultSortedDirectory = [...directoryWithRank].sort(
   (leftPreschool, rightPreschool) =>
     leftPreschool.name.localeCompare(rightPreschool.name, locale),
 )
+
+const pageTitle = t('site.title', locale)
+const directoryHeading = t('directory.heading', locale)
 ---
 
 <BaseLayout locale={locale} title={pageTitle}>
   <CityYearSelector locale={locale} />
 
-  <section aria-label={directoryListAriaLabel} class="mt-6">
+  <section aria-label={t('directory.listAriaLabel', locale)} class="mt-6">
     <div class="flex items-center justify-between gap-3">
       <h2 class="text-lg font-semibold text-gray-900">
         {`${directoryHeading} (${defaultSortedDirectory.length})`}
@@ -66,10 +57,10 @@ const defaultSortedDirectory = [...directoryWithRank].sort(
       <SortToggle
         client:load
         listId="sv-preschool-directory-list"
-        rankingLabel={rankingSortLabel}
-        alphabeticalLabel={alphabeticalSortLabel}
-        groupLabel={sortGroupLabel}
-        sortLabel={sortLabel}
+        rankingLabel={t('directory.sort.ranking', locale)}
+        alphabeticalLabel={t('directory.sort.alphabetical', locale)}
+        groupLabel={t('directory.sort.groupLabel', locale)}
+        sortLabel={t('directory.sort.label', locale)}
         locale={locale}
       />
     </div>

@@ -1,5 +1,4 @@
 import { useStore } from '@nanostores/preact'
-
 import type { PreschoolSurvey, SurveyResponse } from '@/lib/types'
 import { compareIds } from '@/lib/state'
 import { OVERALL_ASSESSMENT_GROUP, computeAgreeShare } from '@/lib/scoring'

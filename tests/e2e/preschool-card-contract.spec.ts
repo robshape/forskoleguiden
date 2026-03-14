@@ -1,6 +1,6 @@
 import { expect, test } from './fixtures'
 
-const escapeRegExp = (value: string): string =>
+const escapeRegExp = (value: string) =>
   value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 test('given /sv/ directory when rendered then each preschool card shows required fields and detail link', async ({

@@ -12,12 +12,9 @@ interface Props {
 }
 
 const { title, locale } = Astro.props
+
 const base = getBasePath()
 const compareHref = `${base}/${locale}/jamfor/`
-const selectedCountTemplate = t('compareTray.selectedCount', locale)
-const showComparisonLabel = t('compareTray.showComparison', locale)
-const clearLabel = t('compareTray.clear', locale)
-
 // Detect at build time whether the compare page route exists for the current
 // locale. The tray uses this to decide between a live link and a disabled button.
 const comparePages = import.meta.glob('/src/pages/*/jamfor/index.astro')
@@ -51,9 +48,9 @@ const compareRouteAvailable =
       client:only="preact"
       compareHref={compareHref}
       compareRouteAvailable={compareRouteAvailable}
-      selectedCountTemplate={selectedCountTemplate}
-      showComparisonLabel={showComparisonLabel}
-      clearLabel={clearLabel}
+      selectedCountTemplate={t('compareTray.selectedCount', locale)}
+      showComparisonLabel={t('compareTray.showComparison', locale)}
+      clearLabel={t('compareTray.clear', locale)}
     />
   </body>
 </html>

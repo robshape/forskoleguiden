@@ -2,9 +2,13 @@
   "name": "forskoleguiden",
   "type": "module",
   "version": "0.0.1",
-  "engines": {
-    "node": "^20.19.0 || ^22.13.0 || >=24.0.0",
-    "pnpm": ">=10.0.0"
+  "lint-staged": {
+    "*.{ts,tsx,astro}": [
+      "astro check",
+      "eslint --no-warn-ignored"
+    ],
+    "*.md": "markdownlint-cli2",
+    "*": "prettier --check --ignore-unknown"
   },
   "scripts": {
     "prepare": "husky",
@@ -52,13 +56,5 @@
     "typescript": "5.9.3",
     "vite": "6.4.1",
     "vitest": "4.0.18"
-  },
-  "lint-staged": {
-    "*.{ts,tsx,mts,cts,astro}": [
-      "astro check",
-      "eslint --no-warn-ignored"
-    ],
-    "*.md": "markdownlint-cli2",
-    "*": "prettier --check --ignore-unknown"
   }
 }

@@ -10,7 +10,7 @@ const ROOT = resolve(process.cwd())
  * Starts at `- name: <stepName>` and ends just before the next `- name:` entry
  * at any indentation level. Returns null when the step is not present.
  */
-function extractStepBlock(yaml: string, stepName: string): string | null {
+const extractStepBlock = (yaml: string, stepName: string) => {
   const marker = `- name: ${stepName}`
   const start = yaml.indexOf(marker)
   if (start === -1) return null

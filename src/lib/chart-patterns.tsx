@@ -36,7 +36,7 @@ export const RESPONSE_SERIES: {
 // Shared helper: renders the interior of one SVG <pattern> tile.
 // Used by both the main chart <defs> and the legend swatch <defs> so the two
 // can never drift out of structural sync.
-export function renderPatternContent(pDef: PatternDef) {
+export const renderPatternContent = (pDef: PatternDef) => {
   return (
     <>
       <rect width={TILE_SIZE} height={TILE_SIZE} fill={pDef.bg} />

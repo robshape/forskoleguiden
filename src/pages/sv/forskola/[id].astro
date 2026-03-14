@@ -13,6 +13,16 @@ interface Props {
   survey: PreschoolSurvey
 }
 
+const { preschool, survey } = Astro.props as Props
+const helhetsBedömning = survey.questionGroups.find(
+  (group) => group.name === OVERALL_ASSESSMENT_GROUP,
+)
+
+const base = getBasePath()
+const locale = 'sv'
+
+const backLabel = t('compare.actions.backToDirectory', locale)
+
 export function getStaticPaths() {
   const index = getPreschoolIndex()
   return index.preschools.map((preschool) => {
@@ -23,24 +33,6 @@ export function getStaticPaths() {
     }
   })
 }
-
-const locale = 'sv'
-const { preschool, survey } = Astro.props as Props
-
-const base = getBasePath()
-const operatorLabel = t(
-  `directory.operatorType.${preschool.operatorType}`,
-  locale,
-)
-const compareLabel = t('directory.addToCompare', locale)
-const addedCompareLabel = t('directory.addedToCompare', locale)
-const compareButtonAriaLabel = t('directory.compareButtonAriaLabel', locale)
-const backLabel = t('compare.actions.backToDirectory', locale)
-const surveyYearLabel = t('cityYear.surveyYear', locale)
-
-const helhetsBedömning = survey.questionGroups.find(
-  (group) => group.name === OVERALL_ASSESSMENT_GROUP,
-)
 ---
 
 <BaseLayout locale={locale} title={preschool.name}>
@@ -56,11 +48,13 @@ const helhetsBedömning = survey.questionGroups.find(
   <h1 class="mt-4 text-2xl font-bold text-gray-900">{preschool.name}</h1>
 
   <p class="mt-1 text-sm text-gray-600">
-    {operatorLabel} • {preschool.address}
+    {t(`directory.operatorType.${preschool.operatorType}`, locale)} • {
+      preschool.address
+    }
   </p>
 
   <p class="mt-1 text-sm text-gray-500">
-    {surveyYearLabel}
+    {t('cityYear.surveyYear', locale)}
     {survey.surveyYear}
   </p>
 
@@ -69,9 +63,9 @@ const helhetsBedömning = survey.questionGroups.find(
       client:only="preact"
       id={preschool.id}
       name={preschool.name}
-      addLabel={compareLabel}
-      addedLabel={addedCompareLabel}
-      ariaLabelTemplate={compareButtonAriaLabel}
+      addLabel={t('directory.addToCompare', locale)}
+      addedLabel={t('directory.addedToCompare', locale)}
+      ariaLabelTemplate={t('directory.compareButtonAriaLabel', locale)}
     />
   </div>
 

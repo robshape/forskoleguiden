@@ -15,26 +15,18 @@ interface Props {
 }
 
 const { id, name, address, operatorType, score, locale } = Astro.props
-const base = getBasePath()
-
-const detailPageHref = `${base}/${locale}/forskola/${id}/`
-const operatorLabel = t(`directory.operatorType.${operatorType}`, locale)
-const compareLabel = t('directory.addToCompare', locale)
-const addedCompareLabel = t('directory.addedToCompare', locale)
-const compareButtonAriaLabel = t('directory.compareButtonAriaLabel', locale)
-const noOverallScoreText = t('directory.noOverallScore', locale)
 const displayScore = score !== null ? Math.round(score) : null
+
+const base = getBasePath()
+const detailPageHref = `${base}/${locale}/forskola/${id}/`
+
+const noOverallScoreText = t('directory.noOverallScore', locale)
 const scorePercentText =
   displayScore === null
     ? noOverallScoreText
     : t('directory.scorePercent', locale, {
         score: displayScore,
       })
-const scoreBadgeAgreeShareText = t('directory.scoreBadge.agreeShare', locale)
-const scoreBadgeOverallAssessmentText = t(
-  'directory.scoreBadge.overallAssessment',
-  locale,
-)
 
 const scoreBadgeToneClass =
   displayScore === null
@@ -60,7 +52,7 @@ const scoreBadgeToneClass =
       </a>
     </h3>
     <p class="mt-1 text-[13px] text-gray-500">
-      {operatorLabel} • {address}
+      {t(`directory.operatorType.${operatorType}`, locale)} • {address}
     </p>
   </div>
 
@@ -85,10 +77,10 @@ const scoreBadgeToneClass =
 
       <div class="flex flex-col text-left rtl:text-right">
         <span class="text-[13px] font-medium text-gray-700">
-          {scoreBadgeAgreeShareText}
+          {t('directory.scoreBadge.agreeShare', locale)}
         </span>
         <span class="text-[11px] text-gray-500">
-          {scoreBadgeOverallAssessmentText}
+          {t('directory.scoreBadge.overallAssessment', locale)}
         </span>
       </div>
     </div>
@@ -97,9 +89,9 @@ const scoreBadgeToneClass =
         client:only="preact"
         id={id}
         name={name}
-        addLabel={compareLabel}
-        addedLabel={addedCompareLabel}
-        ariaLabelTemplate={compareButtonAriaLabel}
+        addLabel={t('directory.addToCompare', locale)}
+        addedLabel={t('directory.addedToCompare', locale)}
+        ariaLabelTemplate={t('directory.compareButtonAriaLabel', locale)}
       />
     </div>
   </div>

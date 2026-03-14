@@ -13,10 +13,10 @@ interface CompareStoreContainer {
   persistenceBound: boolean
 }
 
-const hasBrowserStorage = (): boolean =>
+const hasBrowserStorage = () =>
   typeof window !== 'undefined' && typeof sessionStorage !== 'undefined'
 
-const readPersistedCompareIds = (): string[] => {
+const readPersistedCompareIds = () => {
   if (!hasBrowserStorage()) {
     return []
   }
@@ -42,7 +42,7 @@ const readPersistedCompareIds = (): string[] => {
   }
 }
 
-const persistCompareIds = (ids: readonly string[]): void => {
+const persistCompareIds = (ids: readonly string[]) => {
   if (!hasBrowserStorage()) {
     return
   }
@@ -91,7 +91,7 @@ if (!compareStoreContainer.persistenceBound) {
   compareStoreContainer.persistenceBound = true
 }
 
-export const toggleCompare = (id: string): void => {
+export const toggleCompare = (id: string) => {
   const currentIds = compareIdsStore.get()
 
   if (currentIds.includes(id)) {
@@ -107,6 +107,6 @@ export const toggleCompare = (id: string): void => {
   compareIdsStore.set([...currentIds, id])
 }
 
-export const clearCompare = (): void => {
+export const clearCompare = () => {
   compareIdsStore.set([])
 }

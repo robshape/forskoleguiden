@@ -6,22 +6,13 @@ import { getBasePath } from '@/lib/base-path'
 import { getAllPreschoolSurveys } from '@/lib/data'
 import { RESPONSE_ROWS } from '@/lib/survey-responses'
 
-const locale = 'sv'
-const pageTitle = t('compare.heading', locale)
-
 const base = getBasePath()
+const locale = 'sv'
 const directoryHref = `${base}/${locale}/`
-
-const emptyStateTitle = t('compare.emptyStateTitle', locale)
-const emptyStateBody = t('compare.emptyStateBody', locale)
-const singleSelectionPrompt = t('compare.singleSelectionPrompt', locale)
-const questionColumnLabel = t('compare.questionColumnLabel', locale)
-const backToDirectoryLabel = t('compare.actions.backToDirectory', locale)
-const chartAriaLabelTemplate = t('compare.chartAriaLabel', locale)
-const noscriptMessage = t('compare.noscriptMessage', locale)
 const categoryLabels = RESPONSE_ROWS.map(({ i18nKey }) => t(i18nKey, locale))
-
 const surveys = getAllPreschoolSurveys()
+
+const pageTitle = t('compare.heading', locale)
 ---
 
 <BaseLayout locale={locale} title={pageTitle}>
@@ -29,14 +20,14 @@ const surveys = getAllPreschoolSurveys()
     client:only="preact"
     heading={pageTitle}
     directoryHref={directoryHref}
-    emptyStateTitle={emptyStateTitle}
-    emptyStateBody={emptyStateBody}
-    singleSelectionPrompt={singleSelectionPrompt}
-    questionColumnLabel={questionColumnLabel}
-    backToDirectoryLabel={backToDirectoryLabel}
-    chartAriaLabelTemplate={chartAriaLabelTemplate}
+    emptyStateTitle={t('compare.emptyStateTitle', locale)}
+    emptyStateBody={t('compare.emptyStateBody', locale)}
+    singleSelectionPrompt={t('compare.singleSelectionPrompt', locale)}
+    questionColumnLabel={t('compare.questionColumnLabel', locale)}
+    backToDirectoryLabel={t('compare.actions.backToDirectory', locale)}
+    chartAriaLabelTemplate={t('compare.chartAriaLabel', locale)}
     categoryLabels={categoryLabels}
     surveys={surveys}
   />
-  <noscript>{noscriptMessage}</noscript>
+  <noscript>{t('compare.noscriptMessage', locale)}</noscript>
 </BaseLayout>

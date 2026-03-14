@@ -6,13 +6,13 @@ const SUM_TOLERANCE = 1
 
 export const OVERALL_ASSESSMENT_GROUP = 'Helhetsbedömning'
 
-const roundToDecimals = (value: number, decimals: number): number => {
+const roundToDecimals = (value: number, decimals: number) => {
   const multiplier = 10 ** decimals
 
   return Math.round((value + Number.EPSILON) * multiplier) / multiplier
 }
 
-const warnIfInvalidResponse = (response: SurveyResponse): void => {
+const warnIfInvalidResponse = (response: SurveyResponse) => {
   if (process.env.NODE_ENV === 'production') {
     return
   }
@@ -49,7 +49,7 @@ const warnIfInvalidResponse = (response: SurveyResponse): void => {
 export const byOverallScoreDesc = (
   leftScore: number | null,
   rightScore: number | null,
-): number => {
+) => {
   if (leftScore === null && rightScore === null) {
     return 0
   }
@@ -65,13 +65,13 @@ export const byOverallScoreDesc = (
   return rightScore - leftScore
 }
 
-export const computeAgreeShare = (response: SurveyResponse): number => {
+export const computeAgreeShare = (response: SurveyResponse) => {
   warnIfInvalidResponse(response)
 
   return response.completelyAgreePercent + response.partlyAgreePercent
 }
 
-export const computeOverallScore = (survey: PreschoolSurvey): number | null => {
+export const computeOverallScore = (survey: PreschoolSurvey) => {
   const overallAssessmentGroup = survey.questionGroups.find(
     (group) => group.name === OVERALL_ASSESSMENT_GROUP,
   )

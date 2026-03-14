@@ -10,7 +10,7 @@ const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url))
 export default [
   includeIgnoreFile(gitignorePath),
   {
-    files: ['**/*.{ts,tsx,mts,cts}'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -27,7 +27,7 @@ export default [
   },
   ...astro.configs['flat/recommended'],
   {
-    files: ['**/*.{ts,tsx,mts,cts,astro}'],
+    files: ['**/*.{ts,tsx,astro}'],
     plugins: {
       'better-tailwindcss': tailwindcss,
     },

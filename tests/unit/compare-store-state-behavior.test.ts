@@ -2,13 +2,13 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 type CompareStateModule = typeof import('../../src/lib/state')
 
-const importCompareState = async (): Promise<CompareStateModule> => {
+const importCompareState = async () => {
   vi.resetModules()
 
   return (await import('../../src/lib/state')) as CompareStateModule
 }
 
-const getCompareStorageKey = async (): Promise<string> => {
+const getCompareStorageKey = async () => {
   clearBrowserGlobals()
 
   const { COMPARE_STORAGE_KEY } = await importCompareState()

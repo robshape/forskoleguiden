@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 
 export type JsonObject = Record<string, unknown>
 
-export const getByPath = (obj: JsonObject, path: string): unknown => {
+export const getByPath = (obj: JsonObject, path: string) => {
   return path.split('.').reduce<unknown>((currentValue, keyPart) => {
     if (!currentValue || typeof currentValue !== 'object') {
       return undefined
@@ -13,7 +13,7 @@ export const getByPath = (obj: JsonObject, path: string): unknown => {
   }, obj)
 }
 
-export const loadLocaleFromDisk = (locale: string): JsonObject => {
+export const loadLocaleFromDisk = (locale: string) => {
   const localePath = resolve(process.cwd(), 'src', 'i18n', `${locale}.json`)
 
   try {
@@ -40,10 +40,10 @@ export const loadLocaleFromDisk = (locale: string): JsonObject => {
   }
 }
 
-export const collectKeyPaths = (obj: JsonObject): string[] => {
+export const collectKeyPaths = (obj: JsonObject) => {
   const paths: string[] = []
 
-  const walk = (value: unknown, prefix: string): void => {
+  const walk = (value: unknown, prefix: string) => {
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
       paths.push(prefix)
       return

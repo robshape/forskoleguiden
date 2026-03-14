@@ -1,9 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-
 import type { PreschoolIndex } from '@/lib/types'
 
-export const getMalmoIndex = (): PreschoolIndex => {
+export const getMalmoIndex = () => {
   const indexFilePath = resolve(process.cwd(), 'data/malmo/index.json')
   const raw = readFileSync(indexFilePath, 'utf-8')
 

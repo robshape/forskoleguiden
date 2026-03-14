@@ -1,5 +1,5 @@
-import type { Locale } from '@/i18n/utils'
 import { useEffect, useRef, useState } from 'preact/hooks'
+import type { Locale } from '@/i18n/utils'
 
 type SortMode = 'ranking' | 'alphabetical'
 
@@ -18,7 +18,7 @@ interface ListRow {
   rankIndexZeroBased: number
 }
 
-const getRows = (listElement: HTMLUListElement): ListRow[] => {
+const getRows = (listElement: HTMLUListElement) => {
   return Array.from(
     listElement.querySelectorAll<HTMLLIElement>(':scope > li'),
   ).map((rowElement, index) => ({
@@ -30,11 +30,7 @@ const getRows = (listElement: HTMLUListElement): ListRow[] => {
   }))
 }
 
-const sortRows = (
-  rows: ListRow[],
-  sortMode: SortMode,
-  locale: string,
-): ListRow[] => {
+const sortRows = (rows: ListRow[], sortMode: SortMode, locale: string) => {
   return [...rows].sort((leftRow, rightRow) => {
     if (sortMode === 'ranking') {
       return leftRow.rankIndexZeroBased - rightRow.rankIndexZeroBased
@@ -52,7 +48,7 @@ const sortRows = (
   })
 }
 
-const updateRanks = (sortedRows: ListRow[]): void => {
+const updateRanks = (sortedRows: ListRow[]) => {
   sortedRows.forEach((row, index) => {
     const rankElement = row.element.querySelector('[data-testid="rank-index"]')
 
@@ -69,7 +65,7 @@ const applySort = (
   rows: ListRow[],
   sortMode: SortMode,
   locale: string,
-): void => {
+) => {
   const sortedRows = sortRows(rows, sortMode, locale)
 
   sortedRows.forEach((row) => {

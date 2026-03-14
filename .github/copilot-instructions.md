@@ -98,6 +98,7 @@ tests/e2e/**/*.spec.ts        — Playwright e2e tests
 
 ## Key conventions
 
+- **Arrow functions for utilities; named functions for components.** All utility/helper functions use `const fn = () => {}` (arrow function expression). Preact components use `export default function ComponentName() {}` (named function declaration — better DevTools displayName and stack traces). Never mix `function` declarations into utility code.
 - **Organize by feature**, not by type. Shared utilities go in `src/lib/`.
 - **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro. Astro components receive `locale: Locale` as a prop and call `t()` for all user-facing text — see `Nav.astro`, `Footer.astro` for the pattern. Preact islands that depend on persisted client state (e.g., `sessionStorage`) should use `client:only="preact"` to avoid SSR/client hydration mismatches.
 - **Layout pattern**: all pages wrap content in `<BaseLayout locale={locale} title={...}>`. BaseLayout sets `lang`, `dir` (RTL for Arabic), loads global CSS, and renders Nav + Footer.

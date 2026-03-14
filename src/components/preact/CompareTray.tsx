@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'preact/hooks'
 import { useStore } from '@nanostores/preact'
-
 import { clearCompare, compareIds } from '@/lib/state'
 
 interface Props {

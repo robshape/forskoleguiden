@@ -14,7 +14,7 @@ const translations = {
 
 const localeSet = new Set<Locale>(['sv', 'en', 'ar'])
 
-export function getLocaleFromURL(url: URL | string): Locale {
+export const getLocaleFromURL = (url: URL | string): Locale => {
   const pathname =
     typeof url === 'string'
       ? new URL(url, 'https://example.com').pathname
@@ -29,10 +29,7 @@ export function getLocaleFromURL(url: URL | string): Locale {
   return 'sv'
 }
 
-const interpolateTemplate = (
-  template: string,
-  params?: TranslationParams,
-): string => {
+const interpolateTemplate = (template: string, params?: TranslationParams) => {
   if (!params) {
     return template
   }
@@ -44,11 +41,7 @@ const interpolateTemplate = (
   })
 }
 
-export function t(
-  key: string,
-  locale: Locale,
-  params?: TranslationParams,
-): string {
+export const t = (key: string, locale: Locale, params?: TranslationParams) => {
   const value = key.split('.').reduce<unknown>((currentValue, currentKey) => {
     if (typeof currentValue !== 'object' || currentValue === null) {
       return undefined

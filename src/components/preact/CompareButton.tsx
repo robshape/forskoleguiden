@@ -1,5 +1,4 @@
 import { useStore } from '@nanostores/preact'
-
 import { compareIds, toggleCompare } from '@/lib/state'
 
 interface Props {
@@ -14,7 +13,7 @@ const interpolateAriaLabel = (
   template: string,
   action: string,
   name: string,
-): string => {
+) => {
   return template.replace(/\{action\}/g, action).replace(/\{name\}/g, name)
 }
 
