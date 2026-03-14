@@ -1,7 +1,9 @@
 import { existsSync, readFileSync } from 'node:fs'
 
 import { describe, expect, it } from 'vitest'
+
 import type { PreschoolSurvey } from '@/lib/types'
+
 import { getMalmoIndex, getMalmoSurveyFilePath } from './helpers/malmo-data'
 import { assertResponseContract } from './helpers/survey-assertions'
 

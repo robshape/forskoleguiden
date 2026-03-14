@@ -1,4 +1,4 @@
-import { test as base, type Page } from '@playwright/test'
+import { type Page, test as base } from '@playwright/test'
 
 // Collect uncaught page errors and console.error messages during each test.
 // If any are captured, the test fails automatically after the test body.

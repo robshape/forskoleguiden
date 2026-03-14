@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'preact/hooks'
 import { useStore } from '@nanostores/preact'
+import { useEffect, useRef } from 'preact/hooks'
+
 import { clearCompare, compareIds } from '@/lib/state'
 
 interface Props {
@@ -50,11 +51,11 @@ export default function CompareTray({
 
   return (
     <nav
-      ref={trayRef}
-      data-testid="compare-tray"
       aria-label={showComparisonLabel}
-      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       class="fixed inset-x-0 bottom-0 z-50 border-t border-gray-200 bg-white shadow-lg"
+      data-testid="compare-tray"
+      ref={trayRef}
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <div class="mx-auto flex max-w-content items-center justify-between gap-4 px-5 py-3">
         <span class="text-sm font-medium text-gray-700">
@@ -63,24 +64,24 @@ export default function CompareTray({
         <div class="flex items-center gap-3">
           {compareRouteAvailable ? (
             <a
-              href={compareHref}
               class="inline-flex items-center rounded-full bg-primary-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none"
+              href={compareHref}
             >
               {showComparisonLabel}
             </a>
           ) : (
             <button
-              type="button"
               aria-disabled="true"
               class="inline-flex cursor-not-allowed items-center rounded-full bg-primary-600 px-5 py-2 text-sm font-semibold text-white opacity-50"
+              type="button"
             >
               {showComparisonLabel}
             </button>
           )}
           <button
-            type="button"
-            onClick={clearCompare}
             class="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none"
+            onClick={clearCompare}
+            type="button"
           >
             {clearLabel}
           </button>

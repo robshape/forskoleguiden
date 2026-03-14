@@ -1,9 +1,9 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro'
 import CityYearSelector from '@/components/astro/CityYearSelector.astro'
 import PreschoolCard from '@/components/astro/PreschoolCard.astro'
 import SortToggle from '@/components/preact/SortToggle'
 import { t } from '@/i18n/utils'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 import { getPreschoolIndex, getPreschoolSurveyByYear } from '@/lib/data'
 import { byOverallScoreDesc, computeOverallScore } from '@/lib/scoring'
 
@@ -55,17 +55,17 @@ const directoryHeading = t('directory.heading', locale)
         {`${directoryHeading} (${defaultSortedDirectory.length})`}
       </h2>
       <SortToggle
-        client:load
-        listId="sv-preschool-directory-list"
-        rankingLabel={t('directory.sort.ranking', locale)}
         alphabeticalLabel={t('directory.sort.alphabetical', locale)}
+        client:load
         groupLabel={t('directory.sort.groupLabel', locale)}
-        sortLabel={t('directory.sort.label', locale)}
+        listId="sv-preschool-directory-list"
         locale={locale}
+        rankingLabel={t('directory.sort.ranking', locale)}
+        sortLabel={t('directory.sort.label', locale)}
       />
     </div>
 
-    <ul id="sv-preschool-directory-list" class="mt-4 space-y-2">
+    <ul class="mt-4 space-y-2" id="sv-preschool-directory-list">
       {
         defaultSortedDirectory.map((preschool, index) => (
           <li
@@ -73,16 +73,16 @@ const directoryHeading = t('directory.heading', locale)
             data-name={preschool.name}
             data-rank-index-zero-based={preschool.rankIndexZeroBased}
           >
-            <span data-testid="rank-index" class="sr-only">
+            <span class="sr-only" data-testid="rank-index">
               {index + 1}
             </span>
             <PreschoolCard
-              id={preschool.id}
-              name={preschool.name}
               address={preschool.address}
+              id={preschool.id}
+              locale={locale}
+              name={preschool.name}
               operatorType={preschool.operatorType}
               score={preschool.overallScore}
-              locale={locale}
             />
           </li>
         ))

@@ -1,9 +1,9 @@
-import type { SurveyResponse } from '@/lib/types'
 import {
+  renderPatternContent,
   RESPONSE_SERIES,
   TILE_SIZE,
-  renderPatternContent,
 } from '@/lib/chart-patterns'
+import type { SurveyResponse } from '@/lib/types'
 
 interface BarChartProps {
   responses: SurveyResponse[]
@@ -36,12 +36,12 @@ export default function BarChart({
   return (
     <div>
       <svg
-        role="img"
-        aria-label={ariaLabel}
         aria-describedby={`chart-${chartIndex}-table`}
+        aria-label={ariaLabel}
+        height={svgHeight}
+        role="img"
         viewBox={`0 0 ${BAR_TOTAL_WIDTH} ${svgHeight}`}
         width={BAR_TOTAL_WIDTH}
-        height={svgHeight}
         xmlns="http://www.w3.org/2000/svg"
       >
         <title>{ariaLabel}</title>
@@ -50,13 +50,13 @@ export default function BarChart({
             const patternId = `chart-${chartIndex}-cat-${catIdx}`
             return (
               <pattern
-                key={patternId}
+                height={TILE_SIZE}
                 id={patternId}
+                key={patternId}
+                patternUnits="userSpaceOnUse"
+                width={TILE_SIZE}
                 x={0}
                 y={0}
-                width={TILE_SIZE}
-                height={TILE_SIZE}
-                patternUnits="userSpaceOnUse"
               >
                 {renderPatternContent(pDef)}
               </pattern>
@@ -86,7 +86,7 @@ export default function BarChart({
               <title>
                 {preschoolName} – {agreeShare}%
               </title>
-              <text x={0} y={y + 11} fontSize={11} fill="#374151">
+              <text fill="#374151" fontSize={11} x={0} y={y + 11}>
                 {preschoolName}
               </text>
               {segments.map(({ catIdx, percent, segWidth, segX }) => (
@@ -95,11 +95,11 @@ export default function BarChart({
                     {categoryLabels[catIdx] ?? ''}: {preschoolName} – {percent}%
                   </title>
                   <rect
+                    fill={`url(#chart-${chartIndex}-cat-${catIdx})`}
+                    height={BAR_HEIGHT}
+                    width={segWidth}
                     x={segX}
                     y={barY}
-                    width={segWidth}
-                    height={BAR_HEIGHT}
-                    fill={`url(#chart-${chartIndex}-cat-${catIdx})`}
                   />
                 </g>
               ))}
@@ -110,37 +110,37 @@ export default function BarChart({
 
       {/* Legend: one swatch + label per response category */}
       <div
-        data-testid="chart-legend"
         class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-700"
+        data-testid="chart-legend"
       >
         {RESPONSE_SERIES.map(({ pattern: pDef }, catIdx) => {
           const legendPatternId = `legend-${chartIndex}-cat-${catIdx}`
           const swatchSize = 14
           return (
-            <div key={catIdx} class="flex items-center gap-1">
+            <div class="flex items-center gap-1" key={catIdx}>
               <svg
-                data-testid="chart-legend-swatch"
-                width={swatchSize}
-                height={swatchSize}
                 aria-hidden="true"
+                data-testid="chart-legend-swatch"
+                height={swatchSize}
+                width={swatchSize}
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <defs>
                   <pattern
+                    height={TILE_SIZE}
                     id={legendPatternId}
+                    patternUnits="userSpaceOnUse"
+                    width={TILE_SIZE}
                     x={0}
                     y={0}
-                    width={TILE_SIZE}
-                    height={TILE_SIZE}
-                    patternUnits="userSpaceOnUse"
                   >
                     {renderPatternContent(pDef)}
                   </pattern>
                 </defs>
                 <rect
-                  width={swatchSize}
-                  height={swatchSize}
                   fill={`url(#${legendPatternId})`}
+                  height={swatchSize}
+                  width={swatchSize}
                 />
               </svg>
               <span>{categoryLabels[catIdx] ?? ''}</span>
@@ -150,10 +150,10 @@ export default function BarChart({
       </div>
 
       <table
-        id={`chart-${chartIndex}-table`}
-        data-testid="chart-data-table"
         aria-label={questionText}
         class="mt-2 w-full border-collapse text-xs text-gray-700"
+        data-testid="chart-data-table"
+        id={`chart-${chartIndex}-table`}
       >
         <caption class="sr-only">{questionText}</caption>
         <thead>
@@ -161,9 +161,9 @@ export default function BarChart({
             <td class="py-1 pr-3" />
             {preschoolNames.map((name) => (
               <th
+                class="px-2 py-1 text-left font-semibold text-gray-800"
                 key={name}
                 scope="col"
-                class="px-2 py-1 text-left font-semibold text-gray-800"
               >
                 {name}
               </th>
@@ -173,17 +173,17 @@ export default function BarChart({
         <tbody>
           {categoryLabels.map((label, catIdx) => (
             <tr
-              key={catIdx}
               class={catIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
+              key={catIdx}
             >
               <th
-                scope="row"
                 class="w-36 py-1 pr-3 text-left font-normal text-gray-600"
+                scope="row"
               >
                 {label}
               </th>
               {responses.map((response, rowIdx) => (
-                <td key={rowIdx} class="px-2 py-1 text-gray-900">
+                <td class="px-2 py-1 text-gray-900" key={rowIdx}>
                   {Math.round(
                     response[RESPONSE_SERIES[catIdx].field] as number,
                   )}

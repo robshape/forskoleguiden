@@ -1,7 +1,9 @@
 import { useStore } from '@nanostores/preact'
-import type { PreschoolSurvey, SurveyResponse } from '@/lib/types'
+
+import { computeAgreeShare, OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
 import { compareIds } from '@/lib/state'
-import { OVERALL_ASSESSMENT_GROUP, computeAgreeShare } from '@/lib/scoring'
+import type { PreschoolSurvey, SurveyResponse } from '@/lib/types'
+
 import BarChart from './BarChart'
 
 interface Props {
@@ -38,8 +40,8 @@ export default function ComparisonView({
       <h1 class="text-2xl font-bold text-gray-900">{emptyStateTitle}</h1>
       <p class="mt-3 text-gray-600">{emptyStateBody}</p>
       <a
-        href={directoryHref}
         class="mt-6 inline-flex items-center text-sm text-primary-700 hover:underline"
+        href={directoryHref}
       >
         ← {backToDirectoryLabel}
       </a>
@@ -75,31 +77,31 @@ export default function ComparisonView({
         </p>
       )}
       <a
-        href={directoryHref}
         class="mt-4 inline-flex items-center text-sm text-primary-700 hover:underline"
+        href={directoryHref}
       >
         ← {backToDirectoryLabel}
       </a>
-      <div data-testid="comparison-scroll" class="mt-6 overflow-x-auto">
+      <div class="mt-6 overflow-x-auto" data-testid="comparison-scroll">
         <table
           aria-label={heading}
-          data-testid="comparison-table"
           class="w-auto min-w-full border-collapse text-sm"
+          data-testid="comparison-table"
         >
           <caption class="sr-only">{heading}</caption>
           <thead>
             <tr>
               <th
-                scope="col"
                 class="sticky left-0 z-10 w-32 min-w-32 bg-white px-4 py-3 text-left font-medium text-gray-500"
+                scope="col"
               >
                 {questionColumnLabel}
               </th>
               {selectedSurveys.map((survey) => (
                 <th
+                  class="min-w-40 px-4 py-3 text-left font-semibold text-gray-900"
                   key={survey.id}
                   scope="col"
-                  class="min-w-40 px-4 py-3 text-left font-semibold text-gray-900"
                 >
                   {survey.preschoolName}
                 </th>
@@ -109,14 +111,14 @@ export default function ComparisonView({
           <tbody>
             {questions.map((question, qi) => (
               <tr
-                key={question.text}
                 class={qi % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
+                key={question.text}
               >
                 <th
-                  scope="row"
                   class={`sticky left-0 z-10 px-4 py-3 text-left font-normal text-gray-700 ${
                     qi % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                   }`}
+                  scope="row"
                 >
                   {question.text}
                 </th>
@@ -131,7 +133,7 @@ export default function ComparisonView({
                     ? Math.round(computeAgreeShare(cell.response))
                     : null
                   return (
-                    <td key={survey.id} class="px-4 py-3 text-gray-900">
+                    <td class="px-4 py-3 text-gray-900" key={survey.id}>
                       {pct !== null ? `${pct}%` : '—'}
                     </td>
                   )
@@ -166,12 +168,12 @@ export default function ComparisonView({
                 {question.text}
               </h2>
               <BarChart
-                responses={chartResponses}
+                ariaLabelTemplate={chartAriaLabelTemplate}
+                categoryLabels={categoryLabels}
+                chartIndex={qi}
                 preschoolNames={chartNames}
                 questionText={question.text}
-                categoryLabels={categoryLabels}
-                ariaLabelTemplate={chartAriaLabelTemplate}
-                chartIndex={qi}
+                responses={chartResponses}
               />
             </div>
           )

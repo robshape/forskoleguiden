@@ -1,5 +1,5 @@
-import { atom, readonlyType } from 'nanostores'
 import type { ReadableAtom } from 'nanostores'
+import { atom, readonlyType } from 'nanostores'
 
 export const COMPARE_STORAGE_KEY = 'compareIds'
 

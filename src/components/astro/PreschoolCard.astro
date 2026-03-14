@@ -1,6 +1,6 @@
 ---
 import CompareButton from '@/components/preact/CompareButton'
-import { t, type Locale } from '@/i18n/utils'
+import { type Locale, t } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
 import { SCORE_TIER_HIGH, SCORE_TIER_MEDIUM } from '@/lib/constants'
 import type { OperatorType } from '@/lib/types'
@@ -39,14 +39,14 @@ const scoreBadgeToneClass =
 ---
 
 <article
-  data-testid="preschool-card"
   class="group relative flex flex-col gap-4 rounded-xl border border-border bg-surface p-4 shadow-sm transition-all hover:border-primary-300 hover:shadow-md active:scale-[0.99]"
+  data-testid="preschool-card"
 >
   <div>
     <h3 class="text-base/snug font-bold text-gray-900">
       <a
-        href={detailPageHref}
         class="text-gray-900 group-hover:text-primary-700 group-hover:underline before:absolute before:inset-0 before:z-0 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+        href={detailPageHref}
       >
         {name}
       </a>
@@ -65,7 +65,7 @@ const scoreBadgeToneClass =
           score === null ? (
             <>
               <span aria-hidden="true">—</span>
-              <span data-testid="score-fallback" class="sr-only">
+              <span class="sr-only" data-testid="score-fallback">
                 {noOverallScoreText}
               </span>
             </>
@@ -86,12 +86,12 @@ const scoreBadgeToneClass =
     </div>
     <div class="relative z-10">
       <CompareButton
+        addedLabel={t('directory.addedToCompare', locale)}
+        addLabel={t('directory.addToCompare', locale)}
+        ariaLabelTemplate={t('directory.compareButtonAriaLabel', locale)}
         client:only="preact"
         id={id}
         name={name}
-        addLabel={t('directory.addToCompare', locale)}
-        addedLabel={t('directory.addedToCompare', locale)}
-        ariaLabelTemplate={t('directory.compareButtonAriaLabel', locale)}
       />
     </div>
   </div>

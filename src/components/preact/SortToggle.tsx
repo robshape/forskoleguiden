@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'preact/hooks'
+
 import type { Locale } from '@/i18n/utils'
 
 type SortMode = 'ranking' | 'alphabetical'
@@ -127,38 +128,38 @@ export default function SortToggle({
 
   return (
     <div
+      aria-label={groupLabel}
       class="inline-flex items-center gap-2"
       role="group"
-      aria-label={groupLabel}
     >
       <span class="text-sm font-medium text-gray-700">{sortLabel}</span>
       <button
-        type="button"
         aria-pressed={sortMode === 'alphabetical'}
         class={`inline-flex h-8 items-center rounded-full border border-border px-3 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${alphabeticalButtonClass}`}
         onClick={() => {
           setSortMode('alphabetical')
           setAnnouncement(`${groupLabel}: ${alphabeticalLabel}`)
         }}
+        type="button"
       >
         {alphabeticalLabel}
       </button>
       <button
-        type="button"
         aria-pressed={sortMode === 'ranking'}
         class={`inline-flex h-8 items-center rounded-full border border-border px-3 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${rankingButtonClass}`}
         onClick={() => {
           setSortMode('ranking')
           setAnnouncement(`${groupLabel}: ${rankingLabel}`)
         }}
+        type="button"
       >
         {rankingLabel}
       </button>
       <span
-        data-testid="sort-live-region"
-        class="sr-only"
-        aria-live="polite"
         aria-atomic="true"
+        aria-live="polite"
+        class="sr-only"
+        data-testid="sort-live-region"
       >
         {announcement}
       </span>

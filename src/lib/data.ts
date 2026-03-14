@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+
 import type { PreschoolIndex, PreschoolSurvey } from '@/lib/types'
 
 // Assumes process.cwd() is the project root — valid for Astro build and Vitest.

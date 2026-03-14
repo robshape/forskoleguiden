@@ -1,10 +1,11 @@
 ---
-import Nav from '@/components/astro/Nav.astro'
-import Footer from '@/components/astro/Footer.astro'
-import CompareTray from '@/components/preact/CompareTray'
-import { t, type Locale } from '@/i18n/utils'
-import { getBasePath } from '@/lib/base-path'
 import '@/styles/global.css'
+
+import Footer from '@/components/astro/Footer.astro'
+import Nav from '@/components/astro/Nav.astro'
+import CompareTray from '@/components/preact/CompareTray'
+import { type Locale, t } from '@/i18n/utils'
+import { getBasePath } from '@/lib/base-path'
 
 interface Props {
   title: string
@@ -23,11 +24,11 @@ const compareRouteAvailable =
 ---
 
 <!doctype html>
-<html lang={locale} dir={locale === 'ar' ? 'rtl' : undefined}>
+<html dir={locale === 'ar' ? 'rtl' : undefined} lang={locale}>
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
-    <meta name="viewport" content="width=device-width, viewport-fit=cover" />
+    <link href={`${base}/favicon.svg`} rel="icon" type="image/svg+xml" />
+    <meta content="width=device-width, viewport-fit=cover" name="viewport" />
     <title>{title}</title>
   </head>
   <body
@@ -45,12 +46,12 @@ const compareRouteAvailable =
       <Footer locale={locale} />
     </footer>
     <CompareTray
+      clearLabel={t('compareTray.clear', locale)}
       client:only="preact"
       compareHref={compareHref}
       compareRouteAvailable={compareRouteAvailable}
       selectedCountTemplate={t('compareTray.selectedCount', locale)}
       showComparisonLabel={t('compareTray.showComparison', locale)}
-      clearLabel={t('compareTray.clear', locale)}
     />
   </body>
 </html>

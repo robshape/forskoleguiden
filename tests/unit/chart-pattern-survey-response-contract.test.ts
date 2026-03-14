@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest'
 import { RESPONSE_SERIES } from '@/lib/chart-patterns'
 import { RESPONSE_ROWS } from '@/lib/survey-responses'
 import type { SurveyResponse } from '@/lib/types'
+
 import { collectKeyPaths } from './helpers/i18n'
 
 // All five canonical SurveyResponse percentage fields.

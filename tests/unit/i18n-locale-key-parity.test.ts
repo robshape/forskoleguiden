@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { collectKeyPaths, loadLocaleFromDisk } from './helpers/i18n'
 
 describe('locale parity', () => {

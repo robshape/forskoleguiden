@@ -1,5 +1,5 @@
-import type { SurveyResponse } from '@/lib/types'
 import { RESPONSE_ROWS } from '@/lib/survey-responses'
+import type { SurveyResponse } from '@/lib/types'
 
 export const TILE_SIZE = 8
 
@@ -39,46 +39,46 @@ export const RESPONSE_SERIES: {
 export const renderPatternContent = (pDef: PatternDef) => {
   return (
     <>
-      <rect width={TILE_SIZE} height={TILE_SIZE} fill={pDef.bg} />
+      <rect fill={pDef.bg} height={TILE_SIZE} width={TILE_SIZE} />
       {pDef.type === 'diagonal' && (
         <path
           d={`M 0 ${TILE_SIZE} L ${TILE_SIZE} 0`}
+          fill="none"
           stroke={pDef.stripe}
           strokeWidth={1.5}
-          fill="none"
         />
       )}
       {pDef.type === 'dots' && (
         <circle
           cx={TILE_SIZE / 2}
           cy={TILE_SIZE / 2}
-          r={1.5}
           fill={pDef.dotColor}
+          r={1.5}
         />
       )}
       {pDef.type === 'horizontal' && (
         <line
-          x1={0}
-          y1={TILE_SIZE / 2}
-          x2={TILE_SIZE}
-          y2={TILE_SIZE / 2}
           stroke={pDef.lineColor}
           strokeWidth={1.5}
+          x1={0}
+          x2={TILE_SIZE}
+          y1={TILE_SIZE / 2}
+          y2={TILE_SIZE / 2}
         />
       )}
       {pDef.type === 'crosshatch' && (
         <>
           <path
             d={`M 0 ${TILE_SIZE} L ${TILE_SIZE} 0`}
+            fill="none"
             stroke={pDef.lineColor}
             strokeWidth={1.5}
-            fill="none"
           />
           <path
             d={`M 0 0 L ${TILE_SIZE} ${TILE_SIZE}`}
+            fill="none"
             stroke={pDef.lineColor}
             strokeWidth={1.5}
-            fill="none"
           />
         </>
       )}
