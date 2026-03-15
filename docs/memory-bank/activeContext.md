@@ -2,13 +2,14 @@
 
 ## Current State
 
-Steps 0–10 are complete. Step 10 (10.1–10.3) required no code changes — the shared `Footer.astro` component (included in `BaseLayout.astro` on every page) already renders the `attribution.text` locale key with a link to `MALMO_SOURCE_URL` in static Astro HTML. This satisfies all three sub-steps: comparison page (10.1), detail pages (10.2), and cross-page verification (10.3). `pnpm validate` is green with 75 unit tests passing.
+Steps 0–10 and Step 11.1 are complete. Step 10 (10.1–10.3) required no code changes — the shared `Footer.astro` component (included in `BaseLayout.astro` on every page) already renders the `attribution.text` locale key with a link to `MALMO_SOURCE_URL` in static Astro HTML. Step 11.1 added a dedicated Playwright axe-core route audit in `tests/e2e/accessibility-axe-core.spec.ts` covering `/sv/`, `/sv/forskola/almgardens-forskola/`, and `/sv/jamfor/` with a seeded 2-school comparison state and hydration guards around client-rendered UI. `pnpm validate` is green with 75 unit tests passing.
 
 For detailed milestone history, see `progress.md`. For settled architectural patterns, see `systemPatterns.md`.
 
 ## Next Focus
 
-1. Step 11 — accessibility audit (axe-core on key pages, keyboard navigation, Lighthouse).
+1. Step 11.2 — keyboard navigation audit.
+2. Step 11.3 — Lighthouse verification.
 
 ## Active Decisions
 

@@ -90,8 +90,8 @@ Non-goals are explicitly out of scope for the MVP (and will not be pursued unles
 - **Ranked list (directory sorting)** (Priority: P0)
   - The directory provides a ranked/sortable list to help users discover candidates to compare.
   - In the MVP, provide at minimum:
-    - A default ranking based on “Helhetsbedömning” (for example, the combined agree share across its questions).
-    - A secondary sort option (for example alphabetical).
+    - A default alphabetical sort that keeps the directory predictable and easy to scan.
+    - A ranking sort option based on “Helhetsbedömning” (for example, the combined agree share across its questions).
   - The ranking method must be transparent in the UI (what it is and how it is computed).
 
 - **Side-by-side comparison** (Priority: P0)
@@ -427,8 +427,8 @@ The MVP will not include usage tracking/analytics, to avoid third-party tools an
 - **ID**: GH-019
 - **Description**: As a parent, I want the preschool list to be ranked/sortable so I can find strong options quickly.
 - **Acceptance criteria**:
-  - The directory has a default ranking method and at least one alternate sort.
-  - The ranking method is clearly explained and is based only on available JSON data.
+  - The directory has a default alphabetical sort and at least one alternate sort.
+  - One available sort is a ranking based only on available JSON data, and that ranking method is clearly explained.
 
 ### 10.20 Use a persistent compare tray
 

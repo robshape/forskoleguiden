@@ -353,9 +353,9 @@ Reference: `docs/mockups/homepage.svg`.
 
 **Test:** Run `pnpm build`. Check `dist/sv/index.html` contains at least 5 preschool cards. Each card shows a name, address, operator type label, and a score. Each name is a link with an `href` matching the pattern `/sv/forskola/{id}/`.
 
-### 4.3 — Render the directory list with default ranking
+### 4.3 — Render the directory list with default alphabetical order
 
-In `src/pages/sv/index.astro`, render the preschool list sorted by `computeOverallScore()` descending (highest agree share first). Display the ranking position for each card (1, 2, 3…). Include a visible explanation of the ranking method: "Rangordnat efter andel instämmande svar i Helhetsbedömningen" (or similar).
+In `src/pages/sv/index.astro`, compute the preschool ranking with `computeOverallScore()` descending (highest agree share first), keep that ranking metadata available for the sort toggle, and render the default server output in alphabetical order. Include a visible explanation of the ranking method: "Rangordnat efter andel instämmande svar i Helhetsbedömningen" (or similar).
 
 #### Visual design (Step 4.3, homepage)
 
@@ -365,13 +365,13 @@ Reference: `docs/mockups/homepage.svg`.
 - Sort control styling: place the active sort control on the same row, right-aligned, using primary-accent text styling to signal interactivity.
 - List rhythm: keep consistent vertical spacing between cards so scan order remains clear on mobile.
 
-**Test:** Run `pnpm build`. In the output HTML for `/sv/index.html`, extract the preschool names in order. Verify they are sorted by descending overall score by comparing against manually computed scores from the seed data. Verify the ranking explanation text is present.
+**Test:** Run `pnpm build`. In the output HTML for `/sv/index.html`, extract the preschool names in order. Verify they are sorted alphabetically, and verify the ranking explanation text is present.
 
-### 4.4 — Add client-side sort toggle (alphabetical)
+### 4.4 — Add client-side sort toggle (ranking)
 
 Create a small Preact island component `src/components/preact/SortToggle.tsx`:
 
-- Renders two buttons/tabs: "Ranking" (default, by score) and "A–Ö" (alphabetical).
+- Renders two buttons/tabs: "A–Ö" (default) and "Ranking" (by score).
 - When toggled, re-sorts the displayed list.
 - The sorted data should be passed as a prop to this island (the full preschool list as a serializable array).
 
@@ -385,7 +385,7 @@ Reference: `docs/mockups/homepage.svg`.
 - Active option uses filled/primary emphasis; inactive option uses neutral surface styling with clear contrast.
 - Keep Swedish labels authoritative for Phase 1 (`Rankning` and `A–Ö`) even if the mockup includes English placeholder copy.
 
-**Test:** Run `pnpm build` and `pnpm preview`. Open the page in a browser. Click "A–Ö" — the list re-sorts alphabetically. Click "Ranking" — it re-sorts by score. Verify both orders are correct. Write an e2e test that: loads `/sv/`, clicks the alphabetical sort button, and asserts the first preschool's name is alphabetically first.
+**Test:** Run `pnpm build` and `pnpm preview`. Open the page in a browser. Verify `A–Ö` is active on load. Click "Ranking" — the list re-sorts by score. Click "A–Ö" — it re-sorts alphabetically. Verify both orders are correct. Write an e2e test that: loads `/sv/`, verifies alphabetical is active by default, clicks the ranking sort button, and asserts the first preschool matches the score-based order.
 
 ---
 
