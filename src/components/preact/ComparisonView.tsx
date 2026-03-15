@@ -1,5 +1,8 @@
 import { useStore } from '@nanostores/preact'
 
+import { computeSummary } from '@/features/comparison/summary'
+import { formatSummaryText } from '@/features/comparison/summaryText'
+import type { Locale } from '@/i18n/utils'
 import { computeAgreeShare, OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
 import { compareIds } from '@/lib/state'
 import type { PreschoolSurvey, SurveyResponse } from '@/lib/types'
@@ -12,6 +15,7 @@ interface Props {
   emptyStateTitle: string
   emptyStateBody: string
   singleSelectionPrompt: string
+  summaryHeading: string
   questionColumnLabel: string
   backToDirectoryLabel: string
   surveys: PreschoolSurvey[]
@@ -19,6 +23,7 @@ interface Props {
   categoryLabels: string[]
   /** Template for the chart aria-label; "{question}" is replaced with question text */
   chartAriaLabelTemplate: string
+  locale: Locale
 }
 
 export default function ComparisonView({
@@ -27,11 +32,13 @@ export default function ComparisonView({
   emptyStateTitle,
   emptyStateBody,
   singleSelectionPrompt,
+  summaryHeading,
   questionColumnLabel,
   backToDirectoryLabel,
   surveys,
   categoryLabels,
   chartAriaLabelTemplate,
+  locale,
 }: Props) {
   const ids = useStore(compareIds)
 
@@ -179,6 +186,40 @@ export default function ComparisonView({
           )
         })}
       </div>
+
+      {selectedSurveys.length >= 2 &&
+        (() => {
+          const names: Record<string, string> = {}
+          for (const survey of selectedSurveys) {
+            names[survey.id] = survey.preschoolName
+          }
+          const summary = computeSummary(selectedSurveys)
+          const formatted = formatSummaryText(summary, names, locale)
+          const sentences = formatted.pairs.flatMap((pair) => pair.sentences)
+          if (sentences.length === 0) return null
+          return (
+            <section
+              aria-labelledby="comparison-summary-heading"
+              class="mt-8"
+              data-testid="comparison-summary"
+              role="region"
+            >
+              <h2
+                class="mb-3 text-sm font-semibold text-gray-900"
+                id="comparison-summary-heading"
+              >
+                {summaryHeading}
+              </h2>
+              <ul class="space-y-2">
+                {sentences.map((sentence) => (
+                  <li class="text-sm text-gray-700" key={sentence}>
+                    {sentence}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        })()}
     </div>
   )
 }

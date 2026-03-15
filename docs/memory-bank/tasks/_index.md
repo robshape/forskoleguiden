@@ -6,6 +6,7 @@
 
 ## Completed
 
+- [TASK031] Implement Step 9.3 render comparison summary text - Completed 2026-03-15
 - [TASK030] Implement Step 9.2 deterministic summary text - Completed 2026-03-14
 - [TASK029] Implement Step 9.1 deterministic comparison summary logic - Completed 2026-03-14
 - [TASK028] Implement Step 8.5 chart/table ARIA wiring - Completed 2026-03-12

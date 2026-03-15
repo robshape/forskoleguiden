@@ -50,6 +50,7 @@
   },
   "compare": {
     "heading": "Compare preschools",
+    "summaryHeading": "Summary",
     "emptyStateTitle": "No preschools selected",
     "emptyStateBody": "Select preschools in the list to view a comparison.",
     "singleSelectionPrompt": "Select at least one more preschool to see a comparison.",

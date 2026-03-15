@@ -1154,3 +1154,95 @@ test.describe('no-JS static fallback', () => {
     ).toContain('förskola')
   })
 })
+
+// ---------------------------------------------------------------------------
+// Tests — deterministic comparison summary text (Step 9.3)
+// ---------------------------------------------------------------------------
+
+test.describe('deterministic comparison summary text', () => {
+  // Almgårdens (base) vs Augustenborgs (target):
+  //   Q1 delta = 91 − 95 = −4 → "similar"
+  //   Q2 delta = 86 − 93 = −7 → "lower"
+  //
+  // Expected Swedish sentences (derived from summary.* i18n templates):
+  //   similar: "{left} ({leftPercent}%) och {right} ({rightPercent}%) har liknande andel instämmande svar för \"{question}\"."
+  //   lower:   "{left} ({leftPercent}%) har lägre andel instämmande svar än {right} ({rightPercent}%) för \"{question}\"."
+  //
+  // For "lower", left = targetName (Augustenborgs), right = baseName (Almgårdens).
+  // For "similar", left = baseName  (Almgårdens),   right = targetName (Augustenborgs).
+
+  test('two-preschool comparison renders deterministic summary sentences below the charts', async ({
+    page,
+  }) => {
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate(() => {
+      sessionStorage.setItem(
+        'compareIds',
+        JSON.stringify(['almgardens-forskola', 'augustenborgs-forskola']),
+      )
+    })
+
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status()).toBe(200)
+
+    // Comparison view must be active before asserting summary
+    await expect(page.getByTestId('comparison-table')).toBeVisible()
+
+    // The summary section must be present in the DOM
+    const summary = page.getByTestId('comparison-summary')
+    await expect(summary).toBeVisible()
+    await expect(
+      page.getByRole('region', { name: 'Sammanfattning' }),
+    ).toBeVisible()
+    await expect(
+      summary.getByRole('heading', { name: 'Sammanfattning' }),
+    ).toBeVisible()
+
+    // Q1 "similar" sentence — both preschool names and Swedish classification phrase
+    await expect(
+      summary.getByText(
+        'Almgårdens förskola (95%) och Augustenborgs förskola (91%) har liknande andel instämmande svar för "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola".',
+        { exact: true },
+      ),
+    ).toBeVisible()
+
+    // Q2 "lower" sentence — target is the subject; contains "har lägre andel instämmande svar"
+    await expect(
+      summary.getByText(
+        'Augustenborgs förskola (86%) har lägre andel instämmande svar än Almgårdens förskola (93%) för "Jag skulle rekommendera mitt barns förskola till en annan förälder".',
+        { exact: true },
+      ),
+    ).toBeVisible()
+  })
+
+  test('single-preschool state does not render a comparison summary section', async ({
+    page,
+  }) => {
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate(() => {
+      sessionStorage.setItem(
+        'compareIds',
+        JSON.stringify(['almgardens-forskola']),
+      )
+    })
+
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status()).toBe(200)
+
+    // Single-selection prompt must be visible (the normal single-preschool state)
+    await expect(page.getByTestId('single-selection-prompt')).toBeVisible()
+
+    // Summary must not be present when only one preschool is selected
+    await expect(page.getByTestId('comparison-summary')).not.toBeAttached()
+  })
+})

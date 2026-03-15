@@ -50,6 +50,7 @@
   },
   "compare": {
     "heading": "Jämför förskolor",
+    "summaryHeading": "Sammanfattning",
     "emptyStateTitle": "Inga förskolor valda",
     "emptyStateBody": "Välj förskolor i listan för att se en jämförelse.",
     "singleSelectionPrompt": "Välj minst en förskola till för att se en jämförelse.",
