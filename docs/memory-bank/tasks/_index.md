@@ -6,6 +6,8 @@
 
 ## Completed
 
+- [TASK034] Implement Step 11.2 keyboard navigation audit - Completed 2026-03-15
+
 - [TASK033] Implement Step 11.1 axe-core audit - Completed 2026-03-15
 - [TASK032] Close Step 10 data attribution (10.1–10.3) — already satisfied by shared footer - Completed 2026-03-15
 - [TASK031] Implement Step 9.3 render comparison summary text - Completed 2026-03-15

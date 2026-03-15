@@ -2,14 +2,13 @@
 
 ## Current State
 
-Steps 0–10 and Step 11.1 are complete. Step 10 (10.1–10.3) required no code changes — the shared `Footer.astro` component (included in `BaseLayout.astro` on every page) already renders the `attribution.text` locale key with a link to `MALMO_SOURCE_URL` in static Astro HTML. Step 11.1 added a dedicated Playwright axe-core route audit in `tests/e2e/accessibility-axe-core.spec.ts` covering `/sv/`, `/sv/forskola/almgardens-forskola/`, and `/sv/jamfor/` with a seeded 2-school comparison state and hydration guards around client-rendered UI. `pnpm validate` is green with 75 unit tests passing.
+Steps 0–10 and Steps 11.1–11.2 are complete. Step 11.2 added a dedicated Playwright keyboard-navigation suite in `tests/e2e/keyboard-navigation-focus-ring.spec.ts` that covers the Swedish directory page, compare tray, and comparison page with real Tab and Enter/Space interactions, plus shared `getFocusRingContract` and `getFocusOutlineContract` helpers in `tests/e2e/fixtures.ts` so focus assertions match the app's ring-based and outline-based styling models. The step remained test-only: the existing UI already satisfied the required keyboard contracts, and `pnpm validate` is green after the new suite landed.
 
 For detailed milestone history, see `progress.md`. For settled architectural patterns, see `systemPatterns.md`.
 
 ## Next Focus
 
-1. Step 11.2 — keyboard navigation audit.
-2. Step 11.3 — Lighthouse verification.
+1. Step 11.3 — Lighthouse verification.
 
 ## Active Decisions
 
@@ -18,3 +17,4 @@ For detailed milestone history, see `progress.md`. For settled architectural pat
 - Step 9.1 summary data is emitted as unique pairwise combinations with one directional classification per pair/question; the compared question set is always anchored to the first selected survey, and pairs with zero matched questions are omitted entirely.
 - Step 9.2 summary text keeps all user-facing copy in locale JSON files. Directional sentences (`higher`/`lower`) use the target preschool as the grammatical subject, while `similar` stays base-first for deterministic ordering.
 - Step 9.3 summary rendering stays intentionally minimal: it flattens all formatted pair sentences into a single list below the charts and only mounts that section for 2+ selected preschools.
+- Step 11.2 treats keyboard coverage as an interactive-control concern only: comparison charts and the read-only comparison table remain intentionally non-tabbable and continue to be covered by semantics plus axe assertions instead of forced Tab-order tests.

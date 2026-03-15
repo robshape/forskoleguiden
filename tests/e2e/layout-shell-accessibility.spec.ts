@@ -1,17 +1,5 @@
 import { MALMO_SOURCE_URL } from '../../src/lib/constants'
-import { expect, type Locator, test } from './fixtures'
-
-const getFocusOutlineContract = async (selector: Locator) =>
-  selector.evaluate((element: Element) => {
-    const computedStyle = window.getComputedStyle(element)
-
-    return {
-      outlineWidth: computedStyle.outlineWidth,
-      outlineStyle: computedStyle.outlineStyle,
-      outlineOffset: computedStyle.outlineOffset,
-      outlineColor: computedStyle.outlineColor,
-    }
-  })
+import { expect, getFocusOutlineContract, test } from './fixtures'
 
 test('layout and navigation shell render required semantics on /sv/', async ({
   page,
