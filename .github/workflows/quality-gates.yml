@@ -2,7 +2,7 @@
 # Reusable workflow (not a composite action) so Dependabot can still update
 # the pinned action versions inside — it only scans .github/workflows/*.yml.
 #
-# Runs: lint → lint:md → format:check → type check → unit tests → build → e2e.
+# Runs: lint → lint:md → format:check → type check → unit tests → build → post-build tests → e2e → Lighthouse.
 
 name: Quality Gates
 
@@ -55,6 +55,10 @@ jobs:
       - name: Build site
         run: pnpm build
 
+      # ── Post-build unit tests (require dist/) ─────────────────────────────
+      - name: Run post-build tests
+        run: pnpm test:post-build
+
       # ── E2E tests (needs build output for pnpm preview) ──────────
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium webkit
@@ -64,3 +68,18 @@ jobs:
 
       - name: Run WebKit e2e tests
         run: pnpm test:e2e:webkit
+
+      # ── Lighthouse audit (accessibility error gate, performance advisory) ──
+      # Runs last: lhci autorun starts its own pnpm preview on port 4321.
+      # Placing it after Playwright avoids a port-4321 conflict with the
+      # Playwright webServer config that also binds port 4321.
+      - name: Run Lighthouse audit
+        run: pnpm audit:lighthouse
+
+      - name: Upload Lighthouse results
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: lighthouse-results
+          path: .lighthouse-results/
+          if-no-files-found: ignore
