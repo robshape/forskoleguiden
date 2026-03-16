@@ -19,7 +19,7 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "latest": "pnpm update --latest",
-    "lint": "eslint .",
+    "lint": "eslint --max-warnings 0 .",
     "lint:fix": "eslint . --fix",
     "lint:md": "markdownlint-cli2",
     "lint:md:fix": "markdownlint-cli2 --fix",
