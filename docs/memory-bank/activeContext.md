@@ -2,14 +2,14 @@
 
 ## Current State
 
-Steps 0–12 are complete. Step 12 (Build and Deploy Pipeline) was already satisfied by the CI/CD workflows built incrementally during earlier steps: `deploy.yml` (push-to-main deploy via GitHub Pages), `quality-gates.yml` (shared reusable pipeline: lint, check, test, build, e2e, Lighthouse), and `dependabot.yml` (PR quality gates + auto-merge for Dependabot). No new code was needed — the existing three-workflow architecture exceeds the original Step 12 requirements. `pnpm validate` is green with 75 unit tests and 1 post-build test passing.
+Steps 0–13.1 are complete. Step 13.1 (Static Output Verification) added a 7-test post-build contract in `tests/post-build/static-output-verification.test.ts` that verifies: the root redirect, the Swedish directory/about/comparison pages, per-preschool detail pages (from `data/malmo/index.json`), the implementation plan's minimum HTML file count (≥8), and a total non-image `dist/` size budget (<500 KB). `pnpm validate` is fully green: 0 lint errors, 75 unit tests, 9 post-build tests, 61 e2e tests, Lighthouse healthcheck passed.
 
 For detailed milestone history, see `progress.md`. For settled architectural patterns, see `systemPatterns.md`.
 
 ## Next Focus
 
-- Steps 0–12 complete; the Phase 1 implementation plan is fully delivered through the Build and Deploy Pipeline milestone.
-- Next: Step 13 (Final Verification) or Phase 2 roadmap items (i18n EN/AR page routes, shortlist sharing).
+- Step 13.1 is complete; Step 13.2 remains open in `docs/implementation-plan.md`.
+- Next: finish Step 13.2, then continue with Phase 2 roadmap items — i18n EN/AR page routes, shortlist URL sharing.
 
 ## Active Decisions
 
