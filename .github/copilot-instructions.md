@@ -56,7 +56,7 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 
 ## CI/CD
 
-**Reusable quality-gates workflow** (`.github/workflows/quality-gates.yml`) — a `workflow_call` workflow containing all quality gate steps: checkout, pnpm/node setup, install, lint, lint:md, format:check, check, test, build, Playwright browser install, Chromium e2e, and the narrow WebKit Step 7.4 mobile regression. Takes no inputs — pure validation only. Both `deploy.yml` and `dependabot.yml` consume this reusable workflow instead of inlining steps. This pattern was chosen over a local composite action (`.github/actions/`) because Dependabot's `github-actions` ecosystem only scans `.github/workflows/*.yml` for action version updates.
+**Reusable quality-gates workflow** (`.github/workflows/quality-gates.yml`) — a `workflow_call` workflow containing all quality gate steps: checkout, pnpm/node setup, install, lint, lint:md, format, check, test, build, Playwright browser install, Chromium e2e, and the narrow WebKit Step 7.4 mobile regression. Takes no inputs — pure validation only. Both `deploy.yml` and `dependabot.yml` consume this reusable workflow instead of inlining steps. This pattern was chosen over a local composite action (`.github/actions/`) because Dependabot's `github-actions` ecosystem only scans `.github/workflows/*.yml` for action version updates.
 
 **Deploy workflow** (`.github/workflows/deploy.yml`) triggers on push to `main`. Calls `quality-gates.yml`, then a separate build job (gated on quality-gates passing) rebuilds, uploads the Pages artifact, and a deploy job deploys to GitHub Pages. Uses `GITHUB_TOKEN` for all auth. Concurrency group `pages` cancels in-progress runs. Node and pnpm versions are pinned to exact semver (22.14.0 and 10.29.3).
 
@@ -133,8 +133,8 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - `pnpm test:e2e:webkit` — narrow WebKit/iPhone 13 mini regression run for `tests/e2e/comparison-page-mobile-webkit.spec.ts`
 - `pnpm lint` — ESLint (flat config)
 - `pnpm lint:md` — Markdown linting
-- `pnpm format` — Prettier (writes); `pnpm format:check` (CI-safe check)
-- `pnpm validate` — runs lint + lint:md + format:check + check + test + build sequentially (used in CI)
+- `pnpm format` — Prettier (check); `pnpm format:fix` — Prettier (writes)
+- `pnpm validate` — runs lint + lint:md + format + check + test + build sequentially (used in CI)
 
 **Pre-commit hook**: `.husky/pre-commit` runs `lint-staged` on staged files only. The `lint-staged` config in `package.json` runs `astro check` + ESLint on `.ts/.tsx/.astro` files, markdownlint on `.md` files, and `prettier --check` on all files. Full `pnpm validate` runs in CI via `quality-gates.yml`.
 

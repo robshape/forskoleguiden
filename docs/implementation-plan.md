@@ -103,7 +103,8 @@ Add the following scripts to `package.json`:
 - `"test:watch": "vitest"`
 - `"test:e2e": "playwright test"`
 - `"lint": "eslint ."` (ESLint v9 flat config controls file extensions via `files` globs in the config — do NOT use the removed `--ext` flag)
-- `"format": "prettier --write \"src/**/*.{ts,tsx,astro,css,json}\""`
+- `"format": "prettier --check ."`
+- `"format:fix": "prettier --write ."`
 
 **Test:** Run `pnpm build`. The build completes and produces a `dist/` folder (likely empty or with just a 404 page). Run `pnpm check` — should succeed with no type errors.
 

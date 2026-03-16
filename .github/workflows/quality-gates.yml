@@ -2,7 +2,7 @@
 # Reusable workflow (not a composite action) so Dependabot can still update
 # the pinned action versions inside — it only scans .github/workflows/*.yml.
 #
-# Runs: lint → lint:md → format:check → type check → unit tests → build → post-build tests → e2e → Lighthouse.
+# Runs: lint → lint:md → format → type check → unit tests → build → post-build tests → e2e → Lighthouse.
 
 name: Quality Gates
 
@@ -41,7 +41,7 @@ jobs:
         run: pnpm lint:md
 
       - name: Check formatting (Prettier)
-        run: pnpm format:check
+        run: pnpm format
 
       # ── Type checking ─────────────────────────────────────────────
       - name: Type check (Astro)
