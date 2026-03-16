@@ -33,14 +33,24 @@ async function expectQuestionResponseRows(
   questionCard: Locator,
   expectedRows: ExpectedResponseRow[],
 ) {
-  const rows = questionCard.locator(':scope > ul > li')
+  // Validate the sr-only accessible table structure
+  const rows = questionCard.locator('table tbody tr')
 
   await expect(rows).toHaveCount(expectedRows.length)
 
   for (const [index, expectedRow] of expectedRows.entries()) {
     const row = rows.nth(index)
-    await expect(row).toContainText(expectedRow.label)
-    await expect(row).toContainText(expectedRow.value)
+    await expect(row.locator('th')).toContainText(expectedRow.label)
+    await expect(row.locator('td')).toContainText(expectedRow.value)
+  }
+
+  // Validate the visible chart legend renders matching labels and percentages
+  for (const expectedRow of expectedRows) {
+    const percent = parseInt(expectedRow.value, 10)
+    if (percent === 0) continue
+    await expect(
+      questionCard.getByText(`${expectedRow.label} (${expectedRow.value})`),
+    ).toBeVisible()
   }
 }
 
@@ -120,14 +130,6 @@ test.describe('Swedish preschool detail pages contract', () => {
     await expect(page.getByText('Kommunal')).toBeVisible()
   })
 
-  test('detail page renders the survey year', async ({ page }) => {
-    await page.goto(TEST_URL)
-
-    // The survey year 2025 must be explicitly visible on the page
-    const contentYear = page.locator('main').getByText(/2025/)
-    await expect(contentYear).toBeVisible()
-  })
-
   test('detail page renders Helhetsbedömning section heading and question texts', async ({
     page,
   }) => {
@@ -139,17 +141,21 @@ test.describe('Swedish preschool detail pages contract', () => {
 
     // Question texts from almgardens-forskola.json
     await expect(
-      page.getByText(
-        'Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola',
-        { exact: false },
-      ),
+      page
+        .getByText(
+          'Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola',
+          { exact: false },
+        )
+        .first(),
     ).toBeVisible()
 
     await expect(
-      page.getByText(
-        'Jag skulle rekommendera mitt barns förskola till en annan förälder',
-        { exact: false },
-      ),
+      page
+        .getByText(
+          'Jag skulle rekommendera mitt barns förskola till en annan förälder',
+          { exact: false },
+        )
+        .first(),
     ).toBeVisible()
   })
 

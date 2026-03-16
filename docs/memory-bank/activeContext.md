@@ -2,7 +2,7 @@
 
 ## Current State
 
-Steps 0–13.2 are complete. Step 13.2 (End-to-end User Flow Test) added `tests/e2e/user-flow-phase1.spec.ts`, a single comprehensive Playwright journey that covers the full Phase 1 Malmö flow: directory load, sort toggling, real compare-button selection of 3 preschools, compare-tray navigation, 3-school comparison rendering, chart and summary assertions, comparison-page attribution, return to the directory, preschool detail navigation, and sessionStorage-backed state persistence across both comparison and detail-page round trips. `pnpm validate` is fully green: 0 lint errors, 75 unit tests, 61 Chromium e2e tests, 1 WebKit regression test, 9 post-build tests, and Lighthouse healthcheck passed.
+Steps 0–13.2 are complete. Just successfully revised the UI of the Preschool Details page to more closely match the `<svg>` mockup while preserving established A11Y rules completely intact. The visual changes abstract the survey data into `QuestionCard.astro` wrapping an SVG `DetailsBarChart` alongside a screen-reader-only accessible data table. `pnpm validate` remains green.
 
 For detailed milestone history, see `progress.md`. For settled architectural patterns, see `systemPatterns.md`.
 

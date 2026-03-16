@@ -62,6 +62,9 @@
     "chartAriaLabel": "رسم بياني شريطي لـ: {question}",
     "noscriptMessage": "تتطلب هذه الصفحة JavaScript. قم بزيارة صفحة كل روضة أطفال مباشرةً لمزيد من المعلومات."
   },
+  "survey": {
+    "results": "نتائج الاستبيان"
+  },
   "responses": {
     "completelyAgree": "أوافق تمامًا",
     "partlyAgree": "أوافق جزئيًا",

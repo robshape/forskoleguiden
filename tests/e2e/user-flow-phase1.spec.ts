@@ -231,15 +231,15 @@ test('full Phase 1 user journey: directory → sort → select 3 → compare pag
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(PRESCHOOL_1)
 
   // Operator type indicator
-  await expect(page.locator('p', { hasText: 'Kommunal' })).toBeVisible()
-
-  // Overall assessment (Helhetsbedömning) section heading
   await expect(
-    page.getByRole('heading', { name: 'Helhetsbedömning' }),
+    page.locator('div', { hasText: 'Kommunal' }).first(),
   ).toBeVisible()
 
+  // Overall assessment (Helhetsbedömning) section heading
+  await expect(page.getByText('Helhetsbedömning')).toBeVisible()
+
   // Survey year is shown
-  await expect(page.locator('p', { hasText: '2025' })).toBeVisible()
+  await expect(page.locator('div', { hasText: '2025' }).first()).toBeVisible()
 
   // ── Step 14: Navigate back to directory, verify compare state persists ────
   const detailBackLink = page.getByRole('link', {

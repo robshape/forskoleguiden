@@ -62,6 +62,9 @@
     "chartAriaLabel": "Bar chart for: {question}",
     "noscriptMessage": "This page requires JavaScript. Visit each preschool's page directly for more information."
   },
+  "survey": {
+    "results": "Survey Results"
+  },
   "responses": {
     "completelyAgree": "Completely agree",
     "partlyAgree": "Partly agree",

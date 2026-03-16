@@ -187,23 +187,31 @@ test.describe('compare tray visibility and interaction behavior', () => {
     const tray = getCompareTray(page)
     await expect(tray).toBeVisible()
 
+    // Wait and ensure ResizeObserver has updated the CSS variable
+    await page.waitForFunction(() => {
+      const height =
+        document.documentElement.style.getPropertyValue('--tray-height')
+      return height && height !== '0px'
+    })
+
     // Scroll to the very bottom of the page so the footer is in view
     await page.evaluate(() =>
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' }),
     )
 
-    const trayBox = await tray.boundingBox()
     const footerLink = page.locator('footer').getByRole('link').first()
-    const footerLinkBox = await footerLink.boundingBox()
 
-    expect(trayBox).not.toBeNull()
-    expect(footerLinkBox).not.toBeNull()
-
-    // The bottom edge of the footer link must sit at or above the top edge of the
-    // fixed tray — i.e. the tray must not obscure the footer content.
-    expect(footerLinkBox!.y + footerLinkBox!.height).toBeLessThanOrEqual(
-      trayBox!.y,
-    )
+    // Poll until the footer link is fully above the fixed tray — avoids a
+    // brittle waitForTimeout by retrying the geometric check until the
+    // layout has settled after scrolling.
+    await expect
+      .poll(async () => {
+        const trayBox = await tray.boundingBox()
+        const footerLinkBox = await footerLink.boundingBox()
+        if (!trayBox || !footerLinkBox) return false
+        return footerLinkBox.y + footerLinkBox.height <= trayBox.y
+      })
+      .toBe(true)
   })
 
   test('tray state recovers after a full page reload and subsequent compare toggles', async ({
