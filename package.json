@@ -30,7 +30,7 @@
     "test:e2e:webkit": "playwright test --config=playwright.webkit.config.ts",
     "test:post-build": "vitest run --config vitest.post-build.config.ts",
     "test:watch": "vitest",
-    "validate": "pnpm lint && pnpm lint:md && pnpm format && pnpm check && pnpm test && pnpm build && pnpm test:post-build && pnpm audit:lighthouse"
+    "validate": "pnpm lint && pnpm lint:md && pnpm format && pnpm check && pnpm test && pnpm test:e2e && pnpm test:e2e:webkit && pnpm build && pnpm test:post-build && pnpm audit:lighthouse"
   },
   "dependencies": {
     "@astrojs/preact": "5.0.0",
