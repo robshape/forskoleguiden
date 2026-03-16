@@ -6,7 +6,7 @@
 
 ## Original Request
 
-Implement Step 9.2 from `docs/implementation-plan.md`: create comparison summary text templates and formatting logic that turns deterministic summary data into localized human-readable sentences.
+Implement Step 9.2 from `docs/implementation-plan-phase-1.md`: create comparison summary text templates and formatting logic that turns deterministic summary data into localized human-readable sentences.
 
 ## Thought Process
 

@@ -35,7 +35,7 @@ Step 13.2 is a final-verification task, not a product feature. The repo already 
 ### 2026-03-16 (Phase 3 — Validation and Close)
 
 - Ran `pnpm validate`: all gates green — 0 lint errors, 0 markdown errors, 0 format issues, 0 type errors, 75 unit tests, 61 Chromium e2e tests, 1 WebKit regression, 9 post-build tests, Lighthouse healthcheck passed.
-- Updated `docs/implementation-plan.md` to correct the stale Step 13.2 wording so the final-verification steps match the shipped default alphabetical sort.
+- Updated `docs/implementation-plan-phase-1.md` to correct the stale Step 13.2 wording so the final-verification steps match the shipped default alphabetical sort.
 - Updated `docs/memory-bank/activeContext.md` and `docs/memory-bank/progress.md` to reflect Step 13.2 completion and the now-complete Step 13 milestone.
 - Updated task index to add TASK038 to Completed.
 

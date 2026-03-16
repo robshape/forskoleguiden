@@ -6,7 +6,7 @@
 
 ## Original Request
 
-Implement Step 11.2 from `docs/implementation-plan.md`: write keyboard navigation audits that verify Tab reachability and keyboard operability across the directory page, comparison page, and compare tray controls.
+Implement Step 11.2 from `docs/implementation-plan-phase-1.md`: write keyboard navigation audits that verify Tab reachability and keyboard operability across the directory page, comparison page, and compare tray controls.
 
 ## Thought Process
 

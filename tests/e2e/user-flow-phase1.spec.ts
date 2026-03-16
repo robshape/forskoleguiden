@@ -49,7 +49,7 @@ const waitForCompareButtonSelected = async (page: Page, name: string) => {
 }
 
 // ---------------------------------------------------------------------------
-// Full Phase 1 user journey — 14 steps from docs/implementation-plan.md §13.2
+// Full Phase 1 user journey — 14 steps from docs/implementation-plan-phase-1.md §13.2
 // ---------------------------------------------------------------------------
 
 test('full Phase 1 user journey: directory → sort → select 3 → compare page → back → detail → state persistence', async ({

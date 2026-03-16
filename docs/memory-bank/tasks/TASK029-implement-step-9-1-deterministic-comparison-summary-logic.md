@@ -6,7 +6,7 @@
 
 ## Original Request
 
-Implement Step 9.1 from `docs/implementation-plan.md`: add deterministic comparison summary logic that computes per-question pairwise comparisons for selected preschools.
+Implement Step 9.1 from `docs/implementation-plan-phase-1.md`: add deterministic comparison summary logic that computes per-question pairwise comparisons for selected preschools.
 
 ## Thought Process
 

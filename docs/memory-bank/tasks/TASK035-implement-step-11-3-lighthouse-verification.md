@@ -6,7 +6,7 @@
 
 ## Original Request
 
-Implement Step 11.3 from `docs/implementation-plan.md`: run Lighthouse verification for the built site and verify the Swedish directory page meets the accessibility, performance, and page-weight targets.
+Implement Step 11.3 from `docs/implementation-plan-phase-1.md`: run Lighthouse verification for the built site and verify the Swedish directory page meets the accessibility, performance, and page-weight targets.
 
 ## Thought Process
 

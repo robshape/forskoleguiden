@@ -72,6 +72,8 @@ Non-goals are explicitly out of scope for the MVP (and will not be pursued unles
 
 ## 4. Functional requirements
 
+> **Priority vs. Phase**: Priority labels (P0, P1) indicate importance for the full MVP launch — P0 means "must ship before public launch", P1 means "important but deferrable". Phase labels (Phase 1, 2, 3) are internal implementation milestones. A P0 feature may be scheduled for Phase 2 if it depends on Phase 1 infrastructure. See §9.3 for the phase breakdown.
+
 - **City selection** (Priority: P0)
   - The UI supports selecting a city; at launch Malmö is the only available/selectable city.
   - Malmö is selected by default on first visit.
@@ -138,8 +140,9 @@ Non-goals are explicitly out of scope for the MVP (and will not be pursued unles
   - Provide a simple guided flow that asks about priorities (for example distance vs ratings vs operator type vs profiles) and suggests a shortlist.
   - The guide must be transparent about how suggestions are computed.
 
-- **Independent preschool queue link** (Priority: P0)
-  - For independent preschools, show a clear link to the preschool’s official instructions/homepage for registering in their private queue.
+- **Independent preschool queue link** (Priority: P2)
+  - For independent preschools, show a clear link to the preschool's official instructions/homepage for registering in their private queue.
+  - Deferred to Phase 2: requires queue/homepage URL data per preschool, which is not yet available in the data model.
 
 - **Data attribution and provenance** (Priority: P0)
   - The site must clearly acknowledge that survey data is provided by the local government (for Malmö, Malmö stad) and link to the official overview/source pages.
@@ -278,6 +281,7 @@ The MVP will not include usage tracking/analytics, to avoid third-party tools an
   - Shareable URL with versioned payload.
   - Swedish/English/Arabic translations and RTL support.
   - Email via `mailto:`.
+  - Independent preschool queue links (requires per-preschool queue/homepage URL data).
 - **Phase 3**: Guidance and criteria (1–2 weeks)
   - Guided “pick five” flow.
   - Operator type, profiles, and distance filtering (if coordinates available).
@@ -397,8 +401,7 @@ The MVP will not include usage tracking/analytics, to avoid third-party tools an
 
 ### 10.13 Independent preschool queue links
 
-- **ID**: GH-013
-- **Description**: As a parent, I want a direct link to an independent preschool’s queue instructions so I can apply correctly.
+- **ID**: GH-013- **Phase**: Phase 2- **Description**: As a parent, I want a direct link to an independent preschool’s queue instructions so I can apply correctly.
 - **Acceptance criteria**:
   - Independent preschools display a prominent link to their official queue/homepage.
   - Municipal preschools do not display irrelevant queue links.

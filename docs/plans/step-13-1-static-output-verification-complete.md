@@ -32,7 +32,7 @@ Step 13.1 is complete. The repo now enforces final static-output verification th
 
 **Recommendations for Next Steps**:
 
-- Complete the remaining Step 13 final-verification work if any scope remains open against `docs/implementation-plan.md`.
+- Complete the remaining Step 13 final-verification work if any scope remains open against `docs/implementation-plan-phase-1.md`.
 - Continue with Phase 2 roadmap items: localized EN/AR routes and shortlist URL sharing.
 
 **Git Commit Message**: `test: add static output verification`

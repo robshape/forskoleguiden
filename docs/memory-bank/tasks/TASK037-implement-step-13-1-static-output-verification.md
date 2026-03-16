@@ -45,4 +45,4 @@ Step 13.1 is a final verification task, not a runtime feature. The repo already 
 - Created the Step 13.1 plan artifact in `docs/plans/`.
 - Opened TASK037 to track the final static-output verification work.
 - Confirmed the implementation should extend the existing post-build verification lane rather than add runtime code.
-- Added `tests/post-build/static-output-verification.test.ts` with 7 assertions: root redirect, sv/index, sv/om, sv/jamfor, per-preschool detail pages, implementation-plan HTML file count floor (≥8), total non-image dist size (<500 KB).
+- Added `tests/post-build/static-output-verification.test.ts` with 7 assertions: root redirect, sv/index, sv/om, sv/jamfor, per-preschool detail pages, implementation-plan-phase-1 HTML file count floor (≥8), total non-image dist size (<500 KB).

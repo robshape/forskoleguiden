@@ -9,7 +9,7 @@ For detailed milestone history, see `progress.md`. For settled architectural pat
 ## Next Focus
 
 - Step 13 is complete.
-- Next: continue with Phase 2 roadmap items — i18n EN/AR page routes, shortlist URL sharing.
+- Next: continue with Phase 2 roadmap items — i18n EN/AR page routes, shortlist URL sharing, independent preschool queue links.
 
 ## Active Decisions
 

@@ -6,7 +6,7 @@
 
 ## Original Request
 
-Implement Step 11.1 from `docs/implementation-plan.md`: run `@axe-core/playwright` accessibility checks on `/sv/`, `/sv/forskola/{any-id}/`, and `/sv/jamfor/` with 2+ preschools selected.
+Implement Step 11.1 from `docs/implementation-plan-phase-1.md`: run `@axe-core/playwright` accessibility checks on `/sv/`, `/sv/forskola/{any-id}/`, and `/sv/jamfor/` with 2+ preschools selected.
 
 ## Thought Process
 

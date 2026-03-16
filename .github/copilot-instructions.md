@@ -11,9 +11,9 @@
 
 ## Project overview
 
-Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents compare preschools side-by-side using official survey ratings, build a "pick 5" shortlist, and share via URL-encoded state. No backend, no accounts, no external APIs at runtime. Implementation follows the phased plan in `docs/implementation-plan.md`.
+Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents compare preschools side-by-side using official survey ratings, build a "pick 5" shortlist, and share via URL-encoded state. No backend, no accounts, no external APIs at runtime. Implementation follows the phased plan in `docs/implementation-plan-phase-1.md`.
 
-**Current phase**: Steps 0–12 complete (infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, deterministic summaries, data attribution, accessibility audits, CI/CD pipeline). Step 13 (Final Verification) is next. See `docs/memory-bank/progress.md` for detailed status.
+**Current phase**: Phase 1 complete (Steps 0–13). Infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, deterministic summaries, data attribution, accessibility audits, CI/CD pipeline, and final verification are all done. Next: Phase 2 roadmap items (i18n EN/AR page routes, shortlist, sharing, independent preschool queue links). See `docs/memory-bank/progress.md` for detailed status.
 
 ## Architecture
 
@@ -103,7 +103,7 @@ tests/e2e/**/*.spec.ts        — Playwright e2e tests
 - **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro. Astro components receive `locale: Locale` as a prop and call `t()` for all user-facing text — see `Nav.astro`, `Footer.astro` for the pattern. Preact islands that depend on persisted client state (e.g., `sessionStorage`) should use `client:only="preact"` to avoid SSR/client hydration mismatches.
 - **Layout pattern**: all pages wrap content in `<BaseLayout locale={locale} title={...}>`. BaseLayout sets `lang`, `dir` (RTL for Arabic), loads global CSS, and renders Nav + Footer.
 - **No `@astrojs/tailwind`** — Tailwind v4 uses the Vite plugin directly: `@tailwindcss/vite` in `astro.config.ts`. Design tokens are defined as `@theme` variables in `src/styles/global.css` (e.g. `--color-primary-600`, `--max-width-content`).
-- **i18n**: three locales (`sv`, `en`, `ar`) defined in `src/i18n/`. Currently **only Swedish pages exist** (`/sv/`); EN/AR page routes are planned but not yet built — see `docs/implementation-plan.md`. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants when added. Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. Supports interpolation: `t('compareTray.selectedCount', locale, { count: 3 })` replaces `{count}` in the template. All three locale JSONs must have identical key structures (enforced by unit test). `Locale` type and `getLocaleFromURL()` are exported from the same module.
+- **i18n**: three locales (`sv`, `en`, `ar`) defined in `src/i18n/`. Currently **only Swedish pages exist** (`/sv/`); EN/AR page routes are planned but not yet built — see `docs/implementation-plan-phase-1.md`. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants when added. Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. Supports interpolation: `t('compareTray.selectedCount', locale, { count: 3 })` replaces `{count}` in the template. All three locale JSONs must have identical key structures (enforced by unit test). `Locale` type and `getLocaleFromURL()` are exported from the same module.
 - **No runtime data fetching** — all preschool data read from `data/` at Astro build time via `src/lib/data.ts` loaders (uses `readFileSync` + `process.cwd()`).
 - **Formatting**: single quotes, no semicolons — see `.prettierrc`.
 - **Linting**: ESLint flat config + `@typescript-eslint` + `eslint-plugin-astro` (includes `astro/sort-attributes` for alphabetical attribute ordering in `.astro` files) + `eslint-plugin-better-tailwindcss` (Tailwind v4 class validation: ordering, canonical forms, unknown class detection; `enforce-consistent-line-wrapping` disabled) + `eslint-plugin-simple-import-sort` (auto-sorts/groups imports and exports) + `eslint-plugin-perfectionist` (`sort-jsx-props` rule for alphabetical JSX prop ordering in `.tsx` files); markdownlint-cli2 for Markdown (MD013 disabled).
@@ -171,7 +171,7 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 
 ## Project documentation
 
-- `docs/implementation-plan.md` — multi-phase feature roadmap (Steps 0–9)
+- `docs/implementation-plan-phase-1.md` — Phase 1 implementation roadmap (Steps 0–13)
 - `docs/prd.md` — product requirements and user flows
 - `docs/tech-stack.md` — architectural decisions and technology rationale
 - `docs/memory-bank/` — living project context: active work, progress, system patterns, tasks

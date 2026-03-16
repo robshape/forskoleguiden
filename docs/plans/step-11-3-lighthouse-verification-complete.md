@@ -38,7 +38,7 @@ Completed Step 11.3 by adding a two-track verification system for the Swedish di
 
 **Recommendations for Next Steps**:
 
-- Implement Step 12 (EN/AR page routes) or the next roadmap item selected from `docs/implementation-plan.md`.
+- Implement Step 12 (EN/AR page routes) or the next roadmap item selected from `docs/implementation-plan-phase-1.md`.
 
 **Git Commit Message**: test: add lighthouse and page budget verification
 

@@ -6,7 +6,7 @@
 
 ## Original Request
 
-Implement Step 9.3 from `docs/implementation-plan.md`: render deterministic comparison summary sentences in the comparison page UI.
+Implement Step 9.3 from `docs/implementation-plan-phase-1.md`: render deterministic comparison summary sentences in the comparison page UI.
 
 ## Thought Process
 

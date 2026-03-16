@@ -10,7 +10,7 @@ Step 13.2 is complete. The repo now includes a single comprehensive Playwright j
 
 **All Files Created/Modified**:
 
-- `docs/implementation-plan.md`
+- `docs/implementation-plan-phase-1.md`
 - `docs/plans/step-13-2-end-to-end-user-flow-plan.md`
 - `docs/plans/step-13-2-end-to-end-user-flow-complete.md`
 - `tests/e2e/user-flow-phase1.spec.ts`
