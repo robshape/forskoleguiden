@@ -13,7 +13,7 @@
 
 Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents compare preschools side-by-side using official survey ratings, build a "pick 5" shortlist, and share via URL-encoded state. No backend, no accounts, no external APIs at runtime. Implementation follows the phased plan in `docs/implementation-plan.md`.
 
-**Current phase**: Steps 0–8.5 complete (infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, accessibility, CI/CD). Step 9 (deterministic comparison summaries) is next. See `docs/memory-bank/progress.md` for detailed status.
+**Current phase**: Steps 0–12 complete (infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, deterministic summaries, data attribution, accessibility audits, CI/CD pipeline). Step 13 (Final Verification) is next. See `docs/memory-bank/progress.md` for detailed status.
 
 ## Architecture
 

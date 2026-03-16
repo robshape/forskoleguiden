@@ -2,14 +2,14 @@
 
 ## Current State
 
-Steps 0–10 and Steps 11.1–11.3 are complete. Step 11.3 added two-track Lighthouse verification: a deterministic post-build page-weight test (`tests/post-build/page-weight-budget.test.ts`) that enforces a 100 KB uncompressed budget for the `/sv/` page, and a `pnpm audit:lighthouse` command backed by `@lhci/cli` and `.lighthouserc.json` that runs an accessibility error gate (≥0.95) plus a performance advisory (≥0.9) against the preview server. Both tracks are wired into CI via `quality-gates.yml`: `pnpm test:post-build` runs after build in `pnpm validate`, and the Lighthouse audit step runs last in the shared workflow (after WebKit e2e) to avoid a port-4321 conflict with the Playwright web server. Because `@lhci/cli` pulls an older transitive `semver` path that trips `trustPolicy: no-downgrade`, `pnpm-workspace.yaml` now pins `semver` to `7.7.4` in `overrides` so clean installs remain reproducible. `pnpm validate` is green with 75 unit tests and 1 post-build test passing.
+Steps 0–12 are complete. Step 12 (Build and Deploy Pipeline) was already satisfied by the CI/CD workflows built incrementally during earlier steps: `deploy.yml` (push-to-main deploy via GitHub Pages), `quality-gates.yml` (shared reusable pipeline: lint, check, test, build, e2e, Lighthouse), and `dependabot.yml` (PR quality gates + auto-merge for Dependabot). No new code was needed — the existing three-workflow architecture exceeds the original Step 12 requirements. `pnpm validate` is green with 75 unit tests and 1 post-build test passing.
 
 For detailed milestone history, see `progress.md`. For settled architectural patterns, see `systemPatterns.md`.
 
 ## Next Focus
 
-- Steps 11.1–11.3 complete; the full Step 11 accessibility + verification milestone is now closed.
-- Next: Step 12 (i18n EN/AR page routes) or other roadmap items from `docs/implementation-plan.md`.
+- Steps 0–12 complete; the Phase 1 implementation plan is fully delivered through the Build and Deploy Pipeline milestone.
+- Next: Step 13 (Final Verification) or Phase 2 roadmap items (i18n EN/AR page routes, shortlist sharing).
 
 ## Active Decisions
 
