@@ -1,0 +1,261 @@
+import { MALMO_SOURCE_URL } from '../../src/lib/constants'
+import { expect, type Page, test } from './fixtures'
+
+// ---------------------------------------------------------------------------
+// Constants
+// ---------------------------------------------------------------------------
+
+const DIRECTORY_URL = '/forskoleguiden/sv/'
+const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
+const DETAIL_URL = '/forskoleguiden/sv/forskola/almgardens-forskola/'
+
+const FIRST_QUESTION_CHART_NAME =
+  'Stapeldiagram för: Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola'
+
+// Three canonical preschools stable across all test runs (alphabetical index order)
+const PRESCHOOL_1 = 'Almgårdens förskola'
+const PRESCHOOL_2 = 'Bellevuegårdens montessoriförskola'
+const PRESCHOOL_3 = 'Bladins internationella förskola'
+
+// ---------------------------------------------------------------------------
+// Helpers — mirroring patterns from compare-tray-interaction.spec.ts
+// ---------------------------------------------------------------------------
+
+const getDirectoryCard = (page: Page, name: string) =>
+  page.getByTestId('preschool-card').filter({
+    has: page.getByRole('link', { name }),
+  })
+
+const getCompareButton = (page: Page, name: string) =>
+  getDirectoryCard(page, name).getByRole('button')
+
+/**
+ * Wait until a compare button's Preact island has hydrated.
+ * For an *unselected* button, aria-pressed="false" is the initial state.
+ * For a *selected* button after navigation, we wait for aria-pressed="true".
+ */
+const waitForCompareButtonUnselected = async (page: Page, name: string) => {
+  await expect(getCompareButton(page, name)).toHaveAttribute(
+    'aria-pressed',
+    'false',
+  )
+}
+
+const waitForCompareButtonSelected = async (page: Page, name: string) => {
+  await expect(getCompareButton(page, name)).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Full Phase 1 user journey — 14 steps from docs/implementation-plan.md §13.2
+// ---------------------------------------------------------------------------
+
+test('full Phase 1 user journey: directory → sort → select 3 → compare page → back → detail → state persistence', async ({
+  page,
+}) => {
+  // ── Step 1: Load /sv/ ───────────────────────────────────────────────────
+  const response = await page.goto(DIRECTORY_URL)
+  if (response === null) {
+    throw new Error(
+      'Expected non-null response from page.goto("/forskoleguiden/sv/")',
+    )
+  }
+  expect(response.status(), 'Expected HTTP 200 from /sv/').toBe(200)
+
+  // ── Step 2: Verify the directory is present ──────────────────────────────
+  // Scope to the directory section so the locator stays resilient if more
+  // h2 elements are added elsewhere on the page in the future.
+  const directorySection = page.locator('section[aria-label="Förskolelista"]')
+  const listRows = page.locator('section[aria-label="Förskolelista"] > ul > li')
+  const firstPreschoolLink = listRows.first().getByRole('link').first()
+  const bellevueRow = listRows.filter({
+    has: page.getByRole('link', { name: PRESCHOOL_2 }),
+  })
+
+  await expect(directorySection.getByRole('heading', { level: 2 })).toHaveText(
+    /Förskolor i Malmö \(\d+\)/,
+  )
+  await expect(page.getByTestId('preschool-card').first()).toBeVisible()
+
+  // Default sort is alphabetical; Almgårdens should be first.
+  // Use toHaveText (auto-retrying) to account for Preact hydration timing.
+  await expect(firstPreschoolLink).toHaveText(PRESCHOOL_1)
+  await expect(bellevueRow.getByTestId('rank-index')).toHaveText('3')
+
+  // ── Step 3: Toggle sort away from default (A–Ö) to Betyg, then back ─────
+  const betygButton = page.getByRole('button', { name: 'Betyg' })
+  const azButton = page.getByRole('button', { name: 'A–Ö' })
+
+  // Verify initial pressed states
+  await expect(azButton).toHaveAttribute('aria-pressed', 'true')
+  await expect(betygButton).toHaveAttribute('aria-pressed', 'false')
+
+  // Switch to Betyg
+  await betygButton.click()
+  await expect(betygButton).toHaveAttribute('aria-pressed', 'true')
+  await expect(azButton).toHaveAttribute('aria-pressed', 'false')
+  await expect(firstPreschoolLink).toHaveText(PRESCHOOL_2)
+  await expect(bellevueRow.getByTestId('rank-index')).toHaveText('1')
+  await expect(page.getByTestId('sort-live-region')).toContainText('Betyg')
+
+  // Switch back to alphabetical
+  await azButton.click()
+  await expect(azButton).toHaveAttribute('aria-pressed', 'true')
+  await expect(betygButton).toHaveAttribute('aria-pressed', 'false')
+  await expect(page.getByTestId('sort-live-region')).toContainText('A–Ö')
+
+  // Alphabetical order restored — Almgårdens should be first again.
+  // toHaveText polls until the sort useEffect has reordered the DOM.
+  await expect(firstPreschoolLink).toHaveText(PRESCHOOL_1)
+  await expect(bellevueRow.getByTestId('rank-index')).toHaveText('3')
+
+  // ── Step 4: Add 3 preschools using real compare-button clicks ────────────
+  // Wait for Preact hydration on all three buttons before clicking
+  await waitForCompareButtonUnselected(page, PRESCHOOL_1)
+  await waitForCompareButtonUnselected(page, PRESCHOOL_2)
+  await waitForCompareButtonUnselected(page, PRESCHOOL_3)
+
+  await getCompareButton(page, PRESCHOOL_1).click()
+  await expect(getCompareButton(page, PRESCHOOL_1)).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+
+  await getCompareButton(page, PRESCHOOL_2).click()
+  await expect(getCompareButton(page, PRESCHOOL_2)).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+
+  await getCompareButton(page, PRESCHOOL_3).click()
+  await expect(getCompareButton(page, PRESCHOOL_3)).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+
+  // ── Step 5: Verify tray shows 3 selected and click "Visa jämförelse" ─────
+  const tray = page.getByTestId('compare-tray')
+  await expect(tray).toBeVisible()
+  // i18n key: compareTray.selectedCount => "{count} förskolor valda"
+  await expect(tray).toContainText('3')
+
+  const compareCTA = tray.getByRole('link', { name: 'Visa jämförelse' })
+  await expect(compareCTA).toBeVisible()
+  await compareCTA.click()
+
+  // ── Step 6: On /sv/jamfor/, verify 3 preschool columns with correct names ─
+  await expect(page).toHaveURL(COMPARISON_URL)
+
+  // ComparisonView is client:only="preact" — wait for hydration
+  const compTable = page.getByTestId('comparison-table')
+  await expect(compTable).toBeVisible()
+
+  // Table head: "Fråga" column + one column per preschool = 4 headers total
+  const tableHeaders = compTable.getByRole('columnheader')
+  await expect(tableHeaders).toHaveCount(4)
+  await expect(
+    compTable.getByRole('columnheader', { name: 'Fråga' }),
+  ).toBeVisible()
+  await expect(
+    compTable.getByRole('columnheader', { name: PRESCHOOL_1 }),
+  ).toBeVisible()
+  await expect(
+    compTable.getByRole('columnheader', { name: PRESCHOOL_2 }),
+  ).toBeVisible()
+  await expect(
+    compTable.getByRole('columnheader', { name: PRESCHOOL_3 }),
+  ).toBeVisible()
+
+  // ── Step 7: Verify chart SVG rects exist ─────────────────────────────────
+  // Locate the chart by accessible name so the assertion is robust to markup
+  // order changes and matches the surrounding comparison-page tests.
+  const firstChartSvg = page.getByRole('img', {
+    name: FIRST_QUESTION_CHART_NAME,
+  })
+  await expect(firstChartSvg).toBeAttached()
+  // Bar segment rects use fill="url(#...)" references to pattern defs.
+  // Rects inside <defs> are not rendered, so target only segment rects.
+  const barSegmentRects = firstChartSvg.locator('rect[fill^="url(#"]')
+  await expect(barSegmentRects).not.toHaveCount(0)
+
+  // ── Step 8: Verify summary text is present and mentions all 3 names ──────
+  // Summary requires ≥2 preschools; with 3 selected we get 3 pairs each
+  // mentioning 2 names, so all 3 names appear across the sentences.
+  const summary = page.getByTestId('comparison-summary')
+  await expect(summary).toBeVisible()
+  await expect(summary).toContainText(PRESCHOOL_1)
+  await expect(summary).toContainText(PRESCHOOL_2)
+  await expect(summary).toContainText(PRESCHOOL_3)
+
+  // ── Step 9: Verify attribution link is present on the comparison page ────
+  // Attribution lives in the <footer> (BaseLayout renders Footer on every page)
+  const footer = page.locator('footer')
+  const attributionLink = footer.getByRole('link', {
+    name: 'Enkätdata (2025) kommer från Malmö stad.',
+  })
+  await expect(attributionLink).toBeVisible()
+  await expect(attributionLink).toHaveAttribute('href', MALMO_SOURCE_URL)
+
+  // ── Step 10: Navigate back to /sv/ using real MPA navigation ─────────────
+  // "Tillbaka till förskolor" is a real <a> link inside ComparisonView
+  const backToDirectoryLink = page.getByRole('link', {
+    name: 'Tillbaka till förskolor',
+  })
+  await expect(backToDirectoryLink).toBeVisible()
+  await backToDirectoryLink.click()
+
+  await expect(page).toHaveURL(DIRECTORY_URL)
+
+  // ── Step 11: Verify compare state persists on directory page ─────────────
+  // CompareTray is client:only="preact"; wait for it to load from sessionStorage
+  const directoryTray = page.getByTestId('compare-tray')
+  await expect(directoryTray).toBeVisible()
+  await expect(directoryTray).toContainText('3')
+
+  // CompareButton islands re-hydrate from store on this page load
+  await waitForCompareButtonSelected(page, PRESCHOOL_1)
+  await waitForCompareButtonSelected(page, PRESCHOOL_2)
+  await waitForCompareButtonSelected(page, PRESCHOOL_3)
+
+  // ── Step 12: Open a preschool detail page from the directory ─────────────
+  const detailLink = getDirectoryCard(page, PRESCHOOL_1).getByRole('link', {
+    name: PRESCHOOL_1,
+  })
+  await detailLink.click()
+
+  await expect(page).toHaveURL(DETAIL_URL)
+
+  // ── Step 13: Verify detail page shows preschool data ─────────────────────
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(PRESCHOOL_1)
+
+  // Operator type indicator
+  await expect(page.locator('p', { hasText: 'Kommunal' })).toBeVisible()
+
+  // Overall assessment (Helhetsbedömning) section heading
+  await expect(
+    page.getByRole('heading', { name: 'Helhetsbedömning' }),
+  ).toBeVisible()
+
+  // Survey year is shown
+  await expect(page.locator('p', { hasText: '2025' })).toBeVisible()
+
+  // ── Step 14: Navigate back to directory, verify compare state persists ────
+  const detailBackLink = page.getByRole('link', {
+    name: 'Tillbaka till förskolor',
+  })
+  await expect(detailBackLink).toBeVisible()
+  await detailBackLink.click()
+
+  await expect(page).toHaveURL(DIRECTORY_URL)
+
+  // State must still be intact after returning from the detail page
+  const finalTray = page.getByTestId('compare-tray')
+  await expect(finalTray).toBeVisible()
+  await expect(finalTray).toContainText('3')
+
+  await waitForCompareButtonSelected(page, PRESCHOOL_1)
+  await waitForCompareButtonSelected(page, PRESCHOOL_2)
+  await waitForCompareButtonSelected(page, PRESCHOOL_3)
+})

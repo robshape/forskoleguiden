@@ -801,8 +801,8 @@ Run `pnpm build`. Verify:
 Write a comprehensive e2e test that simulates the full Phase 1 user flow:
 
 1. Load `/sv/`.
-2. See the directory with preschools sorted by ranking.
-3. Click the sort toggle to switch to alphabetical, then back.
+2. See the directory with preschools sorted alphabetically by default.
+3. Click the sort toggle to switch to ranking, then back.
 4. Add 3 preschools to the compare set.
 5. Verify the compare tray shows "3 förskolor valda".
 6. Click "Visa jämförelse" to navigate to the comparison page.

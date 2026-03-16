@@ -2,14 +2,14 @@
 
 ## Current State
 
-Steps 0–13.1 are complete. Step 13.1 (Static Output Verification) added a 7-test post-build contract in `tests/post-build/static-output-verification.test.ts` that verifies: the root redirect, the Swedish directory/about/comparison pages, per-preschool detail pages (from `data/malmo/index.json`), the implementation plan's minimum HTML file count (≥8), and a total non-image `dist/` size budget (<500 KB). `pnpm validate` is fully green: 0 lint errors, 75 unit tests, 9 post-build tests, 61 e2e tests, Lighthouse healthcheck passed.
+Steps 0–13.2 are complete. Step 13.2 (End-to-end User Flow Test) added `tests/e2e/user-flow-phase1.spec.ts`, a single comprehensive Playwright journey that covers the full Phase 1 Malmö flow: directory load, sort toggling, real compare-button selection of 3 preschools, compare-tray navigation, 3-school comparison rendering, chart and summary assertions, comparison-page attribution, return to the directory, preschool detail navigation, and sessionStorage-backed state persistence across both comparison and detail-page round trips. `pnpm validate` is fully green: 0 lint errors, 75 unit tests, 61 Chromium e2e tests, 1 WebKit regression test, 9 post-build tests, and Lighthouse healthcheck passed.
 
 For detailed milestone history, see `progress.md`. For settled architectural patterns, see `systemPatterns.md`.
 
 ## Next Focus
 
-- Step 13.1 is complete; Step 13.2 remains open in `docs/implementation-plan.md`.
-- Next: finish Step 13.2, then continue with Phase 2 roadmap items — i18n EN/AR page routes, shortlist URL sharing.
+- Step 13 is complete.
+- Next: continue with Phase 2 roadmap items — i18n EN/AR page routes, shortlist URL sharing.
 
 ## Active Decisions
 
@@ -20,3 +20,4 @@ For detailed milestone history, see `progress.md`. For settled architectural pat
 - Step 9.3 summary rendering stays intentionally minimal: it flattens all formatted pair sentences into a single list below the charts and only mounts that section for 2+ selected preschools.
 - Step 11.2 treats keyboard coverage as an interactive-control concern only: comparison charts and the read-only comparison table remain intentionally non-tabbable and continue to be covered by semantics plus axe assertions instead of forced Tab-order tests.
 - Step 11.3 Lighthouse performance threshold is advisory (warn), not a hard gate, because Lighthouse performance scores are noisy on CI runners. Accessibility score (≥0.95) is the only hard error gate.
+- Step 13.2's comprehensive journey intentionally uses real UI clicks and anchor navigation rather than `sessionStorage` seeding or browser-history shortcuts so the final verification exercises the shipped Astro MPA behavior end to end.
