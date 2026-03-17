@@ -1,59 +1,53 @@
 import type { Locale } from '@/i18n/utils'
 import { t } from '@/i18n/utils'
 
-import type { ComparisonSummary } from './summary'
+import type { BestPerQuestionSummary } from './summary'
 
 export type SummaryNames = Record<string, string>
 
-export type FormattedPair = {
-  baseId: string
-  targetId: string
-  sentences: string[]
+const LIST_CONJUNCTIONS: Record<Locale, string> = {
+  sv: 'och',
+  en: 'and',
+  ar: 'و',
 }
 
-export type FormattedSummary = {
-  pairs: FormattedPair[]
+const joinNames = (
+  items: Array<{ name: string; percent: number }>,
+  locale: Locale,
+): string => {
+  const formatted = items.map((i) => `${i.name} (${i.percent}%)`)
+  if (formatted.length <= 1) return formatted[0] ?? ''
+  const conjunction = LIST_CONJUNCTIONS[locale]
+  const last = formatted.pop()!
+  return `${formatted.join(', ')} ${conjunction} ${last}`
 }
 
-export const formatSummaryText = (
-  summary: ComparisonSummary,
+export const formatBestPerQuestionText = (
+  summary: BestPerQuestionSummary,
   names: SummaryNames,
   locale: Locale,
-): FormattedSummary => {
-  const pairs = summary.pairs.map((pair) => {
-    const baseName = names[pair.baseId] ?? pair.baseId
-    const targetName = names[pair.targetId] ?? pair.targetId
+): string[] =>
+  summary.questions.map((q) => {
+    const bestName = names[q.bestId] ?? q.bestId
 
-    const sentences = pair.questions.map((question) => {
-      const { classification, baseAgreeShare, targetAgreeShare, questionText } =
-        question
-
-      // For 'higher'/'lower', the target is the subject of the sentence
-      // (the one described as having the higher/lower share). For 'similar'
-      // the pair is symmetric so base is listed first for determinism.
-      const isDirectional =
-        classification === 'higher' || classification === 'lower'
-
-      const left = isDirectional ? targetName : baseName
-      const leftPercent = Math.round(
-        isDirectional ? targetAgreeShare : baseAgreeShare,
-      )
-      const right = isDirectional ? baseName : targetName
-      const rightPercent = Math.round(
-        isDirectional ? baseAgreeShare : targetAgreeShare,
-      )
-
-      return t(`summary.${classification}`, locale, {
-        left,
-        leftPercent,
-        right,
-        rightPercent,
-        question: questionText,
+    if (q.tiedWithBest.length === 0) {
+      return t('summary.bestForQuestion', locale, {
+        name: bestName,
+        percent: Math.round(q.bestAgreeShare),
+        question: q.questionText,
       })
+    }
+
+    const allTied = [
+      { name: bestName, percent: Math.round(q.bestAgreeShare) },
+      ...q.tiedWithBest.map((s) => ({
+        name: names[s.id] ?? s.id,
+        percent: Math.round(s.agreeShare),
+      })),
+    ]
+
+    return t('summary.tiedForQuestion', locale, {
+      names: joinNames(allTied, locale),
+      question: q.questionText,
     })
-
-    return { baseId: pair.baseId, targetId: pair.targetId, sentences }
   })
-
-  return { pairs }
-}

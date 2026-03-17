@@ -9,9 +9,6 @@ const DIRECTORY_URL = '/forskoleguiden/sv/'
 const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
 const DETAIL_URL = '/forskoleguiden/sv/forskola/almgardens-forskola/'
 
-const FIRST_QUESTION_CHART_NAME =
-  'Stapeldiagram för: Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola'
-
 // Three canonical preschools stable across all test runs (alphabetical index order)
 const PRESCHOOL_1 = 'Almgårdens förskola'
 const PRESCHOOL_2 = 'Bellevuegårdens montessoriförskola'
@@ -149,40 +146,23 @@ test('full Phase 1 user journey: directory → sort → select 3 → compare pag
   await expect(page).toHaveURL(COMPARISON_URL)
 
   // ComparisonView is client:only="preact" — wait for hydration
-  const compTable = page.getByTestId('comparison-table')
-  await expect(compTable).toBeVisible()
+  const compScroll = page.getByTestId('comparison-scroll')
+  await expect(compScroll).toBeVisible()
 
-  // Table head: "Fråga" column + one column per preschool = 4 headers total
-  const tableHeaders = compTable.getByRole('columnheader')
-  await expect(tableHeaders).toHaveCount(4)
+  // All 3 preschool name headings (h2) must be visible
   await expect(
-    compTable.getByRole('columnheader', { name: 'Fråga' }),
+    page.getByRole('heading', { level: 2, name: PRESCHOOL_1 }),
   ).toBeVisible()
   await expect(
-    compTable.getByRole('columnheader', { name: PRESCHOOL_1 }),
+    page.getByRole('heading', { level: 2, name: PRESCHOOL_2 }),
   ).toBeVisible()
   await expect(
-    compTable.getByRole('columnheader', { name: PRESCHOOL_2 }),
-  ).toBeVisible()
-  await expect(
-    compTable.getByRole('columnheader', { name: PRESCHOOL_3 }),
+    page.getByRole('heading', { level: 2, name: PRESCHOOL_3 }),
   ).toBeVisible()
 
-  // ── Step 7: Verify chart SVG rects exist ─────────────────────────────────
-  // Locate the chart by accessible name so the assertion is robust to markup
-  // order changes and matches the surrounding comparison-page tests.
-  const firstChartSvg = page.getByRole('img', {
-    name: FIRST_QUESTION_CHART_NAME,
-  })
-  await expect(firstChartSvg).toBeAttached()
-  // Bar segment rects use fill="url(#...)" references to pattern defs.
-  // Rects inside <defs> are not rendered, so target only segment rects.
-  const barSegmentRects = firstChartSvg.locator('rect[fill^="url(#"]')
-  await expect(barSegmentRects).not.toHaveCount(0)
-
-  // ── Step 8: Verify summary text is present and mentions all 3 names ──────
-  // Summary requires ≥2 preschools; with 3 selected we get 3 pairs each
-  // mentioning 2 names, so all 3 names appear across the sentences.
+  // ── Step 7: Verify summary text is present and mentions all 3 names ──────
+  // Summary requires ≥2 preschools; with 3 selected the best-per-question
+  // format mentions relevant names for each question.
   const summary = page.getByTestId('comparison-summary')
   await expect(summary).toBeVisible()
   await expect(summary).toContainText(PRESCHOOL_1)

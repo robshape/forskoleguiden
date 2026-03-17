@@ -21,6 +21,7 @@ const compareHref = `${base}/${locale}/jamfor/`
 const comparePages = import.meta.glob('/src/pages/*/jamfor/index.astro')
 const compareRouteAvailable =
   `/src/pages/${locale}/jamfor/index.astro` in comparePages
+const isOnComparePage = Astro.url.pathname.includes('/jamfor')
 ---
 
 <!doctype html>
@@ -32,7 +33,7 @@ const compareRouteAvailable =
     <title>{title}</title>
   </head>
   <body
-    class="flex min-h-screen flex-col bg-page font-sans text-gray-900 antialiased"
+    class="flex min-h-screen flex-col overflow-x-hidden bg-page font-sans text-gray-900 antialiased"
   >
     <header>
       <Nav locale={locale} />
@@ -50,6 +51,8 @@ const compareRouteAvailable =
       client:only="preact"
       compareHref={compareHref}
       compareRouteAvailable={compareRouteAvailable}
+      directoryHref={`${base}/${locale}/`}
+      isOnComparePage={isOnComparePage}
       selectedCountTemplate={t('compareTray.selectedCount', locale)}
       showComparisonLabel={t('compareTray.showComparison', locale)}
     />

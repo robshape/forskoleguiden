@@ -9,6 +9,8 @@ interface Props {
   clearLabel: string
   compareHref: string
   compareRouteAvailable: boolean
+  isOnComparePage?: boolean
+  directoryHref?: string
 }
 
 export default function CompareTray({
@@ -17,6 +19,8 @@ export default function CompareTray({
   clearLabel,
   compareHref,
   compareRouteAvailable,
+  isOnComparePage,
+  directoryHref,
 }: Props) {
   const ids = useStore(compareIds)
   const trayRef = useRef<HTMLElement>(null)
@@ -49,6 +53,13 @@ export default function CompareTray({
     String(ids.length),
   )
 
+  const handleClear = () => {
+    clearCompare()
+    if (isOnComparePage && directoryHref) {
+      window.location.href = directoryHref
+    }
+  }
+
   return (
     <nav
       aria-label={showComparisonLabel}
@@ -62,25 +73,26 @@ export default function CompareTray({
           {selectedCountText}
         </span>
         <div class="flex items-center gap-3">
-          {compareRouteAvailable ? (
-            <a
-              class="inline-flex items-center rounded-full bg-primary-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none"
-              href={compareHref}
-            >
-              {showComparisonLabel}
-            </a>
-          ) : (
-            <button
-              aria-disabled="true"
-              class="inline-flex cursor-not-allowed items-center rounded-full bg-primary-600 px-5 py-2 text-sm font-semibold text-white opacity-50"
-              type="button"
-            >
-              {showComparisonLabel}
-            </button>
-          )}
+          {!isOnComparePage &&
+            (compareRouteAvailable ? (
+              <a
+                class="inline-flex items-center rounded-full bg-primary-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none"
+                href={compareHref}
+              >
+                {showComparisonLabel}
+              </a>
+            ) : (
+              <button
+                aria-disabled="true"
+                class="inline-flex cursor-not-allowed items-center rounded-full bg-primary-600 px-5 py-2 text-sm font-semibold text-white opacity-50"
+                type="button"
+              >
+                {showComparisonLabel}
+              </button>
+            ))}
           <button
             class="inline-flex items-center rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none"
-            onClick={clearCompare}
+            onClick={handleClear}
             type="button"
           >
             {clearLabel}

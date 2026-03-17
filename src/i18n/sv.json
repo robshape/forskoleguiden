@@ -73,9 +73,8 @@
     "completelyDisagree": "Instämmer inte alls"
   },
   "summary": {
-    "higher": "{left} ({leftPercent}%) har högre andel instämmande svar än {right} ({rightPercent}%) för \"{question}\".",
-    "lower": "{left} ({leftPercent}%) har lägre andel instämmande svar än {right} ({rightPercent}%) för \"{question}\".",
-    "similar": "{left} ({leftPercent}%) och {right} ({rightPercent}%) har liknande andel instämmande svar för \"{question}\"."
+    "bestForQuestion": "{name} ({percent}%) fick högst resultat för \"{question}\".",
+    "tiedForQuestion": "{names} fick liknande resultat för \"{question}\"."
   },
   "attribution": {
     "text": "Enkätdata ({year}) kommer från Malmö stad."

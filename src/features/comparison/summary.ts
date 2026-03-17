@@ -1,102 +1,66 @@
 import { computeAgreeShare, OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
 import type { PreschoolSurvey } from '@/lib/types'
 
-export type SummaryClassification = 'higher' | 'lower' | 'similar'
-
-export type QuestionSummary = {
-  questionText: string
-  baseAgreeShare: number
-  targetAgreeShare: number
-  delta: number
-  classification: SummaryClassification
-}
-
-export type PairSummary = {
-  baseId: string
-  targetId: string
-  questions: QuestionSummary[]
-}
-
-export type ComparisonSummary = {
-  pairs: PairSummary[]
-}
-
 const DELTA_THRESHOLD = 5
 
-const classifyDelta = (delta: number): SummaryClassification => {
-  if (delta >= DELTA_THRESHOLD) return 'higher'
-  if (delta <= -DELTA_THRESHOLD) return 'lower'
-  return 'similar'
+export type QuestionBest = {
+  questionText: string
+  bestId: string
+  bestAgreeShare: number
+  /** Other schools within DELTA_THRESHOLD of the best score */
+  tiedWithBest: Array<{ id: string; agreeShare: number }>
 }
 
-export const computeSummary = (
+export type BestPerQuestionSummary = {
+  questions: QuestionBest[]
+}
+
+export const computeBestPerQuestion = (
   surveys: PreschoolSurvey[],
-): ComparisonSummary => {
-  if (surveys.length < 2) {
-    return { pairs: [] }
-  }
+): BestPerQuestionSummary => {
+  if (surveys.length < 2) return { questions: [] }
 
   const referenceGroup = surveys[0]?.questionGroups.find(
-    (group) => group.name === OVERALL_ASSESSMENT_GROUP,
+    (g) => g.name === OVERALL_ASSESSMENT_GROUP,
+  )
+  if (!referenceGroup) return { questions: [] }
+
+  const questions: QuestionBest[] = referenceGroup.questions.flatMap(
+    (refQuestion) => {
+      const scores: Array<{ id: string; agreeShare: number }> = []
+
+      for (const survey of surveys) {
+        const group = survey.questionGroups.find(
+          (g) => g.name === OVERALL_ASSESSMENT_GROUP,
+        )
+        const q = group?.questions.find((c) => c.text === refQuestion.text)
+        if (q) {
+          scores.push({
+            id: survey.id,
+            agreeShare: computeAgreeShare(q.response),
+          })
+        }
+      }
+
+      if (scores.length === 0) return []
+
+      scores.sort((a, b) => b.agreeShare - a.agreeShare)
+
+      const best = scores[0]
+      const tiedWithBest = scores
+        .slice(1)
+        .filter((s) => best.agreeShare - s.agreeShare < DELTA_THRESHOLD)
+
+      return [
+        {
+          questionText: refQuestion.text,
+          bestId: best.id,
+          bestAgreeShare: best.agreeShare,
+          tiedWithBest,
+        },
+      ]
+    },
   )
 
-  if (!referenceGroup) {
-    return { pairs: [] }
-  }
-
-  const pairs: PairSummary[] = []
-
-  for (let i = 0; i < surveys.length - 1; i++) {
-    for (let j = i + 1; j < surveys.length; j++) {
-      const base = surveys[i]
-      const target = surveys[j]
-
-      const baseGroup = base.questionGroups.find(
-        (g) => g.name === OVERALL_ASSESSMENT_GROUP,
-      )
-
-      if (!baseGroup) continue
-
-      const targetGroup = target.questionGroups.find(
-        (g) => g.name === OVERALL_ASSESSMENT_GROUP,
-      )
-
-      const questions: QuestionSummary[] = referenceGroup.questions.flatMap(
-        (referenceQuestion) => {
-          const baseQuestion = baseGroup.questions.find(
-            (q) => q.text === referenceQuestion.text,
-          )
-          const targetQuestion = targetGroup?.questions.find(
-            (q) => q.text === referenceQuestion.text,
-          )
-
-          if (!baseQuestion || !targetQuestion) return []
-
-          const baseAgreeShare = computeAgreeShare(baseQuestion.response)
-          const targetAgreeShare = computeAgreeShare(targetQuestion.response)
-          const delta = targetAgreeShare - baseAgreeShare
-
-          return [
-            {
-              questionText: referenceQuestion.text,
-              baseAgreeShare,
-              targetAgreeShare,
-              delta,
-              classification: classifyDelta(delta),
-            },
-          ]
-        },
-      )
-
-      if (questions.length === 0) continue
-
-      pairs.push({
-        baseId: base.id,
-        targetId: target.id,
-        questions,
-      })
-    }
-  }
-
-  return { pairs }
+  return { questions }
 }

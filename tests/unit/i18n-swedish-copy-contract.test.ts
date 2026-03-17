@@ -61,9 +61,8 @@ describe('Swedish translation keys', () => {
       'responses.neitherAgreeNorDisagree',
       'responses.partlyDisagree',
       'responses.completelyDisagree',
-      'summary.higher',
-      'summary.lower',
-      'summary.similar',
+      'summary.bestForQuestion',
+      'summary.tiedForQuestion',
       'attribution.text',
       'about.heading',
       'about.text',
@@ -106,21 +105,48 @@ describe('Swedish translation keys', () => {
   })
 
   it('should include required template placeholders in summary and tray keys', () => {
-    // summary.higher / lower / similar must contain {left}, {right}, {leftPercent}, {rightPercent}, {question}
-    for (const key of ['summary.higher', 'summary.lower', 'summary.similar']) {
-      const value = getByPath(sv as JsonObject, key)
+    // summary.bestForQuestion must contain {name}, {percent}, {question}
+    // summary.tiedForQuestion must contain {names}, {question}
+    const bestForQuestion = getByPath(
+      sv as JsonObject,
+      'summary.bestForQuestion',
+    )
+    expect(
+      typeof bestForQuestion,
+      'summary.bestForQuestion must be a string',
+    ).toBe('string')
+    if (typeof bestForQuestion === 'string') {
+      expect(
+        bestForQuestion,
+        'summary.bestForQuestion missing {name}',
+      ).toContain('{name}')
+      expect(
+        bestForQuestion,
+        'summary.bestForQuestion missing {percent}',
+      ).toContain('{percent}')
+      expect(
+        bestForQuestion,
+        'summary.bestForQuestion missing {question}',
+      ).toContain('{question}')
+    }
 
-      expect(typeof value, `${key} must be a string`).toBe('string')
-
-      if (typeof value === 'string') {
-        expect(value, `${key} missing {left}`).toContain('{left}')
-        expect(value, `${key} missing {right}`).toContain('{right}')
-        expect(value, `${key} missing {leftPercent}`).toContain('{leftPercent}')
-        expect(value, `${key} missing {rightPercent}`).toContain(
-          '{rightPercent}',
-        )
-        expect(value, `${key} missing {question}`).toContain('{question}')
-      }
+    const tiedForQuestion = getByPath(
+      sv as JsonObject,
+      'summary.tiedForQuestion',
+    )
+    expect(
+      typeof tiedForQuestion,
+      'summary.tiedForQuestion must be a string',
+    ).toBe('string')
+    if (typeof tiedForQuestion === 'string') {
+      expect(
+        tiedForQuestion,
+        'summary.tiedForQuestion missing {names}',
+      ).toContain('{names}')
+      expect(
+        tiedForQuestion,
+        'summary.tiedForQuestion missing {question}',
+      ).toContain('{question}')
     }
 
     // compareTray.selectedCount must contain {count}

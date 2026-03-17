@@ -75,20 +75,24 @@ test.describe('accessibility: axe-core wcag2a + wcag2aa audits', () => {
 
     await page.goto(COMPARISON_URL)
 
-    // Hydration guard 1: the comparison summary table must be visible before the
-    // charts can be audited — this signals ComparisonView has fully mounted.
-    await expect(page.getByTestId('comparison-table')).toBeVisible()
+    // Hydration guard: the comparison scroll container must be visible before
+    // running axe — this signals ComparisonView has fully mounted.
+    await expect(page.getByTestId('comparison-scroll')).toBeVisible()
 
-    // Render confirmation: verify both Helhetsbedomning chart SVGs are present
-    // before running axe so the comparison visuals are included in the scan.
-    const q1Chart = page.getByRole('img', {
-      name: 'Stapeldiagram för: Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola',
-    })
-    const q2Chart = page.getByRole('img', {
-      name: 'Stapeldiagram för: Jag skulle rekommendera mitt barns förskola till en annan förälder',
-    })
-    await expect(q1Chart).toBeVisible()
-    await expect(q2Chart).toBeVisible()
+    // Render confirmation: verify both Helhetsbedömning question headings (h3)
+    // are present before running axe so the comparison content is in the scan.
+    await expect(
+      page.getByRole('heading', {
+        level: 3,
+        name: '"Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola"',
+      }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', {
+        level: 3,
+        name: '"Jag skulle rekommendera mitt barns förskola till en annan förälder"',
+      }),
+    ).toBeVisible()
 
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])

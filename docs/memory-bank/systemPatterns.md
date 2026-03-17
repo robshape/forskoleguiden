@@ -2,7 +2,7 @@
 
 ## Architecture
 
-Static Astro MPA with selective Preact islands for interactivity. Zero JS by default; islands hydrate only where needed. The current shipped islands are the directory sort toggle, the per-card compare button, the global compare tray, and the comparison view (which includes BarChart sub-components for accessible SVG charts). Data flows from repository JSON at build time into pre-rendered pages. Client-side shared state is handled with nanostores.
+Static Astro MPA with selective Preact islands for interactivity. Zero JS by default; islands hydrate only where needed. The current shipped islands are the directory sort toggle, the per-card compare button, the global compare tray, and the comparison view (card-based layout with score cards, sr-only data tables, and best-per-question summary text). Data flows from repository JSON at build time into pre-rendered pages. Client-side shared state is handled with nanostores.
 
 For the full architectural overview, module boundaries, and data-flow rationale, see `docs/tech-stack.md`. Product constraints and behavior requirements are in `docs/prd.md`.
 

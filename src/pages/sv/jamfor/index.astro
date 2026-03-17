@@ -17,16 +17,18 @@ const pageTitle = t('compare.heading', locale)
 
 <BaseLayout locale={locale} title={pageTitle}>
   <ComparisonView
+    agreeShareLabel={t('directory.scoreBadge.agreeShare', locale).toLowerCase()}
     backToDirectoryLabel={t('compare.actions.backToDirectory', locale)}
     categoryLabels={categoryLabels}
-    chartAriaLabelTemplate={t('compare.chartAriaLabel', locale)}
     client:only="preact"
+    compareAddedLabel={t('directory.addedToCompare', locale)}
+    compareAddLabel={t('directory.addToCompare', locale)}
+    compareAriaLabelTemplate={t('directory.compareButtonAriaLabel', locale)}
     directoryHref={directoryHref}
     emptyStateBody={t('compare.emptyStateBody', locale)}
     emptyStateTitle={t('compare.emptyStateTitle', locale)}
     heading={pageTitle}
     locale={locale}
-    questionColumnLabel={t('compare.questionColumnLabel', locale)}
     singleSelectionPrompt={t('compare.singleSelectionPrompt', locale)}
     summaryHeading={t('compare.summaryHeading', locale)}
     surveys={surveys}

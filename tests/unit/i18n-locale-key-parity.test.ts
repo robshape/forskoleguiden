@@ -26,7 +26,7 @@ describe('locale parity', () => {
       ar: loadLocaleFromDisk('ar'),
     } satisfies Record<'sv' | 'en' | 'ar', JsonObject>
 
-    for (const key of ['summary.higher', 'summary.lower', 'summary.similar']) {
+    for (const key of ['summary.bestForQuestion', 'summary.tiedForQuestion']) {
       for (const [locale, messages] of Object.entries(locales)) {
         const value = getByPath(messages, key)
 
@@ -34,17 +34,9 @@ describe('locale parity', () => {
         expect(typeof value, `${locale} ${key} must be a string`).toBe('string')
 
         if (typeof value === 'string') {
-          for (const placeholder of [
-            '{left}',
-            '{right}',
-            '{leftPercent}',
-            '{rightPercent}',
+          expect(value, `${locale} ${key} missing {question}`).toContain(
             '{question}',
-          ]) {
-            expect(value, `${locale} ${key} missing ${placeholder}`).toContain(
-              placeholder,
-            )
-          }
+          )
         }
       }
     }

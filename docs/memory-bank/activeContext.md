@@ -15,9 +15,9 @@ For detailed milestone history, see `progress.md`. For settled architectural pat
 
 - Plan files for future steps should produce only 2 files (plan + complete), not 5. Phase checkpoints go inline in the plan file.
 - The tray is count-based only; selected preschool names and pluralization refinements are out of scope until a later UX pass.
-- Step 9.1 summary data is emitted as unique pairwise combinations with one directional classification per pair/question; the compared question set is always anchored to the first selected survey, and pairs with zero matched questions are omitted entirely.
-- Step 9.2 summary text keeps all user-facing copy in locale JSON files. Directional sentences (`higher`/`lower`) use the target preschool as the grammatical subject, while `similar` stays base-first for deterministic ordering.
-- Step 9.3 summary rendering stays intentionally minimal: it flattens all formatted pair sentences into a single list below the charts and only mounts that section for 2+ selected preschools.
+- Step 9.1 summary data uses a best-per-question model: for each Helhetsbedömning question, the school with the highest agree share is identified; schools within a 5 pp threshold are listed as tied. The compared question set is anchored to the first selected survey.
+- Step 9.2 summary text keeps all user-facing copy in locale JSON files. Uses `bestForQuestion` and `tiedForQuestion` i18n templates.
+- Step 9.3 summary rendering stays intentionally minimal: it lists one best-per-question sentence per Helhetsbedömning question below the score cards, and only mounts that section for 2+ selected preschools.
 - Step 11.2 treats keyboard coverage as an interactive-control concern only: comparison charts and the read-only comparison table remain intentionally non-tabbable and continue to be covered by semantics plus axe assertions instead of forced Tab-order tests.
 - Step 11.3 Lighthouse performance threshold is advisory (warn), not a hard gate, because Lighthouse performance scores are noisy on CI runners. Accessibility score (≥0.95) is the only hard error gate.
 - Step 13.2's comprehensive journey intentionally uses real UI clicks and anchor navigation rather than `sessionStorage` seeding or browser-history shortcuts so the final verification exercises the shipped Astro MPA behavior end to end.

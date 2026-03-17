@@ -9,6 +9,7 @@ interface DetailsBarChartProps {
   response: SurveyResponse
   categoryLabels: string[]
   chartIndex: number
+  hideLegend?: boolean
 }
 
 const BAR_HEIGHT = 28
@@ -17,6 +18,7 @@ export default function DetailsBarChart({
   response,
   categoryLabels,
   chartIndex,
+  hideLegend,
 }: DetailsBarChartProps) {
   let xOffset = 0
   const segments = RESPONSE_SERIES.map(({ field }, catIdx) => {
@@ -73,29 +75,31 @@ export default function DetailsBarChart({
       </svg>
 
       {/* Legend Map */}
-      <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2">
-        {segments.map(({ catIdx, percent }) => {
-          if (percent === 0) return null
-          const patternId = `detail-chart-${chartIndex}-cat-${catIdx}`
-          return (
-            <div
-              class="flex items-center gap-2 text-xs font-medium text-gray-600"
-              key={catIdx}
-            >
-              <svg
-                aria-hidden="true"
-                class="size-3.5 rounded-sm drop-shadow-sm"
-                viewBox="0 0 14 14"
+      {!hideLegend && (
+        <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+          {segments.map(({ catIdx, percent }) => {
+            if (percent === 0) return null
+            const patternId = `detail-chart-${chartIndex}-cat-${catIdx}`
+            return (
+              <div
+                class="flex items-center gap-2 text-xs font-medium text-gray-600"
+                key={catIdx}
               >
-                <rect fill={`url(#${patternId})`} height="14" width="14" />
-              </svg>
-              <span>
-                {categoryLabels[catIdx]} ({percent}%)
-              </span>
-            </div>
-          )
-        })}
-      </div>
+                <svg
+                  aria-hidden="true"
+                  class="size-3.5 rounded-sm drop-shadow-sm"
+                  viewBox="0 0 14 14"
+                >
+                  <rect fill={`url(#${patternId})`} height="14" width="14" />
+                </svg>
+                <span>
+                  {categoryLabels[catIdx]} ({percent}%)
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

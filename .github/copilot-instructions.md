@@ -8,6 +8,8 @@
 - ALWAYS read `docs/prd.md` when planning and before writing any code
 - ALWAYS read `docs/tech-stack.md` when planning and before writing any code
 - After adding a major feature, completing a milestone, or finishing a task, ALWAYS update `docs/memory-bank/`
+- ALWAYS use the "frontend-design" SKILL when implementing user interfaces
+- ALWAYS use the "tdd" SKILL when writing tests for new code and when updating existing tests
 
 ## Project overview
 
@@ -40,13 +42,12 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 
 ## Preact islands inventory
 
-| Island           | File                                       | Hydration              | Why                                                                   | Purpose                                                                                                       |
-| ---------------- | ------------------------------------------ | ---------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `SortToggle`     | `src/components/preact/SortToggle.tsx`     | `client:load`          | Must be immediately operable; no persisted state conflict             | Toggle alphabetical ↔ rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements |
-| `CompareButton`  | `src/components/preact/CompareButton.tsx`  | `client:only="preact"` | Reads sessionStorage on mount; SSR would render stale pressed state   | Select/deselect a preschool for comparison; `aria-pressed` toggle                                             |
-| `CompareTray`    | `src/components/preact/CompareTray.tsx`    | `client:only="preact"` | SSR would render empty tray; sessionStorage may already have items    | Global compare summary bar; links to `/sv/jamfor/` comparison page                                            |
-| `BarChart`       | `src/components/preact/BarChart.tsx`       | `client:only="preact"` | Rendered inside ComparisonView (client-only parent); never SSR'd      | Accessible stacked bar chart for survey responses; pattern fills + ARIA + `<table>` text alternative          |
-| `ComparisonView` | `src/components/preact/ComparisonView.tsx` | `client:only="preact"` | Reads compareIds store from sessionStorage; SSR output would be stale | Comparison page content: reads `compareIds` store, renders selected preschools side-by-side with survey data  |
+| Island           | File                                       | Hydration              | Why                                                                   | Purpose                                                                                                                                                                     |
+| ---------------- | ------------------------------------------ | ---------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SortToggle`     | `src/components/preact/SortToggle.tsx`     | `client:load`          | Must be immediately operable; no persisted state conflict             | Toggle alphabetical ↔ rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements                                                               |
+| `CompareButton`  | `src/components/preact/CompareButton.tsx`  | `client:only="preact"` | Reads sessionStorage on mount; SSR would render stale pressed state   | Select/deselect a preschool for comparison; `aria-pressed` toggle                                                                                                           |
+| `CompareTray`    | `src/components/preact/CompareTray.tsx`    | `client:only="preact"` | SSR would render empty tray; sessionStorage may already have items    | Global compare summary bar; links to `/sv/jamfor/` comparison page. Clearing on the comparison page redirects to the directory page.                                        |
+| `ComparisonView` | `src/components/preact/ComparisonView.tsx` | `client:only="preact"` | Reads compareIds store from sessionStorage; SSR output would be stale | Comparison page: card-based layout with score cards, sr-only data tables, and best-per-question summary text. Reads `compareIds` store, renders selected preschools inline. |
 
 **Hydration strategy guidance:**
 
@@ -120,7 +121,7 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - `computeOverallScore(survey)` → average agree share across all questions in the overall assessment group; returns `null` if group is missing
 - `byOverallScoreDesc` — comparator for descending sort by overall score (nulls sort last)
 - `SCORE_TIER_HIGH` (80) / `SCORE_TIER_MEDIUM` (65) — agree-share percentage thresholds for score badge color tiers in `src/lib/constants.ts`; used by PreschoolCard for visual classification (green/amber/gray)
-- Deterministic text summaries: delta ≥ 5 pp → "higher"; ≤ −5 pp → "lower"; otherwise "similar". Neutral template phrases only.
+- Deterministic best-per-question summaries: for each Helhetsbedömning question, identifies the school with the highest agree share; schools within a 5 pp threshold of the best are listed as tied. Uses `computeBestPerQuestion()` and `formatBestPerQuestionText()` from `src/features/comparison/`. Neutral template phrases only.
 
 ## Developer workflow
 

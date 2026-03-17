@@ -1,9 +1,4 @@
-import {
-  expect,
-  getFocusOutlineContract,
-  getFocusRingContract,
-  test,
-} from './fixtures'
+import { expect, getFocusRingContract, test } from './fixtures'
 
 // Verify that ring-based interactive controls expose a visible focus indicator
 // when reached by keyboard navigation. Ring-based controls suppress the global
@@ -222,25 +217,18 @@ test.describe('keyboard navigation — directory controls and compare tray', () 
     const comparisonTray = page.getByTestId('compare-tray')
     await expect(comparisonTray).toBeVisible()
 
-    // Re-anchor keyboard navigation from the comparison-page footer, then Tab
-    // through the tray to verify the clear action remains keyboard-operable.
+    // On the comparison page, the CTA link is hidden (isOnComparePage=true),
+    // so Tab from the footer reaches the clear button directly.
     const comparisonFooterLink = page.locator('footer a').first()
     await comparisonFooterLink.focus()
 
     await page.keyboard.press('Tab')
-    await expect(
-      comparisonTray.getByRole('link', { name: 'Visa jämförelse' }),
-    ).toBeFocused()
-
-    // One more Tab to reach the clear button.
-    await page.keyboard.press('Tab')
     const clearButton = comparisonTray.getByRole('button', { name: 'Rensa' })
     await expect(clearButton).toBeFocused()
 
-    // Press Enter to clear the selection; the tray should disappear.
+    // Press Enter to clear the selection; navigates to directory.
     await page.keyboard.press('Enter')
-    await expect(page).toHaveURL('/forskoleguiden/sv/jamfor/')
-    await expect(comparisonTray).not.toBeVisible()
+    await expect(page).toHaveURL('/forskoleguiden/sv/')
   })
 })
 
@@ -290,12 +278,11 @@ test.describe('keyboard navigation — comparison page interactive flows', () =>
     expect(backLinkFocused).toBe(true)
     await expect(backLink).toBeFocused()
 
-    // The back link uses the global base-layer outline rule (no ring override).
-    // Primary-600 outline colour must match rgb(37, 99, 235) = #2563eb.
-    const focusOutline = await getFocusOutlineContract(backLink)
-    expect(focusOutline.outlineWidth).toBe('2px')
-    expect(focusOutline.outlineStyle).not.toBe('none')
-    expect(focusOutline.outlineColor).toBe('rgb(37, 99, 235)')
+    // The back link uses focus-visible:ring-2 (Tailwind ring utility).
+    // Primary-600 ring colour must match rgb(37, 99, 235) = #2563eb.
+    const focusRing = await getFocusRingContract(backLink)
+    expect(focusRing.boxShadow).toContain('37, 99, 235')
+    expect(focusRing.outlineStyle).toBe('none')
 
     // Activate via Enter — navigates to the preschool directory.
     await page.keyboard.press('Enter')
@@ -306,7 +293,7 @@ test.describe('keyboard navigation — comparison page interactive flows', () =>
     page,
   }) => {
     // Seed sessionStorage from the directory page so ComparisonView mounts
-    // with real selections, triggering both the comparison table and the tray.
+    // with real selections, triggering the comparison view and the tray.
     await page.goto(DIRECTORY_URL)
     await page.evaluate((ids) => {
       sessionStorage.setItem('compareIds', JSON.stringify(ids))
@@ -330,7 +317,7 @@ test.describe('keyboard navigation — comparison page interactive flows', () =>
     await expect(backLink).toBeVisible()
 
     // Tab-reachability: the back link is the only tabbable element inside the
-    // comparison view content (table and charts are non-tabbable read-only widgets).
+    // comparison view content (scroll container and score cards are non-tabbable).
     let backLinkFocused = false
     for (let pressCount = 0; pressCount < 10; pressCount++) {
       await page.keyboard.press('Tab')
@@ -347,20 +334,17 @@ test.describe('keyboard navigation — comparison page interactive flows', () =>
     const tray = page.getByTestId('compare-tray')
     await expect(tray).toBeVisible()
 
-    // Tab from the footer attribution link to reach the tray controls.
+    // On the comparison page, the CTA link is hidden (isOnComparePage=true),
+    // so Tab from the footer reaches the clear button directly.
     const footerLink = page.locator('footer a').first()
     await footerLink.focus()
-
-    await page.keyboard.press('Tab')
-    const compareCTA = tray.getByRole('link', { name: 'Visa jämförelse' })
-    await expect(compareCTA).toBeFocused()
 
     await page.keyboard.press('Tab')
     const clearButton = tray.getByRole('button', { name: 'Rensa' })
     await expect(clearButton).toBeFocused()
   })
 
-  test('comparison table and bar charts are non-tabbable on the comparison page', async ({
+  test('comparison scroll container and sr-only tables are non-tabbable on the comparison page', async ({
     page,
   }) => {
     await page.goto(DIRECTORY_URL)
@@ -376,21 +360,20 @@ test.describe('keyboard navigation — comparison page interactive flows', () =>
     }
     expect(response.status()).toBe(200)
 
-    // Wait for the comparison table to be present in the DOM.
-    const table = page.getByTestId('comparison-table')
-    await expect(table).toBeVisible()
+    // Wait for the comparison scroll container to be present in the DOM.
+    const scroll = page.getByTestId('comparison-scroll')
+    await expect(scroll).toBeVisible()
 
-    // The table is a read-only widget and must not have a tabindex attribute
-    // (it must not appear in the tab order).
-    await expect(table).not.toHaveAttribute('tabindex')
+    // The scroll container is a read-only widget and must not have a tabindex
+    // attribute (it must not appear in the tab order).
+    await expect(scroll).not.toHaveAttribute('tabindex')
 
-    // Bar charts use role="img" on their SVG element — they are decorative
-    // companions to the visible table and must not be tabbable.
-    const charts = page.locator('svg[role="img"]')
-    const chartCount = await charts.count()
-    expect(chartCount).toBeGreaterThan(0)
-    for (let i = 0; i < chartCount; i++) {
-      await expect(charts.nth(i)).not.toHaveAttribute('tabindex')
+    // Sr-only tables (text alternatives for score cards) must not be tabbable.
+    const tables = page.locator('table.sr-only')
+    const tableCount = await tables.count()
+    expect(tableCount).toBeGreaterThan(0)
+    for (let i = 0; i < tableCount; i++) {
+      await expect(tables.nth(i)).not.toHaveAttribute('tabindex')
     }
   })
 })

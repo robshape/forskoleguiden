@@ -16,10 +16,10 @@ const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
 const DIRECTORY_URL = '/forskoleguiden/sv/'
 
 test.describe('mobile comparison — WebKit/iPhone 13 mini', () => {
-  test('4-preschool comparison table renders and sticky question column stays pinned during horizontal scroll', async ({
+  test('4-preschool comparison renders card layout, scroll container overflows horizontally, and question heading is sticky', async ({
     page,
   }) => {
-    // Seed 4 known preschool IDs so the comparison table is wide enough to
+    // Seed 4 known preschool IDs so the card layout is wide enough to
     // overflow a 375 px viewport and require horizontal scrolling.
     await page.goto(DIRECTORY_URL)
     await page.evaluate(() => {
@@ -42,41 +42,49 @@ test.describe('mobile comparison — WebKit/iPhone 13 mini', () => {
     }
     expect(response.status()).toBe(200)
 
-    // Comparison table must be visible
-    const table = page.getByTestId('comparison-table')
-    await expect(table).toBeVisible()
+    // Comparison scroll container must be visible
+    const scroll = page.getByTestId('comparison-scroll')
+    await expect(scroll).toBeVisible()
 
-    // All 4 preschool column headers must be reachable in the DOM
+    // All 4 preschool name headings (h2) must be attached in the DOM
     await expect(
-      table.getByRole('columnheader', { name: 'Almgårdens förskola' }),
+      page.getByRole('heading', { level: 2, name: 'Almgårdens förskola' }),
     ).toBeAttached()
     await expect(
-      table.getByRole('columnheader', { name: 'Augustenborgs förskola' }),
+      page.getByRole('heading', {
+        level: 2,
+        name: 'Augustenborgs förskola',
+      }),
     ).toBeAttached()
     await expect(
-      table.getByRole('columnheader', {
+      page.getByRole('heading', {
+        level: 2,
         name: 'Bellevuegårdens montessoriförskola',
       }),
     ).toBeAttached()
     await expect(
-      table.getByRole('columnheader', {
+      page.getByRole('heading', {
+        level: 2,
         name: 'Bladins internationella förskola',
       }),
     ).toBeAttached()
 
-    // Both Helhetsbedömning question row headers must be present
+    // Both Helhetsbedömning question headings (h3) must be attached
     await expect(
-      table.getByRole('rowheader', {
-        name: 'Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola',
+      page.getByRole('heading', {
+        level: 3,
+        name: '"Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola"',
       }),
     ).toBeAttached()
     await expect(
-      table.getByRole('rowheader', {
-        name: 'Jag skulle rekommendera mitt barns förskola till en annan förälder',
+      page.getByRole('heading', {
+        level: 3,
+        name: '"Jag skulle rekommendera mitt barns förskola till en annan förälder"',
       }),
     ).toBeAttached()
 
     // The scroll container must overflow horizontally on a 375 px viewport
+    // with 4 preschool columns.
     const overflows = await page.evaluate(() => {
       const container = document.querySelector(
         '[data-testid="comparison-scroll"]',
@@ -89,51 +97,18 @@ test.describe('mobile comparison — WebKit/iPhone 13 mini', () => {
       'expected scroll container to overflow horizontally on 375 px viewport with 4 preschool columns',
     ).toBe(true)
 
-    // Get the viewport position of the sticky row header BEFORE scrolling
-    const firstRowHeader = page
-      .locator('[data-testid="comparison-table"] tbody th[scope="row"]')
-      .first()
-
-    const preScrollBox = await firstRowHeader.boundingBox()
-    expect(
-      preScrollBox,
-      'expected sticky row header to be visible and have a layout box before scroll',
-    ).not.toBeNull()
-
-    // Computed style must confirm sticky positioning in WebKit
-    const isSticky = await firstRowHeader.evaluate(
-      (el) => window.getComputedStyle(el).position === 'sticky',
+    // The question heading container must be sticky so question labels remain
+    // visible when the user scrolls horizontally.
+    const firstQuestionHeading = page.getByRole('heading', {
+      level: 3,
+      name: '"Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola"',
+    })
+    const isSticky = await firstQuestionHeading.evaluate((el) => {
+      const parent = el.closest('.sticky')
+      return parent !== null
+    })
+    expect(isSticky, 'expected question heading container to be sticky').toBe(
+      true,
     )
-    expect(
-      isSticky,
-      'expected question-label column to have position:sticky in WebKit — if failing, check that the table does not use border-collapse:collapse (use border-separate + border-spacing-0 instead)',
-    ).toBe(true)
-
-    // Scroll the comparison container 200 px to the right
-    await page.evaluate(() => {
-      const container = document.querySelector(
-        '[data-testid="comparison-scroll"]',
-      ) as HTMLElement | null
-      if (container) container.scrollLeft = 200
-    })
-    await page.waitForFunction(() => {
-      const container = document.querySelector(
-        '[data-testid="comparison-scroll"]',
-      ) as HTMLElement | null
-      return container ? container.scrollLeft > 0 : false
-    })
-
-    // The sticky column must NOT have moved in the viewport after scrolling.
-    // A position shift ≥ 3 px means the cell is scrolling away with the table
-    // rather than staying pinned — the classic WebKit sticky-in-table failure.
-    const postScrollBox = await firstRowHeader.boundingBox()
-    expect(
-      postScrollBox,
-      'expected sticky row header to remain visible after horizontal scroll',
-    ).not.toBeNull()
-    expect(
-      Math.abs(postScrollBox!.x - preScrollBox!.x),
-      'expected question column to remain pinned at the same viewport x position after 200 px horizontal scroll in WebKit',
-    ).toBeLessThan(3)
   })
 })

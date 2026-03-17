@@ -73,9 +73,8 @@
     "completelyDisagree": "Completely disagree"
   },
   "summary": {
-    "higher": "{left} ({leftPercent}%) has a higher share of agree responses than {right} ({rightPercent}%) for \"{question}\".",
-    "lower": "{left} ({leftPercent}%) has a lower share of agree responses than {right} ({rightPercent}%) for \"{question}\".",
-    "similar": "{left} ({leftPercent}%) and {right} ({rightPercent}%) have a similar share of agree responses for \"{question}\"."
+    "bestForQuestion": "{name} ({percent}%) scored highest on \"{question}\".",
+    "tiedForQuestion": "{names} scored similarly on \"{question}\"."
   },
   "attribution": {
     "text": "Survey data ({year}) comes from Malmö stad."
