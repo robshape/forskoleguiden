@@ -18,7 +18,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm preview',
+    command: 'pnpm build && pnpm preview',
     url: 'http://localhost:4321/forskoleguiden/',
     reuseExistingServer: !process.env.CI,
   },

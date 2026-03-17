@@ -2,7 +2,7 @@
   "ci": {
     "collect": {
       "url": ["http://localhost:4321/forskoleguiden/sv/"],
-      "startServerCommand": "pnpm preview",
+      "startServerCommand": "pnpm build && pnpm preview",
       "startServerReadyPattern": "localhost:\\d+",
       "startServerReadyTimeout": 30000,
       "numberOfRuns": 1,
