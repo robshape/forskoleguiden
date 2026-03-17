@@ -56,3 +56,26 @@
     @apply text-primary-700;
   }
 }
+
+/* Slim custom scrollbar for horizontal comparison grid */
+[data-testid='comparison-scroll'] {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+[data-testid='comparison-scroll']::-webkit-scrollbar {
+  height: 6px;
+}
+
+[data-testid='comparison-scroll']::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-testid='comparison-scroll']::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 3px;
+}
+
+[data-testid='comparison-scroll']::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary-300);
+}

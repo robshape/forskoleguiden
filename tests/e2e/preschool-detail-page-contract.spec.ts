@@ -234,4 +234,60 @@ test.describe('Swedish preschool detail pages contract', () => {
       await expect(compareButton).toHaveAttribute('aria-pressed', 'false')
     }).toPass()
   })
+
+  test('detail page breadcrumb defaults to directory link and is server-rendered in HTML', async ({
+    page,
+  }) => {
+    // Navigate with JS disabled to verify the breadcrumb is in static HTML
+    await page.goto(TEST_URL, { waitUntil: 'commit' })
+
+    const nav = page.getByRole('navigation', {
+      name: 'Tillbaka till förskolor',
+    })
+    await expect(nav).toBeVisible()
+
+    const link = nav.getByRole('link')
+    await expect(link).toHaveAttribute('href', '/forskoleguiden/sv/')
+    await expect(link.locator('[data-breadcrumb-label]')).toHaveText(
+      'Tillbaka till förskolor',
+    )
+  })
+
+  test('detail page breadcrumb enhances to comparison link when opened with ?from=compare', async ({
+    page,
+  }) => {
+    // Seed sessionStorage with two preschools for a valid comparison state
+    await page.goto('/forskoleguiden/sv/')
+    await page.evaluate(() => {
+      sessionStorage.setItem(
+        'compareIds',
+        JSON.stringify([
+          'almgardens-forskola',
+          'bellevuegardens-montessoriforskola',
+        ]),
+      )
+    })
+
+    // Navigate to comparison page and click the first school's detail link
+    await page.goto('/forskoleguiden/sv/jamfor/')
+    const schoolLink = page
+      .getByRole('link', { name: 'Almgårdens förskola' })
+      .first()
+    await schoolLink.click()
+
+    // URL should include ?from=compare
+    await expect(page).toHaveURL(/from=compare/)
+
+    // Breadcrumb should now show comparison label and href
+    const nav = page.getByRole('navigation', {
+      name: 'Tillbaka till jämförelse',
+    })
+    await expect(nav).toBeVisible()
+
+    const link = nav.getByRole('link')
+    await expect(link).toHaveAttribute('href', '/forskoleguiden/sv/jamfor/')
+    await expect(link.locator('[data-breadcrumb-label]')).toHaveText(
+      'Tillbaka till jämförelse',
+    )
+  })
 })

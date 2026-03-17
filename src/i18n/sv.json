@@ -57,8 +57,10 @@
     "questionColumnLabel": "Fråga",
     "actions": {
       "backToDirectory": "Tillbaka till förskolor",
+      "backToComparison": "Tillbaka till jämförelse",
       "clearSelection": "Rensa val"
     },
+    "scrollHint": "Svep för fler förskolor",
     "chartAriaLabel": "Stapeldiagram för: {question}",
     "noscriptMessage": "Den här sidan kräver JavaScript. Besök varje förskolas sida direkt för mer information."
   },

@@ -57,8 +57,10 @@
     "questionColumnLabel": "Question",
     "actions": {
       "backToDirectory": "Back to preschools",
+      "backToComparison": "Back to comparison",
       "clearSelection": "Clear selection"
     },
+    "scrollHint": "Swipe for more preschools",
     "chartAriaLabel": "Bar chart for: {question}",
     "noscriptMessage": "This page requires JavaScript. Visit each preschool's page directly for more information."
   },

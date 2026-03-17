@@ -22,6 +22,9 @@ const base = getBasePath()
 const locale = 'sv'
 
 const backLabel = t('compare.actions.backToDirectory', locale)
+const backToComparisonLabel = t('compare.actions.backToComparison', locale)
+const comparisonHref = `${base}/${locale}/jamfor/`
+const directoryHref = `${base}/${locale}/`
 
 export function getStaticPaths() {
   const index = getPreschoolIndex()
@@ -37,11 +40,11 @@ export function getStaticPaths() {
 
 <BaseLayout locale={locale} title={preschool.name}>
   <div class="mx-auto max-w-2xl">
-    <!-- Breadcrumb Navigation -->
-    <nav aria-label={backLabel} class="mt-2 mb-6">
+    <!-- Breadcrumb Navigation — static HTML with progressive enhancement -->
+    <nav aria-label={backLabel} class="mt-2 mb-6" data-breadcrumb>
       <a
         class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
-        href={`${base}/${locale}/`}
+        href={directoryHref}
       >
         <svg
           aria-hidden="true"
@@ -56,9 +59,29 @@ export function getStaticPaths() {
             stroke-linecap="round"
             stroke-linejoin="round"></path>
         </svg>
-        {backLabel}
+        <span data-breadcrumb-label>{backLabel}</span>
       </a>
     </nav>
+    <script
+      data-comparison-href={comparisonHref}
+      data-comparison-label={backToComparisonLabel}
+      is:inline
+    >
+      ;(function () {
+        if (
+          new URLSearchParams(window.location.search).get('from') !== 'compare'
+        )
+          return
+        var s = document.currentScript
+        var href = s.getAttribute('data-comparison-href')
+        var label = s.getAttribute('data-comparison-label')
+        var nav = document.querySelector('[data-breadcrumb]')
+        var a = nav.querySelector('a')
+        a.setAttribute('href', href)
+        nav.setAttribute('aria-label', label)
+        nav.querySelector('[data-breadcrumb-label]').textContent = label
+      })()
+    </script>
 
     <!-- Hero Section -->
     <header class="mb-10 flex flex-col gap-4">
