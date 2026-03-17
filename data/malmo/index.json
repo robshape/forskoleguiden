@@ -3,9 +3,45 @@
   "year": 2025,
   "preschools": [
     {
+      "id": "al-salamah-sprakforskola",
+      "name": "Al-Salamah språkförskola",
+      "address": "Kvarnbyvägen 18, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "al-salamah-sprakforskola-jagersro",
+      "name": "Al-Salamah språkförskola Jägersro",
+      "address": "Jägersrovägen 160, Malmö",
+      "operatorType": "independent"
+    },
+    {
       "id": "almgardens-forskola",
       "name": "Almgårdens förskola",
       "address": "Agnesfridsvägen 105, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "almviksgardens-forskola",
+      "name": "Almviksgårdens förskola",
+      "address": "Madrigalgatan 2, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "almangens-forskola",
+      "name": "Almängens förskola",
+      "address": "Solvändegatan 20A-B, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "annelunds-forskola",
+      "name": "Annelunds förskola",
+      "address": "Norra Grängesbergsgatan 2D, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "arkitektens-forskola",
+      "name": "Arkitektens förskola",
+      "address": "Arkitektgatan 2, Malmö",
       "operatorType": "municipal"
     },
     {

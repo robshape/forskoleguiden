@@ -1,0 +1,34 @@
+{
+  "id": "almangens-forskola",
+  "preschoolName": "Almängens förskola",
+  "address": "Solvändegatan 20A-B, Malmö",
+  "surveyYear": 2025,
+  "totalRespondentsPercent": 71,
+  "questionGroups": [
+    {
+      "name": "Helhetsbedömning",
+      "questions": [
+        {
+          "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
+          "response": {
+            "completelyAgreePercent": 74,
+            "partlyAgreePercent": 18,
+            "neitherAgreeNorDisagreePercent": 5,
+            "partlyDisagreePercent": 3,
+            "completelyDisagreePercent": 1
+          }
+        },
+        {
+          "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
+          "response": {
+            "completelyAgreePercent": 75,
+            "partlyAgreePercent": 18,
+            "neitherAgreeNorDisagreePercent": 2,
+            "partlyDisagreePercent": 3,
+            "completelyDisagreePercent": 3
+          }
+        }
+      ]
+    }
+  ]
+}

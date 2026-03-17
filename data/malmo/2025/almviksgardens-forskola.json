@@ -1,0 +1,34 @@
+{
+  "id": "almviksgardens-forskola",
+  "preschoolName": "Almviksgårdens förskola",
+  "address": "Madrigalgatan 2, Malmö",
+  "surveyYear": 2025,
+  "totalRespondentsPercent": 67,
+  "questionGroups": [
+    {
+      "name": "Helhetsbedömning",
+      "questions": [
+        {
+          "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
+          "response": {
+            "completelyAgreePercent": 64,
+            "partlyAgreePercent": 24,
+            "neitherAgreeNorDisagreePercent": 7,
+            "partlyDisagreePercent": 3,
+            "completelyDisagreePercent": 2
+          }
+        },
+        {
+          "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
+          "response": {
+            "completelyAgreePercent": 63,
+            "partlyAgreePercent": 30,
+            "neitherAgreeNorDisagreePercent": 6,
+            "partlyDisagreePercent": 0,
+            "completelyDisagreePercent": 2
+          }
+        }
+      ]
+    }
+  ]
+}

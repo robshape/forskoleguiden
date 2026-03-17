@@ -1,0 +1,34 @@
+{
+  "id": "annelunds-forskola",
+  "preschoolName": "Annelunds förskola",
+  "address": "Norra Grängesbergsgatan 2D, Malmö",
+  "surveyYear": 2025,
+  "totalRespondentsPercent": 75,
+  "questionGroups": [
+    {
+      "name": "Helhetsbedömning",
+      "questions": [
+        {
+          "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
+          "response": {
+            "completelyAgreePercent": 55,
+            "partlyAgreePercent": 31,
+            "neitherAgreeNorDisagreePercent": 6,
+            "partlyDisagreePercent": 4,
+            "completelyDisagreePercent": 5
+          }
+        },
+        {
+          "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
+          "response": {
+            "completelyAgreePercent": 66,
+            "partlyAgreePercent": 23,
+            "neitherAgreeNorDisagreePercent": 3,
+            "partlyDisagreePercent": 4,
+            "completelyDisagreePercent": 3
+          }
+        }
+      ]
+    }
+  ]
+}

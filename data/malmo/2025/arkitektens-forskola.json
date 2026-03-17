@@ -1,0 +1,34 @@
+{
+  "id": "arkitektens-forskola",
+  "preschoolName": "Arkitektens förskola",
+  "address": "Arkitektgatan 2, Malmö",
+  "surveyYear": 2025,
+  "totalRespondentsPercent": 76,
+  "questionGroups": [
+    {
+      "name": "Helhetsbedömning",
+      "questions": [
+        {
+          "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
+          "response": {
+            "completelyAgreePercent": 49,
+            "partlyAgreePercent": 38,
+            "neitherAgreeNorDisagreePercent": 8,
+            "partlyDisagreePercent": 5,
+            "completelyDisagreePercent": 0
+          }
+        },
+        {
+          "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
+          "response": {
+            "completelyAgreePercent": 52,
+            "partlyAgreePercent": 30,
+            "neitherAgreeNorDisagreePercent": 8,
+            "partlyDisagreePercent": 4,
+            "completelyDisagreePercent": 6
+          }
+        }
+      ]
+    }
+  ]
+}
