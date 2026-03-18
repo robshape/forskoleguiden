@@ -13,10 +13,10 @@ import ComparisonEmptyState from './ComparisonEmptyState'
 import ComparisonSummary from './ComparisonSummary'
 
 interface Props {
-  heading: string
   directoryHref: string
   emptyStateTitle: string
   emptyStateBody: string
+  selectedCountTemplate: string
   singleSelectionPrompt: string
   summaryHeading: string
   backToDirectoryLabel: string
@@ -31,14 +31,14 @@ interface Props {
   agreeShareLabel: string
 }
 
-/** Card width for each school column. Sized so two cards fit side-by-side on mobile. */
-const CARD_W = 'w-[calc(50vw-1.5rem)] sm:w-[280px]'
+/** Card width uses spacing scale tokens for predictable layout across contexts. */
+const CARD_W = 'w-64 sm:w-72 lg:w-80'
 
 export default function ComparisonView({
-  heading,
   directoryHref,
   emptyStateTitle,
   emptyStateBody,
+  selectedCountTemplate,
   singleSelectionPrompt,
   summaryHeading,
   backToDirectoryLabel,
@@ -100,7 +100,7 @@ export default function ComparisonView({
     isLastColumn(idx) ? null : (
       <div
         aria-hidden="true"
-        class="w-px shrink-0 self-stretch bg-gray-200"
+        class="w-px shrink-0 self-stretch bg-border"
       ></div>
     )
 
@@ -110,13 +110,19 @@ export default function ComparisonView({
         backToDirectoryLabel={backToDirectoryLabel}
         directoryHref={directoryHref}
       />
-      <header class="mb-10 flex flex-col gap-3">
-        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          {heading} ({selectedSurveys.length})
-        </h1>
+      <header class="mb-10 flex min-w-0 flex-col gap-3 border-s-4 border-primary-300 ps-4">
+        <p
+          class="text-base font-semibold text-gray-700"
+          data-testid="selected-count-label"
+        >
+          {selectedCountTemplate.replace(
+            '{count}',
+            String(selectedSurveys.length),
+          )}
+        </p>
         {ids.length === 1 && (
           <p
-            class="mt-1 text-[15px] text-gray-600"
+            class="mt-1 text-base text-gray-600"
             data-testid="single-selection-prompt"
           >
             {singleSelectionPrompt}
@@ -128,7 +134,7 @@ export default function ComparisonView({
       {selectedSurveys.length > 2 && (
         <p
           aria-hidden="true"
-          class="mb-3 flex items-center gap-1 text-xs text-gray-500 sm:hidden"
+          class="mb-3 flex items-center gap-1 text-sm text-gray-500 sm:hidden"
           data-testid="scroll-hint"
         >
           <svg
@@ -155,18 +161,18 @@ export default function ComparisonView({
           class="snap-x snap-mandatory overflow-x-auto scroll-smooth"
           data-testid="comparison-scroll"
         >
-          <div class="inline-flex flex-col gap-10">
+          <div class="inline-flex flex-col gap-8">
             {/* Header Row */}
             <div class="flex gap-4">
               {selectedSurveys.map((survey, idx) => (
                 <>
                   <div
-                    class={`flex ${CARD_W} shrink-0 snap-start flex-col border-b border-gray-200 pb-4`}
+                    class={`flex ${CARD_W} shrink-0 snap-start flex-col border-b border-border pb-4`}
                     key={survey.id}
                   >
-                    <h2 class="text-xl font-bold tracking-tight text-gray-900">
+                    <h2 class="text-xl font-bold tracking-tight wrap-break-word text-gray-900">
                       <a
-                        class="hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+                        class="wrap-break-word hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
                         href={`${directoryHref}forskola/${survey.id}/?from=compare`}
                       >
                         {survey.preschoolName}
@@ -188,9 +194,12 @@ export default function ComparisonView({
             </div>
             {/* Questions Rows */}
             {questions.map((question) => (
-              <div class="flex flex-col gap-6" key={question.text}>
+              <div
+                class="flex flex-col gap-5 border-t border-border pt-6 first:border-t-0 first:pt-0"
+                key={question.text}
+              >
                 <div class="sticky left-0 z-10 flex w-fit max-w-[80vw] flex-col gap-2 bg-page pr-5">
-                  <h3 class="text-[15px] font-bold text-gray-900">
+                  <h3 class="text-base font-bold text-gray-900">
                     "{question.text}"
                   </h3>
                 </div>
@@ -208,7 +217,7 @@ export default function ComparisonView({
                       return (
                         <>
                           <div
-                            class={`${CARD_W} shrink-0 snap-start rounded-xl border border-gray-200 bg-white p-6 shadow-sm`}
+                            class={`${CARD_W} shrink-0 snap-start rounded-xl border border-border bg-surface p-6 shadow-sm`}
                             key={survey.id}
                           >
                             <p class="text-sm text-gray-500">—</p>
@@ -226,7 +235,7 @@ export default function ComparisonView({
                     return (
                       <>
                         <div
-                          class={`flex ${CARD_W} shrink-0 snap-start flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md`}
+                          class={`flex ${CARD_W} shrink-0 snap-start flex-col rounded-xl border border-border bg-surface p-6 shadow-sm transition-all hover:shadow-md`}
                           key={survey.id}
                         >
                           <div
@@ -234,7 +243,7 @@ export default function ComparisonView({
                           >
                             {agreeShare}%
                           </div>
-                          <div class="mt-1 text-[13px] font-medium text-gray-600">
+                          <div class="mt-1 text-sm font-medium text-gray-600">
                             {agreeShareLabel}
                           </div>
 

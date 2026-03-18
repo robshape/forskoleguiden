@@ -86,6 +86,7 @@ export default function SortToggle({
 }: Props) {
   const [sortMode, setSortMode] = useState<SortMode>('alphabetical')
   const [announcement, setAnnouncement] = useState('')
+  const [isHydrated, setIsHydrated] = useState(false)
   const hasHydratedRef = useRef(false)
   const cachedListElementRef = useRef<HTMLUListElement | null>(null)
   const cachedRowsRef = useRef<ListRow[] | null>(null)
@@ -109,6 +110,7 @@ export default function SortToggle({
 
     if (!hasHydratedRef.current) {
       hasHydratedRef.current = true
+      setIsHydrated(true)
 
       return
     }
@@ -118,24 +120,26 @@ export default function SortToggle({
 
   const rankingButtonClass =
     sortMode === 'ranking'
-      ? 'bg-primary-600 text-white'
-      : 'bg-surface text-gray-700 hover:bg-gray-100'
+      ? 'bg-primary-600 text-white active:bg-primary-700/90'
+      : 'bg-surface text-gray-700 hover:bg-gray-100 active:bg-gray-200'
 
   const alphabeticalButtonClass =
     sortMode === 'alphabetical'
-      ? 'bg-primary-600 text-white'
-      : 'bg-surface text-gray-700 hover:bg-gray-100'
+      ? 'bg-primary-600 text-white active:bg-primary-700/90'
+      : 'bg-surface text-gray-700 hover:bg-gray-100 active:bg-gray-200'
 
   return (
     <div
       aria-label={groupLabel}
-      class="inline-flex items-center gap-2"
+      class="inline-flex flex-wrap items-center gap-2 sm:flex-nowrap"
+      data-hydrated={isHydrated ? 'true' : 'false'}
+      data-testid="sort-toggle"
       role="group"
     >
       <span class="text-sm font-medium text-gray-700">{sortLabel}</span>
       <button
         aria-pressed={sortMode === 'alphabetical'}
-        class={`inline-flex h-8 items-center rounded-full border border-border px-3 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${alphabeticalButtonClass}`}
+        class={`inline-flex min-h-11 items-center rounded-full border border-border px-4 py-2 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${alphabeticalButtonClass}`}
         onClick={() => {
           setSortMode('alphabetical')
           setAnnouncement(`${groupLabel}: ${alphabeticalLabel}`)
@@ -146,7 +150,7 @@ export default function SortToggle({
       </button>
       <button
         aria-pressed={sortMode === 'ranking'}
-        class={`inline-flex h-8 items-center rounded-full border border-border px-3 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${rankingButtonClass}`}
+        class={`inline-flex min-h-11 items-center rounded-full border border-border px-4 py-2 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${rankingButtonClass}`}
         onClick={() => {
           setSortMode('ranking')
           setAnnouncement(`${groupLabel}: ${rankingLabel}`)

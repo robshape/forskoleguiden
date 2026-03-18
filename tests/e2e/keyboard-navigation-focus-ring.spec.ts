@@ -309,7 +309,7 @@ test.describe('keyboard navigation — comparison page interactive flows', () =>
 
     // ComparisonView must render the comparison heading (not empty state).
     await expect(
-      page.getByRole('heading', { name: 'Jämför förskolor' }),
+      page.getByRole('heading', { level: 1, name: 'Jämför förskolor' }),
     ).toBeVisible()
 
     // The back link is present in the seeded state too.

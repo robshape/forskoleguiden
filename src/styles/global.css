@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 
 @theme {
+  --font-sans:
+    'Noto Sans', 'Avenir Next', 'Segoe UI', 'Helvetica Neue', sans-serif;
+
   --color-primary-50: #eff6ff;
   --color-primary-300: #93c5fd;
   --color-primary-600: #2563eb;
@@ -16,6 +19,13 @@
   --max-width-content: 40rem;
   --height-nav: 3.75rem;
 
+  --text-caption: 0.875rem;
+  --text-body: 1rem;
+  --text-subheading: 1.25rem;
+  --text-heading: 2rem;
+  --leading-body: 1.6;
+  --leading-heading: 1.2;
+
   --shadow-tray: 0 -4px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -24,6 +34,24 @@
      The tray island writes --tray-height to documentElement when visible. */
   body {
     padding-bottom: var(--tray-height, 0px);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    font-kerning: normal;
+    background-image:
+      linear-gradient(
+        180deg,
+        color-mix(in oklch, var(--color-page) 82%, white) 0%,
+        var(--color-page) 48%,
+        color-mix(in oklch, var(--color-primary-50) 22%, var(--color-page)) 100%
+      ),
+      radial-gradient(
+        circle at 1px 1px,
+        color-mix(in oklch, var(--color-primary-300) 12%, transparent) 1px,
+        transparent 0
+      );
+    background-size:
+      auto,
+      22px 22px;
   }
 
   :where(
@@ -54,6 +82,17 @@
 
   a:not([class]):hover {
     @apply text-primary-700;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 

@@ -21,7 +21,12 @@ export default function ComparisonEmptyState({
       />
       <div class="py-12 text-center">
         <h1 class="text-2xl font-bold text-gray-900">{emptyStateTitle}</h1>
-        <p class="mt-3 text-[15px] text-gray-600">{emptyStateBody}</p>
+        <p
+          class="mt-3 text-base text-gray-600"
+          data-testid="comparison-empty-body"
+        >
+          {emptyStateBody}
+        </p>
       </div>
     </div>
   )

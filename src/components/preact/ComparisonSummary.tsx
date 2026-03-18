@@ -38,7 +38,7 @@ export default function ComparisonSummary({
       role="region"
     >
       <h2
-        class="mb-3 text-[15px] font-bold text-blue-950"
+        class="mb-3 text-base font-bold text-blue-950"
         id="comparison-summary-heading"
       >
         {summaryHeading}

@@ -11,6 +11,41 @@
 
 Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents compare preschools side-by-side using official survey ratings, build a "pick 5" shortlist, and share via URL-encoded state. No backend, no accounts, no external APIs at runtime. Implementation follows the phased plan in `docs/implementation-plan-phase-1.md`.
 
+## Design Context
+
+### Users
+
+- Parents and guardians in Malmo comparing preschools before applying.
+- Co-parents who need to review and discuss the same shortlist across devices.
+- Usage is often split between fast on-the-go checks on phone and longer review sessions on tablet or desktop.
+
+### Brand Personality
+
+- Trusted, clear, calm.
+- The interface should reduce anxiety, support confident decisions, and remain practical over promotional.
+
+### Aesthetic Direction
+
+- Friendly civic service.
+- Approachability should come from clear language, soft but restrained visual rhythm, and strong readability.
+- Keep a factual, public-service tone with transparent data presentation.
+- Anti-reference: do not look like a flashy startup landing page, a playful kids app, or a dense enterprise dashboard.
+
+### Platforms And Usage Contexts
+
+- Phone portrait (320-430px): primary context, touch-first, short sessions.
+- Phone landscape: quick checks and side-by-side scanning.
+- Tablet portrait and landscape: medium-depth review and collaborative discussion.
+- Desktop and laptop: keyboard and mouse workflows, longer focused comparison.
+
+### Design Principles
+
+- Prioritize decision clarity: make comparison actions and outcomes obvious first.
+- Preserve trust: use calm hierarchy and restrained visuals over decorative effects.
+- Design for touch first: minimum 44x44 interactive targets and thumb-reachable controls.
+- Adapt, do not shrink: reflow layout and interaction patterns by context while preserving core IA.
+- Keep parity across contexts: core comparison tasks must remain available on phone, tablet, and desktop.
+
 **Current phase**: Phase 1 complete (Steps 0–13). Infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, deterministic summaries, data attribution, accessibility audits, CI/CD pipeline, and final verification are all done. Next: Phase 2 roadmap items (i18n EN/AR page routes, shortlist, sharing, independent preschool queue links).
 
 ## Architecture

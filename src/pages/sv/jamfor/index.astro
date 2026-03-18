@@ -16,6 +16,10 @@ const pageTitle = t('compare.heading', locale)
 ---
 
 <BaseLayout locale={locale} title={pageTitle}>
+  <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+    {pageTitle}
+  </h1>
+
   <ComparisonView
     agreeShareLabel={t('directory.scoreBadge.agreeShare', locale).toLowerCase()}
     backToDirectoryLabel={t('compare.actions.backToDirectory', locale)}
@@ -27,9 +31,9 @@ const pageTitle = t('compare.heading', locale)
     directoryHref={directoryHref}
     emptyStateBody={t('compare.emptyStateBody', locale)}
     emptyStateTitle={t('compare.emptyStateTitle', locale)}
-    heading={pageTitle}
     locale={locale}
     scrollHintLabel={t('compare.scrollHint', locale)}
+    selectedCountTemplate={t('compareTray.selectedCount', locale)}
     singleSelectionPrompt={t('compare.singleSelectionPrompt', locale)}
     summaryHeading={t('compare.summaryHeading', locale)}
     surveys={surveys}

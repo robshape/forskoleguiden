@@ -49,11 +49,16 @@ const directoryHeading = t('directory.heading', locale)
 <BaseLayout locale={locale} title={pageTitle}>
   <CityYearSelector locale={locale} />
 
-  <section aria-label={t('directory.listAriaLabel', locale)} class="mt-6">
-    <div class="flex items-center justify-between gap-3">
-      <h2 class="text-lg font-semibold text-gray-900">
+  <section
+    aria-label={t('directory.listAriaLabel', locale)}
+    class="mt-10 space-y-5"
+  >
+    <div
+      class="flex flex-col items-start gap-4 rounded-xl border border-border bg-surface/90 p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:px-5"
+    >
+      <h1 class="text-lg font-semibold text-gray-900">
         {`${directoryHeading} (${defaultSortedDirectory.length})`}
-      </h2>
+      </h1>
       <SortToggle
         alphabeticalLabel={t('directory.sort.alphabetical', locale)}
         client:load
@@ -65,7 +70,7 @@ const directoryHeading = t('directory.heading', locale)
       />
     </div>
 
-    <ul class="mt-4 space-y-2" id="sv-preschool-directory-list">
+    <ul class="space-y-3" id="sv-preschool-directory-list">
       {
         defaultSortedDirectory.map((preschool, index) => (
           <li

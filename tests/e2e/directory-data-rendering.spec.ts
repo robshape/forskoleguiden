@@ -53,7 +53,7 @@ test.describe('Swedish directory data rendering contracts', () => {
   }) => {
     await page.goto('/forskoleguiden/sv/')
 
-    await expect(page.getByRole('heading', { level: 2 })).toHaveText(
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
       /Förskolor i Malmö \(\d+\)/,
     )
   })
@@ -62,6 +62,10 @@ test.describe('Swedish directory data rendering contracts', () => {
     page,
   }) => {
     await page.goto('/forskoleguiden/sv/')
+    await expect(page.getByTestId('sort-toggle')).toHaveAttribute(
+      'data-hydrated',
+      'true',
+    )
     await page.getByRole('button', { name: 'Betyg' }).click()
 
     const listRows = page.locator(
@@ -82,6 +86,10 @@ test.describe('Swedish directory data rendering contracts', () => {
     page,
   }) => {
     await page.goto('/forskoleguiden/sv/')
+    await expect(page.getByTestId('sort-toggle')).toHaveAttribute(
+      'data-hydrated',
+      'true',
+    )
 
     const cardNameLocator = page.locator('[data-testid="preschool-card"] h3 a')
 

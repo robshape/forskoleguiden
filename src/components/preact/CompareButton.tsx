@@ -29,15 +29,15 @@ export default function CompareButton({
   const isSelected = ids.includes(id)
   const label = isSelected ? addedLabel : addLabel
   const buttonClass = isSelected
-    ? 'bg-primary-600 text-white hover:bg-primary-700'
-    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+    ? 'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-700/90'
+    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
   const ariaLabel = interpolateAriaLabel(ariaLabelTemplate, label, name)
 
   return (
     <button
       aria-label={ariaLabel}
       aria-pressed={isSelected}
-      class={`inline-flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-full px-4 text-[13px] font-semibold whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${buttonClass}`}
+      class={`inline-flex min-h-11 max-w-full shrink-0 items-center justify-center gap-1.5 rounded-full px-4 py-2 text-center text-caption/tight font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none ${buttonClass}`}
       onClick={() => {
         toggleCompare(id)
       }}
@@ -45,7 +45,7 @@ export default function CompareButton({
     >
       <svg
         aria-hidden="true"
-        class="size-3 shrink-0"
+        class="size-3.5 shrink-0"
         fill="none"
         stroke="currentColor"
         stroke-linecap="round"

@@ -68,7 +68,7 @@ test('full Phase 1 user journey: directory → sort → select 3 → compare pag
   const listRows = page.locator('section[aria-label="Förskolelista"] > ul > li')
   const firstPreschoolLink = listRows.first().getByRole('link').first()
 
-  await expect(directorySection.getByRole('heading', { level: 2 })).toHaveText(
+  await expect(directorySection.getByRole('heading', { level: 1 })).toHaveText(
     /Förskolor i Malmö \(\d+\)/,
   )
   await expect(page.getByTestId('preschool-card').first()).toBeVisible()
@@ -80,6 +80,13 @@ test('full Phase 1 user journey: directory → sort → select 3 → compare pag
   // ── Step 3: Toggle sort away from default (A–Ö) to Betyg, then back ─────
   const betygButton = page.getByRole('button', { name: 'Betyg' })
   const azButton = page.getByRole('button', { name: 'A–Ö' })
+
+  // Hydration guard: SortToggle uses client:load, so interactions must wait
+  // until the island has mounted on the client.
+  await expect(page.getByTestId('sort-toggle')).toHaveAttribute(
+    'data-hydrated',
+    'true',
+  )
 
   // Verify initial pressed states
   await expect(azButton).toHaveAttribute('aria-pressed', 'true')
