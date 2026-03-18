@@ -130,6 +130,8 @@ describe('compare store state behavior', () => {
   })
 
   it('should fall back to empty compare IDs when persisted storage is invalid JSON or a non-array JSON value', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
     const compareStorageKey = await getCompareStorageKey()
 
     stubBrowserStorage({
@@ -139,6 +141,9 @@ describe('compare store state behavior', () => {
     let { compareIds } = await importCompareState()
 
     expect(compareIds.get()).toEqual([])
+    expect(warnSpy).toHaveBeenCalledOnce()
+
+    warnSpy.mockRestore()
 
     clearBrowserGlobals()
 

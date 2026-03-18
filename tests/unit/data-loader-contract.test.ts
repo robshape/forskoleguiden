@@ -56,10 +56,10 @@ describe('preschool data loading', () => {
     const index = getMalmoIndex()
     const expectedPath = getMalmoSurveyFilePath(missingId, index.year)
 
-    expect(() => getPreschoolSurveyByYear(missingId, index.year)).toThrowError(
+    expect(() => getPreschoolSurveyByYear(missingId, index.year)).toThrow(
       missingId,
     )
-    expect(() => getPreschoolSurveyByYear(missingId, index.year)).toThrowError(
+    expect(() => getPreschoolSurveyByYear(missingId, index.year)).toThrow(
       expectedPath,
     )
   })
