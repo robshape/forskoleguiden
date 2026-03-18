@@ -10,6 +10,12 @@ export default defineConfig({
     },
   },
   test: {
+    // Thresholds deliberately not enforced — opt-in collection only
+    coverage: {
+      exclude: ['**/*.d.ts'],
+      include: ['src/**/*.ts', 'src/**/*.tsx'],
+      provider: 'v8',
+    },
     environment: 'node',
     include: ['tests/unit/**/*.test.ts'],
   },

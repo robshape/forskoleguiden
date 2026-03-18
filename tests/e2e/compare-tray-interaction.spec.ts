@@ -255,6 +255,50 @@ test.describe('compare tray visibility and interaction behavior', () => {
     await expect(reloadedBellevueButton).toHaveAttribute('aria-pressed', 'true')
     await expect(getCompareTray(page)).toBeVisible()
   })
+
+  test('selecting a 6th preschool is silently refused when 5 are already selected', async ({
+    page,
+  }) => {
+    await navigateToDirectory(page)
+
+    const names = [
+      'Bellevuegårdens montessoriförskola',
+      'Bladins internationella förskola',
+      'Almgårdens förskola',
+      'Bulltofta förskola',
+      'Almviksgårdens förskola',
+    ]
+
+    // Wait for all buttons to be ready
+    for (const name of names) {
+      await waitForCompareButtonReady(page, name)
+    }
+    await waitForCompareButtonReady(page, 'Almängens förskola')
+
+    // Select 5 preschools (the maximum)
+    for (const name of names) {
+      await getCompareButton(page, name).click()
+    }
+
+    const tray = getCompareTray(page)
+    await expect(tray).toBeVisible()
+    await expect(tray).toContainText('5')
+
+    // Verify all 5 are pressed
+    for (const name of names) {
+      await expect(getCompareButton(page, name)).toHaveAttribute(
+        'aria-pressed',
+        'true',
+      )
+    }
+
+    // Attempt to select a 6th — must be silently refused
+    const sixthButton = getCompareButton(page, 'Almängens förskola')
+    await sixthButton.click()
+
+    await expect(sixthButton).toHaveAttribute('aria-pressed', 'false')
+    await expect(tray).toContainText('5')
+  })
 })
 
 // ---------------------------------------------------------------------------

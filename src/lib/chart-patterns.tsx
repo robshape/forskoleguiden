@@ -1,6 +1,7 @@
 import { RESPONSE_ROWS } from '@/lib/survey-responses'
 import type { SurveyResponse } from '@/lib/types'
 
+/** SVG pattern tile size in px — 2× Tailwind base spacing for crisp rendering at all scales */
 export const TILE_SIZE = 8
 
 // 5 visually-distinct, color-blind-accessible pattern definitions.

@@ -9,16 +9,15 @@ interface DetailsBarChartProps {
   response: SurveyResponse
   categoryLabels: string[]
   chartIndex: number
-  hideLegend?: boolean
 }
 
+/** SVG bar height in viewBox units — sized for a visible 28px-tall bar at 1:1 scale */
 const BAR_HEIGHT = 28
 
 export default function DetailsBarChart({
   response,
   categoryLabels,
   chartIndex,
-  hideLegend,
 }: DetailsBarChartProps) {
   let xOffset = 0
   const segments = RESPONSE_SERIES.map(({ field }, catIdx) => {
@@ -75,31 +74,29 @@ export default function DetailsBarChart({
       </svg>
 
       {/* Legend Map */}
-      {!hideLegend && (
-        <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2">
-          {segments.map(({ catIdx, percent }) => {
-            if (percent === 0) return null
-            const patternId = `detail-chart-${chartIndex}-cat-${catIdx}`
-            return (
-              <div
-                class="flex items-center gap-2 text-xs font-medium text-gray-600"
-                key={catIdx}
+      <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+        {segments.map(({ catIdx, percent }) => {
+          if (percent === 0) return null
+          const patternId = `detail-chart-${chartIndex}-cat-${catIdx}`
+          return (
+            <div
+              class="flex items-center gap-2 text-xs font-medium text-gray-600"
+              key={catIdx}
+            >
+              <svg
+                aria-hidden="true"
+                class="size-3.5 rounded-sm drop-shadow-sm"
+                viewBox="0 0 14 14"
               >
-                <svg
-                  aria-hidden="true"
-                  class="size-3.5 rounded-sm drop-shadow-sm"
-                  viewBox="0 0 14 14"
-                >
-                  <rect fill={`url(#${patternId})`} height="14" width="14" />
-                </svg>
-                <span>
-                  {categoryLabels[catIdx]} ({percent}%)
-                </span>
-              </div>
-            )
-          })}
-        </div>
-      )}
+                <rect fill={`url(#${patternId})`} height="14" width="14" />
+              </svg>
+              <span>
+                {categoryLabels[catIdx]} ({percent}%)
+              </span>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

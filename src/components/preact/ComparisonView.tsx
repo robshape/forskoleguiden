@@ -1,7 +1,5 @@
 import { useStore } from '@nanostores/preact'
 
-import { computeBestPerQuestion } from '@/features/comparison/summary'
-import { formatBestPerQuestionText } from '@/features/comparison/summaryText'
 import type { Locale } from '@/i18n/utils'
 import { SCORE_TIER_HIGH, SCORE_TIER_MEDIUM } from '@/lib/constants'
 import { computeAgreeShare, OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
@@ -10,6 +8,9 @@ import { RESPONSE_ROWS } from '@/lib/survey-responses'
 import type { PreschoolSurvey } from '@/lib/types'
 
 import CompareButton from './CompareButton'
+import ComparisonBreadcrumb from './ComparisonBreadcrumb'
+import ComparisonEmptyState from './ComparisonEmptyState'
+import ComparisonSummary from './ComparisonSummary'
 
 interface Props {
   heading: string
@@ -52,43 +53,15 @@ export default function ComparisonView({
 }: Props) {
   const ids = useStore(compareIds)
 
-  const renderBreadcrumb = () => (
-    <nav aria-label={backToDirectoryLabel} class="mt-2 mb-6">
-      <a
-        class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
-        href={directoryHref}
-      >
-        <svg
-          aria-hidden="true"
-          class="size-4"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></path>
-        </svg>
-        {backToDirectoryLabel}
-      </a>
-    </nav>
-  )
-
-  const renderEmptyState = () => (
-    <div>
-      {renderBreadcrumb()}
-      <div class="py-12 text-center">
-        <h1 class="text-2xl font-bold text-gray-900">{emptyStateTitle}</h1>
-        <p class="mt-3 text-[15px] text-gray-600">{emptyStateBody}</p>
-      </div>
-    </div>
-  )
-
   if (ids.length === 0) {
-    return renderEmptyState()
+    return (
+      <ComparisonEmptyState
+        backToDirectoryLabel={backToDirectoryLabel}
+        directoryHref={directoryHref}
+        emptyStateBody={emptyStateBody}
+        emptyStateTitle={emptyStateTitle}
+      />
+    )
   }
 
   // 1+ selected — render preschool results side-by-side
@@ -97,7 +70,14 @@ export default function ComparisonView({
     .filter((s): s is PreschoolSurvey => s !== undefined)
 
   if (selectedSurveys.length === 0) {
-    return renderEmptyState()
+    return (
+      <ComparisonEmptyState
+        backToDirectoryLabel={backToDirectoryLabel}
+        directoryHref={directoryHref}
+        emptyStateBody={emptyStateBody}
+        emptyStateTitle={emptyStateTitle}
+      />
+    )
   }
 
   const overallGroup =
@@ -126,7 +106,10 @@ export default function ComparisonView({
 
   return (
     <div class="overflow-x-hidden pb-16">
-      {renderBreadcrumb()}
+      <ComparisonBreadcrumb
+        backToDirectoryLabel={backToDirectoryLabel}
+        directoryHref={directoryHref}
+      />
       <header class="mb-10 flex flex-col gap-3">
         <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
           {heading} ({selectedSurveys.length})
@@ -286,39 +269,11 @@ export default function ComparisonView({
         ></div>
       </div>
 
-      {/* Summary section — best-per-question sentences (only when 2+ schools selected) */}
-      {selectedSurveys.length >= 2 &&
-        (() => {
-          const names: Record<string, string> = {}
-          for (const survey of selectedSurveys) {
-            names[survey.id] = survey.preschoolName
-          }
-          const summary = computeBestPerQuestion(selectedSurveys)
-          const sentences = formatBestPerQuestionText(summary, names, locale)
-          if (sentences.length === 0) return null
-          return (
-            <section
-              aria-labelledby="comparison-summary-heading"
-              class="mt-10 rounded-xl border border-blue-200 bg-blue-50/50 p-5 shadow-sm"
-              data-testid="comparison-summary"
-              role="region"
-            >
-              <h2
-                class="mb-3 text-[15px] font-bold text-blue-950"
-                id="comparison-summary-heading"
-              >
-                {summaryHeading}
-              </h2>
-              <ul class="space-y-2">
-                {sentences.map((sentence, i) => (
-                  <li class="text-sm font-medium text-blue-900" key={i}>
-                    {sentence}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )
-        })()}
+      <ComparisonSummary
+        locale={locale}
+        selectedSurveys={selectedSurveys}
+        summaryHeading={summaryHeading}
+      />
     </div>
   )
 }

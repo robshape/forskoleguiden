@@ -1,6 +1,7 @@
 import { computeAgreeShare, OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
 import type { PreschoolSurvey } from '@/lib/types'
 
+/** Agree-share percentage-point gap within which schools are considered tied */
 const DELTA_THRESHOLD = 5
 
 export type QuestionBest = {
