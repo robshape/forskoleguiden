@@ -4,23 +4,7 @@
 
 ---
 
-## Step 0: Project Scaffolding & Memory Bank
-
-### 0.0 — Initialize the memory bank
-
-Create the `docs/memory-bank/` directory with the following core files (required by the project's agent instructions for LLM continuity between sessions):
-
-- `projectbrief.md` — Foundation document. Summarize the PRD: static Swedish preschool comparison site, Malmö 2025 survey data, zero-backend, no accounts, mobile-first, accessible.
-- `productContext.md` — Why this project exists, problems it solves, user experience goals. Draw from PRD §1–§3.
-- `systemPatterns.md` — Architecture overview: Astro static output, Preact islands, nanostores, Tailwind v4, feature-organized `src/features/`. Draw from tech-stack.md.
-- `techContext.md` — Technologies, versions, dev setup, constraints. Summarize from tech-stack.md dependency list and build output sections.
-- `activeContext.md` — Current work focus: "Phase 1 implementation beginning. No code exists yet. Next step: project scaffolding."
-- `progress.md` — Status: "Phase 1 not started. All steps pending."
-- `tasks/_index.md` — Empty task index with section headers: In Progress, Pending, Completed, Abandoned.
-
-Each file should be concise (1–2 paragraphs) and reference the PRD/tech-stack for full details.
-
-**Test:** Verify all 7 files exist: `ls docs/memory-bank/projectbrief.md docs/memory-bank/productContext.md docs/memory-bank/systemPatterns.md docs/memory-bank/techContext.md docs/memory-bank/activeContext.md docs/memory-bank/progress.md docs/memory-bank/tasks/_index.md`. All paths resolve without error.
+## Step 0: Project Scaffolding
 
 ### 0.1 — Initialize the Astro project
 

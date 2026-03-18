@@ -4,18 +4,14 @@
 
 - ALWAYS pin dependencies to exact versions in `package.json` (no ^ or ~)
 - ALWAYS run `pnpm validate` after finishing a feature or task
-- ALWAYS read `docs/memory-bank/` when planning and before writing any code
 - ALWAYS read `docs/prd.md` when planning and before writing any code
 - ALWAYS read `docs/tech-stack.md` when planning and before writing any code
-- After adding a major feature, completing a milestone, or finishing a task, ALWAYS update `docs/memory-bank/`
-- ALWAYS use the "frontend-design" SKILL when implementing user interfaces
-- ALWAYS use the "tdd" SKILL when writing tests for new code and when updating existing tests
 
 ## Project overview
 
 Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents compare preschools side-by-side using official survey ratings, build a "pick 5" shortlist, and share via URL-encoded state. No backend, no accounts, no external APIs at runtime. Implementation follows the phased plan in `docs/implementation-plan-phase-1.md`.
 
-**Current phase**: Phase 1 complete (Steps 0–13). Infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, deterministic summaries, data attribution, accessibility audits, CI/CD pipeline, and final verification are all done. Next: Phase 2 roadmap items (i18n EN/AR page routes, shortlist, sharing, independent preschool queue links). See `docs/memory-bank/progress.md` for detailed status.
+**Current phase**: Phase 1 complete (Steps 0–13). Infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, deterministic summaries, data attribution, accessibility audits, CI/CD pipeline, and final verification are all done. Next: Phase 2 roadmap items (i18n EN/AR page routes, shortlist, sharing, independent preschool queue links).
 
 ## Architecture
 
@@ -77,7 +73,6 @@ The `base` config defaults to `/forskoleguiden` for GitHub Pages project-site de
 ## Directory structure
 
 ```text
-.github/instructions/              — File-scoped instruction files (memory-bank workflow)
 .github/skills/                    — Agent skills: tdd/, frontend-design/
 .github/workflows/quality-gates.yml — Reusable workflow_call: lint, test, build, e2e (consumed by deploy.yml and dependabot.yml)
 .github/workflows/deploy.yml  — Calls quality-gates.yml + deploys to GitHub Pages
@@ -175,7 +170,6 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 
 ## Agent customizations
 
-- `.github/instructions/memory-bank.instructions.md` — memory bank workflow (applied to all files via `applyTo: '**'`)
 - `.github/skills/tdd/SKILL.md` — test-driven development with red-green-refactor loop
 - `.github/skills/frontend-design/SKILL.md` — production-grade frontend interface design
 - User-level `agents.instructions.md` — shared agent preferences (modularity, BDD tests, pnpm enforcement)
@@ -185,4 +179,3 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - `docs/implementation-plan-phase-1.md` — Phase 1 implementation roadmap (Steps 0–13)
 - `docs/prd.md` — product requirements and user flows
 - `docs/tech-stack.md` — architectural decisions and technology rationale
-- `docs/memory-bank/` — living project context: active work, progress, system patterns, tasks

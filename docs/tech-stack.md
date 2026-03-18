@@ -143,8 +143,7 @@ forskoleguiden/
 │
 └── docs/
     ├── prd.md
-    ├── tech-stack.md         # This file
-    └── memory-bank/          # Project memory for LLM agents
+    └── tech-stack.md         # This file
 ```
 
 ---
