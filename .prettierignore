@@ -1,2 +1,4 @@
 .agents/
+.github/agents/
+.specify/
 pnpm-lock.yaml
