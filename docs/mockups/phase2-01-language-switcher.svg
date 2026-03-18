@@ -1,0 +1,31 @@
+<svg width="800" height="200" viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="font-family: system-ui, -apple-system, sans-serif;">
+  <!-- Background -->
+  <rect width="800" height="200" fill="#FAFAFA"/>
+
+  <!-- Header Container -->
+  <rect x="40" y="40" width="720" height="72" rx="16" fill="#FFFFFF" fill-opacity="0.8" stroke="#E4E4E7" stroke-width="1.5" style="backdrop-filter: blur(12px);"/>
+
+  <!-- Logo -->
+  <text x="72" y="82" font-size="20" font-weight="800" fill="#09090B" letter-spacing="-0.5">Förskoleguiden</text>
+  <circle cx="230" cy="76" r="4" fill="#10B981" />
+
+  <!-- Language Switcher Nav -->
+  <g transform="translate(480, 56)">
+    <rect width="256" height="40" rx="8" fill="#F4F4F5" stroke="#E4E4E7" stroke-width="1"/>
+
+    <!-- Active State (Svenska) -->
+    <rect x="4" y="4" width="82" height="32" rx="6" fill="#FFFFFF" stroke="#E4E4E7" stroke-width="1" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.05))"/>
+    <text x="45" y="24" font-size="13" font-weight="600" fill="#09090B" text-anchor="middle">Svenska</text>
+
+    <!-- English -->
+    <text x="130" y="24" font-size="13" font-weight="500" fill="#71717A" text-anchor="middle">English</text>
+
+    <!-- Arabic -->
+    <text x="215" y="25" font-size="14" font-weight="500" fill="#71717A" text-anchor="middle" dir="rtl">العربية</text>
+  </g>
+
+  <!-- Labels / Annotation -->
+  <path d="M 524 104 L 524 130" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <rect x="440" y="130" width="220" height="32" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <text x="550" y="150" font-size="12" font-weight="500" fill="#1D4ED8" text-anchor="middle">Multi-locale language switcher</text>
+</svg>

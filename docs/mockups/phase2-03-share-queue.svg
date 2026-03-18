@@ -1,0 +1,56 @@
+<svg width="800" height="400" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="font-family: system-ui, -apple-system, sans-serif;">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#FAFAFA"/>
+
+  <!-- Compare Tray Container -->
+  <g transform="translate(60, 200)">
+    <!-- Shadow -->
+    <rect y="10" width="680" height="120" rx="24" fill="#000000" fill-opacity="0.05" filter="blur(20px)"/>
+    <rect width="680" height="120" rx="24" fill="#FFFFFF" stroke="#E4E4E7" stroke-width="1"/>
+
+    <!-- Title -->
+    <text x="32" y="46" font-size="16" font-weight="700" fill="#09090B">Din lista (3/5)</text>
+    <text x="32" y="68" font-size="13" font-weight="500" fill="#71717A">Klar att delas eller mejlas</text>
+
+    <!-- Actions -->
+    <g transform="translate(320, 36)">
+      <!-- Share Link -->
+      <g>
+        <rect width="160" height="48" rx="12" fill="#FFFFFF" stroke="#E4E4E7" stroke-width="1.5"/>
+        <g transform="translate(24, 12)">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" stroke="#09090B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </g>
+        <text x="56" y="29" font-size="14" font-weight="600" fill="#09090B">Kopiera länk</text>
+      </g>
+
+      <!-- Email List -->
+      <g transform="translate(172, 0)">
+        <rect width="160" height="48" rx="12" fill="#18181B" stroke="#18181B" stroke-width="1.5"/>
+        <g transform="translate(24, 12)">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M22 6l-10 7L2 6" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </g>
+        <text x="56" y="29" font-size="14" font-weight="600" fill="#FFFFFF">Mejla lista</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Independent Queue Link snippet Mockup -->
+  <g transform="translate(60, 40)">
+    <rect width="680" height="96" rx="16" fill="#F4F4F5" stroke="#E4E4E7" stroke-width="1"/>
+    <rect x="24" y="24" width="48" height="48" rx="24" fill="#FFFFFF" stroke="#E4E4E7" stroke-width="1"/>
+    <path d="M40 48h20m-20-8h14m-14-8h20" stroke="#09090B" stroke-width="1.5" stroke-linecap="round"/>
+
+    <text x="96" y="44" font-size="16" font-weight="700" fill="#09090B">Fristående förskola</text>
+    <text x="96" y="66" font-size="14" font-weight="400" fill="#71717A">Sök köplats via förskolans egen portal.</text>
+
+    <g transform="translate(476, 28)">
+      <rect width="180" height="40" rx="8" fill="#FFFFFF" stroke="#E4E4E7" stroke-width="1.5"/>
+      <text x="32" y="25" font-size="14" font-weight="600" fill="#09090B" text-anchor="start">Gå till ansökan</text>
+      <!-- External icon -->
+      <g transform="translate(142, 10)">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" stroke="#09090B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" transform="scale(0.8)"/>
+      </g>
+    </g>
+  </g>
+</svg>
