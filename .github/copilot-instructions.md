@@ -42,12 +42,13 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 
 ## Preact islands inventory
 
-| Island           | File                                       | Hydration              | Why                                                                   | Purpose                                                                                                                                                                     |
-| ---------------- | ------------------------------------------ | ---------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SortToggle`     | `src/components/preact/SortToggle.tsx`     | `client:load`          | Must be immediately operable; no persisted state conflict             | Toggle alphabetical ↔ rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements                                                               |
-| `CompareButton`  | `src/components/preact/CompareButton.tsx`  | `client:only="preact"` | Reads sessionStorage on mount; SSR would render stale pressed state   | Select/deselect a preschool for comparison; `aria-pressed` toggle                                                                                                           |
-| `CompareTray`    | `src/components/preact/CompareTray.tsx`    | `client:only="preact"` | SSR would render empty tray; sessionStorage may already have items    | Global compare summary bar; links to `/sv/jamfor/` comparison page. Clearing on the comparison page redirects to the directory page.                                        |
-| `ComparisonView` | `src/components/preact/ComparisonView.tsx` | `client:only="preact"` | Reads compareIds store from sessionStorage; SSR output would be stale | Comparison page: card-based layout with score cards, sr-only data tables, and best-per-question summary text. Reads `compareIds` store, renders selected preschools inline. |
+| Island            | File                                        | Hydration                | Why                                                                                              | Purpose                                                                                                                                                                                              |
+| ----------------- | ------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SortToggle`      | `src/components/preact/SortToggle.tsx`      | `client:load`            | Must be immediately operable; no persisted state conflict                                        | Toggle alphabetical ↔ rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements                                                                                        |
+| `CompareButton`   | `src/components/preact/CompareButton.tsx`   | `client:only="preact"`   | Reads sessionStorage on mount; SSR would render stale pressed state                              | Select/deselect a preschool for comparison; `aria-pressed` toggle                                                                                                                                    |
+| `CompareTray`     | `src/components/preact/CompareTray.tsx`     | `client:only="preact"`   | SSR would render empty tray; sessionStorage may already have items                               | Global compare summary bar; links to `/sv/jamfor/` comparison page. Clearing on the comparison page redirects to the directory page.                                                                 |
+| `ComparisonView`  | `src/components/preact/ComparisonView.tsx`  | `client:only="preact"`   | Reads compareIds store from sessionStorage; SSR output would be stale                            | Comparison page: card-based layout with score cards, sr-only data tables, and best-per-question summary text. Reads `compareIds` store, renders selected preschools inline.                          |
+| `DetailsBarChart` | `src/components/preact/DetailsBarChart.tsx` | _(none — static render)_ | Rendered inside `QuestionCard.astro` within `aria-hidden="true"`; no client interactivity needed | Scalable SVG bar chart with pattern fills for color-blind safety. Used on detail pages (`/sv/forskola/[id]`). Wrapped by `QuestionCard.astro` which adds the question heading and agree-share badge. |
 
 **Hydration strategy guidance:**
 
@@ -64,6 +65,10 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 **Dependabot** (`.github/dependabot.yml`) manages weekly automated dependency and GitHub Actions version updates with grouped PRs and commit prefixes (`deps:`, `ci:`). **`pnpm-workspace.yaml`** enforces `minimumReleaseAge: 4320` (3 days) for supply-chain security — Dependabot PRs may fail CI if a proposed version was published less than 3 days ago; this is expected and self-resolves once the package ages past the threshold.
 
 **Dependabot auto-merge workflow** (`.github/workflows/dependabot.yml`) triggers on `pull_request` (Dependabot PRs) and `push` to `main`. Calls `quality-gates.yml` (without pages artifact) on Dependabot PRs, then auto-approves and enables squash auto-merge once gates pass. On `push` to `main`, it updates open Dependabot PR branches to keep them current. Uses `GITHUB_TOKEN` only (no PAT). Requires "Allow auto-merge" enabled in repo settings.
+
+**Lighthouse CI** (`.lighthouserc.json`) runs accessibility (error, min 0.95) and performance (warn, min 0.9) audits against the built site. `pnpm audit:lighthouse` runs locally; CI runs it after e2e tests. Results are stored in `.lighthouse-results/`.
+
+**Supply-chain security** (`pnpm-workspace.yaml`): beyond `minimumReleaseAge`, enforces `trustPolicy: no-downgrade` (prevents trust-level regression), with `trustPolicyExclude` for specific packages (`chokidar`, `vite`). `overrides` pin transitive deps (`semver`, `undici-types`) to resolve Lighthouse LHCI dependency tree issues.
 
 ## Base path
 
@@ -88,13 +93,15 @@ src/lib/chart-patterns.tsx    — RESPONSE_SERIES (derived from RESPONSE_ROWS), 
 src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path keys)
 src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
 src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
-src/components/astro/         — Static Astro components: Nav, Footer, CityYearSelector, PreschoolCard
-src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray, ComparisonView
+src/components/astro/         — Static Astro components: Nav, Footer, CityYearSelector, PreschoolCard, QuestionCard
+src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray, ComparisonView, DetailsBarChart
+src/features/comparison/      — Comparison domain logic: computeBestPerQuestion(), formatBestPerQuestionText()
 src/pages/sv/                 — Swedish pages: index, om/ (about), forskola/[id].astro (detail), jamfor/ (comparison)
 src/styles/global.css         — Tailwind v4 entry + @theme tokens (colors, spacing, shadows)
 tests/unit/**/*.test.ts       — Vitest unit tests
 tests/unit/helpers/           — Shared test utilities (malmo-data.ts, survey-assertions.ts, i18n.ts)
 tests/e2e/**/*.spec.ts        — Playwright e2e tests
+tests/post-build/**/*.test.ts — Post-build verification: page-weight-budget (100 KB uncompressed), static-output-verification
 ```
 
 ## Key conventions
@@ -132,6 +139,8 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - `pnpm test` — Vitest unit tests (`tests/unit/**/*.test.ts`)
 - `pnpm test:e2e` — Playwright e2e (`tests/e2e/**/*.spec.ts`); auto-starts `pnpm preview` as webserver
 - `pnpm test:e2e:webkit` — narrow WebKit/iPhone 13 mini regression run for `tests/e2e/comparison-page-mobile-webkit.spec.ts`
+- `pnpm test:post-build` — post-build verification (page weight budget, static output contracts)
+- `pnpm audit:lighthouse` — Lighthouse CI accessibility/performance audit against built site
 - `pnpm lint` — ESLint (flat config)
 - `pnpm lint:md` — Markdown linting
 - `pnpm format` — Prettier (check); `pnpm format:fix` — Prettier (writes)
@@ -144,7 +153,8 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - **Unit tests**: `tests/unit/` with Vitest, node environment. Use `@/` and `@data/` aliases (mirrored in `vitest.config.ts`).
 - **Shared test helpers**: `tests/unit/helpers/` — `malmo-data.ts` loads real index/survey paths; `survey-assertions.ts` provides `assertResponseShape()` and `assertResponseContract()` for validating `SurveyResponse` objects.
 - **Data contract tests**: `tests/unit/malmo-survey-files-contract.test.ts` validates every JSON file in `data/malmo/2025/` against type contracts — add new preschool JSON and these tests enforce shape/range.
-- **E2e tests**: `tests/e2e/` with Playwright. Config auto-starts `pnpm preview` webserver. All e2e paths include the base path: `page.goto('/forskoleguiden/sv/')`. See `tests/e2e/homepage-routing-smoke.spec.ts` for routing, `tests/e2e/preschool-card-contract.spec.ts` for component contracts.
+- **E2e tests**: `tests/e2e/` with Playwright. Config auto-starts `pnpm preview` webserver. All e2e paths include the base path: `page.goto('/forskoleguiden/sv/')`. See `tests/e2e/homepage-routing-smoke.spec.ts` for routing, `tests/e2e/preschool-card-contract.spec.ts` for component contracts. Coverage includes `user-flow-phase1.spec.ts` (full Phase 1 user journey), `accessibility-axe-core.spec.ts` (wcag2a/wcag2aa), and `keyboard-navigation-focus-ring.spec.ts`.
+- **Post-build tests**: `tests/post-build/` with Vitest, run via `pnpm test:post-build` (uses `vitest.post-build.config.ts`). Enforces page-weight budget (100 KB uncompressed) and static output contracts against the built `dist/` directory.
 - **Regression guards**: infrastructure invariants are tested as unit tests (e.g., `tests/unit/infrastructure-gitignore-regression.test.ts` verifies `.gitignore` entries).
 - **BDD-style test names**: test files use behavior-descriptive names (e.g., `scoring-overall-score-utilities.test.ts`, `i18n-locale-key-parity.test.ts`), not generic names.
 
