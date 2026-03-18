@@ -7,6 +7,10 @@ interface Props {
 
 const { locale } = Astro.props
 
+const checkIconPath =
+  'M13.707 4.293a1 1 0 0 1 0 1.414l-6.75 6.75a1 1 0 0 1-1.414 0l-3.25-3.25a1 1 0 0 1 1.414-1.414l2.543 2.543 6.043-6.043a1 1 0 0 1 1.414 0Z'
+const chevronDownIconPath =
+  'M4.47 6.22a.75.75 0 0 1 1.06.03L8 8.94l2.47-2.69a.75.75 0 1 1 1.1 1.02l-3.02 3.28a.75.75 0 0 1-1.1 0L4.44 7.27a.75.75 0 0 1 .03-1.05Z'
 const lockIconPath =
   'M8 1a3.5 3.5 0 0 0-3.5 3.5V7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7V4.5A3.5 3.5 0 0 0 8 1Zm2 6V4.5a2 2 0 1 0-4 0V7h4Z'
 const disabledCities = [
@@ -15,24 +19,47 @@ const disabledCities = [
 ]
 ---
 
-<section
-  aria-label={t('cityYear.heading', locale)}
-  class="flex flex-col gap-4 rounded-2xl border border-border bg-surface/90 p-4 shadow-sm sm:p-5"
->
-  <div class="flex items-center gap-2">
-    <p class="text-xs font-semibold tracking-[0.14em] text-gray-500 uppercase">
-      {t('cityYear.heading', locale)}
-    </p>
-    <span aria-hidden="true" class="h-px flex-1 bg-border"></span>
-  </div>
+<details class="relative" data-testid="header-city-dropdown">
+  <summary
+    aria-label={t('cityYear.heading', locale)}
+    class="flex min-h-11 min-w-11 list-none items-center gap-1.5 rounded-lg border border-border bg-surface px-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+    data-testid="header-city-toggle"
+    title={t('cityYear.heading', locale)}
+  >
+    <span>{t('cityYear.cities.malmo', locale)}</span>
+    <svg
+      aria-hidden="true"
+      class="size-4 text-gray-500"
+      fill="currentColor"
+      viewBox="0 0 16 16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path clip-rule="evenodd" d={chevronDownIconPath} fill-rule="evenodd"
+      ></path>
+    </svg>
+  </summary>
 
-  <ul class="flex flex-wrap gap-2.5" role="list">
+  <ul
+    class="absolute inset-e-0 z-30 mt-2 w-40 space-y-1 rounded-lg border border-border bg-surface p-1.5"
+    data-testid="header-city-options"
+    role="list"
+  >
     <li>
       <button
         aria-current="true"
-        class="inline-flex min-h-11 min-w-25 items-center justify-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-700 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none active:bg-primary-700/90"
+        class="inline-flex min-h-11 w-full items-center gap-1.5 rounded-md border border-primary-300 bg-primary-50 px-2.5 py-2 text-sm font-semibold text-primary-700"
         type="button"
       >
+        <svg
+          aria-hidden="true"
+          class="size-3.5"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path clip-rule="evenodd" d={checkIconPath} fill-rule="evenodd"
+          ></path>
+        </svg>
         {t('cityYear.cities.malmo', locale)}
       </button>
     </li>
@@ -41,7 +68,7 @@ const disabledCities = [
         <li>
           <button
             aria-disabled="true"
-            class="inline-flex min-h-11 min-w-25 cursor-not-allowed items-center justify-center gap-1.5 rounded-lg border border-border bg-gray-100 px-4 py-2 text-sm font-medium text-gray-500"
+            class="inline-flex min-h-11 w-full cursor-not-allowed items-center gap-1.5 rounded-md border border-border bg-gray-100 px-2.5 py-2 text-sm font-medium text-gray-500"
             disabled
             type="button"
           >
@@ -60,4 +87,4 @@ const disabledCities = [
       ))
     }
   </ul>
-</section>
+</details>

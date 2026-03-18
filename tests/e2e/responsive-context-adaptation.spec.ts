@@ -25,8 +25,8 @@ test.describe('responsive context adaptation', () => {
     expect(response.status()).toBe(200)
 
     const spacingContract = await page.evaluate(() => {
-      const citySection = document.querySelector(
-        'section[aria-label="Stad"]',
+      const contentContainer = document.querySelector(
+        'main > div.mx-auto.max-w-content',
       ) as HTMLElement | null
       const directorySection = document.querySelector(
         'section[aria-label="Förskolelista"]',
@@ -40,7 +40,7 @@ test.describe('responsive context adaptation', () => {
       const rows = list ? Array.from(list.querySelectorAll(':scope > li')) : []
 
       if (
-        !citySection ||
+        !contentContainer ||
         !directorySection ||
         !toolbar ||
         !list ||
@@ -49,7 +49,7 @@ test.describe('responsive context adaptation', () => {
         return null
       }
 
-      const cityRect = citySection.getBoundingClientRect()
+      const contentRect = contentContainer.getBoundingClientRect()
       const directoryRect = directorySection.getBoundingClientRect()
       const toolbarRect = toolbar.getBoundingClientRect()
       const listRect = list.getBoundingClientRect()
@@ -57,14 +57,16 @@ test.describe('responsive context adaptation', () => {
       const secondRowRect = rows[1].getBoundingClientRect()
 
       return {
-        majorSectionGap: directoryRect.top - cityRect.bottom,
+        contentToDirectoryGap: directoryRect.top - contentRect.top,
         toolbarToListGap: listRect.top - toolbarRect.bottom,
         rowGap: secondRowRect.top - firstRowRect.bottom,
       }
     })
 
     expect(spacingContract).not.toBeNull()
-    expect(spacingContract?.majorSectionGap ?? 0).toBeGreaterThanOrEqual(32)
+    expect(spacingContract?.contentToDirectoryGap ?? 0).toBeGreaterThanOrEqual(
+      24,
+    )
     expect(spacingContract?.toolbarToListGap ?? 0).toBeGreaterThanOrEqual(20)
     expect(spacingContract?.rowGap ?? 0).toBeGreaterThanOrEqual(12)
   })

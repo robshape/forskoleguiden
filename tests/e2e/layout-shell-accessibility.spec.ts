@@ -14,7 +14,7 @@ test('layout and navigation shell render required semantics on /sv/', async ({
 
   expect(response.status()).toBe(200)
   await expect(page.locator('html')).toHaveAttribute('lang', 'sv')
-  await expect(page.locator('header')).toHaveCount(1)
+  await expect(page.getByRole('banner')).toHaveCount(1)
   await expect(page.locator('main')).toHaveCount(1)
   await expect(page.locator('footer')).toHaveCount(1)
 
@@ -25,7 +25,7 @@ test('layout and navigation shell render required semantics on /sv/', async ({
     page.locator('link[rel="icon"][href="/forskoleguiden/favicon.svg"]'),
   ).toHaveCount(1)
 
-  // Nav: brand link + compact language pill
+  // Nav: brand link + compact language pill + city dropdown
   const nav = page.getByRole('navigation', { name: 'Huvudnavigering' })
   await expect(nav).toBeVisible()
   await expect(
@@ -33,28 +33,20 @@ test('layout and navigation shell render required semantics on /sv/', async ({
   ).toHaveAttribute('href', '/forskoleguiden/sv/')
   await expect(nav.getByText('SV | EN')).toBeVisible()
 
-  // Nav must not contain city picker or survey year (those belong in main)
-  await expect(nav).not.toContainText('Malmö')
-  await expect(nav).not.toContainText('2025')
+  const cityDropdown = nav.locator('[data-testid="header-city-dropdown"]')
+  await expect(cityDropdown).toBeVisible()
+  await expect(cityDropdown).toContainText('Malmö')
 
-  // City selector lives in main content, not in nav
-  const main = page.locator('main')
-  const citySection = main.getByRole('region', {
-    name: 'Stad',
-  })
-  await expect(citySection).toBeVisible()
-  await expect(citySection.getByText('Stad')).toBeVisible()
+  await nav.locator('[data-testid="header-city-toggle"]').click()
 
-  const cityList = citySection.getByRole('list')
-  await expect(cityList).toBeVisible()
-  await expect(cityList.getByRole('listitem')).toHaveCount(3)
-
-  await expect(citySection.getByText('Malmö')).toBeVisible()
+  const cityOptions = nav.locator('[data-testid="header-city-options"]')
+  await expect(cityOptions).toBeVisible()
+  await expect(cityOptions.getByRole('listitem')).toHaveCount(3)
   await expect(
-    cityList.getByRole('button', { name: 'Stockholm' }),
+    cityOptions.getByRole('button', { name: 'Stockholm' }),
   ).toBeDisabled()
   await expect(
-    cityList.getByRole('button', { name: 'Göteborg' }),
+    cityOptions.getByRole('button', { name: 'Göteborg' }),
   ).toBeDisabled()
 
   // Survey year removed from here in recent feature
