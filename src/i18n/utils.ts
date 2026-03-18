@@ -14,6 +14,7 @@ const translations = {
 
 const localeSet = new Set<Locale>(['sv', 'en', 'ar'])
 
+// Used by Phase 2 multi-locale routes — keep even if currently unused in pages.
 export const getLocaleFromURL = (url: URL | string): Locale => {
   const pathname =
     typeof url === 'string'

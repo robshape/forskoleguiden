@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest'
 import {
   getAllPreschoolSurveys,
   getPreschoolIndex,
-  getPreschoolSurvey,
   getPreschoolSurveyByYear,
 } from '@/lib/data'
 
@@ -21,7 +20,7 @@ describe('preschool data loading', () => {
     const knownPreschool = index.preschools[0]
     expect(knownPreschool).toBeDefined()
 
-    const survey = getPreschoolSurvey(knownPreschool.id)
+    const survey = getPreschoolSurveyByYear(knownPreschool.id, index.year)
     const helhetsbedomning = survey.questionGroups.find(
       (group) => group.name === 'Helhetsbedömning',
     )
@@ -57,8 +56,6 @@ describe('preschool data loading', () => {
     const index = getMalmoIndex()
     const expectedPath = getMalmoSurveyFilePath(missingId, index.year)
 
-    expect(() => getPreschoolSurvey(missingId)).toThrowError(missingId)
-    expect(() => getPreschoolSurvey(missingId)).toThrowError(expectedPath)
     expect(() => getPreschoolSurveyByYear(missingId, index.year)).toThrowError(
       missingId,
     )

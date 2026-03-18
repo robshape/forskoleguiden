@@ -54,12 +54,6 @@ export const getPreschoolSurveyByYear = (id: string, year: number) => {
   )
 }
 
-export const getPreschoolSurvey = (id: string) => {
-  const index = getPreschoolIndex()
-
-  return getPreschoolSurveyByYear(id, index.year)
-}
-
 export const getAllPreschoolSurveys = () => {
   const index = getPreschoolIndex()
   const surveyYear = index.year

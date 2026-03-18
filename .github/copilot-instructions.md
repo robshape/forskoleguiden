@@ -67,7 +67,7 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 
 ## Base path
 
-The `base` config is set to `/forskoleguiden` for GitHub Pages project-site deployment. `src/lib/base-path.ts` exports `getBasePath()` which normalizes `import.meta.env.BASE_URL` (strips trailing slash). Use it for all internal hrefs: `${getBasePath()}/${locale}/path`. Never hardcode `/` as the root. E2e tests also use the base path: `page.goto('/forskoleguiden/sv/')`.
+The `base` config defaults to `/forskoleguiden` for GitHub Pages project-site deployment, overridable via `BASE_PATH` env var. `src/lib/base-path.ts` exports `getBasePath()` which normalizes `import.meta.env.BASE_URL` (strips trailing slash). Use it for all internal hrefs: `${getBasePath()}/${locale}/path`. Never hardcode `/` as the root. E2e tests also use the base path: `page.goto('/forskoleguiden/sv/')`.
 
 ## Directory structure
 
@@ -79,7 +79,7 @@ The `base` config is set to `/forskoleguiden` for GitHub Pages project-site depl
 data/malmo/index.json         — City directory: lists all preschool IDs, names, addresses, operator types
 data/malmo/2025/*.json        — Per-preschool survey data (one file per preschool, keyed by slug ID)
 src/lib/types.ts              — TypeScript interfaces: PreschoolSurvey, PreschoolIndex, SurveyResponse, etc.
-src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurvey(id), getPreschoolSurveyByYear(id, year), getAllPreschoolSurveys()
+src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurveyByYear(id, year), getAllPreschoolSurveys()
 src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc()
 src/lib/constants.ts          — Shared constants: MALMO_SOURCE_URL, SURVEY_YEAR
 src/lib/base-path.ts          — getBasePath(): normalizes import.meta.env.BASE_URL (strips trailing slash)

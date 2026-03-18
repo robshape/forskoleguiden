@@ -12,13 +12,11 @@
   },
   "scripts": {
     "audit:lighthouse": "lhci autorun",
-    "astro": "astro",
     "build": "astro build",
     "check": "astro check",
     "dev": "astro dev",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "latest": "pnpm update --latest",
     "lint": "eslint --max-warnings 0 .",
     "lint:fix": "eslint . --fix",
     "lint:md": "markdownlint-cli2",

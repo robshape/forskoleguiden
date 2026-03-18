@@ -91,7 +91,7 @@ export default function ComparisonView({
     return renderEmptyState()
   }
 
-  // 1+ selected: render the preschool results side-by-side
+  // 1+ selected — render preschool results side-by-side
   const selectedSurveys = ids
     .map((id) => surveys.find((s) => s.id === id))
     .filter((s): s is PreschoolSurvey => s !== undefined)
@@ -166,7 +166,7 @@ export default function ComparisonView({
         </p>
       )}
 
-      {/* Scrollable comparison grid with snap scrolling */}
+      {/* Scrollable comparison grid */}
       <div class="relative">
         <div
           class="snap-x snap-mandatory overflow-x-auto scroll-smooth"
@@ -286,7 +286,7 @@ export default function ComparisonView({
         ></div>
       </div>
 
-      {/* Summary Section — outside scroll container */}
+      {/* Summary section — best-per-question sentences (only when 2+ schools selected) */}
       {selectedSurveys.length >= 2 &&
         (() => {
           const names: Record<string, string> = {}
