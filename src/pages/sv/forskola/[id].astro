@@ -1,4 +1,5 @@
 ---
+import Breadcrumb from '@/components/astro/Breadcrumb.astro'
 import QuestionCard from '@/components/astro/QuestionCard.astro'
 import CompareButton from '@/components/preact/CompareButton'
 import { t } from '@/i18n/utils'
@@ -40,54 +41,16 @@ export function getStaticPaths() {
 
 <BaseLayout locale={locale} title={preschool.name}>
   <div class="mx-auto max-w-2xl">
-    <!-- Breadcrumb Navigation — static HTML with progressive enhancement -->
-    <nav aria-label={backLabel} class="mt-2 mb-6" data-breadcrumb>
-      <a
-        class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
-        href={directoryHref}
-      >
-        <svg
-          aria-hidden="true"
-          class="size-4"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-        <span data-breadcrumb-label>{backLabel}</span>
-      </a>
-    </nav>
-    <script
-      data-comparison-href={comparisonHref}
-      data-comparison-label={backToComparisonLabel}
-      is:inline
-    >
-      ;(function () {
-        if (
-          new URLSearchParams(window.location.search).get('from') !== 'compare'
-        )
-          return
-        var s = document.currentScript
-        var href = s.getAttribute('data-comparison-href')
-        var label = s.getAttribute('data-comparison-label')
-        var nav = document.querySelector('[data-breadcrumb]')
-        var a = nav.querySelector('a')
-        a.setAttribute('href', href)
-        nav.setAttribute('aria-label', label)
-        nav.querySelector('[data-breadcrumb-label]').textContent = label
-      })()
-    </script>
+    <Breadcrumb
+      dynamicComparisonHref={comparisonHref}
+      dynamicComparisonLabel={backToComparisonLabel}
+      href={directoryHref}
+      label={backLabel}
+    />
 
     <!-- Hero Section -->
     <header class="mb-10 flex flex-col gap-4">
-      <h1
-        class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl"
-      >
+      <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
         {preschool.name}
       </h1>
 

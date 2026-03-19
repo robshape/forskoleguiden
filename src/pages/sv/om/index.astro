@@ -8,7 +8,9 @@ const pageTitle = t('nav.about', locale)
 ---
 
 <BaseLayout locale={locale} title={pageTitle}>
-  <h1 class="text-2xl font-bold text-gray-900">{pageTitle}</h1>
+  <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+    {pageTitle}
+  </h1>
   <p class="mt-4 text-gray-700">
     {t('about.body', locale)}
   </p>

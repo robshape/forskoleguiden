@@ -8,7 +8,6 @@ import { RESPONSE_ROWS } from '@/lib/survey-responses'
 import type { PreschoolSurvey } from '@/lib/types'
 
 import CompareButton from './CompareButton'
-import ComparisonBreadcrumb from './ComparisonBreadcrumb'
 import ComparisonEmptyState from './ComparisonEmptyState'
 import ComparisonSummary from './ComparisonSummary'
 
@@ -19,7 +18,6 @@ interface Props {
   selectedCountTemplate: string
   singleSelectionPrompt: string
   summaryHeading: string
-  backToDirectoryLabel: string
   scrollHintLabel: string
   surveys: PreschoolSurvey[]
   /** 5 localized response category labels in RESPONSE_ROWS order */
@@ -41,7 +39,6 @@ export default function ComparisonView({
   selectedCountTemplate,
   singleSelectionPrompt,
   summaryHeading,
-  backToDirectoryLabel,
   scrollHintLabel,
   surveys,
   categoryLabels,
@@ -56,8 +53,6 @@ export default function ComparisonView({
   if (ids.length === 0) {
     return (
       <ComparisonEmptyState
-        backToDirectoryLabel={backToDirectoryLabel}
-        directoryHref={directoryHref}
         emptyStateBody={emptyStateBody}
         emptyStateTitle={emptyStateTitle}
       />
@@ -72,8 +67,6 @@ export default function ComparisonView({
   if (selectedSurveys.length === 0) {
     return (
       <ComparisonEmptyState
-        backToDirectoryLabel={backToDirectoryLabel}
-        directoryHref={directoryHref}
         emptyStateBody={emptyStateBody}
         emptyStateTitle={emptyStateTitle}
       />
@@ -106,10 +99,6 @@ export default function ComparisonView({
 
   return (
     <div class="overflow-x-hidden pb-16">
-      <ComparisonBreadcrumb
-        backToDirectoryLabel={backToDirectoryLabel}
-        directoryHref={directoryHref}
-      />
       <header class="mb-10 flex min-w-0 flex-col gap-3 border-s-4 border-primary-300 ps-4">
         <p
           class="text-base font-semibold text-gray-700"

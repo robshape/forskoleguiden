@@ -39,13 +39,13 @@ const scoreBadgeToneClass =
 ---
 
 <article
-  class="group relative flex min-w-0 flex-col gap-3 rounded-xl border border-border bg-linear-to-b from-surface to-white/90 p-4 shadow-sm transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-md active:translate-y-0 active:scale-[0.99] sm:gap-4 sm:p-5"
+  class="relative flex min-w-0 flex-col gap-3 rounded-xl border border-border bg-linear-to-b from-surface to-white/90 p-4 shadow-sm transition-all hover:shadow-md sm:gap-4 sm:p-5"
   data-testid="preschool-card"
 >
   <div class="min-w-0">
     <h3 class="text-base/snug font-bold tracking-tight text-gray-900">
       <a
-        class="wrap-break-word text-gray-900 group-hover:text-primary-700 group-hover:underline before:absolute before:inset-0 before:z-0 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+        class="wrap-break-word text-gray-900 before:absolute before:inset-0 before:z-0 hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
         href={detailPageHref}
       >
         {name}
@@ -61,7 +61,7 @@ const scoreBadgeToneClass =
   >
     <div class="flex min-w-0 flex-1 flex-row items-center gap-3">
       <div
-        class={`flex h-11 min-w-11 shrink-0 items-center justify-center rounded-xl px-2 text-sm font-bold ${scoreBadgeToneClass}`}
+        class={`flex h-11 w-14 shrink-0 items-center justify-center rounded-xl text-sm font-bold tabular-nums ${scoreBadgeToneClass}`}
       >
         {
           score === null ? (

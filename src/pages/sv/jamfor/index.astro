@@ -1,4 +1,5 @@
 ---
+import Breadcrumb from '@/components/astro/Breadcrumb.astro'
 import ComparisonView from '@/components/preact/ComparisonView'
 import { t } from '@/i18n/utils'
 import BaseLayout from '@/layouts/BaseLayout.astro'
@@ -16,13 +17,17 @@ const pageTitle = t('compare.heading', locale)
 ---
 
 <BaseLayout locale={locale} title={pageTitle}>
-  <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+  <Breadcrumb
+    href={directoryHref}
+    label={t('compare.actions.backToDirectory', locale)}
+  />
+
+  <h1 class="mb-8 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
     {pageTitle}
   </h1>
 
   <ComparisonView
     agreeShareLabel={t('directory.scoreBadge.agreeShare', locale).toLowerCase()}
-    backToDirectoryLabel={t('compare.actions.backToDirectory', locale)}
     categoryLabels={categoryLabels}
     client:only="preact"
     compareAddedLabel={t('directory.addedToCompare', locale)}
