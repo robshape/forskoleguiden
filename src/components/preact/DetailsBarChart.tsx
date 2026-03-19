@@ -76,7 +76,6 @@ export default function DetailsBarChart({
       {/* Legend Map */}
       <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2">
         {segments.map(({ catIdx, percent }) => {
-          if (percent === 0) return null
           const patternId = `detail-chart-${chartIndex}-cat-${catIdx}`
           return (
             <div

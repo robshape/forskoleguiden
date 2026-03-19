@@ -125,7 +125,7 @@ export function getStaticPaths() {
             </p>
           </div>
 
-          <ul class="space-y-4">
+          <ul class="grid auto-rows-[1fr] gap-4">
             {helhetsBedömning.questions.map((question, index) => (
               <QuestionCard index={index} locale={locale} question={question} />
             ))}

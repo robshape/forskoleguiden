@@ -30,7 +30,7 @@ interface Props {
 }
 
 /** Card width uses spacing scale tokens for predictable layout across contexts. */
-const CARD_W = 'w-64 sm:w-72 lg:w-80'
+const CARD_W = 'w-64 sm:w-[283px]'
 
 export default function ComparisonView({
   directoryHref,
@@ -98,10 +98,28 @@ export default function ComparisonView({
     )
 
   return (
-    <div class="overflow-x-hidden pb-16">
-      <header class="mb-10 flex min-w-0 flex-col gap-3 border-s-4 border-primary-300 ps-4">
+    <div class="overflow-x-clip pb-16">
+      {ids.length === 1 ? (
+        <header class="mb-10 flex min-w-0 flex-col gap-2 border-s-4 border-primary-300 ps-4">
+          <p
+            class="text-base font-semibold text-gray-700"
+            data-testid="selected-count-label"
+          >
+            {selectedCountTemplate.replace(
+              '{count}',
+              String(selectedSurveys.length),
+            )}
+          </p>
+          <p
+            class="text-base text-gray-600"
+            data-testid="single-selection-prompt"
+          >
+            {singleSelectionPrompt}
+          </p>
+        </header>
+      ) : (
         <p
-          class="text-base font-semibold text-gray-700"
+          class="mb-8 text-sm font-medium text-gray-500"
           data-testid="selected-count-label"
         >
           {selectedCountTemplate.replace(
@@ -109,15 +127,7 @@ export default function ComparisonView({
             String(selectedSurveys.length),
           )}
         </p>
-        {ids.length === 1 && (
-          <p
-            class="mt-1 text-base text-gray-600"
-            data-testid="single-selection-prompt"
-          >
-            {singleSelectionPrompt}
-          </p>
-        )}
-      </header>
+      )}
 
       {/* Scroll hint — visible when more than 2 schools overflow on mobile */}
       {selectedSurveys.length > 2 && (
@@ -147,10 +157,10 @@ export default function ComparisonView({
       {/* Scrollable comparison grid */}
       <div class="relative">
         <div
-          class="snap-x snap-mandatory overflow-x-auto scroll-smooth"
+          class="snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth"
           data-testid="comparison-scroll"
         >
-          <div class="inline-flex flex-col gap-8">
+          <div class="inline-flex flex-col gap-8 pt-1 pb-4">
             {/* Header Row */}
             <div class="flex gap-4">
               {selectedSurveys.map((survey, idx) => (
