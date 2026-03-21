@@ -1,0 +1,34 @@
+{
+  "id": "maria-forskola",
+  "preschoolName": "Maria förskola",
+  "address": "Sorgenfrivägen 17, Malmö",
+  "surveyYear": 2025,
+  "totalRespondentsPercent": -1,
+  "questionGroups": [
+    {
+      "name": "Helhetsbedömning",
+      "questions": [
+        {
+          "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
+          "response": {
+            "completelyAgreePercent": -1,
+            "partlyAgreePercent": -1,
+            "neitherAgreeNorDisagreePercent": -1,
+            "partlyDisagreePercent": -1,
+            "completelyDisagreePercent": -1
+          }
+        },
+        {
+          "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
+          "response": {
+            "completelyAgreePercent": -1,
+            "partlyAgreePercent": -1,
+            "neitherAgreeNorDisagreePercent": -1,
+            "partlyDisagreePercent": -1,
+            "completelyDisagreePercent": -1
+          }
+        }
+      ]
+    }
+  ]
+}

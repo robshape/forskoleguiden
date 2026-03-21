@@ -12,8 +12,8 @@ const DATA_INDEX_PATH = join(process.cwd(), 'data', 'malmo', 'index.json')
 // Keep this aligned to the implementation plan's documented floor.
 const MIN_HTML_FILE_COUNT = 8
 
-// 500 KB uncompressed — total dist size excluding image files
-const TOTAL_SIZE_BUDGET_BYTES = 500 * 1024
+// 7000 KB uncompressed — total dist size excluding image files (scaled for ~261 preschools)
+const TOTAL_SIZE_BUDGET_BYTES = 7000 * 1024
 
 const IMAGE_EXTENSIONS = new Set([
   '.png',

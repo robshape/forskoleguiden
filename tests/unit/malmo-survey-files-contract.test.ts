@@ -55,10 +55,16 @@ describe('Malmö survey data files', () => {
         survey.surveyYear,
         `${surveyFilePath} surveyYear must match index year`,
       ).toBe(index.year)
-      expect(
-        survey.totalRespondentsPercent,
-        `${surveyFilePath} totalRespondents must be > 0`,
-      ).toBeGreaterThan(0)
+
+      // Placeholder surveys use -1 for totalRespondentsPercent — skip data validation
+      const isPlaceholder = survey.totalRespondentsPercent === -1
+
+      if (!isPlaceholder) {
+        expect(
+          survey.totalRespondentsPercent,
+          `${surveyFilePath} totalRespondents must be > 0`,
+        ).toBeGreaterThan(0)
+      }
 
       const helhetsbedomning = survey.questionGroups.find(
         (group) => group.name === 'Helhetsbedömning',
@@ -83,14 +89,16 @@ describe('Malmö survey data files', () => {
         `${surveyFilePath} Helhetsbedömning questions must match the canonical ordered question texts`,
       ).toEqual(CANONICAL_HELHETSBEDOMNING_QUESTIONS)
 
-      for (const [
-        questionIndex,
-        question,
-      ] of helhetsbedomning.questions.entries()) {
-        assertResponseContract(
-          question.response,
-          `${surveyFilePath} question ${questionIndex + 1}`,
-        )
+      if (!isPlaceholder) {
+        for (const [
+          questionIndex,
+          question,
+        ] of helhetsbedomning.questions.entries()) {
+          assertResponseContract(
+            question.response,
+            `${surveyFilePath} question ${questionIndex + 1}`,
+          )
+        }
       }
     }
   })

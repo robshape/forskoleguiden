@@ -9,8 +9,8 @@ const DIST_ROOT = join(process.cwd(), 'dist')
 const SV_INDEX_PATH = join(DIST_ROOT, 'sv', 'index.html')
 const ASTRO_ASSETS_DIR = join(DIST_ROOT, '_astro')
 
-// 100 KB uncompressed — matches Step 11.3 page-weight threshold
-const PAGE_WEIGHT_BUDGET_BYTES = 100 * 1024
+// 600 KB uncompressed — scaled from Step 11.3 threshold (100 KB for 11 preschools → 600 KB for ~261)
+const PAGE_WEIGHT_BUDGET_BYTES = 600 * 1024
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 

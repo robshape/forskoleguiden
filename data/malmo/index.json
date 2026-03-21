@@ -15,6 +15,12 @@
       "operatorType": "independent"
     },
     {
+      "id": "almangens-forskola",
+      "name": "Almängens förskola",
+      "address": "Solvändegatan 20A-B, Malmö",
+      "operatorType": "municipal"
+    },
+    {
       "id": "almgardens-forskola",
       "name": "Almgårdens förskola",
       "address": "Agnesfridsvägen 105, Malmö",
@@ -27,15 +33,51 @@
       "operatorType": "municipal"
     },
     {
-      "id": "almangens-forskola",
-      "name": "Almängens förskola",
-      "address": "Solvändegatan 20A-B, Malmö",
+      "id": "anggardens-forskola",
+      "name": "Änggårdens förskola",
+      "address": "Cronquists gata 6AA, Malmö",
       "operatorType": "municipal"
+    },
+    {
+      "id": "anghagens-forskola",
+      "name": "Änghagens förskola",
+      "address": "Vitemöllegatan 3F, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "anglokets-forskola",
+      "name": "Ånglokets förskola",
+      "address": "Södervärnsgatan 13, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "angsdals-forskola-bunkeflostrand",
+      "name": "Ängsdals förskola Bunkeflostrand",
+      "address": "Ängsdalsvägen 20, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "angsdals-forskola-klagshamn",
+      "name": "Ängsdals förskola Klagshamn",
+      "address": "Bettys väg 2-4, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "angsdals-forskola-limhamn",
+      "name": "Ängsdals förskola Limhamn",
+      "address": "Linnégatan 17, Malmö",
+      "operatorType": "independent"
     },
     {
       "id": "annelunds-forskola",
       "name": "Annelunds förskola",
       "address": "Norra Grängesbergsgatan 2D, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "appelrosens-forskola",
+      "name": "Äppelrosens förskola",
+      "address": "Sjöblads väg 4, Malmö",
       "operatorType": "municipal"
     },
     {
@@ -45,9 +87,51 @@
       "operatorType": "municipal"
     },
     {
+      "id": "artans-forskola",
+      "name": "Ärtans förskola",
+      "address": "Ärtholmsvägen 96, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "artgardens-forskola",
+      "name": "Ärtgårdens förskola",
+      "address": "Arkitektgatan 59, Malmö",
+      "operatorType": "municipal"
+    },
+    {
       "id": "augustenborgs-forskola",
       "name": "Augustenborgs förskola",
       "address": "Särlagatan 6, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "aventyrsbatens-forskola",
+      "name": "Äventyrsbåtens förskola",
+      "address": "Bomgatan 8, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "backens-forskola",
+      "name": "Bäckens förskola",
+      "address": "Tornkammaregatan 1, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "balders-forskola",
+      "name": "Balders förskola",
+      "address": "Palmgatan 32, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "bambina-montessoriforskola",
+      "name": "Bambina montessoriförskola",
+      "address": "Husievägen 74, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "bastionens-forskola",
+      "name": "Bastionens förskola",
+      "address": "Malmöhusvägen 3, Malmö",
       "operatorType": "municipal"
     },
     {
@@ -57,15 +141,1431 @@
       "operatorType": "independent"
     },
     {
+      "id": "bellisgardens-forskola",
+      "name": "Bellisgårdens förskola",
+      "address": "Hallstorpsvägen 46, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "berga-forskola",
+      "name": "Berga förskola",
+      "address": "Hylltorpsgatan 12, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "beritta-gurris-forskola",
+      "name": "Beritta Gurris förskola",
+      "address": "Beritta Gurrisgatan 1C, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "bjorkangens-uteforskola",
+      "name": "Björkängens uteförskola",
+      "address": "Elinelundsvägen 52, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "bjorkhagens-forskola",
+      "name": "Björkhagens förskola",
+      "address": "Disponentgatan 8, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "bjornens-forskola",
+      "name": "Björnens förskola",
+      "address": "Holmgatan 8B, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "bladbaggens-forskola",
+      "name": "Bladbaggens förskola",
+      "address": "Per Josephssons väg 10, Malmö",
+      "operatorType": "municipal"
+    },
+    {
       "id": "bladins-internationella-forskola",
       "name": "Bladins internationella förskola",
       "address": "Stadiongatan 25, Malmö",
       "operatorType": "independent"
     },
     {
+      "id": "bladins-montessoriforskola",
+      "name": "Bladins montessoriförskola",
+      "address": "Själlandstorget 1, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "blommor-forskolan-1",
+      "name": "Blommor förskolan 1",
+      "address": "Eriksfältsgatan 101, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "blommor-forskolan-2",
+      "name": "Blommor förskolan 2",
+      "address": "Von Troils väg 8, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "blomviks-forskola",
+      "name": "Blomviks förskola",
+      "address": "Granviksgatan 22, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "bojens-forskola",
+      "name": "Bojens förskola",
+      "address": "Packhusgatan 2D, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "bokens-forskola",
+      "name": "Bokens förskola",
+      "address": "Zenithgatan 70, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "bollens-forskola",
+      "name": "Bollens förskola",
+      "address": "Carl Gustafs väg 22, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "brandvaktens-forskola",
+      "name": "Brandvaktens förskola",
+      "address": "Annetorpsvägen 8, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "brodda-forskola",
+      "name": "Brodda förskola",
+      "address": "Broddagatan 57, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "bryggans-forskola",
+      "name": "Bryggans förskola",
+      "address": "Riggaregatan 6, Malmö",
+      "operatorType": "municipal"
+    },
+    {
       "id": "bulltofta-forskola",
       "name": "Bulltofta förskola",
       "address": "Södra Bulltoftavägen 57A, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "byangens-forskola",
+      "name": "Byängens förskola",
+      "address": "Tuvängsvägen 1, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "carl-gustafs-forskola",
+      "name": "Carl Gustafs förskola",
+      "address": "Roskildevägen 4, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "cymbalens-forskola",
+      "name": "Cymbalens förskola",
+      "address": "Kirsebergs torg 11, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "cypressens-forskola",
+      "name": "Cypressens förskola",
+      "address": "Monicavägen 18-22, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "daggmaskens-foraldrakooperativ",
+      "name": "Daggmaskens föräldrakooperativ",
+      "address": "Klaragatan 24, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "dammfri-forskola",
+      "name": "Dammfri förskola",
+      "address": "Västra Rönneholmsvägen 66, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "diamantens-forskola",
+      "name": "Diamantens förskola",
+      "address": "Keramikvägen 73, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "djupadals-forskola",
+      "name": "Djupadals förskola",
+      "address": "Vegeholmsgatan 42, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "drakens-forskola",
+      "name": "Drakens förskola",
+      "address": "Möllevångsgatan 46, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "duvans-montessoriforskola",
+      "name": "Duvans montessoriförskola",
+      "address": "Hospitalsgatan 14, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "edens-forskola",
+      "name": "Edens förskola",
+      "address": "Barkgatan 12, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "ellstorps-forskola",
+      "name": "Ellstorps förskola",
+      "address": "Idaborgsgatan 52, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "europaportens-forskola",
+      "name": "Europaportens förskola",
+      "address": "Eric Perssons väg 10, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "fagelbackens-montessoriforskola",
+      "name": "Fågelbackens montessoriförskola",
+      "address": "Västra Rönneholmsvägen 51, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "fargklickens-forskola",
+      "name": "Färgklickens förskola",
+      "address": "Husie Kyrkoväg 102, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "filifjonkan-personalkooperativ",
+      "name": "Filifjonkan personalkooperativ",
+      "address": "Hantverkaregatan 12, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "fjarilens-forskola",
+      "name": "Fjärilens förskola",
+      "address": "Hedmätaregatan 23, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "floda-forskola",
+      "name": "Floda förskola",
+      "address": "Bergandsvägen 30, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "flodillerns-forskola",
+      "name": "Flodillerns förskola",
+      "address": "Västanväg 80D, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "folets-forskola",
+      "name": "Fölets förskola",
+      "address": "Almgårdsgatan 4, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "forskolan-barnens-hage",
+      "name": "Förskolan Barnens Hage",
+      "address": "Hospitalsgatan 4, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "forskolan-rolf",
+      "name": "Förskolan Rolf",
+      "address": "Sofielundsvägen 59, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "forskolan-snurran",
+      "name": "Förskolan Snurran",
+      "address": "Slottsgatan 30, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "forskolan-sorgenfri",
+      "name": "Förskolan Sorgenfri",
+      "address": "Nobelvägen 119E, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "fregattens-forskola",
+      "name": "Fregattens förskola",
+      "address": "Fregattgatan 11, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "fridhems-forskola",
+      "name": "Fridhems förskola",
+      "address": "Henrik Wranérsgatan 6, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "frohusets-forskola",
+      "name": "Fröhusets förskola",
+      "address": "Thomsons väg 78, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "frostmatarens-forskola",
+      "name": "Frostmätarens förskola",
+      "address": "Verandagatan 14, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "froviks-forskola",
+      "name": "Fröviks förskola",
+      "address": "Novisgatan 2, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "fyrens-forskola",
+      "name": "Fyrens förskola",
+      "address": "Signalgatan 9-13, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "ganglatens-forskola",
+      "name": "Gånglåtens förskola",
+      "address": "Gånglåtsvägen 171, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "gladans-forskola",
+      "name": "Gladans förskola",
+      "address": "Kungsörnsgatan 1, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "glasblasarens-forskola",
+      "name": "Glasblåsarens förskola",
+      "address": "Barlastgatan 8, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "gottorps-forskola",
+      "name": "Gottorps förskola",
+      "address": "Gottorpsvägen 7, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "granbackens-forskola",
+      "name": "Granbackens förskola",
+      "address": "Dammstorpsvägen 4, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "gripens-forskola",
+      "name": "Gripens förskola",
+      "address": "Österhagsgatan 42, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "grona-angens-forskola",
+      "name": "Gröna Ängens förskola",
+      "address": "von Rosens väg 13, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "grona-dockans-forskola",
+      "name": "Gröna Dockans förskola",
+      "address": "Östra Varvsgatan 17, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "gronalunds-forskola",
+      "name": "Grönalunds förskola",
+      "address": "Grönalundsgatan 6, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "groningens-forskola",
+      "name": "Gröningens förskola",
+      "address": "Ramels väg 125, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "gubbabackens-forskola",
+      "name": "Gubbabackens förskola",
+      "address": "Eriksfältsgatan 100, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "gullangens-forskola",
+      "name": "Gullängens förskola",
+      "address": "Västanforsgatan, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "gullkragens-forskola",
+      "name": "Gullkragens förskola",
+      "address": "Industrigatan 47, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "gyllebo-forskola",
+      "name": "Gyllebo förskola",
+      "address": "Gyllebogången 3, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "halsjons-forskola",
+      "name": "Hålsjöns förskola",
+      "address": "Hålsjögatan 1, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "hammarhajens-forskola",
+      "name": "Hammarhajens förskola",
+      "address": "Gamlebrovägen 2, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "hastskons-forskola",
+      "name": "Hästskons förskola",
+      "address": "Laavägen 43-45, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "hattstugans-forskola",
+      "name": "Hattstugans förskola",
+      "address": "Smedstorpsgatan 73, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "heleneholms-forskola",
+      "name": "Heleneholms förskola",
+      "address": "Eriksfältsgatan 28C, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "herdinnans-forskola",
+      "name": "Herdinnans förskola",
+      "address": "Vitoxelgatan 19B, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "hermodsdalsparkens-forskola",
+      "name": "Hermodsdalsparkens förskola",
+      "address": "Eriksfältsgatan 97, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "hindby-forskola",
+      "name": "Hindby förskola",
+      "address": "Beckasingatan 1, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "hogaholms-forskola",
+      "name": "Högaholms förskola",
+      "address": "Serenadgatan 20, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "hogatorps-forskola",
+      "name": "Högatorps förskola",
+      "address": "von Rosens väg 82, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "hoja-forskola",
+      "name": "Höja förskola",
+      "address": "Karoling 3, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "hyacintens-forskola",
+      "name": "Hyacintens förskola",
+      "address": "Hyacintgatan 20-24, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "hyllie-park-forskola",
+      "name": "Hyllie Park förskola",
+      "address": "Elinelundsvägen 55A, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "hyllievangens-forskola",
+      "name": "Hyllievångens förskola",
+      "address": "Norrbäcksgatan 2-4, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "i-ur-och-skur-ekomyran",
+      "name": "I ur och skur Ekomyran",
+      "address": "N P Skölds väg 24, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "i-ur-och-skur-tygelsjo",
+      "name": "I ur och skur Tygelsjö",
+      "address": "Sjötorpsvägen 31, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "iduns-forskola",
+      "name": "Iduns förskola",
+      "address": "Atles gata 18, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "jagersro-forskola",
+      "name": "Jägersro förskola",
+      "address": "Kuskgatan 31, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "jaravallens-forskola",
+      "name": "Järavallens förskola",
+      "address": "Odengatan 30, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "jensen-forskola-hyllie-gard",
+      "name": "Jensen förskola Hyllie Gård",
+      "address": "Hyllie gårds väg 1, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "jinan-forskola",
+      "name": "Jinan förskola",
+      "address": "Ramels väg 13, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "johanneslusts-forskola",
+      "name": "Johanneslusts förskola",
+      "address": "Johanneslustgatan 12, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "jollens-forskola",
+      "name": "Jollens förskola",
+      "address": "Linoljegatan 8, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "judiska-forskolan-chinuch",
+      "name": "Judiska förskolan Chinuch",
+      "address": "Kamrergatan 11, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "junibackens-forskola",
+      "name": "Junibackens förskola",
+      "address": "Vimmerbyvägen 16, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "juvelens-forskola",
+      "name": "Juvelens förskola",
+      "address": "Kungsgatan 19B, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "kalkbrottets-forskola",
+      "name": "Kalkbrottets förskola",
+      "address": "Kalkstensvägen 68, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "kallangens-forskola",
+      "name": "Källängens förskola",
+      "address": "Nunnegången 6, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "kallenbergs-forskola",
+      "name": "Kallenbergs förskola",
+      "address": "Tygelsjö kyrkoväg 3, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "kaptenens-forskola",
+      "name": "Kaptenens förskola",
+      "address": "Tampgatan 9, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "karlshogs-forskola",
+      "name": "Karlshögs förskola",
+      "address": "Skyttelgatan 1, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "kirsebergstornets-forskola",
+      "name": "Kirsebergstornets förskola",
+      "address": "Torngatan 11, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "klovervallens-forskola",
+      "name": "Klövervallens förskola",
+      "address": "Stackelbergs väg 4, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "knabacks-forskola",
+      "name": "Knäbäcks förskola",
+      "address": "Knäbäcksgången 4, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "korrebackens-forskola",
+      "name": "Korrebäckens förskola",
+      "address": "Cronquists gata 8, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "korsbarets-forskola",
+      "name": "Körsbärets förskola",
+      "address": "Sperlingsgatan 11, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "krakan-foraldrakooperativ",
+      "name": "Kråkan föräldrakooperativ",
+      "address": "Södra Skolgatan 41, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "kritans-forskola",
+      "name": "Kritans förskola",
+      "address": "Järnvägsgatan 69, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "kronprinsens-forskola",
+      "name": "Kronprinsens förskola",
+      "address": "Regementsgatan 52, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "kryddgardens-forskola",
+      "name": "Kryddgårdens förskola",
+      "address": "von Lingens väg 128-130, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "kullabackens-forskola",
+      "name": "Kullabäckens förskola",
+      "address": "Hyllievångsvägen 6, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "kvisttofta-forskola",
+      "name": "Kvisttofta förskola",
+      "address": "Hohögsgatan 111, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "lekattens-forskola",
+      "name": "Lekattens förskola",
+      "address": "Södra Förstadsgatan 97C, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "lekhusets-forskola",
+      "name": "Lekhusets förskola",
+      "address": "Sorgenfrivägen 33D, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "lilla-jag-i-limhamn",
+      "name": "Lilla Jag i Limhamn",
+      "address": "Limhamn, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "lilla-jag-i-staden",
+      "name": "Lilla Jag i staden",
+      "address": "Centrum, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "lilla-viljaskolan",
+      "name": "Lilla Viljaskolan",
+      "address": "Gamlegårdsvägen 34, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "lillbackens-forskola",
+      "name": "Lillbäckens förskola",
+      "address": "Sörbäcksgatan 40, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "lillsjons-forskola",
+      "name": "Lillsjöns förskola",
+      "address": "Fosievägen 31, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "lillstjarnans-forskola",
+      "name": "Lillstjärnans förskola",
+      "address": "Astronomigatan 2, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "linbarets-forskola",
+      "name": "Linbärets förskola",
+      "address": "Hans Winbergs väg 2, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "lindangehus-forskola",
+      "name": "Lindängehus förskola",
+      "address": "Munkhättegatan 153, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "lindens-forskola",
+      "name": "Lindens förskola",
+      "address": "Celsiusgatan 19C, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "lorensborgs-forskola",
+      "name": "Lorensborgs förskola",
+      "address": "Vilebovägen 31, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "lovisagardens-forskola",
+      "name": "Lovisagårdens förskola",
+      "address": "Hedmätaregatan 1, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "lugnets-forskola",
+      "name": "Lugnets förskola",
+      "address": "Lugna gatan 19, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "lyckans-forskola",
+      "name": "Lyckans förskola",
+      "address": "Tärningholmsgatan 6, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "malmo-friskolas-forskola",
+      "name": "Malmö Friskolas förskola",
+      "address": "Södra Bulltoftavägen 21, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "malmoknopparnas-forskola",
+      "name": "Malmöknopparnas förskola",
+      "address": "Gånglåtsvägen 87, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "maria-forskola",
+      "name": "Maria förskola",
+      "address": "Sorgenfrivägen 17, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "mariaskolans-forskola-bellevue",
+      "name": "Mariaskolans förskola Bellevue",
+      "address": "Stensjögatan 46-48, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "mariaskolans-forskola-hasthagen",
+      "name": "Mariaskolans förskola Hästhagen",
+      "address": "Helmfeltsgatan 13, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "mariehage-forskola",
+      "name": "Mariehage förskola",
+      "address": "Kung Oscars väg 1, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "maryhills-forskola",
+      "name": "Maryhills förskola",
+      "address": "Novisgatan 4, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "maskrosens-forskola",
+      "name": "Maskrosens förskola",
+      "address": "Hårds väg 5, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "mellanbacks-forskola",
+      "name": "Mellanbäcks förskola",
+      "address": "Mellanbäcksgången 2, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "melodigangens-forskola",
+      "name": "Melodigångens förskola",
+      "address": "Koralgatan 25-31, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "mollebackens-forskola",
+      "name": "Möllebackens förskola",
+      "address": "Norregatan 16, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "mollevangens-forskola",
+      "name": "Möllevångens förskola",
+      "address": "Barkgatan 14, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "molnets-forskola",
+      "name": "Molnets förskola",
+      "address": "Upplandsgatan 12, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "morotens-forskola",
+      "name": "Morotens förskola",
+      "address": "Segeltorpsgatan 12, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "mossangens-forskola",
+      "name": "Mossängens förskola",
+      "address": "Elinelundsvägen 52, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "mossebo-forskola",
+      "name": "Mossebo förskola",
+      "address": "Husie kyrkoväg 74, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "motettens-forskola",
+      "name": "Motettens förskola",
+      "address": "Munkhättegatan 180, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "nicke-pings-forskola",
+      "name": "Nicke Pings förskola",
+      "address": "Stensåkervägen 31, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "nydala-forskola",
+      "name": "Nydala förskola",
+      "address": "Helenetorpsgatan 3, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "nyponrosens-forskola",
+      "name": "Nyponrosens förskola",
+      "address": "Bennets väg 17A, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "ons-montessoriforskola",
+      "name": "Öns montessoriförskola",
+      "address": "Sundholmsgatan 18, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "opalens-forskola",
+      "name": "Opalens förskola",
+      "address": "Borrebackevägen 217, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "operans-forskola",
+      "name": "Operans förskola",
+      "address": "Gånglåtsvägen 3F, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "ormvrakens-forskola",
+      "name": "Ormvråkens förskola",
+      "address": "Ormvråksgatan 13, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "ortagards-forskola",
+      "name": "Örtagårds förskola",
+      "address": "Adlerfelts väg 5, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "ostra-faladens-forskola",
+      "name": "Östra Fäladens förskola",
+      "address": "Östra Fäladsgatan 30, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "oxiegardens-forskola",
+      "name": "Oxiegårdens förskola",
+      "address": "Oshögavägen 115, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "oxievangs-forskola",
+      "name": "Oxievångs förskola",
+      "address": "Oxievångsvägen 301, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "pandans-forskola",
+      "name": "Pandans förskola",
+      "address": "Per Albin Hanssons väg 57B, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "parlugglans-forskola",
+      "name": "Pärlugglans förskola",
+      "address": "Klagshamnsvägen 62A, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "per-albins-hems-forskola",
+      "name": "Per Albins Hems förskola",
+      "address": "Kulladalsgatan 2, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "peter-pans-forskola",
+      "name": "Peter Pans förskola",
+      "address": "Gasverksgatan 8, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "pilangens-forskola",
+      "name": "Pilängens förskola",
+      "address": "Elinelundsvägen 52, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "pildammsstadens-forskola",
+      "name": "Pildammsstadens förskola",
+      "address": "Mariedalsvägen 59, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "pilevallens-forskola",
+      "name": "Pilevallens förskola",
+      "address": "von Rosens väg 31, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "pilotens-forskola",
+      "name": "Pilotens förskola",
+      "address": "Cederströmsgatan 4, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "pjattangens-forskola",
+      "name": "Pjättängens förskola",
+      "address": "Pjättgången 4, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "r-f-bergs-forskola",
+      "name": "R F Bergs förskola",
+      "address": "Hyllie kyrkoväg 47, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "ribersborgs-forskola",
+      "name": "Ribersborgs förskola",
+      "address": "Erikstorpsgatan 21, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "ronnbarets-forskola",
+      "name": "Rönnbärets förskola",
+      "address": "Rönnblomsgatan 4B, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "ronneholms-forskola",
+      "name": "Rönneholms förskola",
+      "address": "Nordlinds väg 86, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "ronnens-forskola",
+      "name": "Rönnens förskola",
+      "address": "Ö Farmvägen 3, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "rorsjons-forskola",
+      "name": "Rörsjöns förskola",
+      "address": "Zenithgatan 64A, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "rosens-forskola",
+      "name": "Rosens förskola",
+      "address": "von Rosens väg 43, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "rostorps-forskola",
+      "name": "Rostorps förskola",
+      "address": "Kanikegatan 1, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "rubinens-forskola",
+      "name": "Rubinens förskola",
+      "address": "Nygårdsvägen 4B, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "runstyckets-forskola",
+      "name": "Runstyckets förskola",
+      "address": "Västra Skrävlingevägen 81, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "sadelmakarebyns-forskola",
+      "name": "Sadelmakarebyns förskola",
+      "address": "Niels Bunkeflos väg 14, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sagoskeppets-forskola",
+      "name": "Sagoskeppets förskola",
+      "address": "Lorensborgsgatan 4, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "sanglarkans-forskola",
+      "name": "Sånglärkans förskola",
+      "address": "Söderkullagatan 23, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sannaparkens-forskola",
+      "name": "Sannaparkens förskola",
+      "address": "Rudbecksgatan 19, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "segeparks-forskola",
+      "name": "Segeparks förskola",
+      "address": "Östra sjukhusgatan 12A, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "segevangs-forskola",
+      "name": "Segevångs förskola",
+      "address": "Segevångsgatan 23, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sifs-forskola",
+      "name": "Sifs förskola",
+      "address": "Bures gata 22, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sjohastens-forskola",
+      "name": "Sjöhästens förskola",
+      "address": "Lugna gatan 51, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sjosattningens-forskola",
+      "name": "Sjösättningens förskola",
+      "address": "Stora varvsgatan 15B, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "skutans-forskola",
+      "name": "Skutans förskola",
+      "address": "Klagshamnsvägen 48, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "slanbarets-forskola",
+      "name": "Slånbärets förskola",
+      "address": "Enbärsgatan 2, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sma-rosorna-forskola-2",
+      "name": "Små Rosorna förskola 2",
+      "address": "von Rosens väg 78, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "sma-rosornas-forskola",
+      "name": "Små Rosornas förskola",
+      "address": "von Rosens väg 78, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "smaragdens-forskola",
+      "name": "Smaragdens förskola",
+      "address": "Nygårdsvägen 6, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "smavisans-forskola",
+      "name": "Småvisans förskola",
+      "address": "Högamöllegatan 18, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "smavisans-forskola-vastra-hamnen",
+      "name": "Småvisans förskola Västra Hamnen",
+      "address": "Lilla Varvsgatan 22, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "snackans-montessoriforskola",
+      "name": "Snäckans montessoriförskola",
+      "address": "Idrottsgatan 31, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "snodroppens-forskola",
+      "name": "Snödroppens förskola",
+      "address": "Snödroppsgatan 16-18, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sodertorps-forskola",
+      "name": "Södertorps förskola",
+      "address": "Södertorpsvägen 96, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sodertulls-forskola",
+      "name": "Södertulls förskola",
+      "address": "Kanalgatan 5, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sodervarns-forskola",
+      "name": "Södervärns förskola",
+      "address": "Plantgatan 1, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sodra-sommarstadens-forskola",
+      "name": "Södra Sommarstadens förskola",
+      "address": "Cronquists gata 6BA, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sodra-sommarstadens-ob-forskola",
+      "name": "Södra Sommarstadens ob-förskola",
+      "address": "Cronquists gata 6BG, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sofia-forskola",
+      "name": "Sofia förskola",
+      "address": "Rolfsgatan 24, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sofieholms-forskola",
+      "name": "Sofieholms förskola",
+      "address": "Orkestergatan 2, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sofielunds-forskola",
+      "name": "Sofielunds förskola",
+      "address": "Rolfsgatan 10A, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "solbackens-forskola",
+      "name": "Solbackens förskola",
+      "address": "Stadiongatan 63, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "solglimtens-forskola",
+      "name": "Solglimtens förskola",
+      "address": "Glimtvägen 13, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "solkattens-forskola",
+      "name": "Solkattens förskola",
+      "address": "Friisgatan 45, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sommarangens-forskola",
+      "name": "Sommarängens förskola",
+      "address": "Stenkällevägen 87, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "sommarbackens-forskola",
+      "name": "Sommarbäckens förskola",
+      "address": "Cronquists gata 6CC, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "spaden-foraldrakooperativ",
+      "name": "Spaden föräldrakooperativ",
+      "address": "Möllevångsgatan 40A, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "spinneriets-forskola",
+      "name": "Spinneriets förskola",
+      "address": "Per Albin Hanssons väg 28D, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "st-gertruds-forskola",
+      "name": "S:t Gertruds förskola",
+      "address": "Östergatan 3, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "stackens-forskola",
+      "name": "Stackens förskola",
+      "address": "Eriksfältsgatan 72A, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "stadionparkens-forskola",
+      "name": "Stadionparkens förskola",
+      "address": "Annebergsgatan 1A, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "stallmastarens-forskola",
+      "name": "Stallmästarens förskola",
+      "address": "Fågelbacksgatan 6D, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "stangbonans-forskola",
+      "name": "Stångbönans förskola",
+      "address": "Östra Hindbyvägen, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "stensjons-forskola",
+      "name": "Stensjöns förskola",
+      "address": "Stensjögatan 2B, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "stockrosens-forskola",
+      "name": "Stockrosens förskola",
+      "address": "von Troils väg 8, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "storkens-forskola",
+      "name": "Storkens förskola",
+      "address": "Gasverksgatan 16, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "svangedammens-forskola",
+      "name": "Svängedammens förskola",
+      "address": "Mästermansvägen 5, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "svansjons-forskola",
+      "name": "Svansjöns förskola",
+      "address": "Svansjögatan 81, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "tarnans-forskola",
+      "name": "Tärnans förskola",
+      "address": "Betonggatan 6, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "tegelmurens-forskola",
+      "name": "Tegelmurens förskola",
+      "address": "Råtegelvägen 150, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "tegners-forskola",
+      "name": "Tegnérs förskola",
+      "address": "Tegnérgatan 60A, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "telningens-forskola",
+      "name": "Telningens förskola",
+      "address": "Stensjögatan 3, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "tornfalkens-forskola",
+      "name": "Tornfalkens förskola",
+      "address": "Tornfalksgatan 32-36, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "tors-forskola",
+      "name": "Tors förskola",
+      "address": "Tors gränd 11, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "tradets-forskola",
+      "name": "Trädets förskola",
+      "address": "Bangatan 11, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "tradgardens-forskola",
+      "name": "Trädgårdens förskola",
+      "address": "Lönnebergagatan 59a, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "trappan-montessoriforskola",
+      "name": "Trappan montessoriförskola",
+      "address": "Kungsgatan 17, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "treklangens-forskola",
+      "name": "Treklangens förskola",
+      "address": "Hålsjögatan 11, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "trekloverns-forskola",
+      "name": "Treklöverns förskola",
+      "address": "Husie Kyrkoväg 102, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "triangelns-forskola",
+      "name": "Triangelns förskola",
+      "address": "Spångatan 7, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "tritons-forskola",
+      "name": "Tritons förskola",
+      "address": "Neptunigatan, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "troskans-forskola",
+      "name": "Tröskans förskola",
+      "address": "Tröskgatan 3, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "ubatens-forskola",
+      "name": "Ubåtens förskola",
+      "address": "Solhöjdsgatan 7C, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "ulricedals-forskola",
+      "name": "Ulricedals förskola",
+      "address": "von Lingens väg 2, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "uteforskolan-stock-och-sten",
+      "name": "Uteförskolan Stock och sten",
+      "address": "Roskildevägen 26, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "valdemarsro-forskola",
+      "name": "Valdemarsro förskola",
+      "address": "Staffanstorpsvägen 5, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "vastra-klagstorps-montessori",
+      "name": "Västra Klagstorps montessori",
+      "address": "Gamla Borrebackevägen 4, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "vendelsbo-forskola",
+      "name": "Vendelsbo förskola",
+      "address": "Stadiongatan 61C, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "videdals-forskola",
+      "name": "Videdals förskola",
+      "address": "Videdalsvägen 40, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "vilda-vasters-forskola",
+      "name": "Vilda Västers förskola",
+      "address": "Fridhemstorget 27, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "vildrosens-forskola",
+      "name": "Vildrosens förskola",
+      "address": "Bennets väg 3, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "villa-lindhaga-montessoriforskola",
+      "name": "Villa Lindhaga montessoriförskola",
+      "address": "Vikingagatan 60, Malmö",
+      "operatorType": "independent"
+    },
+    {
+      "id": "vintrie-forskola",
+      "name": "Vintrie förskola",
+      "address": "Bymans gränd 7, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "visans-forskola",
+      "name": "Visans förskola",
+      "address": "Munkhättegatan 206, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "vitemolle-forskola",
+      "name": "Vitemölle förskola",
+      "address": "Vitemöllegatan 17, Malmö",
+      "operatorType": "municipal"
+    },
+    {
+      "id": "vitklintens-forskola",
+      "name": "Vitklintens förskola",
+      "address": "Hårds väg 70-72, Malmö",
       "operatorType": "municipal"
     }
   ]
