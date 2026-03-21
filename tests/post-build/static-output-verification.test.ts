@@ -1,12 +1,17 @@
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { existsSync, readdirSync, statSync } from 'node:fs'
 import { extname, join } from 'node:path'
 
 import { describe, expect, it } from 'vitest'
 
+import {
+  getPreschoolIndex,
+  getPreschoolSurveyByYear,
+  isPlaceholderSurvey,
+} from '@/lib/data'
+
 // ─── Config ──────────────────────────────────────────────────────────────────
 
 const DIST_ROOT = join(process.cwd(), 'dist')
-const DATA_INDEX_PATH = join(process.cwd(), 'data', 'malmo', 'index.json')
 
 // Minimum number of HTML files expected in the built output.
 // Keep this aligned to the implementation plan's documented floor.
@@ -28,18 +33,15 @@ const IMAGE_EXTENSIONS = new Set([
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-interface PreschoolEntry {
-  id: string
-}
-
-interface MalmoIndex {
-  preschools: PreschoolEntry[]
-}
-
+/** Returns IDs of non-placeholder preschools (excludes surveys with no data). */
 const readPreschoolIds = (): string[] => {
-  const raw = readFileSync(DATA_INDEX_PATH, 'utf-8')
-  const index: MalmoIndex = JSON.parse(raw) as MalmoIndex
-  return index.preschools.map((p) => p.id)
+  const index = getPreschoolIndex()
+  return index.preschools
+    .filter((p) => {
+      const survey = getPreschoolSurveyByYear(p.id, index.year)
+      return !isPlaceholderSurvey(survey)
+    })
+    .map((p) => p.id)
 }
 
 const distPath = (...segments: string[]): string => join(DIST_ROOT, ...segments)

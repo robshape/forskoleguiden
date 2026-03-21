@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 import { expect, type Locator, test } from './fixtures'
+import { isPlaceholderSurveyFile } from './helpers'
 
 type PreschoolIndexEntry = {
   id: string
@@ -19,6 +20,12 @@ type PreschoolIndex = {
 const index = JSON.parse(
   readFileSync(resolve(process.cwd(), 'data/malmo/index.json'), 'utf-8'),
 ) as PreschoolIndex
+
+// Filter out placeholder preschools (totalRespondentsPercent === -1) — these
+// have no survey data and are excluded from static page generation.
+const renderedPreschools = index.preschools.filter(
+  (p) => !isPlaceholderSurveyFile(p.id, index.year),
+)
 
 // Canonical test subject: Almgårdens förskola (municipal)
 const TEST_ID = 'almgardens-forskola'
@@ -87,7 +94,7 @@ test.describe('Swedish preschool detail pages contract', () => {
   test('all preschool detail pages are generated and reachable', async ({
     page,
   }) => {
-    for (const preschool of index.preschools) {
+    for (const preschool of renderedPreschools) {
       const url = `/forskoleguiden/sv/forskola/${preschool.id}/`
       const response = await page.goto(url)
 

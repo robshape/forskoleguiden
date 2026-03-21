@@ -5,7 +5,11 @@ import CompareButton from '@/components/preact/CompareButton'
 import { t } from '@/i18n/utils'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { getBasePath } from '@/lib/base-path'
-import { getPreschoolIndex, getPreschoolSurveyByYear } from '@/lib/data'
+import {
+  getPreschoolIndex,
+  getPreschoolSurveyByYear,
+  isPlaceholderSurvey,
+} from '@/lib/data'
 import { OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
 import type { PreschoolIndexEntry, PreschoolSurvey } from '@/lib/types'
 
@@ -29,12 +33,10 @@ const directoryHref = `${base}/${locale}/`
 
 export function getStaticPaths() {
   const index = getPreschoolIndex()
-  return index.preschools.map((preschool) => {
+  return index.preschools.flatMap((preschool) => {
     const survey = getPreschoolSurveyByYear(preschool.id, index.year)
-    return {
-      params: { id: preschool.id },
-      props: { preschool, survey },
-    }
+    if (isPlaceholderSurvey(survey)) return []
+    return [{ params: { id: preschool.id }, props: { preschool, survey } }]
   })
 }
 ---

@@ -3,6 +3,15 @@ import { resolve } from 'node:path'
 
 import type { PreschoolIndex, PreschoolSurvey } from '@/lib/types'
 
+// The upstream data pipeline encodes "no survey data collected" as -1 across all
+// percentage fields rather than using null. This mirrors the raw municipality
+// export format where every field is always present as a number.
+const PLACEHOLDER_RESPONDENTS = -1
+
+/** Preschools with totalRespondentsPercent of -1 have no survey data yet. */
+export const isPlaceholderSurvey = (survey: PreschoolSurvey) =>
+  survey.totalRespondentsPercent === PLACEHOLDER_RESPONDENTS
+
 // Assumes process.cwd() is the project root — valid for Astro build and Vitest.
 const MALMO_DATA_DIR = resolve(process.cwd(), 'data/malmo')
 const MALMO_INDEX_PATH = resolve(MALMO_DATA_DIR, 'index.json')

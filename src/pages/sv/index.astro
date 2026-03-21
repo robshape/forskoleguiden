@@ -3,20 +3,20 @@ import PreschoolCard from '@/components/astro/PreschoolCard.astro'
 import SortToggle from '@/components/preact/SortToggle'
 import { t } from '@/i18n/utils'
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import { getPreschoolIndex, getPreschoolSurveyByYear } from '@/lib/data'
+import {
+  getPreschoolIndex,
+  getPreschoolSurveyByYear,
+  isPlaceholderSurvey,
+} from '@/lib/data'
 import { byOverallScoreDesc, computeOverallScore } from '@/lib/scoring'
 
 const locale = 'sv'
 const preschoolIndex = getPreschoolIndex()
 const surveyYear = preschoolIndex.year
-const preschoolDirectory = preschoolIndex.preschools.map((preschool) => {
-  const overallScore = computeOverallScore(
-    getPreschoolSurveyByYear(preschool.id, surveyYear),
-  )
-  return {
-    ...preschool,
-    overallScore,
-  }
+const preschoolDirectory = preschoolIndex.preschools.flatMap((preschool) => {
+  const survey = getPreschoolSurveyByYear(preschool.id, surveyYear)
+  if (isPlaceholderSurvey(survey)) return []
+  return [{ ...preschool, overallScore: computeOverallScore(survey) }]
 })
 const rankingSortedDirectory = [...preschoolDirectory].sort(
   (leftPreschool, rightPreschool) => {
