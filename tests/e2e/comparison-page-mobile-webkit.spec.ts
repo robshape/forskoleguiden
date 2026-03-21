@@ -1,4 +1,5 @@
 import { expect, test } from './fixtures'
+import { COMPARISON_URL, DIRECTORY_URL } from './helpers'
 
 // ---------------------------------------------------------------------------
 // WebKit / iPhone 13 mini regression for mobile comparison refinement
@@ -11,9 +12,6 @@ import { expect, test } from './fixtures'
 // Safari-specific sticky-column behaviour is covered separately from the
 // default Chromium suite.
 // ---------------------------------------------------------------------------
-
-const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
-const DIRECTORY_URL = '/forskoleguiden/sv/'
 
 test.describe('mobile comparison — WebKit/iPhone 13 mini', () => {
   test('4-preschool comparison renders card layout, scroll container overflows horizontally, and question heading is sticky', async ({

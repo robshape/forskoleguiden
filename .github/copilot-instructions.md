@@ -115,7 +115,7 @@ data/malmo/index.json         — City directory: lists all preschool IDs, names
 data/malmo/2025/*.json        — Per-preschool survey data (one file per preschool, keyed by slug ID)
 src/lib/types.ts              — TypeScript interfaces: PreschoolSurvey, PreschoolIndex, SurveyResponse, etc.
 src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurveyByYear(id, year), getAllPreschoolSurveys()
-src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc()
+src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc(), getScoreTier()
 src/lib/constants.ts          — Shared constants: MALMO_SOURCE_URL, SURVEY_YEAR
 src/lib/base-path.ts          — getBasePath(): normalizes import.meta.env.BASE_URL (strips trailing slash)
 src/lib/survey-responses.ts   — RESPONSE_ROWS: canonical field-to-i18n mapping for the five response labels
@@ -131,6 +131,7 @@ src/styles/global.css         — Tailwind v4 entry + @theme tokens (colors, spa
 tests/unit/**/*.test.ts       — Vitest unit tests
 tests/unit/helpers/           — Shared test utilities (malmo-data.ts, survey-assertions.ts, i18n.ts)
 tests/e2e/**/*.spec.ts        — Playwright e2e tests
+tests/e2e/helpers.ts          — Shared e2e utilities: URL constants, card locators, hydration guards
 tests/post-build/**/*.test.ts — Post-build verification: page-weight-budget (100 KB uncompressed), static-output-verification
 ```
 
@@ -158,6 +159,7 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - `computeOverallScore(survey)` → average agree share across all questions in the overall assessment group; returns `null` if group is missing
 - `byOverallScoreDesc` — comparator for descending sort by overall score (nulls sort last)
 - `SCORE_TIER_HIGH` (80) / `SCORE_TIER_MEDIUM` (65) — agree-share percentage thresholds for score badge color tiers in `src/lib/constants.ts`; used by PreschoolCard for visual classification (green/amber/gray)
+- `getScoreTier(displayScore)` → maps a display score to a `ScoreTier` (`'high' | 'medium' | 'low' | 'none'`) using the threshold constants; used by `PreschoolCard.astro` for score badge CSS class selection
 - Deterministic best-per-question summaries: for each Helhetsbedömning question, identifies the school with the highest agree share; schools within a 5 pp threshold of the best are listed as tied. Uses `computeBestPerQuestion()` and `formatBestPerQuestionText()` from `src/features/comparison/`. Neutral template phrases only.
 
 ## Developer workflow
@@ -184,8 +186,8 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - **Shared test helpers**: `tests/unit/helpers/` — `malmo-data.ts` loads real index/survey paths; `survey-assertions.ts` provides `assertResponseShape()` and `assertResponseContract()` for validating `SurveyResponse` objects.
 - **Data contract tests**: `tests/unit/malmo-survey-files-contract.test.ts` validates every JSON file in `data/malmo/2025/` against type contracts — add new preschool JSON and these tests enforce shape/range.
 - **E2e tests**: `tests/e2e/` with Playwright. Config auto-starts `pnpm preview` webserver. All e2e paths include the base path: `page.goto('/forskoleguiden/sv/')`. See `tests/e2e/homepage-routing-smoke.spec.ts` for routing, `tests/e2e/preschool-card-contract.spec.ts` for component contracts. Coverage includes `user-flow-phase1.spec.ts` (full Phase 1 user journey), `accessibility-axe-core.spec.ts` (wcag2a/wcag2aa), and `keyboard-navigation-focus-ring.spec.ts`.
+- **Shared e2e helpers**: `tests/e2e/helpers.ts` — URL constants (`DIRECTORY_URL`, `COMPARISON_URL`, `DETAIL_URL`), card locators (`getDirectoryCard()`, `getCompareButton()`), and hydration guards (`waitForCompareButtonReady()`, `waitForCompareButtonSelected()`).
 - **Post-build tests**: `tests/post-build/` with Vitest, run via `pnpm test:post-build` (uses `vitest.post-build.config.ts`). Enforces page-weight budget (100 KB uncompressed) and static output contracts against the built `dist/` directory.
-- **Regression guards**: infrastructure invariants are tested as unit tests (e.g., `tests/unit/infrastructure-gitignore-regression.test.ts` verifies `.gitignore` entries).
 - **BDD-style test names**: test files use behavior-descriptive names (e.g., `scoring-overall-score-utilities.test.ts`, `i18n-locale-key-parity.test.ts`), not generic names.
 
 ## Accessibility requirements

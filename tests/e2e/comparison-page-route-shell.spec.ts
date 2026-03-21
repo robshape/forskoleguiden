@@ -1,15 +1,5 @@
 import { expect, test } from './fixtures'
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
-const DIRECTORY_URL = '/forskoleguiden/sv/'
-
-// ---------------------------------------------------------------------------
-// Tests
-// ---------------------------------------------------------------------------
+import { COMPARISON_URL, DIRECTORY_URL } from './helpers'
 
 test.describe('comparison page route shell', () => {
   test('comparison route is reachable at /sv/jamfor/ and returns HTTP 200', async ({

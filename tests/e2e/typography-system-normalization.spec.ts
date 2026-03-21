@@ -1,7 +1,5 @@
 import { expect, type Page, test } from './fixtures'
-
-const DIRECTORY_URL = '/forskoleguiden/sv/'
-const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
+import { COMPARISON_URL, DIRECTORY_URL } from './helpers'
 const SEEDED_ID = 'almgardens-forskola'
 const SEEDED_IDS_FOR_SCROLL_HINT = [
   'almgardens-forskola',

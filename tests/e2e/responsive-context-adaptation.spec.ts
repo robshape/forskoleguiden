@@ -1,13 +1,15 @@
 import { expect, test } from './fixtures'
-
-const DIRECTORY_URL = '/forskoleguiden/sv/'
-const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
+import { COMPARISON_URL, DIRECTORY_URL } from './helpers'
 
 const SEEDED_IDS = [
   'almgardens-forskola',
   'augustenborgs-forskola',
   'bellevuegardens-montessoriforskola',
 ]
+
+// Geometry checks use bounding-box comparisons. Sub-pixel rendering on HiDPI
+// or fractional-scaling displays can shift edges by a fraction of a CSS pixel.
+const SUBPIXEL_TOLERANCE = 2
 
 test.describe('responsive context adaptation', () => {
   test('directory uses deliberate spacing rhythm between groups and rows', async ({
@@ -26,7 +28,7 @@ test.describe('responsive context adaptation', () => {
 
     const spacingContract = await page.evaluate(() => {
       const contentContainer = document.querySelector(
-        'main > div.mx-auto.max-w-content',
+        '[data-testid="content-container"]',
       ) as HTMLElement | null
       const directorySection = document.querySelector(
         'section[aria-label="Förskolelista"]',
@@ -100,30 +102,53 @@ test.describe('responsive context adaptation', () => {
 
     expect(visibleDirectoryHeadingCount).toBe(1)
 
-    const mobileDirection = await page.evaluate(() => {
+    const mobileLayout = await page.evaluate(() => {
       const row = document.querySelector(
         'section[aria-label="Förskolelista"] > div',
       ) as HTMLElement | null
-
       if (!row) return null
-      return window.getComputedStyle(row).flexDirection
+      const heading = row.querySelector('h1')
+      const sortGroup = row.querySelector('[role="group"]')
+      if (!heading || !sortGroup) return null
+      const headingRect = heading.getBoundingClientRect()
+      const sortRect = sortGroup.getBoundingClientRect()
+      return {
+        headingBottom: headingRect.bottom,
+        sortTop: sortRect.top,
+      }
     })
 
-    expect(mobileDirection).toBe('column')
+    expect(mobileLayout).not.toBeNull()
+    // On narrow mobile, heading must be above sort controls (stacked vertically)
+    expect(mobileLayout!.headingBottom).toBeLessThanOrEqual(
+      mobileLayout!.sortTop,
+    )
 
     await page.setViewportSize({ width: 1280, height: 800 })
     await page.reload()
 
-    const desktopDirection = await page.evaluate(() => {
+    const desktopLayout = await page.evaluate(() => {
       const row = document.querySelector(
         'section[aria-label="Förskolelista"] > div',
       ) as HTMLElement | null
-
       if (!row) return null
-      return window.getComputedStyle(row).flexDirection
+      const heading = row.querySelector('h1')
+      const sortGroup = row.querySelector('[role="group"]')
+      if (!heading || !sortGroup) return null
+      const headingRect = heading.getBoundingClientRect()
+      const sortRect = sortGroup.getBoundingClientRect()
+      return {
+        headingTop: headingRect.top,
+        headingBottom: headingRect.bottom,
+        sortTop: sortRect.top,
+        sortBottom: sortRect.bottom,
+      }
     })
 
-    expect(desktopDirection).toBe('row')
+    expect(desktopLayout).not.toBeNull()
+    // On desktop, heading and sort controls share the same horizontal band (row layout)
+    expect(desktopLayout!.sortTop).toBeLessThan(desktopLayout!.headingBottom)
+    expect(desktopLayout!.headingTop).toBeLessThan(desktopLayout!.sortBottom)
   })
 
   test('comparison cards stay readable on very small phones while preserving horizontal scroll', async ({
@@ -151,7 +176,7 @@ test.describe('responsive context adaptation', () => {
         '[data-testid="comparison-scroll"]',
       ) as HTMLElement | null
       const firstColumn = scroll?.querySelector(
-        '.snap-start',
+        '[data-testid="comparison-column"]',
       ) as HTMLElement | null
 
       if (!scroll || !firstColumn) {
@@ -197,46 +222,56 @@ test.describe('responsive context adaptation', () => {
     const tray = page.getByTestId('compare-tray')
     await expect(tray).toBeVisible()
 
-    const layoutContract = await page.evaluate(() => {
+    const layoutContract = await page.evaluate((tolerance) => {
       const tray = document.querySelector(
         '[data-testid="compare-tray"]',
       ) as HTMLElement | null
       const inner = tray?.querySelector(':scope > div') as HTMLElement | null
+      // Actions container is the second child of the inner wrapper
       const actions = inner?.children.item(1) as HTMLElement | null
+      if (!tray || !inner || !actions) return null
 
-      if (!tray || !inner || !actions) {
-        return null
-      }
-
+      const actionButtons = Array.from(
+        actions.querySelectorAll(':scope > a, :scope > button'),
+      )
       return {
-        actionsDirection: window.getComputedStyle(actions).flexDirection,
         trayHasHorizontalOverflow: inner.scrollWidth > inner.clientWidth,
+        // When stacked: each button occupies a separate row
+        buttonsStacked:
+          actionButtons.length >= 2
+            ? actionButtons[0].getBoundingClientRect().bottom <=
+              actionButtons[1].getBoundingClientRect().top + tolerance
+            : true,
       }
-    })
+    }, SUBPIXEL_TOLERANCE)
 
     expect(layoutContract).not.toBeNull()
-    expect(layoutContract?.actionsDirection).toBe('column')
-    expect(layoutContract?.trayHasHorizontalOverflow).toBe(false)
+    expect(layoutContract!.buttonsStacked).toBe(true)
+    expect(layoutContract!.trayHasHorizontalOverflow).toBe(false)
 
     await page.setViewportSize({ width: 500, height: 812 })
 
-    const midWidthLayoutContract = await page.evaluate(() => {
+    const midWidthLayoutContract = await page.evaluate((tolerance) => {
       const tray = document.querySelector(
         '[data-testid="compare-tray"]',
       ) as HTMLElement | null
       const inner = tray?.querySelector(':scope > div') as HTMLElement | null
       const actions = inner?.children.item(1) as HTMLElement | null
+      if (!tray || !inner || !actions) return null
 
-      if (!tray || !inner || !actions) {
-        return null
-      }
-
+      const actionButtons = Array.from(
+        actions.querySelectorAll(':scope > a, :scope > button'),
+      )
       return {
-        actionsDirection: window.getComputedStyle(actions).flexDirection,
+        buttonsStacked:
+          actionButtons.length >= 2
+            ? actionButtons[0].getBoundingClientRect().bottom <=
+              actionButtons[1].getBoundingClientRect().top + tolerance
+            : true,
       }
-    })
+    }, SUBPIXEL_TOLERANCE)
 
     expect(midWidthLayoutContract).not.toBeNull()
-    expect(midWidthLayoutContract?.actionsDirection).toBe('column')
+    expect(midWidthLayoutContract!.buttonsStacked).toBe(true)
   })
 })

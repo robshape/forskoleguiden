@@ -1,3 +1,4 @@
+import { SCORE_TIER_HIGH, SCORE_TIER_MEDIUM } from '@/lib/constants'
 import type { PreschoolSurvey, SurveyResponse } from '@/lib/types'
 
 const SCORE_ROUNDING_DECIMALS = 1
@@ -92,4 +93,13 @@ export const computeOverallScore = (survey: PreschoolSurvey) => {
     totalAgreeShare / overallAssessmentGroup.questions.length,
     SCORE_ROUNDING_DECIMALS,
   )
+}
+
+export type ScoreTier = 'high' | 'medium' | 'low' | 'none'
+
+export const getScoreTier = (displayScore: number | null): ScoreTier => {
+  if (displayScore === null) return 'none'
+  if (displayScore >= SCORE_TIER_HIGH) return 'high'
+  if (displayScore >= SCORE_TIER_MEDIUM) return 'medium'
+  return 'low'
 }

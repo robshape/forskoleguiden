@@ -39,7 +39,10 @@ const isOnComparePage = Astro.url.pathname.includes('/jamfor')
       <Nav locale={locale} />
     </header>
     <main class="flex-1">
-      <div class="mx-auto max-w-content px-5 pt-5 pb-8">
+      <div
+        class="mx-auto max-w-content px-5 pt-5 pb-8"
+        data-testid="content-container"
+      >
         <slot />
       </div>
     </main>

@@ -154,4 +154,18 @@ describe('compare store state behavior', () => {
 
     expect(compareIds.get()).toEqual([])
   })
+
+  it('should share the same store instance across two dynamic imports via the window singleton', async () => {
+    stubBrowserStorage()
+
+    const first = await importCompareState()
+
+    vi.resetModules()
+
+    const second = await importCompareState()
+
+    first.toggleCompare('alpha')
+
+    expect(second.compareIds.get()).toEqual(['alpha'])
+  })
 })

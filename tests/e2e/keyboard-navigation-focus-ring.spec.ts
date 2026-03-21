@@ -1,4 +1,5 @@
 import { expect, getFocusRingContract, test } from './fixtures'
+import { COMPARISON_URL, DIRECTORY_URL, FOCUS_RING_COLOR } from './helpers'
 
 // Verify that ring-based interactive controls expose a visible focus indicator
 // when reached by keyboard navigation. Ring-based controls suppress the global
@@ -39,10 +40,10 @@ test.describe('keyboard navigation focus ring visibility', () => {
 
     // Ring-based controls set focus-visible:ring-2 focus-visible:ring-primary-600
     // and explicitly suppress the outline with focus-visible:outline-none.
-    // The ring colour (primary-600 = #2563eb = rgb(37, 99, 235)) must appear in
-    // the computed box-shadow when the element is focused via keyboard.
+    // The ring colour (primary-600) must appear in the computed box-shadow
+    // when the element is focused via keyboard.
     const focusRing = await getFocusRingContract(alphabeticalBtn)
-    expect(focusRing.boxShadow).toContain('rgb(37, 99, 235)')
+    expect(focusRing.boxShadow).toContain(FOCUS_RING_COLOR)
     expect(focusRing.outlineStyle).toBe('none')
   })
 })
@@ -88,7 +89,7 @@ test.describe('keyboard navigation — directory controls and compare tray', () 
 
     // Ring-based focus: primary-600 ring colour in box-shadow, outline suppressed.
     const betygFocusRing = await getFocusRingContract(rankingBtn)
-    expect(betygFocusRing.boxShadow).toContain('rgb(37, 99, 235)')
+    expect(betygFocusRing.boxShadow).toContain(FOCUS_RING_COLOR)
     expect(betygFocusRing.outlineStyle).toBe('none')
 
     // Activate the ranking sort via Space key and verify the pressed state flips.
@@ -141,7 +142,7 @@ test.describe('keyboard navigation — directory controls and compare tray', () 
 
     // Ring-based focus: primary-600 ring colour in box-shadow, outline suppressed.
     const focusRing = await getFocusRingContract(firstCardCompareBtn)
-    expect(focusRing.boxShadow).toContain('rgb(37, 99, 235)')
+    expect(focusRing.boxShadow).toContain(FOCUS_RING_COLOR)
     expect(focusRing.outlineStyle).toBe('none')
   })
 
@@ -236,9 +237,6 @@ test.describe('keyboard navigation — directory controls and compare tray', () 
 // Phase 3: Comparison page keyboard behavior
 // ---------------------------------------------------------------------------
 
-const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
-const DIRECTORY_URL = '/forskoleguiden/sv/'
-
 // Two known preschool IDs drawn from the real data fixture used across the
 // comparison-page tests.
 const SEEDED_IDS = ['almgardens-forskola', 'bellevuegardens-montessoriforskola']
@@ -279,9 +277,9 @@ test.describe('keyboard navigation — comparison page interactive flows', () =>
     await expect(backLink).toBeFocused()
 
     // The back link uses focus-visible:ring-2 (Tailwind ring utility).
-    // Primary-600 ring colour must match rgb(37, 99, 235) = #2563eb.
+    // Primary-600 ring colour must appear in box-shadow.
     const focusRing = await getFocusRingContract(backLink)
-    expect(focusRing.boxShadow).toContain('37, 99, 235')
+    expect(focusRing.boxShadow).toContain(FOCUS_RING_COLOR)
     expect(focusRing.outlineStyle).toBe('none')
 
     // Activate via Enter — navigates to the preschool directory.

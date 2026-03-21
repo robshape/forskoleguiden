@@ -1,49 +1,19 @@
 import { MALMO_SOURCE_URL } from '../../src/lib/constants'
-import { expect, type Page, test } from './fixtures'
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
-
-const DIRECTORY_URL = '/forskoleguiden/sv/'
-const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
-const DETAIL_URL = '/forskoleguiden/sv/forskola/almgardens-forskola/'
+import { expect, test } from './fixtures'
+import {
+  COMPARISON_URL,
+  DETAIL_URL,
+  DIRECTORY_URL,
+  getCompareButton,
+  getDirectoryCard,
+  waitForCompareButtonReady,
+  waitForCompareButtonSelected,
+} from './helpers'
 
 // Three canonical preschools stable across all test runs
 const PRESCHOOL_1 = 'Almgårdens förskola'
 const PRESCHOOL_2 = 'Bellevuegårdens montessoriförskola'
 const PRESCHOOL_3 = 'Bladins internationella förskola'
-
-// ---------------------------------------------------------------------------
-// Helpers — mirroring patterns from compare-tray-interaction.spec.ts
-// ---------------------------------------------------------------------------
-
-const getDirectoryCard = (page: Page, name: string) =>
-  page.getByTestId('preschool-card').filter({
-    has: page.getByRole('link', { name }),
-  })
-
-const getCompareButton = (page: Page, name: string) =>
-  getDirectoryCard(page, name).getByRole('button')
-
-/**
- * Wait until a compare button's Preact island has hydrated.
- * For an *unselected* button, aria-pressed="false" is the initial state.
- * For a *selected* button after navigation, we wait for aria-pressed="true".
- */
-const waitForCompareButtonUnselected = async (page: Page, name: string) => {
-  await expect(getCompareButton(page, name)).toHaveAttribute(
-    'aria-pressed',
-    'false',
-  )
-}
-
-const waitForCompareButtonSelected = async (page: Page, name: string) => {
-  await expect(getCompareButton(page, name)).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  )
-}
 
 // ---------------------------------------------------------------------------
 // Full Phase 1 user journey — 14 steps from docs/implementation-plan-phase-1.md §13.2
@@ -112,9 +82,9 @@ test('full Phase 1 user journey: directory → sort → select 3 → compare pag
 
   // ── Step 4: Add 3 preschools using real compare-button clicks ────────────
   // Wait for Preact hydration on all three buttons before clicking
-  await waitForCompareButtonUnselected(page, PRESCHOOL_1)
-  await waitForCompareButtonUnselected(page, PRESCHOOL_2)
-  await waitForCompareButtonUnselected(page, PRESCHOOL_3)
+  await waitForCompareButtonReady(page, PRESCHOOL_1)
+  await waitForCompareButtonReady(page, PRESCHOOL_2)
+  await waitForCompareButtonReady(page, PRESCHOOL_3)
 
   await getCompareButton(page, PRESCHOOL_1).click()
   await expect(getCompareButton(page, PRESCHOOL_1)).toHaveAttribute(

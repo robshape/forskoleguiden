@@ -1,14 +1,7 @@
 import { AxeBuilder } from '@axe-core/playwright'
 
 import { expect, test } from './fixtures'
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
-
-const DIRECTORY_URL = '/forskoleguiden/sv/'
-const DETAIL_URL = '/forskoleguiden/sv/forskola/almgardens-forskola/'
-const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
+import { COMPARISON_URL, DETAIL_URL, DIRECTORY_URL } from './helpers'
 
 // IDs used to seed the comparison page with a two-school selection
 const COMPARISON_SEED_IDS = ['almgardens-forskola', 'augustenborgs-forskola']

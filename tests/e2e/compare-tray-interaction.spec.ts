@@ -1,4 +1,5 @@
 import { expect, type Page, test } from './fixtures'
+import { getCompareButton, waitForCompareButtonReady } from './helpers'
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -15,19 +16,6 @@ const navigateToDirectory = async (page: Page) => {
 }
 
 const getCompareTray = (page: Page) => page.getByTestId('compare-tray')
-
-const getDirectoryCard = (page: Page, name: string) =>
-  page.getByTestId('preschool-card').filter({
-    has: page.getByRole('link', { name }),
-  })
-
-const getCompareButton = (page: Page, name: string) =>
-  getDirectoryCard(page, name).getByRole('button')
-
-const waitForCompareButtonReady = async (page: Page, name: string) => {
-  const button = getCompareButton(page, name)
-  await expect(button).toHaveAttribute('aria-pressed', 'false')
-}
 
 // ---------------------------------------------------------------------------
 // Tests

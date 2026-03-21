@@ -1,11 +1,7 @@
-import { expect, type Locator, type Page, test } from './fixtures'
+import { expect, type Locator, test } from './fixtures'
+import { getDirectoryCard } from './helpers'
 
 test.describe('Swedish directory data rendering contracts', () => {
-  const getDirectoryCard = (page: Page, name: string) =>
-    page.getByTestId('preschool-card').filter({
-      has: page.getByRole('link', { name }),
-    })
-
   const waitForCompareButtonToBeInteractive = async (button: Locator) => {
     await expect(button).toHaveAttribute('aria-pressed', 'false')
 

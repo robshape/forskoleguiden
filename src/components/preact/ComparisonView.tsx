@@ -167,6 +167,7 @@ export default function ComparisonView({
                 <>
                   <div
                     class={`flex ${CARD_W} shrink-0 snap-start flex-col border-b border-border pb-4`}
+                    data-testid="comparison-column"
                     key={survey.id}
                   >
                     <h2 class="text-xl font-bold tracking-tight wrap-break-word text-gray-900">

@@ -2,7 +2,7 @@
 import CompareButton from '@/components/preact/CompareButton'
 import { type Locale, t } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
-import { SCORE_TIER_HIGH, SCORE_TIER_MEDIUM } from '@/lib/constants'
+import { getScoreTier, type ScoreTier } from '@/lib/scoring'
 import type { OperatorType } from '@/lib/types'
 
 interface Props {
@@ -28,14 +28,14 @@ const scorePercentText =
         score: displayScore,
       })
 
-const scoreBadgeToneClass =
-  displayScore === null
-    ? 'bg-gray-100 text-gray-600'
-    : displayScore >= SCORE_TIER_HIGH
-      ? 'bg-score-high-bg text-score-high-text'
-      : displayScore >= SCORE_TIER_MEDIUM
-        ? 'bg-score-medium-bg text-score-medium-text'
-        : 'bg-gray-200 text-gray-800'
+const scoreTierClasses: Record<ScoreTier, string> = {
+  high: 'bg-score-high-bg text-score-high-text',
+  medium: 'bg-score-medium-bg text-score-medium-text',
+  low: 'bg-gray-200 text-gray-800',
+  none: 'bg-gray-100 text-gray-600',
+}
+
+const scoreBadgeToneClass = scoreTierClasses[getScoreTier(displayScore)]
 ---
 
 <article
