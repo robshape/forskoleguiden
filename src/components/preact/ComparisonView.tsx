@@ -160,7 +160,7 @@ export default function ComparisonView({
           class="snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth"
           data-testid="comparison-scroll"
         >
-          <div class="inline-flex flex-col gap-8 pt-1 pb-4">
+          <div class="inline-flex flex-col gap-8 pt-1 pr-8 pb-4 sm:pr-6">
             {/* Header Row */}
             <div class="flex gap-4">
               {selectedSurveys.map((survey, idx) => (
