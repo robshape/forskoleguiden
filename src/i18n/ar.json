@@ -23,7 +23,7 @@
   "directory": {
     "heading": "رياض الأطفال في مالمو",
     "sort": {
-      "ranking": "التقييم",
+      "ranking": "النتيجة",
       "alphabetical": "أ–ي",
       "groupLabel": "الفرز",
       "label": "فرز حسب:"
@@ -36,7 +36,7 @@
     "addToCompare": "قارن",
     "addedToCompare": "تمت الإضافة",
     "compareButtonAriaLabel": "{action}: {name}",
-    "noOverallScore": "لا توجد درجة إجمالية",
+    "noOverallScore": "لا توجد درجة عامة",
     "scorePercent": "{score}%",
     "scoreBadge": {
       "agreeShare": "نسبة الموافقة",
@@ -44,7 +44,7 @@
     }
   },
   "compareTray": {
-    "selectedCount": "تم اختيار {count} من رياض الأطفال",
+    "selectedCount": "رياض الأطفال المختارة: {count}",
     "showComparison": "عرض المقارنة",
     "clear": "مسح"
   },
@@ -53,7 +53,7 @@
     "summaryHeading": "الملخص",
     "emptyStateTitle": "لم يتم اختيار أي روضة أطفال",
     "emptyStateBody": "اختر رياض الأطفال من القائمة لعرض المقارنة.",
-    "singleSelectionPrompt": "اختر روضة أطفال إضافية على الأقل لعرض المقارنة.",
+    "singleSelectionPrompt": "اختر روضة أطفال إضافية واحدة على الأقل للمقارنة.",
     "questionColumnLabel": "السؤال",
     "actions": {
       "backToDirectory": "العودة إلى رياض الأطفال",

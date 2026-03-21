@@ -79,7 +79,7 @@ export default function DetailsBarChart({
           const patternId = `detail-chart-${chartIndex}-cat-${catIdx}`
           return (
             <div
-              class="flex items-center gap-2 text-xs font-medium text-gray-600"
+              class="flex items-center gap-2 text-xs font-medium text-gray-700"
               key={catIdx}
             >
               <svg

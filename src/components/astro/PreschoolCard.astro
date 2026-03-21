@@ -32,14 +32,14 @@ const scoreTierClasses: Record<ScoreTier, string> = {
   high: 'bg-score-high-bg text-score-high-text',
   medium: 'bg-score-medium-bg text-score-medium-text',
   low: 'bg-gray-200 text-gray-800',
-  none: 'bg-gray-100 text-gray-600',
+  none: 'bg-gray-100 text-gray-700',
 }
 
 const scoreBadgeToneClass = scoreTierClasses[getScoreTier(displayScore)]
 ---
 
 <article
-  class="relative flex min-w-0 flex-col gap-3 rounded-xl border border-border bg-linear-to-b from-surface to-white/90 p-4 shadow-sm transition-all hover:shadow-md sm:gap-4 sm:p-5"
+  class="relative flex min-w-0 flex-col gap-4 rounded-2xl border border-border bg-linear-to-b from-surface to-white/90 p-5 shadow-xs transition-all hover:shadow-md sm:gap-5 sm:p-6"
   data-testid="preschool-card"
 >
   <div class="min-w-0">
@@ -51,7 +51,7 @@ const scoreBadgeToneClass = scoreTierClasses[getScoreTier(displayScore)]
         {name}
       </a>
     </h3>
-    <p class="mt-1 text-base wrap-break-word text-gray-500">
+    <p class="mt-1 text-base wrap-break-word text-gray-700">
       {t(`directory.operatorType.${operatorType}`, locale)} • {address}
     </p>
   </div>
@@ -81,7 +81,7 @@ const scoreBadgeToneClass = scoreTierClasses[getScoreTier(displayScore)]
         <span class="text-sm font-semibold text-gray-700">
           {t('directory.scoreBadge.agreeShare', locale)}
         </span>
-        <span class="text-sm text-gray-500">
+        <span class="text-sm font-medium text-gray-700">
           {t('directory.scoreBadge.overallAssessment', locale)}
         </span>
       </div>

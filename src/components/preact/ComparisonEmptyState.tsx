@@ -13,7 +13,7 @@ export default function ComparisonEmptyState({
         {emptyStateTitle}
       </h2>
       <p
-        class="mt-3 text-base text-gray-600"
+        class="mt-3 text-base text-gray-700"
         data-testid="comparison-empty-body"
       >
         {emptyStateBody}

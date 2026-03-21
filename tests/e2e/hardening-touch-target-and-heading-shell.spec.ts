@@ -44,7 +44,7 @@ test.describe('hardening: heading shell and mobile touch targets', () => {
     expect(response.status()).toBe(200)
 
     const alphabeticalSortButton = page.getByRole('button', { name: 'A–Ö' })
-    const rankingSortButton = page.getByRole('button', { name: 'Betyg' })
+    const rankingSortButton = page.getByRole('button', { name: 'Resultat' })
 
     await expect(alphabeticalSortButton).toBeVisible()
     await expect(rankingSortButton).toBeVisible()

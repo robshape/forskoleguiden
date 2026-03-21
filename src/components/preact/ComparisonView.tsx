@@ -111,7 +111,7 @@ export default function ComparisonView({
             )}
           </p>
           <p
-            class="text-base text-gray-600"
+            class="text-base text-gray-700"
             data-testid="single-selection-prompt"
           >
             {singleSelectionPrompt}
@@ -119,7 +119,7 @@ export default function ComparisonView({
         </header>
       ) : (
         <p
-          class="mb-8 text-sm font-medium text-gray-500"
+          class="mb-8 text-sm font-medium text-gray-700"
           data-testid="selected-count-label"
         >
           {selectedCountTemplate.replace(
@@ -133,7 +133,7 @@ export default function ComparisonView({
       {selectedSurveys.length > 2 && (
         <p
           aria-hidden="true"
-          class="mb-3 flex items-center gap-1 text-sm text-gray-500 sm:hidden"
+          class="mb-3 flex items-center gap-1 text-sm font-medium text-gray-700 sm:hidden"
           data-testid="scroll-hint"
         >
           <svg
@@ -220,7 +220,7 @@ export default function ComparisonView({
                             class={`${CARD_W} shrink-0 snap-start rounded-xl border border-border bg-surface p-6 shadow-sm`}
                             key={survey.id}
                           >
-                            <p class="text-sm text-gray-500">—</p>
+                            <p class="text-sm font-medium text-gray-700">—</p>
                           </div>
                           {renderDivider(idx)}
                         </>
@@ -235,7 +235,7 @@ export default function ComparisonView({
                     return (
                       <>
                         <div
-                          class={`flex ${CARD_W} shrink-0 snap-start flex-col rounded-xl border border-border bg-surface p-6 shadow-sm transition-all hover:shadow-md`}
+                          class={`flex ${CARD_W} shrink-0 snap-start flex-col rounded-2xl border border-border bg-surface p-6 shadow-xs transition-all hover:shadow-md sm:p-7`}
                           key={survey.id}
                         >
                           <div
@@ -243,7 +243,7 @@ export default function ComparisonView({
                           >
                             {agreeShare}%
                           </div>
-                          <div class="mt-1 text-sm font-medium text-gray-600">
+                          <div class="mt-1 text-sm font-medium text-gray-700">
                             {agreeShareLabel}
                           </div>
 

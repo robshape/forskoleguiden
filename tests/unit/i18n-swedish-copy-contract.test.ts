@@ -92,7 +92,9 @@ describe('Swedish translation keys', () => {
     }
 
     // Approved Swedish copy for specific keys
-    expect(getByPath(sv as JsonObject, 'directory.sort.ranking')).toBe('Betyg')
+    expect(getByPath(sv as JsonObject, 'directory.sort.ranking')).toBe(
+      'Resultat',
+    )
     expect(getByPath(sv as JsonObject, 'directory.sort.groupLabel')).toBe(
       'Sortering',
     )
@@ -100,7 +102,7 @@ describe('Swedish translation keys', () => {
       'Tillagd',
     )
     expect(getByPath(sv as JsonObject, 'responses.partlyDisagree')).toBe(
-      'Instämmer inte delvis',
+      'Instämmer delvis inte',
     )
   })
 

@@ -7,7 +7,7 @@
     "ariaLabel": "Huvudnavigering",
     "directory": "Förskolor",
     "compare": "Jämför",
-    "about": "Om data",
+    "about": "Datakälla",
     "languagePlaceholder": "SV | EN",
     "languageComingSoon": "Fler språk kommer snart"
   },
@@ -23,7 +23,7 @@
   "directory": {
     "heading": "Förskolor i Malmö",
     "sort": {
-      "ranking": "Betyg",
+      "ranking": "Resultat",
       "alphabetical": "A–Ö",
       "groupLabel": "Sortering",
       "label": "Sortera:"
@@ -44,7 +44,7 @@
     }
   },
   "compareTray": {
-    "selectedCount": "{count} förskolor valda",
+    "selectedCount": "Valda förskolor: {count}",
     "showComparison": "Visa jämförelse",
     "clear": "Rensa"
   },
@@ -53,7 +53,7 @@
     "summaryHeading": "Sammanfattning",
     "emptyStateTitle": "Inga förskolor valda",
     "emptyStateBody": "Välj förskolor i listan för att se en jämförelse.",
-    "singleSelectionPrompt": "Välj minst en förskola till för att se en jämförelse.",
+    "singleSelectionPrompt": "Välj minst en förskola till för att jämföra.",
     "questionColumnLabel": "Fråga",
     "actions": {
       "backToDirectory": "Tillbaka till förskolor",
@@ -71,7 +71,7 @@
     "completelyAgree": "Instämmer helt",
     "partlyAgree": "Instämmer delvis",
     "neitherAgreeNorDisagree": "Varken eller",
-    "partlyDisagree": "Instämmer inte delvis",
+    "partlyDisagree": "Instämmer delvis inte",
     "completelyDisagree": "Instämmer inte alls"
   },
   "summary": {
@@ -82,7 +82,7 @@
     "text": "Enkätdata ({year}) kommer från Malmö stad."
   },
   "about": {
-    "heading": "Om data",
+    "heading": "Datakälla",
     "text": "Resultaten bygger på Förskoleenkäten 2025 för Malmö.",
     "body": "Förskoleguiden använder officiella enkätresultat från Malmö stad för att hjälpa föräldrar att jämföra förskolor."
   }

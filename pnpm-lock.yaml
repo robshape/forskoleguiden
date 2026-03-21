@@ -15,6 +15,9 @@ importers:
       '@astrojs/preact':
         specifier: 5.0.0
         version: 5.0.0(@babel/core@7.29.0)(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.32.0)(preact@10.29.0)(rollup@4.59.0)(yaml@2.8.2)
+      '@fontsource-variable/inter':
+        specifier: 5.2.8
+        version: 5.2.8
       '@nanostores/preact':
         specifier: 1.0.0
         version: 1.0.0(nanostores@1.1.1)(preact@10.29.0)
@@ -480,6 +483,9 @@ packages:
   '@eslint/plugin-kit@0.6.1':
     resolution: {integrity: sha512-iH1B076HoAshH1mLpHMgwdGeTs0CYwL0SPMkGuSebZrwBp16v415e9NZXg2jtrqPVQjf6IANe2Vtlr5KswtcZQ==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
+
+  '@fontsource-variable/inter@5.2.8':
+    resolution: {integrity: sha512-kOfP2D+ykbcX/P3IFnokOhVRNoTozo5/JxhAIVYLpea/UBmCQ/YWPBfWIDuBImXX/15KH+eKh4xpEUyS2sQQGQ==}
 
   '@formatjs/ecma402-abstract@2.3.6':
     resolution: {integrity: sha512-HJnTFeRM2kVFVr5gr5kH1XP6K0JcJtE7Lzvtr3FS/so5f1kpsqqqxy5JF+FRaO6H2qmcMfAUIox7AJteieRtVw==}
@@ -4601,6 +4607,8 @@ snapshots:
     dependencies:
       '@eslint/core': 1.1.1
       levn: 0.4.1
+
+  '@fontsource-variable/inter@5.2.8': {}
 
   '@formatjs/ecma402-abstract@2.3.6':
     dependencies:

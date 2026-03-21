@@ -54,7 +54,7 @@ test.describe('Swedish directory data rendering contracts', () => {
     )
   })
 
-  test('renders rank index text 1..N for each card row when sorting by Betyg', async ({
+  test('renders rank index text 1..N for each card row when sorting by Resultat', async ({
     page,
   }) => {
     await page.goto('/forskoleguiden/sv/')
@@ -62,7 +62,7 @@ test.describe('Swedish directory data rendering contracts', () => {
       'data-hydrated',
       'true',
     )
-    await page.getByRole('button', { name: 'Betyg' }).click()
+    await page.getByRole('button', { name: 'Resultat' }).click()
 
     const listRows = page.locator(
       'section[aria-label="Förskolelista"] > ul > li',
@@ -78,7 +78,7 @@ test.describe('Swedish directory data rendering contracts', () => {
     }
   })
 
-  test('starts in alphabetical order, switches to ranking order when Betyg is selected, and back to alphabetical', async ({
+  test('starts in alphabetical order, switches to ranking order when Resultat is selected, and back to alphabetical', async ({
     page,
   }) => {
     await page.goto('/forskoleguiden/sv/')
@@ -95,9 +95,9 @@ test.describe('Swedish directory data rendering contracts', () => {
     )
     expect(alphabeticalNames.length).toBeGreaterThan(0)
 
-    // Switch to Betyg
-    await page.getByRole('button', { name: 'Betyg' }).click()
-    await expect(page.getByTestId('sort-live-region')).toContainText('Betyg')
+    // Switch to Resultat
+    await page.getByRole('button', { name: 'Resultat' }).click()
+    await expect(page.getByTestId('sort-live-region')).toContainText('Resultat')
 
     // Order should differ from alphabetical (dataset scores are not in alpha order)
     await expect(async () => {

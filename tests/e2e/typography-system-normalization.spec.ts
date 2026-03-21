@@ -31,7 +31,7 @@ test.describe('typography system normalization', () => {
       return window.getComputedStyle(document.body).fontFamily
     })
 
-    expect(bodyFontFamily).toContain('Noto Sans')
+    expect(bodyFontFamily).toContain('Inter')
     expect(bodyFontFamily).not.toContain('Source Sans 3')
   })
 

@@ -19,7 +19,9 @@ test.describe('about page /sv/om/', () => {
   }) => {
     await page.goto(ABOUT_URL)
 
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Om data')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      'Datakälla',
+    )
   })
 
   test('should render the body paragraph', async ({ page }) => {

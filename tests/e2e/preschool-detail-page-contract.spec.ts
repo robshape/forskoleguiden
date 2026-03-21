@@ -176,7 +176,7 @@ test.describe('Swedish preschool detail pages contract', () => {
     await expect(page.getByText('Instämmer helt').first()).toBeVisible()
     await expect(page.getByText('Instämmer delvis').first()).toBeVisible()
     await expect(page.getByText('Varken eller').first()).toBeVisible()
-    await expect(page.getByText('Instämmer inte delvis').first()).toBeVisible()
+    await expect(page.getByText('Instämmer delvis inte').first()).toBeVisible()
     await expect(page.getByText('Instämmer inte alls').first()).toBeVisible()
   })
 
@@ -198,7 +198,7 @@ test.describe('Swedish preschool detail pages contract', () => {
       { label: 'Instämmer helt', value: '67%' },
       { label: 'Instämmer delvis', value: '28%' },
       { label: 'Varken eller', value: '0%' },
-      { label: 'Instämmer inte delvis', value: '2%' },
+      { label: 'Instämmer delvis inte', value: '2%' },
       { label: 'Instämmer inte alls', value: '2%' },
     ])
 
@@ -211,7 +211,7 @@ test.describe('Swedish preschool detail pages contract', () => {
       { label: 'Instämmer helt', value: '70%' },
       { label: 'Instämmer delvis', value: '23%' },
       { label: 'Varken eller', value: '1%' },
-      { label: 'Instämmer inte delvis', value: '0%' },
+      { label: 'Instämmer delvis inte', value: '0%' },
       { label: 'Instämmer inte alls', value: '6%' },
     ])
   })

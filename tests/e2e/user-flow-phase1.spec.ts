@@ -47,8 +47,8 @@ test('full Phase 1 user journey: directory → sort → select 3 → compare pag
   const alphabeticalFirstName = (await firstPreschoolLink.textContent())?.trim()
   expect(alphabeticalFirstName).toBeTruthy()
 
-  // ── Step 3: Toggle sort away from default (A–Ö) to Betyg, then back ─────
-  const betygButton = page.getByRole('button', { name: 'Betyg' })
+  // ── Step 3: Toggle sort away from default (A–Ö) to Resultat, then back ─────
+  const betygButton = page.getByRole('button', { name: 'Resultat' })
   const azButton = page.getByRole('button', { name: 'A–Ö' })
 
   // Hydration guard: SortToggle uses client:load, so interactions must wait
@@ -62,11 +62,11 @@ test('full Phase 1 user journey: directory → sort → select 3 → compare pag
   await expect(azButton).toHaveAttribute('aria-pressed', 'true')
   await expect(betygButton).toHaveAttribute('aria-pressed', 'false')
 
-  // Switch to Betyg
+  // Switch to Resultat
   await betygButton.click()
   await expect(betygButton).toHaveAttribute('aria-pressed', 'true')
   await expect(azButton).toHaveAttribute('aria-pressed', 'false')
-  await expect(page.getByTestId('sort-live-region')).toContainText('Betyg')
+  await expect(page.getByTestId('sort-live-region')).toContainText('Resultat')
   // Verify the sort actually reordered — first card should differ from alphabetical first
   await expect(firstPreschoolLink).not.toHaveText(alphabeticalFirstName!)
 

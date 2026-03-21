@@ -66,7 +66,7 @@ test.describe('keyboard navigation — directory controls and compare tray', () 
     expect(response.status()).toBe(200)
 
     const alphabeticalBtn = page.getByRole('button', { name: 'A–Ö' })
-    const rankingBtn = page.getByRole('button', { name: 'Betyg' })
+    const rankingBtn = page.getByRole('button', { name: 'Resultat' })
 
     // Wait for the SortToggle island to hydrate — default mode is alphabetical.
     await expect(alphabeticalBtn).toHaveAttribute('aria-pressed', 'true')
@@ -83,7 +83,7 @@ test.describe('keyboard navigation — directory controls and compare tray', () 
     }
     expect(alphabeticalFocused).toBe(true)
 
-    // Tab once more to reach the ranking (Betyg) sort button.
+    // Tab once more to reach the ranking (Resultat) sort button.
     await page.keyboard.press('Tab')
     await expect(rankingBtn).toBeFocused()
 
@@ -109,7 +109,7 @@ test.describe('keyboard navigation — directory controls and compare tray', () 
     }
     expect(response.status()).toBe(200)
 
-    const rankingBtn = page.getByRole('button', { name: 'Betyg' })
+    const rankingBtn = page.getByRole('button', { name: 'Resultat' })
 
     // Wait for the SortToggle island to hydrate before testing Tab order.
     await expect(page.getByRole('button', { name: 'A–Ö' })).toHaveAttribute(
