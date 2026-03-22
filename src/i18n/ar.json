@@ -35,7 +35,9 @@
     "listAriaLabel": "قائمة رياض الأطفال",
     "addToCompare": "قارن",
     "addedToCompare": "تمت الإضافة",
+    "removeFromCompare": "إزالة {name} من المقارنة",
     "compareButtonAriaLabel": "{action}: {name}",
+    "noData": "لا توجد بيانات",
     "noOverallScore": "لا توجد درجة عامة",
     "scorePercent": "{score}%",
     "scoreBadge": {

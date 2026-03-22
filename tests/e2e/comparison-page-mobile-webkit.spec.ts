@@ -44,27 +44,30 @@ test.describe('mobile comparison — WebKit/iPhone 13 mini', () => {
     const scroll = page.getByTestId('comparison-scroll')
     await expect(scroll).toBeVisible()
 
-    // All 4 preschool name headings (h2) must be attached in the DOM
+    // All 4 preschool names must be attached in the DOM as links
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Almgårdens förskola' }),
+      scroll.getByRole('link', { name: 'Almgårdens förskola' }).first(),
     ).toBeAttached()
     await expect(
-      page.getByRole('heading', {
-        level: 2,
-        name: 'Augustenborgs förskola',
-      }),
+      scroll
+        .getByRole('link', {
+          name: 'Augustenborgs förskola',
+        })
+        .first(),
     ).toBeAttached()
     await expect(
-      page.getByRole('heading', {
-        level: 2,
-        name: 'Bellevuegårdens montessoriförskola',
-      }),
+      scroll
+        .getByRole('link', {
+          name: 'Bellevuegårdens montessoriförskola',
+        })
+        .first(),
     ).toBeAttached()
     await expect(
-      page.getByRole('heading', {
-        level: 2,
-        name: 'Bladins internationella förskola',
-      }),
+      scroll
+        .getByRole('link', {
+          name: 'Bladins internationella förskola',
+        })
+        .first(),
     ).toBeAttached()
 
     // Both Helhetsbedömning question headings (h3) must be attached

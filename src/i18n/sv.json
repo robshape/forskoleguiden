@@ -35,7 +35,9 @@
     "listAriaLabel": "Förskolelista",
     "addToCompare": "Jämför",
     "addedToCompare": "Tillagd",
+    "removeFromCompare": "Ta bort {name} från jämförelse",
     "compareButtonAriaLabel": "{action}: {name}",
+    "noData": "Ingen data",
     "noOverallScore": "Ingen helhetspoäng",
     "scorePercent": "{score}%",
     "scoreBadge": {

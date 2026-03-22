@@ -35,7 +35,9 @@
     "listAriaLabel": "Preschool list",
     "addToCompare": "Compare",
     "addedToCompare": "Added",
+    "removeFromCompare": "Remove {name} from comparison",
     "compareButtonAriaLabel": "{action}: {name}",
+    "noData": "No data",
     "noOverallScore": "No overall score",
     "scorePercent": "{score}%",
     "scoreBadge": {

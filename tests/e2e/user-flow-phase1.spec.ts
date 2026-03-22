@@ -121,15 +121,15 @@ test('full Phase 1 user journey: directory → sort → select 3 → compare pag
   const compScroll = page.getByTestId('comparison-scroll')
   await expect(compScroll).toBeVisible()
 
-  // All 3 preschool name headings (h2) must be visible
+  // All 3 preschool names must be visible as links
   await expect(
-    page.getByRole('heading', { level: 2, name: PRESCHOOL_1 }),
+    compScroll.getByRole('link', { name: PRESCHOOL_1 }).first(),
   ).toBeVisible()
   await expect(
-    page.getByRole('heading', { level: 2, name: PRESCHOOL_2 }),
+    compScroll.getByRole('link', { name: PRESCHOOL_2 }).first(),
   ).toBeVisible()
   await expect(
-    page.getByRole('heading', { level: 2, name: PRESCHOOL_3 }),
+    compScroll.getByRole('link', { name: PRESCHOOL_3 }).first(),
   ).toBeVisible()
 
   // ── Step 7: Verify summary text is present and mentions all 3 names ──────

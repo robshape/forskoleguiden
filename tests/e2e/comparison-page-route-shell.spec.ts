@@ -154,9 +154,9 @@ test.describe('comparison page selection state contracts', () => {
     // The selected preschool's results must also be rendered
     const scroll = page.getByTestId('comparison-scroll')
     await expect(scroll).toBeVisible()
-    // The selected preschool name must appear as a heading
+    // The selected preschool name must appear as a link in the comparison
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Almgårdens förskola' }),
+      scroll.getByRole('link', { name: 'Almgårdens förskola' }).first(),
     ).toBeVisible()
   })
 
@@ -188,21 +188,23 @@ test.describe('comparison page selection state contracts', () => {
     const scroll = page.getByTestId('comparison-scroll')
     await expect(scroll).toBeVisible()
 
-    // Three preschool name headings
+    // Three preschool names as links within the comparison
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Almgårdens förskola' }),
+      scroll.getByRole('link', { name: 'Almgårdens förskola' }).first(),
     ).toBeVisible()
     await expect(
-      page.getByRole('heading', {
-        level: 2,
-        name: 'Augustenborgs förskola',
-      }),
+      scroll
+        .getByRole('link', {
+          name: 'Augustenborgs förskola',
+        })
+        .first(),
     ).toBeVisible()
     await expect(
-      page.getByRole('heading', {
-        level: 2,
-        name: 'Bellevuegårdens montessoriförskola',
-      }),
+      scroll
+        .getByRole('link', {
+          name: 'Bellevuegårdens montessoriförskola',
+        })
+        .first(),
     ).toBeVisible()
 
     // Two Helhetsbedömning question headings
@@ -296,7 +298,7 @@ test.describe('comparison page empty-state and single-selection UI flow', () => 
     const scroll = page.getByTestId('comparison-scroll')
     await expect(scroll).toBeVisible()
     await expect(
-      page.getByRole('heading', { level: 2, name: targetName }),
+      page.getByRole('link', { name: targetName }).first(),
     ).toBeVisible()
   })
 
@@ -375,24 +377,26 @@ test.describe('mobile comparison refinement contracts', () => {
     const scroll = page.getByTestId('comparison-scroll')
     await expect(scroll).toBeVisible()
 
-    // All 4 preschool headngs must be attached in the DOM at the top list
+    // All 4 preschool names must be attached in the DOM as links
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Almgårdens förskola' }),
+      scroll.getByRole('link', { name: 'Almgårdens förskola' }).first(),
     ).toBeAttached()
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Augustenborgs förskola' }),
+      scroll.getByRole('link', { name: 'Augustenborgs förskola' }).first(),
     ).toBeAttached()
     await expect(
-      page.getByRole('heading', {
-        level: 2,
-        name: 'Bellevuegårdens montessoriförskola',
-      }),
+      scroll
+        .getByRole('link', {
+          name: 'Bellevuegårdens montessoriförskola',
+        })
+        .first(),
     ).toBeAttached()
     await expect(
-      page.getByRole('heading', {
-        level: 2,
-        name: 'Bladins internationella förskola',
-      }),
+      scroll
+        .getByRole('link', {
+          name: 'Bladins internationella förskola',
+        })
+        .first(),
     ).toBeAttached()
 
     // Both Helhetsbedömning question headings (h3) must be attached
