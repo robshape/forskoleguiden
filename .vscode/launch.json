@@ -1,12 +1,6 @@
 {
   "configurations": [
     {
-      "name": "Attach to Integrated Browser",
-      "request": "attach",
-      "type": "editor-browser",
-      "urlFilter": "http://localhost:4321/*"
-    },
-    {
       "name": "Launch in integrated browser",
       "request": "launch",
       "type": "editor-browser",
