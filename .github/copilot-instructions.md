@@ -13,40 +13,9 @@ Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents com
 
 ## Design Context
 
-### Users
+See `.impeccable.md` for users, brand personality, aesthetic direction, platforms, and design principles.
 
-- Parents and guardians in Malmo comparing preschools before applying.
-- Co-parents who need to review and discuss the same shortlist across devices.
-- Usage is often split between fast on-the-go checks on phone and longer review sessions on tablet or desktop.
-
-### Brand Personality
-
-- Trusted, clear, calm.
-- The interface should reduce anxiety, support confident decisions, and remain practical over promotional.
-
-### Aesthetic Direction
-
-- Friendly civic service.
-- Approachability should come from clear language, soft but restrained visual rhythm, and strong readability.
-- Keep a factual, public-service tone with transparent data presentation.
-- Anti-reference: do not look like a flashy startup landing page, a playful kids app, or a dense enterprise dashboard.
-
-### Platforms And Usage Contexts
-
-- Phone portrait (320-430px): primary context, touch-first, short sessions.
-- Phone landscape: quick checks and side-by-side scanning.
-- Tablet portrait and landscape: medium-depth review and collaborative discussion.
-- Desktop and laptop: keyboard and mouse workflows, longer focused comparison.
-
-### Design Principles
-
-- Prioritize decision clarity: make comparison actions and outcomes obvious first.
-- Preserve trust: use calm hierarchy and restrained visuals over decorative effects.
-- Design for touch first: minimum 44x44 interactive targets and thumb-reachable controls.
-- Adapt, do not shrink: reflow layout and interaction patterns by context while preserving core IA.
-- Keep parity across contexts: core comparison tasks must remain available on phone, tablet, and desktop.
-
-**Current phase**: Phase 1 complete (Steps 0–13). Infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, deterministic summaries, data attribution, accessibility audits, CI/CD pipeline, and final verification are all done. Next: Phase 2 roadmap items (i18n EN/AR page routes, shortlist, sharing, independent preschool queue links).
+**Current phase**: Phase 1 complete (Steps 0–13). Infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, deterministic summaries, data attribution, accessibility audits, CI/CD pipeline, and final verification are all done. Next: Phase 2 roadmap items (i18n EN/AR page routes, shortlist, sharing, independent preschool queue links) — see `docs/implementation-plan-phase-2.md`.
 
 ## Architecture
 
@@ -90,17 +59,12 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 
 ## CI/CD
 
-**Reusable quality-gates workflow** (`.github/workflows/quality-gates.yml`) — a `workflow_call` workflow containing all quality gate steps: checkout, pnpm/node setup, install, lint, lint:md, format, check, test, build, Playwright browser install, Chromium e2e, and the narrow WebKit Step 7.4 mobile regression. Takes no inputs — pure validation only. Both `deploy.yml` and `dependabot.yml` consume this reusable workflow instead of inlining steps. This pattern was chosen over a local composite action (`.github/actions/`) because Dependabot's `github-actions` ecosystem only scans `.github/workflows/*.yml` for action version updates.
-
-**Deploy workflow** (`.github/workflows/deploy.yml`) triggers on push to `main`. Calls `quality-gates.yml`, then a separate build job (gated on quality-gates passing) rebuilds, uploads the Pages artifact, and a deploy job deploys to GitHub Pages. Uses `GITHUB_TOKEN` for all auth. Concurrency group `pages` cancels in-progress runs. Node and pnpm versions are pinned to exact semver (22.14.0 and 10.29.3).
-
-**Dependabot** (`.github/dependabot.yml`) manages weekly automated dependency and GitHub Actions version updates with grouped PRs and commit prefixes (`deps:`, `ci:`). **`pnpm-workspace.yaml`** enforces `minimumReleaseAge: 4320` (3 days) for supply-chain security — Dependabot PRs may fail CI if a proposed version was published less than 3 days ago; this is expected and self-resolves once the package ages past the threshold.
-
-**Dependabot auto-merge workflow** (`.github/workflows/dependabot.yml`) triggers on `pull_request` (Dependabot PRs) and `push` to `main`. Calls `quality-gates.yml` (without pages artifact) on Dependabot PRs, then auto-approves and enables squash auto-merge once gates pass. On `push` to `main`, it updates open Dependabot PR branches to keep them current. Uses `GITHUB_TOKEN` only (no PAT). Requires "Allow auto-merge" enabled in repo settings.
-
-**Lighthouse CI** (`.lighthouserc.json`) runs accessibility (error, min 0.95) and performance (warn, min 0.9) audits against the built site. `pnpm audit:lighthouse` runs locally; CI runs it after e2e tests. Results are stored in `.lighthouse-results/`.
-
-**Supply-chain security** (`pnpm-workspace.yaml`): beyond `minimumReleaseAge`, enforces `trustPolicy: no-downgrade` (prevents trust-level regression), with `trustPolicyExclude` for specific packages (`chokidar`, `vite`). `overrides` pin transitive deps (`semver`, `undici-types`) to resolve Lighthouse LHCI dependency tree issues.
+- `pnpm validate` runs the full quality gate (lint, format, check, test, build, e2e, Lighthouse)
+- CI uses `.github/workflows/quality-gates.yml` (reusable `workflow_call`, consumed by `deploy.yml` and `dependabot.yml`)
+- Deploy: push to `main` → quality gates → GitHub Pages. Uses `GITHUB_TOKEN` only.
+- Dependabot: weekly grouped PRs with 3-day minimum release age (`pnpm-workspace.yaml`)
+- Lighthouse CI: accessibility (min 0.95, error) and performance (min 0.9, warn) — `pnpm audit:lighthouse`
+- See `.github/workflows/` for full pipeline details.
 
 ## Base path
 
@@ -109,7 +73,8 @@ The `base` config defaults to `/forskoleguiden` for GitHub Pages project-site de
 ## Directory structure
 
 ```text
-.github/skills/                    — Agent skills: tdd/, frontend-design/
+.agents/skills/                    — Design/UX skills (21 Impeccable skills)
+.github/agents/                    — SpecKit agents (analyze, plan, implement, etc.)
 .github/workflows/quality-gates.yml — Reusable workflow_call: lint, test, build, e2e (consumed by deploy.yml and dependabot.yml)
 .github/workflows/deploy.yml  — Calls quality-gates.yml + deploys to GitHub Pages
 data/malmo/index.json         — City directory: lists all preschool IDs, names, addresses, operator types
@@ -146,8 +111,8 @@ tests/post-build/**/*.test.ts — Post-build verification: page-weight-budget (1
 - **i18n**: three locales (`sv`, `en`, `ar`) defined in `src/i18n/`. Currently **only Swedish pages exist** (`/sv/`); EN/AR page routes are planned but not yet built — see `docs/implementation-plan-phase-1.md`. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants when added. Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. Supports interpolation: `t('compareTray.selectedCount', locale, { count: 3 })` replaces `{count}` in the template. All three locale JSONs must have identical key structures (enforced by unit test). `Locale` type and `getLocaleFromURL()` are exported from the same module.
 - **No runtime data fetching** — all preschool data read from `data/` at Astro build time via `src/lib/data.ts` loaders (uses `readFileSync` + `process.cwd()`).
 - **Formatting**: single quotes, no semicolons — see `.prettierrc`.
-- **Linting**: ESLint flat config + `@typescript-eslint` + `eslint-plugin-astro` (includes `astro/sort-attributes` for alphabetical attribute ordering in `.astro` files) + `eslint-plugin-better-tailwindcss` (Tailwind v4 class validation: ordering, canonical forms, unknown class detection; `enforce-consistent-line-wrapping` disabled) + `eslint-plugin-simple-import-sort` (auto-sorts/groups imports and exports) + `eslint-plugin-perfectionist` (`sort-jsx-props` rule for alphabetical JSX prop ordering in `.tsx` files); markdownlint-cli2 for Markdown (MD013 disabled).
-- **Pre-commit**: Husky runs `lint-staged` before every commit. The `lint-staged` config runs `astro check` + ESLint on TS/Astro files, markdownlint on Markdown, and Prettier on all files. CI skips Husky via `HUSKY=0`.
+- **Linting**: ESLint flat config enforces attribute/import/prop ordering and Tailwind v4 class validation automatically. Markdownlint for Markdown (MD013 disabled). See `eslint.config.ts` for full plugin list.
+- **Pre-commit**: Husky runs `lint-staged` (astro check + ESLint + markdownlint + Prettier on staged files). CI skips via `HUSKY=0`.
 
 ## Data model
 
@@ -208,8 +173,8 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 
 ## Agent customizations
 
-- `.github/skills/tdd/SKILL.md` — test-driven development with red-green-refactor loop
-- `.github/skills/frontend-design/SKILL.md` — production-grade frontend interface design
+- `.agents/skills/` — 21 design/UX skills (i-frontend-design, i-audit, i-adapt, etc.)
+- `.github/agents/` — SpecKit agents (analyze, plan, implement, etc.)
 - User-level `agents.instructions.md` — shared agent preferences (modularity, BDD tests, pnpm enforcement)
 
 ## Project documentation
