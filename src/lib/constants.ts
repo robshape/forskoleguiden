@@ -9,3 +9,11 @@ export const SURVEY_YEAR = 2025
 // < MEDIUM → gray  (low sentiment)
 export const SCORE_TIER_HIGH = 80
 export const SCORE_TIER_MEDIUM = 65
+
+// The upstream data pipeline encodes "no survey data collected" as -1 across all
+// percentage fields rather than using null. This mirrors the raw municipality
+// export format where every field is always present as a number.
+export const PLACEHOLDER_RESPONDENTS = -1
+
+// Assumes process.cwd() is the project root — valid for Astro build and Vitest.
+export const MALMO_DATA_DIR = 'data/malmo'

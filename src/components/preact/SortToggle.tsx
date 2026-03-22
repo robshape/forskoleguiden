@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'preact/hooks'
 
 import type { Locale } from '@/i18n/utils'
 
-type SortMode = 'ranking' | 'alphabetical'
+import type { ListRow, SortMode } from './sort-helpers'
+import { applySort, getRows } from './sort-helpers'
 
 interface Props {
   listId: string
@@ -11,69 +12,6 @@ interface Props {
   groupLabel: string
   sortLabel: string
   locale: Locale
-}
-
-interface ListRow {
-  element: HTMLLIElement
-  name: string
-  rankIndexZeroBased: number
-}
-
-const getRows = (listElement: HTMLUListElement) => {
-  return Array.from(
-    listElement.querySelectorAll<HTMLLIElement>(':scope > li'),
-  ).map((rowElement, index) => ({
-    element: rowElement,
-    name: rowElement.getAttribute('data-name') ?? '',
-    rankIndexZeroBased: Number(
-      rowElement.getAttribute('data-rank-index-zero-based') ?? index,
-    ),
-  }))
-}
-
-const sortRows = (rows: ListRow[], sortMode: SortMode, locale: string) => {
-  return [...rows].sort((leftRow, rightRow) => {
-    if (sortMode === 'ranking') {
-      return leftRow.rankIndexZeroBased - rightRow.rankIndexZeroBased
-    }
-
-    const byName = leftRow.name.localeCompare(rightRow.name, locale, {
-      sensitivity: 'base',
-    })
-
-    if (byName !== 0) {
-      return byName
-    }
-
-    return leftRow.rankIndexZeroBased - rightRow.rankIndexZeroBased
-  })
-}
-
-const updateRanks = (sortedRows: ListRow[]) => {
-  sortedRows.forEach((row, index) => {
-    const rankElement = row.element.querySelector('[data-testid="rank-index"]')
-
-    if (rankElement !== null) {
-      rankElement.textContent = String(index + 1)
-    }
-  })
-}
-
-// Reorders server-rendered list items in-place — the list is pre-rendered by
-// Astro at build time and this island only changes their DOM order.
-const applySort = (
-  listElement: HTMLUListElement,
-  rows: ListRow[],
-  sortMode: SortMode,
-  locale: string,
-) => {
-  const sortedRows = sortRows(rows, sortMode, locale)
-
-  sortedRows.forEach((row) => {
-    listElement.appendChild(row.element)
-  })
-
-  updateRanks(sortedRows)
 }
 
 export default function SortToggle({

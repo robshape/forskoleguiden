@@ -14,10 +14,6 @@ const roundToDecimals = (value: number, decimals: number) => {
 }
 
 const warnIfInvalidResponse = (response: SurveyResponse) => {
-  if (process.env.NODE_ENV === 'production') {
-    return
-  }
-
   const percentages = [
     response.completelyAgreePercent,
     response.partlyAgreePercent,
