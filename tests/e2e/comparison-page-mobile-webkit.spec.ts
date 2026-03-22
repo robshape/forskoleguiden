@@ -80,33 +80,5 @@ test.describe('mobile comparison — WebKit/iPhone 13 mini', () => {
         name: '"Jag skulle rekommendera mitt barns förskola till en annan förälder"',
       }),
     ).toBeAttached()
-
-    // The scroll container must overflow horizontally on a 375 px viewport
-    // with 4 preschool columns.
-    const overflows = await page.evaluate(() => {
-      const container = document.querySelector(
-        '[data-testid="comparison-scroll"]',
-      ) as HTMLElement | null
-      if (!container) return null
-      return container.scrollWidth > container.clientWidth
-    })
-    expect(
-      overflows,
-      'expected scroll container to overflow horizontally on 375 px viewport with 4 preschool columns',
-    ).toBe(true)
-
-    // The question heading container must be sticky so question labels remain
-    // visible when the user scrolls horizontally.
-    const firstQuestionHeading = page.getByRole('heading', {
-      level: 3,
-      name: '"Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola"',
-    })
-    const isSticky = await firstQuestionHeading.evaluate((el) => {
-      const parent = el.closest('.sticky')
-      return parent !== null
-    })
-    expect(isSticky, 'expected question heading container to be sticky').toBe(
-      true,
-    )
   })
 })

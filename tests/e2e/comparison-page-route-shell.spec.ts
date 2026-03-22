@@ -344,7 +344,7 @@ test.describe('comparison page empty-state and single-selection UI flow', () => 
 // ---------------------------------------------------------------------------
 
 test.describe('mobile comparison refinement contracts', () => {
-  test('mobile viewport (375×812): 4-preschool comparison is DOM-complete, scroll container overflows horizontally, and question heading container is sticky', async ({
+  test('mobile viewport (375×812): 4-preschool comparison is DOM-complete and vertically stacked', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 375, height: 812 })
@@ -371,19 +371,16 @@ test.describe('mobile comparison refinement contracts', () => {
     }
     expect(response.status()).toBe(200)
 
-    // Comparison scroll container must be visible
+    // Comparison container must be visible
     const scroll = page.getByTestId('comparison-scroll')
     await expect(scroll).toBeVisible()
 
-    // All 4 preschool name headings (h2) must be attached in the DOM
+    // All 4 preschool headngs must be attached in the DOM at the top list
     await expect(
       page.getByRole('heading', { level: 2, name: 'Almgårdens förskola' }),
     ).toBeAttached()
     await expect(
-      page.getByRole('heading', {
-        level: 2,
-        name: 'Augustenborgs förskola',
-      }),
+      page.getByRole('heading', { level: 2, name: 'Augustenborgs förskola' }),
     ).toBeAttached()
     await expect(
       page.getByRole('heading', {
@@ -411,35 +408,6 @@ test.describe('mobile comparison refinement contracts', () => {
         name: '"Jag skulle rekommendera mitt barns förskola till en annan förälder"',
       }),
     ).toBeAttached()
-
-    // The scroll container must actually overflow horizontally on a 375 px viewport
-    // with 4 preschool columns. Each card has a fixed width so the content is wider
-    // than the screen and reliably scrollable.
-    const overflows = await page.evaluate(() => {
-      const container = document.querySelector(
-        '[data-testid="comparison-scroll"]',
-      ) as HTMLElement | null
-      if (!container) return null
-      return container.scrollWidth > container.clientWidth
-    })
-    expect(
-      overflows,
-      'expected scroll container to overflow horizontally on 375 px viewport with 4 preschool columns',
-    ).toBe(true)
-
-    // Core UX requirement: the question heading container must be sticky so
-    // question labels remain visible when the user scrolls horizontally.
-    const firstQuestionHeading = page.getByRole('heading', {
-      level: 3,
-      name: '"Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola"',
-    })
-    const isSticky = await firstQuestionHeading.evaluate((el) => {
-      const parent = el.closest('.sticky')
-      return parent !== null
-    })
-    expect(isSticky, 'expected question heading container to be sticky').toBe(
-      true,
-    )
   })
 })
 

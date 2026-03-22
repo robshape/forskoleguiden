@@ -18,7 +18,6 @@ interface Props {
   selectedCountTemplate: string
   singleSelectionPrompt: string
   summaryHeading: string
-  scrollHintLabel: string
   surveys: PreschoolSurvey[]
   /** 5 localized response category labels in RESPONSE_ROWS order */
   categoryLabels: string[]
@@ -29,9 +28,6 @@ interface Props {
   agreeShareLabel: string
 }
 
-/** Card width uses spacing scale tokens for predictable layout across contexts. */
-const CARD_W = 'w-64 sm:w-[283px]'
-
 export default function ComparisonView({
   directoryHref,
   emptyStateTitle,
@@ -39,7 +35,6 @@ export default function ComparisonView({
   selectedCountTemplate,
   singleSelectionPrompt,
   summaryHeading,
-  scrollHintLabel,
   surveys,
   categoryLabels,
   locale,
@@ -86,21 +81,10 @@ export default function ComparisonView({
     return 'text-gray-700'
   }
 
-  const isLastColumn = (idx: number) => idx === selectedSurveys.length - 1
-
-  /** Standalone vertical separator rendered between adjacent school columns */
-  const renderDivider = (idx: number) =>
-    isLastColumn(idx) ? null : (
-      <div
-        aria-hidden="true"
-        class="w-px shrink-0 self-stretch bg-border"
-      ></div>
-    )
-
   return (
-    <div class="overflow-x-clip pb-16">
+    <div class="relative mx-auto max-w-2xl overflow-x-clip px-4 pt-4 pb-16 sm:px-0">
       {ids.length === 1 ? (
-        <header class="mb-10 flex min-w-0 flex-col gap-2 border-s-4 border-primary-300 ps-4">
+        <header class="mb-8 flex min-w-0 flex-col gap-2 border-l-4 border-primary-300 pl-4">
           <p
             class="text-base font-semibold text-gray-700"
             data-testid="selected-count-label"
@@ -129,126 +113,99 @@ export default function ComparisonView({
         </p>
       )}
 
-      {/* Scroll hint — visible when more than 2 schools overflow on mobile */}
-      {selectedSurveys.length > 2 && (
-        <p
-          aria-hidden="true"
-          class="mb-3 flex items-center gap-1 text-sm font-medium text-gray-700 sm:hidden"
-          data-testid="scroll-hint"
-        >
-          <svg
-            class="size-4"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
+      {/* Selected Schools List */}
+      <div class="mb-12 flex flex-col gap-0 rounded-2xl border border-border bg-surface shadow-xs">
+        {selectedSurveys.map((survey) => (
+          <div
+            class="flex items-center justify-between gap-4 border-b border-border/50 p-4 last:border-0 sm:px-6 sm:py-5"
+            key={`school-list-${survey.id}`}
           >
-            <path
-              d="M8 7l4-4m0 0l4 4m-4-4v18"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              transform="rotate(90 12 12)"
-            ></path>
-          </svg>
-          {scrollHintLabel}
-        </p>
-      )}
+            <h2 class="min-w-0 text-[17px] leading-tight font-bold tracking-tight wrap-break-word text-gray-900">
+              <a
+                class="hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+                href={`${directoryHref}forskola/${survey.id}/?from=compare`}
+              >
+                {survey.preschoolName}
+              </a>
+            </h2>
+            <div class="shrink-0">
+              <CompareButton
+                addedLabel={compareAddedLabel}
+                addLabel={compareAddLabel}
+                ariaLabelTemplate={compareAriaLabelTemplate}
+                id={survey.id}
+                name={survey.preschoolName}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
 
-      {/* Scrollable comparison grid */}
-      <div class="relative">
-        <div
-          class="snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-smooth"
-          data-testid="comparison-scroll"
-        >
-          <div class="inline-flex flex-col gap-8 pt-1 pr-8 pb-4 sm:pr-6">
-            {/* Header Row */}
-            <div class="flex gap-4">
-              {selectedSurveys.map((survey, idx) => (
-                <>
-                  <div
-                    class={`flex ${CARD_W} shrink-0 snap-start flex-col border-b border-border pb-4`}
-                    data-testid="comparison-column"
+      {/* Vertical Comparison Stack */}
+      <div class="mb-16 flex flex-col gap-12" data-testid="comparison-scroll">
+        {questions.map((question) => (
+          <section class="flex flex-col" key={question.text}>
+            <header class="mb-5 border-b border-gray-200 pb-3">
+              <h3 class="text-base/snug font-bold text-gray-900 sm:text-[17px]">
+                "{question.text}"
+              </h3>
+            </header>
+
+            <ul class="flex flex-col gap-0">
+              {selectedSurveys.map((survey) => {
+                const group = survey.questionGroups.find(
+                  (g) => g.name === OVERALL_ASSESSMENT_GROUP,
+                )
+                const cell = group?.questions.find(
+                  (candidate) => candidate.text === question.text,
+                )
+
+                if (!cell) {
+                  return (
+                    <li
+                      class="border-b border-gray-100 last:border-0"
+                      key={survey.id}
+                    >
+                      <div class="-mx-2 flex items-center justify-between gap-4 px-2 py-3 sm:-mx-4 sm:p-4">
+                        <span class="min-w-0 text-[15px] wrap-break-word text-gray-600">
+                          {survey.preschoolName}
+                        </span>
+                        <span class="shrink-0 text-base font-medium text-gray-400">
+                          —
+                        </span>
+                      </div>
+                    </li>
+                  )
+                }
+
+                const agreeShare = Math.round(computeAgreeShare(cell.response))
+                const scoreColor = getScoreTextColor(agreeShare)
+
+                return (
+                  <li
+                    class="border-b border-gray-100 last:border-0"
                     key={survey.id}
                   >
-                    <h2 class="text-xl font-bold tracking-tight wrap-break-word text-gray-900">
-                      <a
-                        class="wrap-break-word hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
-                        href={`${directoryHref}forskola/${survey.id}/?from=compare`}
-                      >
-                        {survey.preschoolName}
-                      </a>
-                    </h2>
-                    <div class="mt-auto pt-3">
-                      <CompareButton
-                        addedLabel={compareAddedLabel}
-                        addLabel={compareAddLabel}
-                        ariaLabelTemplate={compareAriaLabelTemplate}
-                        id={survey.id}
-                        name={survey.preschoolName}
-                      />
-                    </div>
-                  </div>
-                  {renderDivider(idx)}
-                </>
-              ))}
-            </div>
-            {/* Questions Rows */}
-            {questions.map((question) => (
-              <div
-                class="flex flex-col gap-5 border-t border-border pt-6 first:border-t-0 first:pt-0"
-                key={question.text}
-              >
-                <div class="sticky left-0 z-10 flex w-fit max-w-[80vw] flex-col gap-2 bg-page pr-5">
-                  <h3 class="text-base font-bold text-gray-900">
-                    "{question.text}"
-                  </h3>
-                </div>
+                    <div class="relative -mx-2 flex items-center justify-between gap-4 px-2 py-3 sm:-mx-4 sm:p-4">
+                      <div class="min-w-0">
+                        <span class="text-[15px] font-medium wrap-break-word text-gray-700">
+                          {survey.preschoolName}
+                        </span>
+                      </div>
 
-                <div class="flex items-stretch gap-4">
-                  {selectedSurveys.map((survey, idx) => {
-                    const group = survey.questionGroups.find(
-                      (g) => g.name === OVERALL_ASSESSMENT_GROUP,
-                    )
-                    const cell = group?.questions.find(
-                      (candidate) => candidate.text === question.text,
-                    )
-
-                    if (!cell) {
-                      return (
-                        <>
-                          <div
-                            class={`${CARD_W} shrink-0 snap-start rounded-xl border border-border bg-surface p-6 shadow-sm`}
-                            key={survey.id}
-                          >
-                            <p class="text-sm font-medium text-gray-700">—</p>
-                          </div>
-                          {renderDivider(idx)}
-                        </>
-                      )
-                    }
-
-                    const agreeShare = Math.round(
-                      computeAgreeShare(cell.response),
-                    )
-                    const scoreColor = getScoreTextColor(agreeShare)
-
-                    return (
-                      <>
+                      <div class="flex shrink-0 flex-col items-center">
                         <div
-                          class={`flex ${CARD_W} shrink-0 snap-start flex-col rounded-2xl border border-border bg-surface p-6 shadow-xs transition-all hover:shadow-md sm:p-7`}
-                          key={survey.id}
+                          class={`text-[28px] leading-none font-extrabold tracking-tight sm:text-[32px] ${scoreColor}`}
                         >
-                          <div
-                            class={`text-[32px] leading-none font-extrabold ${scoreColor}`}
-                          >
-                            {agreeShare}%
-                          </div>
-                          <div class="mt-1 text-sm font-medium text-gray-700">
-                            {agreeShareLabel}
-                          </div>
+                          {agreeShare}%
+                        </div>
+                        <div class="mt-0.5 text-[13px] font-medium text-gray-500">
+                          {agreeShareLabel}
+                        </div>
 
-                          {/* Screen-reader fallback data */}
-                          <table class="sr-only">
+                        {/* Screen-reader fallback data */}
+                        <div class="sr-only">
+                          <table>
                             <caption>
                               {question.text} - {survey.preschoolName}
                             </caption>
@@ -262,20 +219,14 @@ export default function ComparisonView({
                             </tbody>
                           </table>
                         </div>
-                        {renderDivider(idx)}
-                      </>
-                    )
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* Right fade hint — outside scroll container to avoid adding scroll width */}
-        <div
-          aria-hidden="true"
-          class="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-linear-to-l from-page to-transparent sm:hidden"
-        ></div>
+                      </div>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          </section>
+        ))}
       </div>
 
       <ComparisonSummary

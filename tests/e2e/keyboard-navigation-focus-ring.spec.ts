@@ -367,7 +367,7 @@ test.describe('keyboard navigation — comparison page interactive flows', () =>
     await expect(scroll).not.toHaveAttribute('tabindex')
 
     // Sr-only tables (text alternatives for score cards) must not be tabbable.
-    const tables = page.locator('table.sr-only')
+    const tables = page.locator('.sr-only table')
     const tableCount = await tables.count()
     expect(tableCount).toBeGreaterThan(0)
     for (let i = 0; i < tableCount; i++) {

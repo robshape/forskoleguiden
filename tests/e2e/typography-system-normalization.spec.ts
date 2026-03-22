@@ -1,7 +1,7 @@
 import { expect, type Page, test } from './fixtures'
 import { COMPARISON_URL, DIRECTORY_URL } from './helpers'
 const SEEDED_ID = 'almgardens-forskola'
-const SEEDED_IDS_FOR_SCROLL_HINT = [
+const SEEDED_IDS_FOR_MULTI_SELECTION = [
   'almgardens-forskola',
   'augustenborgs-forskola',
   'bellevuegardens-montessoriforskola',
@@ -138,7 +138,7 @@ test.describe('typography system normalization', () => {
 
     await page.evaluate((ids) => {
       sessionStorage.setItem('compareIds', JSON.stringify(ids))
-    }, SEEDED_IDS_FOR_SCROLL_HINT)
+    }, SEEDED_IDS_FOR_MULTI_SELECTION)
 
     const comparisonResponse = await page.goto(COMPARISON_URL)
     if (comparisonResponse === null) {
@@ -148,14 +148,14 @@ test.describe('typography system normalization', () => {
     }
 
     expect(comparisonResponse.status()).toBe(200)
-    await expect(page.getByTestId('scroll-hint')).toBeVisible()
+    await expect(page.getByTestId('selected-count-label')).toBeVisible()
 
-    const scrollHintFontSize = await getComputedFontSize(
-      '[data-testid="scroll-hint"]',
+    const countLabelFontSize = await getComputedFontSize(
+      '[data-testid="selected-count-label"]',
       page,
     )
 
-    expect(scrollHintFontSize).not.toBeNull()
-    expect(scrollHintFontSize ?? 0).toBeGreaterThanOrEqual(14)
+    expect(countLabelFontSize).not.toBeNull()
+    expect(countLabelFontSize ?? 0).toBeGreaterThanOrEqual(14)
   })
 })

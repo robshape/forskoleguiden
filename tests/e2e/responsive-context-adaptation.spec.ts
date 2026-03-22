@@ -151,7 +151,7 @@ test.describe('responsive context adaptation', () => {
     expect(desktopLayout!.headingTop).toBeLessThan(desktopLayout!.sortBottom)
   })
 
-  test('comparison cards stay readable on very small phones while preserving horizontal scroll', async ({
+  test('comparison stack stays readable on very small phones without horizontal overflow', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 320, height: 812 })
@@ -169,29 +169,28 @@ test.describe('responsive context adaptation', () => {
     }
 
     expect(response.status()).toBe(200)
-    await expect(page.getByTestId('comparison-scroll')).toBeVisible()
+    const scroll = page.getByTestId('comparison-scroll')
+    await expect(scroll).toBeVisible()
 
-    const cardContract = await page.evaluate(() => {
-      const scroll = document.querySelector(
+    const stackContract = await page.evaluate(() => {
+      const container = document.querySelector(
         '[data-testid="comparison-scroll"]',
       ) as HTMLElement | null
-      const firstColumn = scroll?.querySelector(
-        '[data-testid="comparison-column"]',
-      ) as HTMLElement | null
 
-      if (!scroll || !firstColumn) {
+      if (!container) {
         return null
       }
 
       return {
-        firstCardWidth: firstColumn.getBoundingClientRect().width,
-        hasHorizontalOverflow: scroll.scrollWidth > scroll.clientWidth,
+        // Since we explicitly removed horizontal scroll layout, verify
+        // the main container bounds fit the screen tightly and do not overflow
+        hasHorizontalOverflow:
+          container.getBoundingClientRect().width > window.innerWidth,
       }
     })
 
-    expect(cardContract).not.toBeNull()
-    expect(cardContract?.firstCardWidth ?? 0).toBeGreaterThanOrEqual(240)
-    expect(cardContract?.hasHorizontalOverflow).toBe(true)
+    expect(stackContract).not.toBeNull()
+    expect(stackContract?.hasHorizontalOverflow).toBe(false)
   })
 
   test('compare tray action controls stack on very narrow mobile without horizontal overflow', async ({
