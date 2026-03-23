@@ -17,8 +17,10 @@ const { title, locale } = Astro.props
 
 const base = getBasePath()
 const compareHref = `${base}/${locale}/jamfor/`
-// Detect at build time whether the compare page route exists for the current
-// locale. The tray uses this to decide between a live link and a disabled button.
+// Discover which locales have a compare page at build time. If the page
+// structure is reorganised (e.g. `/jamfor/` is renamed), this glob must be
+// updated to match the new path — otherwise the compare tray link breaks
+// silently. See: src/pages/*/jamfor/index.astro
 const comparePages = import.meta.glob('/src/pages/*/jamfor/index.astro')
 const compareRouteAvailable =
   `/src/pages/${locale}/jamfor/index.astro` in comparePages

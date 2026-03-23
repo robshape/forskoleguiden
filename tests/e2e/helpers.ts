@@ -25,7 +25,7 @@ export const ABOUT_URL = '/forskoleguiden/sv/om/'
 // src/lib/data.ts without importing through vitest aliases.
 // ---------------------------------------------------------------------------
 
-const PLACEHOLDER_RESPONDENTS = -1
+const PLACEHOLDER_RESPONDENTS = -1 as const
 
 /** Returns true when a survey JSON file uses -1 as totalRespondentsPercent. */
 export const isPlaceholderSurveyFile = (
