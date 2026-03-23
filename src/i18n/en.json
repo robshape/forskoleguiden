@@ -3,13 +3,17 @@
     "title": "Preschool Guide",
     "tagline": "Compare preschools in Malmö using official survey results"
   },
+  "locale": {
+    "sv": "Svenska",
+    "en": "English",
+    "ar": "العربية"
+  },
   "nav": {
     "ariaLabel": "Main navigation",
     "directory": "Preschools",
     "compare": "Compare",
     "about": "About the data",
-    "languagePlaceholder": "SV | EN",
-    "languageComingSoon": "More languages coming soon"
+    "languageSwitcherAriaLabel": "Choose language"
   },
   "cityYear": {
     "heading": "City",

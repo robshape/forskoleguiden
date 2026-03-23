@@ -64,3 +64,29 @@ const isOnComparePage = Astro.url.pathname.includes('/jamfor')
     />
   </body>
 </html>
+
+<script>
+  // Shared dismiss handler for all <details data-dismissible> dropdowns.
+  // Closes on click-outside and Escape key (WCAG 2.1 SC 1.4.13).
+  document.addEventListener('click', (event: MouseEvent) => {
+    const target = event.target as Node
+    document
+      .querySelectorAll<HTMLDetailsElement>('details[data-dismissible][open]')
+      .forEach((details) => {
+        if (!details.contains(target)) {
+          details.removeAttribute('open')
+        }
+      })
+  })
+
+  document.addEventListener('keydown', (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      document
+        .querySelectorAll<HTMLDetailsElement>('details[data-dismissible][open]')
+        .forEach((details) => {
+          details.removeAttribute('open')
+          details.querySelector('summary')?.focus()
+        })
+    }
+  })
+</script>

@@ -90,7 +90,7 @@ src/lib/chart-patterns.tsx    — RESPONSE_SERIES (derived from RESPONSE_ROWS), 
 src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path keys)
 src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
 src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
-src/components/astro/         — Static Astro components: Nav, Footer, CityYearSelector, PreschoolCard, QuestionCard
+src/components/astro/         — Static Astro components: Nav, Footer, CitySelector, PreschoolCard, QuestionCard
 src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray, ComparisonView, ComparisonCard, BreadcrumbLink, DetailsBarChart; sort-helpers.ts utility
 src/features/comparison/      — Comparison domain logic: computeBestPerQuestion(), formatBestPerQuestionText()
 src/pages/sv/                 — Swedish pages: index, om/ (about), forskola/[id].astro (detail), jamfor/ (comparison)

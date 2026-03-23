@@ -111,7 +111,7 @@ forskoleguiden/
 │
 ├── src/
 │   ├── components/
-│   │   ├── astro/           # Static Astro components (Nav, Footer, CityYearSelector, PreschoolCard)
+│   │   ├── astro/           # Static Astro components (Nav, Footer, CitySelector, PreschoolCard)
 │   │   └── preact/          # Interactive islands (SortToggle, CompareButton, CompareTray, ComparisonView, BarChart)
 │   │
 │   ├── i18n/                # Translation files and helpers

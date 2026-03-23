@@ -3,13 +3,17 @@
     "title": "دليل رياض الأطفال",
     "tagline": "قارن بين رياض الأطفال في مالمو باستخدام نتائج الاستبيان الرسمية"
   },
+  "locale": {
+    "sv": "Svenska",
+    "en": "English",
+    "ar": "العربية"
+  },
   "nav": {
     "ariaLabel": "التنقل الرئيسي",
     "directory": "رياض الأطفال",
     "compare": "مقارنة",
     "about": "حول البيانات",
-    "languagePlaceholder": "SV | EN",
-    "languageComingSoon": "المزيد من اللغات قريباً"
+    "languageSwitcherAriaLabel": "اختر اللغة"
   },
   "cityYear": {
     "heading": "المدينة",
