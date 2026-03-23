@@ -72,6 +72,11 @@ export default function ComparisonView({
 
   const questions = overallGroup?.questions ?? []
 
+  const selectedCountHeading = selectedCountTemplate.replace(
+    '{count}',
+    String(selectedSurveys.length),
+  )
+
   return (
     <div class="relative mx-auto max-w-2xl overflow-x-clip px-4 pt-4 pb-16 sm:px-0">
       {ids.length === 1 ? (
@@ -80,10 +85,7 @@ export default function ComparisonView({
             class="text-base font-semibold text-gray-700"
             data-testid="selected-count-label"
           >
-            {selectedCountTemplate.replace(
-              '{count}',
-              String(selectedSurveys.length),
-            )}
+            {selectedCountHeading}
           </p>
           <p
             class="text-base text-gray-700"
@@ -97,10 +99,7 @@ export default function ComparisonView({
           class="mb-8 text-sm font-medium text-gray-700"
           data-testid="selected-count-label"
         >
-          {selectedCountTemplate.replace(
-            '{count}',
-            String(selectedSurveys.length),
-          )}
+          {selectedCountHeading}
         </p>
       )}
 

@@ -1,5 +1,9 @@
-import { SCORE_TIER_HIGH, SCORE_TIER_MEDIUM } from '@/lib/constants'
-import { computeAgreeShare, OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
+import {
+  computeAgreeShare,
+  getScoreTier,
+  OVERALL_ASSESSMENT_GROUP,
+  SCORE_TIER_TEXT_CLASS,
+} from '@/lib/scoring'
 import { toggleCompare } from '@/lib/state'
 import { RESPONSE_ROWS } from '@/lib/survey-responses'
 import type { PreschoolSurvey, SurveyQuestion } from '@/lib/types'
@@ -15,12 +19,6 @@ interface Props {
   noDataLabel: string
   removeFromCompareLabel: string
   agreeShareLabel: string
-}
-
-const getScoreTextColor = (score: number) => {
-  if (score >= SCORE_TIER_HIGH) return 'text-score-high-text'
-  if (score >= SCORE_TIER_MEDIUM) return 'text-score-medium-text'
-  return 'text-gray-700'
 }
 
 export default function ComparisonCard({
@@ -114,7 +112,7 @@ export default function ComparisonCard({
   }
 
   const agreeShare = Math.round(computeAgreeShare(cell.response))
-  const scoreColor = getScoreTextColor(agreeShare)
+  const scoreColor = SCORE_TIER_TEXT_CLASS[getScoreTier(agreeShare)]
 
   return (
     <li

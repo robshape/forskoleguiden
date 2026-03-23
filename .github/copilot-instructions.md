@@ -49,6 +49,7 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 | `CompareTray`     | `src/components/preact/CompareTray.tsx`     | `client:only="preact"`      | SSR would render empty tray; sessionStorage may already have items                               | Global compare summary bar; links to `/sv/jamfor/` comparison page. Clearing on the comparison page redirects to the directory page.                                                                 |
 | `ComparisonView`  | `src/components/preact/ComparisonView.tsx`  | `client:only="preact"`      | Reads compareIds store from sessionStorage; SSR output would be stale                            | Comparison page orchestrator: resolves selected surveys, renders question sections with `ComparisonCard` sub-components, and best-per-question summary. Reads `compareIds` store.                    |
 | `ComparisonCard`  | `src/components/preact/ComparisonCard.tsx`  | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Single preschool row within a comparison question section: remove button, school link, agree-share score, sr-only data table.                                                                        |
+| `BreadcrumbLink`  | `src/components/preact/BreadcrumbLink.tsx`  | `client:load`               | Must resolve `?from=compare` query param to swap breadcrumb target immediately                   | Declarative breadcrumb link that renders default directory back-link, or comparison back-link when `?from=compare` is in the URL. Updates parent `<nav>` aria-label.                                 |
 | `DetailsBarChart` | `src/components/preact/DetailsBarChart.tsx` | _(none, static render)_     | Rendered inside `QuestionCard.astro` within `aria-hidden="true"`; no client interactivity needed | Scalable SVG bar chart with pattern fills for color-blind safety. Used on detail pages (`/sv/forskola/[id]`). Wrapped by `QuestionCard.astro` which adds the question heading and agree-share badge. |
 
 **Hydration strategy guidance:**
@@ -81,7 +82,7 @@ data/malmo/index.json         — City directory: lists all preschool IDs, names
 data/malmo/2025/*.json        — Per-preschool survey data (one file per preschool, keyed by slug ID)
 src/lib/types.ts              — TypeScript interfaces: PreschoolSurvey, PreschoolIndex, SurveyResponse, etc.
 src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurveyByYear(id, year), getAllPreschoolSurveys()
-src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc(), getScoreTier()
+src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc(), getScoreTier(), SCORE_TIER_BADGE_CLASS, SCORE_TIER_TEXT_CLASS
 src/lib/constants.ts          — Shared constants: MALMO_SOURCE_URL, SURVEY_YEAR, SCORE_TIER_*, PLACEHOLDER_RESPONDENTS, MALMO_DATA_DIR
 src/lib/base-path.ts          — getBasePath(): normalizes import.meta.env.BASE_URL (strips trailing slash)
 src/lib/survey-responses.ts   — RESPONSE_ROWS: canonical field-to-i18n mapping for the five response labels
@@ -90,7 +91,7 @@ src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path 
 src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
 src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
 src/components/astro/         — Static Astro components: Nav, Footer, CityYearSelector, PreschoolCard, QuestionCard
-src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray, ComparisonView, ComparisonCard, DetailsBarChart; sort-helpers.ts utility
+src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray, ComparisonView, ComparisonCard, BreadcrumbLink, DetailsBarChart; sort-helpers.ts utility
 src/features/comparison/      — Comparison domain logic: computeBestPerQuestion(), formatBestPerQuestionText()
 src/pages/sv/                 — Swedish pages: index, om/ (about), forskola/[id].astro (detail), jamfor/ (comparison)
 src/styles/global.css         — Tailwind v4 entry + @theme tokens (colors, spacing, shadows)
