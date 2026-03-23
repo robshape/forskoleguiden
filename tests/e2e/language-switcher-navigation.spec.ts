@@ -28,7 +28,7 @@ test.describe('language-switcher: directory page switching (US1)', () => {
   }) => {
     await page.goto(DIRECTORY_SV)
 
-    const switcher = page.getByRole('group', { name: /spr|lang/i })
+    const switcher = page.getByRole('navigation', { name: /spr|lang/i })
     await switcher.locator('[data-testid="header-language-toggle"]').click()
     await expect(switcher).toBeVisible()
 
@@ -44,7 +44,7 @@ test.describe('language-switcher: directory page switching (US1)', () => {
   }) => {
     await page.goto(DIRECTORY_SV)
 
-    const switcher = page.getByRole('group', { name: /spr|lang/i })
+    const switcher = page.getByRole('navigation', { name: /spr|lang/i })
     await switcher.locator('[data-testid="header-language-toggle"]').click()
 
     // Active locale is marked aria-current="page" and not a link
@@ -60,7 +60,7 @@ test.describe('language-switcher: directory page switching (US1)', () => {
   }) => {
     await page.goto(DIRECTORY_SV)
 
-    const switcher = page.getByRole('group', { name: /spr|lang/i })
+    const switcher = page.getByRole('navigation', { name: /spr|lang/i })
     await switcher.locator('[data-testid="header-language-toggle"]').click()
     const englishLink = switcher.getByRole('link', { name: /English/i })
     await expect(englishLink).toBeVisible()
@@ -74,7 +74,7 @@ test.describe('language-switcher: directory page switching (US1)', () => {
   }) => {
     await page.goto(DIRECTORY_SV)
 
-    const switcher = page.getByRole('group', { name: /spr|lang/i })
+    const switcher = page.getByRole('navigation', { name: /spr|lang/i })
     await switcher.locator('[data-testid="header-language-toggle"]').click()
     const arabicLink = switcher.getByRole('link', { name: 'العربية' })
     await expect(arabicLink).toBeVisible()
@@ -113,7 +113,7 @@ test.describe('language-switcher: responsive label rendering (US1)', () => {
     await page.setViewportSize({ width: 600, height: 800 })
     await page.goto(DIRECTORY_SV)
 
-    const switcher = page.getByRole('group', { name: /spr|lang/i })
+    const switcher = page.getByRole('navigation', { name: /spr|lang/i })
     await switcher.locator('[data-testid="header-language-toggle"]').click()
 
     // Full name spans must be visible
@@ -126,7 +126,7 @@ test.describe('language-switcher: responsive label rendering (US1)', () => {
     await page.setViewportSize({ width: 375, height: 667 })
     await page.goto(DIRECTORY_SV)
 
-    const switcher = page.getByRole('group', { name: /spr|lang/i })
+    const switcher = page.getByRole('navigation', { name: /spr|lang/i })
     await switcher.locator('[data-testid="header-language-toggle"]').click()
 
     // ISO spans must be visible; full spans hidden
@@ -149,7 +149,7 @@ test.describe('language-switcher: dynamic route preservation (US2)', () => {
   }) => {
     await page.goto(DETAIL_SV)
 
-    const switcher = page.getByRole('group', { name: /spr|lang/i })
+    const switcher = page.getByRole('navigation', { name: /spr|lang/i })
     await switcher.locator('[data-testid="header-language-toggle"]').click()
     const englishHref = await switcher
       .getByRole('link', { name: /English/i })
@@ -163,7 +163,7 @@ test.describe('language-switcher: dynamic route preservation (US2)', () => {
   }) => {
     await page.goto(DETAIL_SV)
 
-    const switcher = page.getByRole('group', { name: /spr|lang/i })
+    const switcher = page.getByRole('navigation', { name: /spr|lang/i })
     await switcher.locator('[data-testid="header-language-toggle"]').click()
     const arabicHref = await switcher
       .getByRole('link', { name: 'العربية' })
@@ -191,7 +191,7 @@ test.describe('language-switcher: dynamic route preservation (US2)', () => {
   }) => {
     await page.goto(ABOUT_SV)
 
-    const switcher = page.getByRole('group', { name: /spr|lang/i })
+    const switcher = page.getByRole('navigation', { name: /spr|lang/i })
     await switcher.locator('[data-testid="header-language-toggle"]').click()
     const englishHref = await switcher
       .getByRole('link', { name: /English/i })

@@ -74,7 +74,9 @@ test('layout and navigation shell render required semantics on /sv/', async ({
   // Language switcher: landmark with three locale options
   const langSwitcher = nav.getByRole('navigation', { name: 'Välj språk' })
   await expect(langSwitcher).toBeVisible()
-  await expect(langSwitcher.getByText('Svenska')).toBeVisible()
+  await expect(
+    langSwitcher.locator('[data-testid="header-language-toggle"]'),
+  ).toContainText('Svenska')
 
   const cityDropdown = nav.locator('[data-testid="header-city-dropdown"]')
   await expect(cityDropdown).toBeVisible()

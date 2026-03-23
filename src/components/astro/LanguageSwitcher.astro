@@ -31,7 +31,7 @@ const chevronDownIconPath =
 const selectedLocaleInfo = LOCALE_METADATA[locale]
 ---
 
-<div aria-label={t('nav.languageSwitcherAriaLabel', locale)} role="group">
+<nav aria-label={t('nav.languageSwitcherAriaLabel', locale)}>
   <details class="relative" data-testid="header-language-dropdown">
     <summary
       class="flex min-h-11 min-w-11 list-none items-center gap-1.5 rounded-lg border border-border bg-surface px-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none active:bg-gray-100"
@@ -114,4 +114,4 @@ const selectedLocaleInfo = LOCALE_METADATA[locale]
       }
     </ul>
   </details>
-</div>
+</nav>
