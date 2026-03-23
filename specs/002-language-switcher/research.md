@@ -69,7 +69,7 @@ No NEEDS CLARIFICATION items were identified during Technical Context analysis. 
 
 **Rationale**:
 
-- The site's primary narrow viewport is iPhone 13 mini at 375 px. The nav bar contains the site title, `CityYearSelector`, and the switcher — three full locale names at any of these widths would overflow.
+- The site's primary narrow viewport is iPhone 13 mini at 375 px. The nav bar contains the site title, `CitySelector`, and the switcher — three full locale names at any of these widths would overflow.
 - FR-014 requires ISO labels only on narrow mobile (`<=375 px`) and full labels on wider viewports.
 - Tailwind v4 arbitrary variants can express this without modifying theme config (`min-[376px]:hidden`, `min-[376px]:inline`).
 - Implementation: each locale option renders two sibling spans, e.g. `<span class="min-[376px]:hidden">SV</span><span class="hidden min-[376px]:inline">Svenska</span>`.
