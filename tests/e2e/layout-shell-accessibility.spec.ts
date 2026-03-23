@@ -1,6 +1,45 @@
 import { MALMO_SOURCE_URL } from '../../src/lib/constants'
 import { expect, getFocusOutlineContract, test } from './fixtures'
 
+const LOCALE_SHELL_CASES = [
+  {
+    expectedDir: null,
+    expectedLang: 'sv',
+    path: '/forskoleguiden/sv/',
+  },
+  {
+    expectedDir: null,
+    expectedLang: 'en',
+    path: '/forskoleguiden/en/',
+  },
+  {
+    expectedDir: 'rtl',
+    expectedLang: 'ar',
+    path: '/forskoleguiden/ar/',
+  },
+] as const
+
+test.describe('layout shell locale attributes', () => {
+  for (const { expectedDir, expectedLang, path } of LOCALE_SHELL_CASES) {
+    test(`${path} sets html lang/dir correctly`, async ({ page }) => {
+      const response = await page.goto(path)
+
+      if (response === null) {
+        throw new Error(`Expected non-null response from page.goto("${path}")`)
+      }
+
+      expect(response.status()).toBe(200)
+      await expect(page.locator('html')).toHaveAttribute('lang', expectedLang)
+
+      if (expectedDir === 'rtl') {
+        await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+      } else {
+        await expect(page.locator('html')).not.toHaveAttribute('dir', 'rtl')
+      }
+    })
+  }
+})
+
 test('layout and navigation shell render required semantics on /sv/', async ({
   page,
 }) => {
@@ -25,13 +64,17 @@ test('layout and navigation shell render required semantics on /sv/', async ({
     page.locator('link[rel="icon"][href="/forskoleguiden/favicon.svg"]'),
   ).toHaveCount(1)
 
-  // Nav: brand link + compact language pill + city dropdown
+  // Nav: brand link + functional language switcher + city dropdown
   const nav = page.getByRole('navigation', { name: 'Huvudnavigering' })
   await expect(nav).toBeVisible()
   await expect(
     nav.getByRole('link', { name: 'Förskoleguiden' }),
   ).toHaveAttribute('href', '/forskoleguiden/sv/')
-  await expect(nav.getByText('SV | EN')).toBeVisible()
+
+  // Language switcher: landmark with three locale options
+  const langSwitcher = nav.getByRole('navigation', { name: 'Välj språk' })
+  await expect(langSwitcher).toBeVisible()
+  await expect(langSwitcher.getByText('Svenska')).toBeVisible()
 
   const cityDropdown = nav.locator('[data-testid="header-city-dropdown"]')
   await expect(cityDropdown).toBeVisible()

@@ -1,0 +1,117 @@
+---
+import { type Locale, LOCALES, t } from '@/i18n/utils'
+import { getBasePath } from '@/lib/base-path'
+import { buildLocaleSwitchUrl } from '@/lib/locale-switch'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+
+const basePath = getBasePath()
+const currentPath = Astro.url.pathname
+
+const LOCALE_METADATA = {
+  ar: { flag: '🌐' },
+  en: { flag: '🇬🇧' },
+  sv: { flag: '🇸🇪' },
+} satisfies Record<Locale, { flag: string }>
+
+const LOCALE_OPTIONS = LOCALES.map((code) => ({
+  code,
+  ...LOCALE_METADATA[code],
+})) satisfies ReadonlyArray<{ code: Locale; flag: string }>
+
+const checkIconPath =
+  'M13.707 4.293a1 1 0 0 1 0 1.414l-6.75 6.75a1 1 0 0 1-1.414 0l-3.25-3.25a1 1 0 0 1 1.414-1.414l2.543 2.543 6.043-6.043a1 1 0 0 1 1.414 0Z'
+const chevronDownIconPath =
+  'M4.47 6.22a.75.75 0 0 1 1.06.03L8 8.94l2.47-2.69a.75.75 0 1 1 1.1 1.02l-3.02 3.28a.75.75 0 0 1-1.1 0L4.44 7.27a.75.75 0 0 1 .03-1.05Z'
+
+const selectedLocaleInfo = LOCALE_METADATA[locale]
+---
+
+<div aria-label={t('nav.languageSwitcherAriaLabel', locale)} role="group">
+  <details class="relative" data-testid="header-language-dropdown">
+    <summary
+      class="flex min-h-11 min-w-11 list-none items-center gap-1.5 rounded-lg border border-border bg-surface px-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none active:bg-gray-100"
+      data-testid="header-language-toggle"
+      title={t('nav.languageSwitcherAriaLabel', locale)}
+    >
+      <span aria-hidden="true">{selectedLocaleInfo.flag}</span>
+      <span class="hidden min-[376px]:inline" data-lang-label="full"
+        >{t(`locale.${locale}`, locale)}</span
+      >
+      <span class="min-[376px]:hidden" data-lang-label="iso"
+        >{locale.toUpperCase()}</span
+      >
+      <svg
+        aria-hidden="true"
+        class="size-4 text-gray-700"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path clip-rule="evenodd" d={chevronDownIconPath} fill-rule="evenodd"
+        ></path>
+      </svg>
+    </summary>
+
+    <ul
+      class="absolute inset-e-0 z-30 mt-2 min-w-max space-y-1 rounded-lg border border-border bg-surface p-1.5 shadow-lg"
+      data-testid="header-language-options"
+      role="list"
+    >
+      {
+        LOCALE_OPTIONS.map((option) => {
+          const isActive = option.code === locale
+          const href = buildLocaleSwitchUrl(currentPath, option.code, basePath)
+          const name = t(`locale.${option.code}`, locale)
+
+          return (
+            <li>
+              {isActive ? (
+                <button
+                  aria-current="page"
+                  class="inline-flex min-h-11 w-full items-center gap-1.5 rounded-md border border-primary-300 bg-primary-50 px-2.5 py-2 text-sm font-semibold whitespace-nowrap text-primary-700 transition-colors"
+                  lang={option.code}
+                  onclick="this.closest('details').removeAttribute('open')"
+                  type="button"
+                >
+                  <span class="flex w-3.5 items-center justify-center">
+                    <svg
+                      aria-hidden="true"
+                      class="size-3.5"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d={checkIconPath}
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                  <span aria-hidden="true">{option.flag}</span>
+                  <span>{name}</span>
+                </button>
+              ) : (
+                <a
+                  class="inline-flex min-h-11 w-full items-center gap-1.5 rounded-md border border-transparent px-2.5 py-2 text-sm font-medium whitespace-nowrap text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:bg-gray-100 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none active:bg-gray-200"
+                  href={href}
+                  lang={option.code}
+                  onclick="this.closest('details').removeAttribute('open')"
+                >
+                  <span class="w-3.5" />
+                  <span aria-hidden="true">{option.flag}</span>
+                  <span>{name}</span>
+                </a>
+              )}
+            </li>
+          )
+        })
+      }
+    </ul>
+  </details>
+</div>
