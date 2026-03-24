@@ -27,9 +27,16 @@ const backLabel = t('compare.actions.backToDirectory', locale)
 const backToComparisonLabel = t('compare.actions.backToComparison', locale)
 const comparisonHref = `${base}/${locale}/jamfor/`
 const directoryHref = `${base}/${locale}/`
+const pageDescription = t('detail.metaDescription', locale, {
+  name: preschool.name,
+})
 ---
 
-<BaseLayout locale={locale} title={preschool.name}>
+<BaseLayout
+  description={pageDescription}
+  locale={locale}
+  title={preschool.name}
+>
   <div class="mx-auto max-w-2xl">
     <Breadcrumb
       dynamicComparisonHref={comparisonHref}

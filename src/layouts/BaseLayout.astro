@@ -5,18 +5,31 @@ import '@/styles/global.css'
 import Footer from '@/components/astro/Footer.astro'
 import Nav from '@/components/astro/Nav.astro'
 import CompareTray from '@/components/preact/CompareTray'
-import { type Locale, t } from '@/i18n/utils'
+import { DEFAULT_LOCALE, type Locale, LOCALES, t } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
-import { isRtlLocale } from '@/lib/locale-switch'
+import { buildLocaleSwitchUrl, isRtlLocale } from '@/lib/locale-switch'
 
 interface Props {
-  title: string
+  description?: string
   locale: Locale
+  title: string
 }
 
-const { title, locale } = Astro.props
+const { description, locale, title } = Astro.props
 
 const base = getBasePath()
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site)
+const alternateUrls = LOCALES.map((loc) => ({
+  href: new URL(buildLocaleSwitchUrl(Astro.url.pathname, loc, base), Astro.site)
+    .href,
+  hreflang: loc,
+}))
+const xDefaultUrl = alternateUrls.find((a) => a.hreflang === DEFAULT_LOCALE)
+if (!xDefaultUrl) {
+  throw new Error(
+    `[BaseLayout] Missing alternate URL for default locale "${DEFAULT_LOCALE}". Ensure DEFAULT_LOCALE is included in LOCALES.`,
+  )
+}
 const compareHref = `${base}/${locale}/jamfor/`
 // Discover which locales have a compare page at build time. If the page
 // structure is reorganised (e.g. `/jamfor/` is renamed), this glob must be
@@ -35,6 +48,19 @@ const isOnComparePage = Astro.url.pathname.includes('/jamfor')
     <link href={`${base}/favicon.svg`} rel="icon" type="image/svg+xml" />
     <meta content="width=device-width, viewport-fit=cover" name="viewport" />
     <title>{title}</title>
+    {description && <meta content={description} name="description" />}
+    <meta content={title} property="og:title" />
+    {description && <meta content={description} property="og:description" />}
+    <meta content={canonicalUrl.href} property="og:url" />
+    <meta content="website" property="og:type" />
+    <meta content={locale} property="og:locale" />
+    <link href={canonicalUrl.href} rel="canonical" />
+    {
+      alternateUrls.map(({ href, hreflang }) => (
+        <link href={href} hreflang={hreflang} rel="alternate" />
+      ))
+    }
+    <link href={xDefaultUrl.href} hreflang="x-default" rel="alternate" />
   </head>
   <body
     class="flex min-h-screen flex-col overflow-x-hidden bg-page font-sans text-gray-900 antialiased"

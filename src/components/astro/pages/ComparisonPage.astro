@@ -22,9 +22,10 @@ const surveys = getAllPreschoolSurveys().filter(
 )
 
 const pageTitle = t('compare.heading', locale)
+const pageDescription = t('compare.metaDescription', locale)
 ---
 
-<BaseLayout locale={locale} title={pageTitle}>
+<BaseLayout description={pageDescription} locale={locale} title={pageTitle}>
   <Breadcrumb
     href={directoryHref}
     isRtl={isRtlLocale(locale)}

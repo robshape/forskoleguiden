@@ -10,9 +10,10 @@ interface Props {
 const { locale } = Astro.props
 
 const pageTitle = t('nav.about', locale)
+const pageDescription = t('about.metaDescription', locale)
 ---
 
-<BaseLayout locale={locale} title={pageTitle}>
+<BaseLayout description={pageDescription} locale={locale} title={pageTitle}>
   <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
     {pageTitle}
   </h1>
