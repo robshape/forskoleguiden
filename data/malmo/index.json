@@ -6,13 +6,15 @@
       "id": "al-salamah-sprakforskola",
       "name": "Al-Salamah språkförskola",
       "address": "Kvarnbyvägen 18, Malmö",
-      "operatorType": "independent"
+      "operatorType": "independent",
+      "queueUrl": "https://alsalamahskolan.com"
     },
     {
       "id": "al-salamah-sprakforskola-jagersro",
       "name": "Al-Salamah språkförskola Jägersro",
       "address": "Jägersrovägen 160, Malmö",
-      "operatorType": "independent"
+      "operatorType": "independent",
+      "queueUrl": "https://alsalamahskolan.com"
     },
     {
       "id": "almangens-forskola",
@@ -138,7 +140,8 @@
       "id": "bellevuegardens-montessoriforskola",
       "name": "Bellevuegårdens montessoriförskola",
       "address": "Bellevuevägen 60, Malmö",
-      "operatorType": "independent"
+      "operatorType": "independent",
+      "queueUrl": "https://montessoriskolan.com/koanmalan/"
     },
     {
       "id": "bellisgardens-forskola",
@@ -186,7 +189,8 @@
       "id": "bladins-internationella-forskola",
       "name": "Bladins internationella förskola",
       "address": "Stadiongatan 25, Malmö",
-      "operatorType": "independent"
+      "operatorType": "independent",
+      "queueUrl": "https://bladins.se/preschool/applications/"
     },
     {
       "id": "bladins-montessoriforskola",
