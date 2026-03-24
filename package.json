@@ -35,6 +35,7 @@
     "@fontsource-variable/inter": "5.2.8",
     "@nanostores/preact": "1.1.0",
     "astro": "6.0.4",
+    "lz-string": "1.5.0",
     "nanostores": "1.2.0",
     "preact": "10.29.0"
   },

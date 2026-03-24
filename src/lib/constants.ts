@@ -17,3 +17,6 @@ export const PLACEHOLDER_RESPONDENTS = -1
 
 // Assumes process.cwd() is the project root — valid for Astro build and Vitest.
 export const MALMO_DATA_DIR = 'data/malmo'
+
+// City identifier used in the share payload. Mirrors the city field in data/malmo/index.json.
+export const SHARE_CITY = 'Malmö'
