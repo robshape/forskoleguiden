@@ -80,15 +80,15 @@ export default function ComparisonView({
   return (
     <div class="relative mx-auto max-w-2xl overflow-x-clip px-4 pt-4 pb-16 sm:px-0">
       {ids.length === 1 ? (
-        <header class="mb-8 flex min-w-0 flex-col gap-2 border-l-4 border-primary-300 pl-4">
+        <header class="mb-8 flex min-w-0 flex-col gap-2 border-l-4 border-primary-300 pl-4 rtl:border-r-4 rtl:border-l-0 rtl:pr-4 rtl:pl-0">
           <p
-            class="text-base font-semibold text-gray-700"
+            class="text-start text-base font-semibold text-gray-700"
             data-testid="selected-count-label"
           >
             {selectedCountHeading}
           </p>
           <p
-            class="text-base text-gray-700"
+            class="text-start text-base text-gray-700"
             data-testid="single-selection-prompt"
           >
             {singleSelectionPrompt}
@@ -96,7 +96,7 @@ export default function ComparisonView({
         </header>
       ) : (
         <p
-          class="mb-8 text-sm font-medium text-gray-700"
+          class="mb-8 text-start text-sm font-medium text-gray-700"
           data-testid="selected-count-label"
         >
           {selectedCountHeading}

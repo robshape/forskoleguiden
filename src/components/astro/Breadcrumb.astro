@@ -6,10 +6,16 @@ interface Props {
   label: string
   dynamicComparisonHref?: string
   dynamicComparisonLabel?: string
+  isRtl?: boolean
 }
 
-const { href, label, dynamicComparisonHref, dynamicComparisonLabel } =
-  Astro.props
+const {
+  href,
+  label,
+  dynamicComparisonHref,
+  dynamicComparisonLabel,
+  isRtl = false,
+} = Astro.props
 ---
 
 <nav aria-label={label} class="mt-2 mb-6" data-breadcrumb>
@@ -19,5 +25,6 @@ const { href, label, dynamicComparisonHref, dynamicComparisonLabel } =
     comparisonLabel={dynamicComparisonLabel}
     defaultHref={href}
     defaultLabel={label}
+    isRtl={isRtl}
   />
 </nav>

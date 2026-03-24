@@ -48,10 +48,11 @@ const defaultSortedDirectory = [...directoryWithRank].sort(
 
 const listId = `${locale}-preschool-directory-list`
 const pageTitle = t('site.title', locale)
+const pageDescription = t('site.description', locale)
 const directoryHeading = t('directory.heading', locale)
 ---
 
-<BaseLayout locale={locale} title={pageTitle}>
+<BaseLayout description={pageDescription} locale={locale} title={pageTitle}>
   <section
     aria-label={t('directory.listAriaLabel', locale)}
     class="mt-2 space-y-6"

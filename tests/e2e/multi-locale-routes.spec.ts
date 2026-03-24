@@ -20,7 +20,9 @@ const verifyLocale = async (
   } else {
     await expect(page.locator('html')).not.toHaveAttribute('dir', 'rtl')
   }
-  await expect(page.locator('h1')).toBeVisible()
+  await expect(
+    page.locator('main').getByRole('heading', { level: 1 }).first(),
+  ).toBeVisible()
 }
 
 test('serves all English locale pages with lang="en" and correct routes', async ({

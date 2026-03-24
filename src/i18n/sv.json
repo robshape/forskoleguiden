@@ -1,7 +1,8 @@
 {
   "site": {
     "title": "Förskoleguiden",
-    "tagline": "Jämför förskolor i Malmö med officiella enkätresultat"
+    "tagline": "Jämför förskolor i Malmö med officiella enkätresultat",
+    "description": "Jämför förskolor i Malmö med officiella enkätresultat från 2025. Se betyg, jämför sida vid sida och välj rätt förskola."
   },
   "locale": {
     "sv": "Svenska",
@@ -56,6 +57,7 @@
   },
   "compare": {
     "heading": "Jämför förskolor",
+    "metaDescription": "Jämför upp till fem förskolor i Malmö sida vid sida med officiella enkätresultat.",
     "summaryHeading": "Sammanfattning",
     "emptyStateTitle": "Inga förskolor valda",
     "emptyStateBody": "Välj förskolor i listan för att se en jämförelse.",
@@ -89,6 +91,10 @@
   "about": {
     "heading": "Datakälla",
     "text": "Resultaten bygger på Förskoleenkäten 2025 för Malmö.",
-    "body": "Förskoleguiden använder officiella enkätresultat från Malmö stad för att hjälpa föräldrar att jämföra förskolor."
+    "body": "Förskoleguiden använder officiella enkätresultat från Malmö stad för att hjälpa föräldrar att jämföra förskolor.",
+    "metaDescription": "Information om datakällan för Förskoleguiden. Resultaten bygger på Förskoleenkäten 2025 från Malmö stad."
+  },
+  "detail": {
+    "metaDescription": "Se enkätresultat för {name} i Malmö. Jämför betyg med andra förskolor."
   }
 }

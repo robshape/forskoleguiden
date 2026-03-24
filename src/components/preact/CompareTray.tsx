@@ -1,9 +1,12 @@
 import { useStore } from '@nanostores/preact'
 import { useEffect, useRef } from 'preact/hooks'
 
+import type { Locale } from '@/i18n/utils'
+import { isRtlLocale } from '@/lib/locale-switch'
 import { clearCompare, compareIds } from '@/lib/state'
 
 interface Props {
+  locale: Locale
   selectedCountTemplate: string
   showComparisonLabel: string
   clearLabel: string
@@ -14,6 +17,7 @@ interface Props {
 }
 
 export default function CompareTray({
+  locale,
   selectedCountTemplate,
   showComparisonLabel,
   clearLabel,
@@ -24,6 +28,7 @@ export default function CompareTray({
 }: Props) {
   const ids = useStore(compareIds)
   const trayRef = useRef<HTMLElement>(null)
+  const isRtl = isRtlLocale(locale)
 
   // Write tray height to a CSS variable so the body can reserve space below the
   // fold and prevent the fixed tray from obscuring bottom-page content.
@@ -72,7 +77,9 @@ export default function CompareTray({
         <span class="min-w-0 text-sm font-medium wrap-break-word text-gray-700">
           {selectedCountText}
         </span>
-        <div class="flex w-full flex-col gap-2 sm:w-auto sm:shrink-0 sm:flex-row sm:items-center sm:gap-3">
+        <div
+          class={`flex w-full flex-col gap-2 sm:w-auto sm:shrink-0 sm:flex-row sm:items-center sm:gap-3 ${isRtl ? 'sm:flex-row-reverse' : ''}`}
+        >
           {!isOnComparePage &&
             (compareRouteAvailable ? (
               <a

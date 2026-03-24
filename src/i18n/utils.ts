@@ -3,6 +3,7 @@ import en from '@/i18n/en.json'
 import sv from '@/i18n/sv.json'
 
 export const LOCALES = ['sv', 'en', 'ar'] as const
+export const DEFAULT_LOCALE = 'sv' satisfies Locale
 
 export type Locale = (typeof LOCALES)[number]
 type TranslationParams = Record<string, string | number>

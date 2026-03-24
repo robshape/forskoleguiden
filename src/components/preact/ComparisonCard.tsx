@@ -80,7 +80,7 @@ export default function ComparisonCard({
         </svg>
       </button>
       <a
-        class={`min-w-0 text-[16px] leading-snug wrap-break-word transition-all duration-300 hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none ${isHighlighted ? 'font-bold text-zinc-900' : 'font-medium text-zinc-800'}`}
+        class={`min-w-0 text-start text-[16px] leading-snug wrap-break-word transition-all duration-300 hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none ${isHighlighted ? 'font-bold text-zinc-900' : 'font-medium text-zinc-800'}`}
         href={`${directoryHref}forskola/${survey.id}/?from=compare`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -125,7 +125,7 @@ export default function ComparisonCard({
       >
         {preschoolInfo}
 
-        <div class="flex min-w-16 shrink-0 flex-col items-end justify-center sm:min-w-18">
+        <div class="flex min-w-16 shrink-0 flex-col items-end justify-center text-end sm:min-w-18 rtl:items-start rtl:text-start">
           <div
             class={`text-3xl leading-none tracking-tight transition-all duration-300 sm:text-4xl ${scoreColor} ${isHighlighted ? 'scale-105 font-black' : 'font-extrabold'}`}
           >
