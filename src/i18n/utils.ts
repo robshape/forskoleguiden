@@ -2,7 +2,10 @@ import ar from '@/i18n/ar.json'
 import en from '@/i18n/en.json'
 import sv from '@/i18n/sv.json'
 
-export type Locale = 'sv' | 'en' | 'ar'
+export const LOCALES = ['sv', 'en', 'ar'] as const
+export const DEFAULT_LOCALE = 'sv' satisfies Locale
+
+export type Locale = (typeof LOCALES)[number]
 type TranslationParams = Record<string, string | number>
 type TranslationSchema = typeof sv
 
@@ -12,7 +15,7 @@ const translations = {
   ar,
 } satisfies Record<Locale, TranslationSchema>
 
-const localeSet = new Set<Locale>(['sv', 'en', 'ar'])
+export const localeSet = new Set<Locale>(LOCALES)
 
 // Used by Phase 2 multi-locale routes — keep even if currently unused in pages.
 export const getLocaleFromURL = (url: URL | string): Locale => {

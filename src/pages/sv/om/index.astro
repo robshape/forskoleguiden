@@ -1,17 +1,5 @@
 ---
-import { t } from '@/i18n/utils'
-import BaseLayout from '@/layouts/BaseLayout.astro'
-
-const locale = 'sv'
-
-const pageTitle = t('nav.about', locale)
+import AboutPage from '@/components/astro/pages/AboutPage.astro'
 ---
 
-<BaseLayout locale={locale} title={pageTitle}>
-  <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-    {pageTitle}
-  </h1>
-  <p class="mt-4 text-gray-700">
-    {t('about.body', locale)}
-  </p>
-</BaseLayout>
+<AboutPage locale="sv" />

@@ -39,7 +39,7 @@ const readPersistedCompareIds = () => {
       .slice(0, MAX_COMPARE)
   } catch (error) {
     console.warn(
-      '[state] Failed to read compare IDs from sessionStorage:',
+      `[state] Failed to read "${COMPARE_STORAGE_KEY}" from sessionStorage:`,
       error,
     )
     return []
@@ -55,7 +55,7 @@ const persistCompareIds = (ids: readonly string[]) => {
     sessionStorage.setItem(COMPARE_STORAGE_KEY, JSON.stringify(ids))
   } catch (error) {
     console.warn(
-      '[state] Failed to persist compare IDs to sessionStorage:',
+      `[state] Failed to persist "${COMPARE_STORAGE_KEY}" to sessionStorage:`,
       error,
     )
     return

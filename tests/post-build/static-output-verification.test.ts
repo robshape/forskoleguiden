@@ -14,11 +14,14 @@ import {
 const DIST_ROOT = join(process.cwd(), 'dist')
 
 // Minimum number of HTML files expected in the built output.
-// Keep this aligned to the implementation plan's documented floor.
-const MIN_HTML_FILE_COUNT = 8
+// 3 locales × (11 non-placeholder detail + 1 directory + 1 comparison + 1 about) + 1 root redirect = 43
+// 250 of 261 preschools are placeholders (totalRespondentsPercent: -1) and excluded from build.
+const MIN_HTML_FILE_COUNT = 40
 
-// 7000 KB uncompressed — total dist size excluding image files (scaled for ~261 preschools)
-const TOTAL_SIZE_BUDGET_BYTES = 7000 * 1024
+// 21 000 KB uncompressed — total dist size excluding image files (3 locales × ~261 preschools)
+const TOTAL_SIZE_BUDGET_BYTES = 21_000 * 1024
+
+const LOCALES = ['sv', 'en', 'ar'] as const
 
 const IMAGE_EXTENSIONS = new Set([
   '.png',
@@ -78,30 +81,33 @@ describe('static output verification', () => {
     expect(existsSync(distPath('index.html'))).toBe(true)
   })
 
-  it('generates the Swedish directory index page', () => {
-    expect(existsSync(distPath('sv', 'index.html'))).toBe(true)
+  it.each(LOCALES)('generates the %s directory index page', (locale) => {
+    expect(existsSync(distPath(locale, 'index.html'))).toBe(true)
   })
 
-  it('generates the Swedish about page', () => {
-    expect(existsSync(distPath('sv', 'om', 'index.html'))).toBe(true)
+  it.each(LOCALES)('generates the %s about page', (locale) => {
+    expect(existsSync(distPath(locale, 'om', 'index.html'))).toBe(true)
   })
 
-  it('generates the Swedish comparison page', () => {
-    expect(existsSync(distPath('sv', 'jamfor', 'index.html'))).toBe(true)
+  it.each(LOCALES)('generates the %s comparison page', (locale) => {
+    expect(existsSync(distPath(locale, 'jamfor', 'index.html'))).toBe(true)
   })
 
-  it('generates a detail page for every preschool in data/malmo/index.json', () => {
-    const ids = readPreschoolIds()
-    expect(ids.length).toBeGreaterThan(0)
+  it.each(LOCALES)(
+    'generates a detail page for every preschool in data/malmo/index.json (%s)',
+    (locale) => {
+      const ids = readPreschoolIds()
+      expect(ids.length).toBeGreaterThan(0)
 
-    for (const id of ids) {
-      const detailPath = distPath('sv', 'forskola', id, 'index.html')
-      expect(
-        existsSync(detailPath),
-        `missing detail page for preschool "${id}"`,
-      ).toBe(true)
-    }
-  })
+      for (const id of ids) {
+        const detailPath = distPath(locale, 'forskola', id, 'index.html')
+        expect(
+          existsSync(detailPath),
+          `missing ${locale} detail page for preschool "${id}"`,
+        ).toBe(true)
+      }
+    },
+  )
 
   it('generates at least the minimum expected number of HTML files', () => {
     const htmlFiles = walkDir(DIST_ROOT).filter(

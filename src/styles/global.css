@@ -38,6 +38,8 @@
     font-size: var(--text-body);
     line-height: var(--leading-body);
     font-kerning: normal;
+    /* Soft page background: top-to-bottom linear gradient (light → page → faint
+       primary tint) overlaid with a subtle dotted grid pattern using primary-300. */
     background-image:
       linear-gradient(
         180deg,

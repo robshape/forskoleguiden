@@ -51,4 +51,34 @@ describe('Malmö preschool index data', () => {
     ).size
     expect(uniqueAddressCount).toBeGreaterThan(1)
   })
+
+  it('should validate queueUrl format when present, and never appear on municipal preschools', () => {
+    const parsed = getMalmoIndex()
+
+    for (const [index, entry] of parsed.preschools.entries()) {
+      const label = `entry ${index} (${entry.id})`
+
+      if (entry.queueUrl !== undefined) {
+        expect(
+          typeof entry.queueUrl,
+          `${label}: queueUrl must be a string`,
+        ).toBe('string')
+        expect(
+          entry.queueUrl.length,
+          `${label}: queueUrl must be non-empty`,
+        ).toBeGreaterThan(0)
+        expect(
+          entry.queueUrl,
+          `${label}: queueUrl must be an absolute https?:// URL`,
+        ).toMatch(/^https?:\/\//)
+      }
+
+      if (entry.operatorType === 'municipal') {
+        expect(
+          entry.queueUrl,
+          `${label}: municipal preschool must not have queueUrl`,
+        ).toBeUndefined()
+      }
+    }
+  })
 })

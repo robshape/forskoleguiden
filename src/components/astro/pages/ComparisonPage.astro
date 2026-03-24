@@ -1,0 +1,57 @@
+---
+import Breadcrumb from '@/components/astro/Breadcrumb.astro'
+import ComparisonView from '@/components/preact/ComparisonView'
+import type { Locale } from '@/i18n/utils'
+import { t } from '@/i18n/utils'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { getBasePath } from '@/lib/base-path'
+import { getAllPreschoolSurveys, isPlaceholderSurvey } from '@/lib/data'
+import { isRtlLocale } from '@/lib/locale-switch'
+import { RESPONSE_ROWS } from '@/lib/survey-responses'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+const base = getBasePath()
+const directoryHref = `${base}/${locale}/`
+const categoryLabels = RESPONSE_ROWS.map(({ i18nKey }) => t(i18nKey, locale))
+const surveys = getAllPreschoolSurveys().filter(
+  (survey) => !isPlaceholderSurvey(survey),
+)
+
+const pageTitle = t('compare.heading', locale)
+const pageDescription = t('compare.metaDescription', locale)
+---
+
+<BaseLayout description={pageDescription} locale={locale} title={pageTitle}>
+  <Breadcrumb
+    href={directoryHref}
+    isRtl={isRtlLocale(locale)}
+    label={t('compare.actions.backToDirectory', locale)}
+  />
+
+  <h1
+    class="mb-8 text-start text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl"
+  >
+    {pageTitle}
+  </h1>
+
+  <ComparisonView
+    agreeShareLabel={t('directory.scoreBadge.agreeShare', locale).toLowerCase()}
+    categoryLabels={categoryLabels}
+    client:only="preact"
+    directoryHref={directoryHref}
+    emptyStateBody={t('compare.emptyStateBody', locale)}
+    emptyStateTitle={t('compare.emptyStateTitle', locale)}
+    locale={locale}
+    noDataLabel={t('directory.noData', locale)}
+    removeFromCompareLabel={t('directory.removeFromCompare', locale)}
+    selectedCountTemplate={t('compareTray.selectedCount', locale)}
+    singleSelectionPrompt={t('compare.singleSelectionPrompt', locale)}
+    summaryHeading={t('compare.summaryHeading', locale)}
+    surveys={surveys}
+  />
+  <noscript>{t('compare.noscriptMessage', locale)}</noscript>
+</BaseLayout>
