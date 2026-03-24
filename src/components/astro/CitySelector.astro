@@ -19,10 +19,10 @@ const disabledCities = [
 ]
 ---
 
-<details class="relative" data-testid="header-city-dropdown">
+<details class="relative" data-dismissible data-testid="header-city-dropdown">
   <summary
     aria-label={t('cityYear.heading', locale)}
-    class="flex min-h-11 min-w-11 list-none items-center gap-1.5 rounded-lg border border-border bg-surface px-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
+    class="flex min-h-11 min-w-11 cursor-pointer list-none items-center gap-1.5 rounded-lg border border-border bg-surface px-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none active:bg-gray-100"
     data-testid="header-city-toggle"
     title={t('cityYear.heading', locale)}
   >
@@ -40,14 +40,14 @@ const disabledCities = [
   </summary>
 
   <ul
-    class="absolute inset-e-0 z-30 mt-2 w-40 space-y-1 rounded-lg border border-border bg-surface p-1.5"
+    class="absolute inset-e-0 z-30 mt-2 w-40 space-y-1 rounded-lg border border-border bg-surface p-1.5 shadow-lg"
     data-testid="header-city-options"
     role="list"
   >
     <li>
       <button
         aria-current="true"
-        class="inline-flex min-h-11 w-full items-center gap-1.5 rounded-md border border-primary-300 bg-primary-50 px-2.5 py-2 text-sm font-semibold text-primary-700"
+        class="inline-flex min-h-11 w-full items-center gap-1.5 rounded-md border border-primary-300 bg-primary-50 px-2.5 py-2 text-sm font-semibold text-primary-700 transition-colors"
         onclick="this.closest('details').removeAttribute('open')"
         type="button"
       >
@@ -68,10 +68,8 @@ const disabledCities = [
       disabledCities.map((city) => (
         <li>
           <button
-            aria-disabled="true"
             class="inline-flex min-h-11 w-full cursor-not-allowed items-center gap-1.5 rounded-md border border-border bg-gray-100 px-2.5 py-2 text-sm font-medium text-gray-700"
             disabled
-            onclick="this.closest('details').removeAttribute('open')"
             type="button"
           >
             <svg

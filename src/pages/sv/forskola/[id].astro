@@ -1,16 +1,10 @@
 ---
-import Breadcrumb from '@/components/astro/Breadcrumb.astro'
-import QuestionCard from '@/components/astro/QuestionCard.astro'
-import CompareButton from '@/components/preact/CompareButton'
-import { t } from '@/i18n/utils'
-import BaseLayout from '@/layouts/BaseLayout.astro'
-import { getBasePath } from '@/lib/base-path'
+import DetailPage from '@/components/astro/pages/DetailPage.astro'
 import {
   getPreschoolIndex,
   getPreschoolSurveyByYear,
   isPlaceholderSurvey,
 } from '@/lib/data'
-import { OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
 import type { PreschoolIndexEntry, PreschoolSurvey } from '@/lib/types'
 
 interface Props {
@@ -19,17 +13,6 @@ interface Props {
 }
 
 const { preschool, survey } = Astro.props as Props
-const helhetsBedömning = survey.questionGroups.find(
-  (group) => group.name === OVERALL_ASSESSMENT_GROUP,
-)
-
-const base = getBasePath()
-const locale = 'sv'
-
-const backLabel = t('compare.actions.backToDirectory', locale)
-const backToComparisonLabel = t('compare.actions.backToComparison', locale)
-const comparisonHref = `${base}/${locale}/jamfor/`
-const directoryHref = `${base}/${locale}/`
 
 export function getStaticPaths() {
   const index = getPreschoolIndex()
@@ -41,99 +24,4 @@ export function getStaticPaths() {
 }
 ---
 
-<BaseLayout locale={locale} title={preschool.name}>
-  <div class="mx-auto max-w-2xl">
-    <Breadcrumb
-      dynamicComparisonHref={comparisonHref}
-      dynamicComparisonLabel={backToComparisonLabel}
-      href={directoryHref}
-      label={backLabel}
-    />
-
-    <!-- Hero Section -->
-    <header class="mb-12 flex flex-col gap-5 sm:gap-6">
-      <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-        {preschool.name}
-      </h1>
-
-      <!-- Metadata -->
-      <div
-        class="flex flex-wrap items-center gap-x-4 gap-y-2 text-base font-medium text-gray-700"
-      >
-        <div class="flex items-center gap-1.5">
-          <svg
-            aria-hidden="true"
-            class="size-4 shrink-0 text-emerald-600"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-            <path
-              d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-          {preschool.address}
-        </div>
-        <span aria-hidden="true" class="text-gray-300 select-none">•</span>
-        <div class="flex items-center gap-1.5">
-          <svg
-            aria-hidden="true"
-            class="size-4 shrink-0 text-blue-600"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
-          {t(`directory.operatorType.${preschool.operatorType}`, locale)}
-        </div>
-      </div>
-
-      <!-- Actions -->
-      <div class="mt-2 sm:w-auto">
-        <CompareButton
-          addedLabel={t('directory.addedToCompare', locale)}
-          addLabel={t('directory.addToCompare', locale)}
-          ariaLabelTemplate={t('directory.compareButtonAriaLabel', locale)}
-          client:only="preact"
-          id={preschool.id}
-          name={preschool.name}
-        />
-      </div>
-    </header>
-
-    {
-      helhetsBedömning && (
-        <section aria-labelledby="helhetsbedomning-heading" class="mt-8">
-          <div class="mb-5 flex flex-col gap-1">
-            <h2
-              class="text-xl font-bold tracking-tight text-gray-900"
-              id="helhetsbedomning-heading"
-            >
-              {t('survey.results', locale)}
-            </h2>
-            <p class="text-base font-semibold text-gray-700">
-              {helhetsBedömning.name}
-            </p>
-          </div>
-
-          <ul class="grid auto-rows-[1fr] gap-5 sm:gap-6">
-            {helhetsBedömning.questions.map((question, index) => (
-              <QuestionCard index={index} locale={locale} question={question} />
-            ))}
-          </ul>
-        </section>
-      )
-    }
-  </div>
-</BaseLayout>
+<DetailPage locale="sv" preschool={preschool} survey={survey} />

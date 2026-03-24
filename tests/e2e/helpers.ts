@@ -20,12 +20,22 @@ export const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
 export const DETAIL_URL = '/forskoleguiden/sv/forskola/almgardens-forskola/'
 export const ABOUT_URL = '/forskoleguiden/sv/om/'
 
+export const DIRECTORY_URL_EN = '/forskoleguiden/en/'
+export const COMPARISON_URL_EN = '/forskoleguiden/en/jamfor/'
+export const DETAIL_URL_EN = '/forskoleguiden/en/forskola/almgardens-forskola/'
+export const ABOUT_URL_EN = '/forskoleguiden/en/om/'
+
+export const DIRECTORY_URL_AR = '/forskoleguiden/ar/'
+export const COMPARISON_URL_AR = '/forskoleguiden/ar/jamfor/'
+export const DETAIL_URL_AR = '/forskoleguiden/ar/forskola/almgardens-forskola/'
+export const ABOUT_URL_AR = '/forskoleguiden/ar/om/'
+
 // ---------------------------------------------------------------------------
 // Placeholder survey detection — mirrors isPlaceholderSurvey() from
 // src/lib/data.ts without importing through vitest aliases.
 // ---------------------------------------------------------------------------
 
-const PLACEHOLDER_RESPONDENTS = -1
+const PLACEHOLDER_RESPONDENTS = -1 as const
 
 /** Returns true when a survey JSON file uses -1 as totalRespondentsPercent. */
 export const isPlaceholderSurveyFile = (

@@ -1,5 +1,6 @@
 ---
-import CityYearSelector from '@/components/astro/CityYearSelector.astro'
+import CitySelector from '@/components/astro/CitySelector.astro'
+import LanguageSwitcher from '@/components/astro/LanguageSwitcher.astro'
 import { type Locale, t } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
 
@@ -21,14 +22,8 @@ const base = getBasePath()
       {t('site.title', locale)}
     </a>
     <div class="ms-auto flex items-center gap-2">
-      <CityYearSelector locale={locale} />
-      <span
-        aria-disabled="true"
-        class="flex min-h-11 min-w-18.75 cursor-default items-center justify-center rounded-lg border border-border bg-gray-100 px-2.5 text-sm font-semibold text-gray-700"
-        title={t('nav.languageComingSoon', locale)}
-      >
-        {t('nav.languagePlaceholder', locale)}
-      </span>
+      <CitySelector locale={locale} />
+      <LanguageSwitcher locale={locale} />
     </div>
   </div>
 </nav>

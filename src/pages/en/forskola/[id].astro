@@ -1,0 +1,27 @@
+---
+import DetailPage from '@/components/astro/pages/DetailPage.astro'
+import {
+  getPreschoolIndex,
+  getPreschoolSurveyByYear,
+  isPlaceholderSurvey,
+} from '@/lib/data'
+import type { PreschoolIndexEntry, PreschoolSurvey } from '@/lib/types'
+
+interface Props {
+  preschool: PreschoolIndexEntry
+  survey: PreschoolSurvey
+}
+
+const { preschool, survey } = Astro.props as Props
+
+export function getStaticPaths() {
+  const index = getPreschoolIndex()
+  return index.preschools.flatMap((preschool) => {
+    const survey = getPreschoolSurveyByYear(preschool.id, index.year)
+    if (isPlaceholderSurvey(survey)) return []
+    return [{ params: { id: preschool.id }, props: { preschool, survey } }]
+  })
+}
+---
+
+<DetailPage locale="en" preschool={preschool} survey={survey} />

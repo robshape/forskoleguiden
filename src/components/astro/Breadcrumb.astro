@@ -1,62 +1,30 @@
 ---
+import BreadcrumbLink from '@/components/preact/BreadcrumbLink'
+
 interface Props {
   href: string
   label: string
   dynamicComparisonHref?: string
   dynamicComparisonLabel?: string
+  isRtl?: boolean
 }
 
-const { href, label, dynamicComparisonHref, dynamicComparisonLabel } =
-  Astro.props
+const {
+  href,
+  label,
+  dynamicComparisonHref,
+  dynamicComparisonLabel,
+  isRtl = false,
+} = Astro.props
 ---
 
 <nav aria-label={label} class="mt-2 mb-6" data-breadcrumb>
-  <a
-    class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 transition-colors hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none"
-    href={href}
-  >
-    <svg
-      aria-hidden="true"
-      class="size-4"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2.5"
-      viewBox="0 0 24 24"
-    >
-      <path
-        d="M10 19l-7-7m0 0l7-7m-7 7h18"
-        stroke-linecap="round"
-        stroke-linejoin="round"></path>
-    </svg>
-    <span data-breadcrumb-label>{label}</span>
-  </a>
+  <BreadcrumbLink
+    client:load
+    comparisonHref={dynamicComparisonHref}
+    comparisonLabel={dynamicComparisonLabel}
+    defaultHref={href}
+    defaultLabel={label}
+    isRtl={isRtl}
+  />
 </nav>
-
-{
-  dynamicComparisonHref && dynamicComparisonLabel && (
-    <script
-      data-comparison-href={dynamicComparisonHref}
-      data-comparison-label={dynamicComparisonLabel}
-      is:inline
-      set:html={`
-        ;(function () {
-          if (
-            new URLSearchParams(window.location.search).get('from') !== 'compare'
-          )
-            return
-          var s = document.currentScript
-          var href = s.getAttribute('data-comparison-href')
-          var label = s.getAttribute('data-comparison-label')
-          var nav = document.querySelector('[data-breadcrumb]')
-          if (!nav) return
-          var a = nav.querySelector('a')
-          var lbl = nav.querySelector('[data-breadcrumb-label]')
-          if (!a || !lbl) return
-          a.setAttribute('href', href)
-          nav.setAttribute('aria-label', label)
-          lbl.textContent = label
-        })()
-      `}
-    />
-  )
-}
