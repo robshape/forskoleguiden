@@ -95,6 +95,8 @@
     "metaDescription": "Information om datakällan för Förskoleguiden. Resultaten bygger på Förskoleenkäten 2025 från Malmö stad."
   },
   "detail": {
-    "metaDescription": "Se enkätresultat för {name} i Malmö. Jämför betyg med andra förskolor."
+    "metaDescription": "Se enkätresultat för {name} i Malmö. Jämför betyg med andra förskolor.",
+    "queueLink": "Anmäl dig till kö",
+    "queueIndicator": "Har egen kö"
   }
 }

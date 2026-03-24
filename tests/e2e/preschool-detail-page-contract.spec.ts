@@ -9,6 +9,7 @@ type PreschoolIndexEntry = {
   name: string
   address: string
   operatorType: 'municipal' | 'independent'
+  queueUrl?: string
 }
 type PreschoolIndex = {
   city: string
@@ -296,5 +297,39 @@ test.describe('Swedish preschool detail pages contract', () => {
     await expect(link.locator('[data-breadcrumb-label]')).toHaveText(
       'Tillbaka till jämförelse',
     )
+  })
+
+  test('detail page renders queue link for an independent preschool', async ({
+    page,
+  }) => {
+    const firstIndependentWithQueue = renderedPreschools.find(
+      (p) => p.operatorType === 'independent' && p.queueUrl,
+    )
+    test.skip(
+      !firstIndependentWithQueue,
+      'No independent preschool with queueUrl configured — skipped until real URLs are populated',
+    )
+
+    const url = `/forskoleguiden/sv/forskola/${firstIndependentWithQueue!.id}/`
+    await page.goto(url)
+
+    const queueLink = page.getByRole('link', { name: 'Anmäl dig till kö' })
+    await expect(queueLink).toBeVisible()
+    await expect(queueLink).toHaveAttribute('target', '_blank')
+    await expect(queueLink).toHaveAttribute('rel', 'noopener noreferrer')
+    const href = await queueLink.getAttribute('href')
+    expect(href).toBeTruthy()
+    expect(href).toMatch(/^https?:\/\//)
+  })
+
+  test('detail page does not render queue link for a municipal preschool', async ({
+    page,
+  }) => {
+    await page.goto(TEST_URL) // almgardens-forskola — canonical municipal
+
+    // Element is conditionally rendered by Astro — absent from DOM entirely.
+    await expect(
+      page.getByRole('link', { name: 'Anmäl dig till kö' }),
+    ).not.toBeAttached()
   })
 })
