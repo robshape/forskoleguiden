@@ -7,6 +7,7 @@ import Nav from '@/components/astro/Nav.astro'
 import CompareTray from '@/components/preact/CompareTray'
 import { type Locale, t } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
+import { isRtlLocale } from '@/lib/locale-switch'
 
 interface Props {
   title: string
@@ -28,7 +29,7 @@ const isOnComparePage = Astro.url.pathname.includes('/jamfor')
 ---
 
 <!doctype html>
-<html dir={locale === 'ar' ? 'rtl' : undefined} lang={locale}>
+<html dir={isRtlLocale(locale) ? 'rtl' : undefined} lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <link href={`${base}/favicon.svg`} rel="icon" type="image/svg+xml" />
@@ -59,6 +60,7 @@ const isOnComparePage = Astro.url.pathname.includes('/jamfor')
       compareRouteAvailable={compareRouteAvailable}
       directoryHref={`${base}/${locale}/`}
       isOnComparePage={isOnComparePage}
+      locale={locale}
       selectedCountTemplate={t('compareTray.selectedCount', locale)}
       showComparisonLabel={t('compareTray.showComparison', locale)}
     />

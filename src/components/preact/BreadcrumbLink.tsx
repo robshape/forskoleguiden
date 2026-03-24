@@ -5,6 +5,7 @@ interface Props {
   defaultLabel: string
   comparisonHref?: string
   comparisonLabel?: string
+  isRtl?: boolean
 }
 
 export default function BreadcrumbLink({
@@ -12,6 +13,7 @@ export default function BreadcrumbLink({
   defaultLabel,
   comparisonHref,
   comparisonLabel,
+  isRtl = false,
 }: Props) {
   const [href, setHref] = useState(defaultHref)
   const [label, setLabel] = useState(defaultLabel)
@@ -43,7 +45,7 @@ export default function BreadcrumbLink({
     >
       <svg
         aria-hidden="true"
-        class="size-4"
+        class={`size-4 shrink-0 ${isRtl ? 'rotate-180' : ''}`}
         fill="none"
         stroke="currentColor"
         stroke-width="2.5"

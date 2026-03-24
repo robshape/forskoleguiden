@@ -6,6 +6,7 @@ import { t } from '@/i18n/utils'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { getBasePath } from '@/lib/base-path'
 import { getAllPreschoolSurveys, isPlaceholderSurvey } from '@/lib/data'
+import { isRtlLocale } from '@/lib/locale-switch'
 import { RESPONSE_ROWS } from '@/lib/survey-responses'
 
 interface Props {
@@ -26,10 +27,13 @@ const pageTitle = t('compare.heading', locale)
 <BaseLayout locale={locale} title={pageTitle}>
   <Breadcrumb
     href={directoryHref}
+    isRtl={isRtlLocale(locale)}
     label={t('compare.actions.backToDirectory', locale)}
   />
 
-  <h1 class="mb-8 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+  <h1
+    class="mb-8 text-start text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl"
+  >
     {pageTitle}
   </h1>
 

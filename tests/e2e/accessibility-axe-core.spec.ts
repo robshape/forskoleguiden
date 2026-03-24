@@ -1,7 +1,14 @@
 import { AxeBuilder } from '@axe-core/playwright'
 
 import { expect, test } from './fixtures'
-import { COMPARISON_URL, DETAIL_URL, DIRECTORY_URL } from './helpers'
+import {
+  COMPARISON_URL,
+  COMPARISON_URL_AR,
+  DETAIL_URL,
+  DETAIL_URL_AR,
+  DIRECTORY_URL,
+  DIRECTORY_URL_AR,
+} from './helpers'
 
 // IDs used to seed the comparison page with a two-school selection
 const COMPARISON_SEED_IDS = ['almgardens-forskola', 'augustenborgs-forskola']
@@ -86,6 +93,61 @@ test.describe('accessibility: axe-core wcag2a + wcag2aa audits', () => {
         name: '"Jag skulle rekommendera mitt barns förskola till en annan förälder"',
       }),
     ).toBeVisible()
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze()
+
+    expect(results.violations).toEqual([])
+  })
+
+  test('Arabic directory page has zero axe-core violations at wcag2a and wcag2aa', async ({
+    page,
+  }) => {
+    await page.goto(DIRECTORY_URL_AR)
+
+    await expect(
+      page
+        .getByTestId('preschool-card')
+        .first()
+        .getByRole('button', { name: /قارن/ }),
+    ).toHaveAttribute('aria-pressed', 'false')
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze()
+
+    expect(results.violations).toEqual([])
+  })
+
+  test('Arabic preschool detail page has zero axe-core violations at wcag2a and wcag2aa', async ({
+    page,
+  }) => {
+    await page.goto(DETAIL_URL_AR)
+
+    await expect(page.getByRole('button', { name: /قارن/ })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    )
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze()
+
+    expect(results.violations).toEqual([])
+  })
+
+  test('Arabic comparison page with 2 seeded preschools has zero axe-core violations at wcag2a and wcag2aa', async ({
+    page,
+  }) => {
+    await page.goto(DIRECTORY_URL_AR)
+    await page.evaluate((ids) => {
+      sessionStorage.clear()
+      sessionStorage.setItem('compareIds', JSON.stringify(ids))
+    }, COMPARISON_SEED_IDS)
+
+    await page.goto(COMPARISON_URL_AR)
+    await expect(page.getByTestId('comparison-scroll')).toBeVisible()
 
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])

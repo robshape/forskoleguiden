@@ -1,6 +1,9 @@
 import { type Locale, LOCALES } from '@/i18n/utils'
 
 const validLocales = new Set<string>(LOCALES)
+const rtlLocales = new Set<Locale>(['ar'])
+
+export const isRtlLocale = (locale: Locale): boolean => rtlLocales.has(locale)
 
 /**
  * Builds the URL for the equivalent page in a target locale by replacing

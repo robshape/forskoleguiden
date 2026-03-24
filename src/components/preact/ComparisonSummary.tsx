@@ -33,7 +33,7 @@ export default function ComparisonSummary({
   return (
     <section
       aria-labelledby="comparison-summary-heading"
-      class="mt-10 rounded-xl border border-blue-200 bg-blue-50/50 p-5 shadow-sm"
+      class="mt-10 rounded-xl border border-blue-200 bg-blue-50/50 p-5 text-start shadow-sm"
       data-testid="comparison-summary"
       role="region"
     >
@@ -43,7 +43,7 @@ export default function ComparisonSummary({
       >
         {summaryHeading}
       </h2>
-      <ul class="space-y-2">
+      <ul class="space-y-2 text-start">
         {sentences.map((sentence) => (
           <li class="text-sm font-medium text-blue-900" key={sentence}>
             {sentence}
