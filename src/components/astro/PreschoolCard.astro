@@ -12,9 +12,10 @@ interface Props {
   operatorType: OperatorType
   score: number | null
   locale: Locale
+  queueUrl?: string
 }
 
-const { id, name, address, operatorType, score, locale } = Astro.props
+const { id, name, address, operatorType, score, locale, queueUrl } = Astro.props
 const displayScore = score !== null ? Math.round(score) : null
 
 const base = getBasePath()
@@ -78,6 +79,37 @@ const scoreBadgeToneClass = SCORE_TIER_BADGE_CLASS[getScoreTier(displayScore)]
           {t('directory.scoreBadge.overallAssessment', locale)}
         </span>
       </div>
+      {
+        operatorType === 'independent' && queueUrl && (
+          <span
+            class="inline-flex items-center gap-1 rounded-full bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary-700"
+            data-testid="queue-indicator"
+          >
+            <svg
+              aria-hidden="true"
+              class="size-3 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <circle
+                cx="9"
+                cy="7"
+                r="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            {t('detail.queueIndicator', locale)}
+          </span>
+        )
+      }
     </div>
     <div class="relative z-10 shrink-0">
       <CompareButton

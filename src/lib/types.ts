@@ -32,6 +32,7 @@ export type PreschoolIndexEntry = {
   name: string
   address: string
   operatorType: OperatorType
+  queueUrl?: string
 }
 
 export type PreschoolIndex = {

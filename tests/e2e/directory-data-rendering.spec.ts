@@ -1,5 +1,27 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+
 import { expect, type Locator, test } from './fixtures'
-import { getDirectoryCard } from './helpers'
+import { getDirectoryCard, isPlaceholderSurveyFile } from './helpers'
+
+type DirectoryEntry = {
+  id: string
+  name: string
+  operatorType: 'municipal' | 'independent'
+  queueUrl?: string
+}
+
+const _index = JSON.parse(
+  readFileSync(resolve(process.cwd(), 'data/malmo/index.json'), 'utf-8'),
+) as { year: number; preschools: DirectoryEntry[] }
+
+const renderedEntries = _index.preschools.filter(
+  (p) => !isPlaceholderSurveyFile(p.id, _index.year),
+)
+
+const firstIndependentWithQueue = renderedEntries.find(
+  (p) => p.operatorType === 'independent' && p.queueUrl,
+)
 
 test.describe('Swedish directory data rendering contracts', () => {
   const waitForCompareButtonToBeInteractive = async (button: Locator) => {
@@ -154,5 +176,39 @@ test.describe('Swedish directory data rendering contracts', () => {
     await expect(bellevueButton).toHaveAttribute('aria-pressed', 'false')
     await expect(bladinsButton).toHaveText(/Tillagd/)
     await expect(bladinsButton).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  test('independent preschool cards display queue indicator', async ({
+    page,
+  }) => {
+    test.skip(
+      !firstIndependentWithQueue,
+      'No independent preschool with queueUrl configured — skipped until real URLs are populated',
+    )
+
+    await page.goto('/forskoleguiden/sv/')
+
+    // Resolved at module scope; guard above ensures it is defined here.
+    const independentCard = page.getByTestId('preschool-card').filter({
+      has: page.getByRole('link', {
+        name: firstIndependentWithQueue!.name,
+        exact: true,
+      }),
+    })
+
+    await expect(independentCard.getByTestId('queue-indicator')).toBeVisible()
+  })
+
+  test('municipal preschool cards do not display queue indicator', async ({
+    page,
+  }) => {
+    await page.goto('/forskoleguiden/sv/')
+
+    const municipalCard = getDirectoryCard(page, 'Almgårdens förskola')
+
+    // Element is conditionally rendered by Astro — absent from DOM entirely.
+    await expect(
+      municipalCard.getByTestId('queue-indicator'),
+    ).not.toBeAttached()
   })
 })
