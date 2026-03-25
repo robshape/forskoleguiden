@@ -1,6 +1,6 @@
 # Implementation Plan: Förskoleguiden Phase 2
 
-> Scope: Phase 2 from the PRD — multilingual page routes (Swedish/English/Arabic), functional language switcher, RTL layout for Arabic, shareable URL with versioned payload, email shortlist via `mailto:`, and independent preschool queue links. Builds on the fully complete Phase 1 foundation (Steps 0–13).
+> Scope: Phase 2 from the PRD — multilingual page routes (Swedish/English/Arabic), functional language switcher, RTL layout for Arabic, shareable URL with versioned payload, and independent preschool queue links. Builds on the fully complete Phase 1 foundation (Steps 0–13). Email shortlist (`mailto:`) is intentionally skipped — the copy-link share flow covers the primary use case since most users share via chat apps.
 
 ## Prerequisites
 
@@ -377,63 +377,23 @@ On each preschool detail page, add a small "Share" button that generates a share
 
 ---
 
-## Step 7: Email Shortlist
-
-> **Goal:** Let users email their shortlist (compare set) to themselves or a partner using a `mailto:` link. No server-side email — everything is handled by the user's email client.
-
-### 7.1 — Create the mailto URL generator
-
-Create `src/lib/email.ts` with an `buildMailtoUrl(ids: string[], locale: Locale): string` function:
-
-1. Look up the preschool names and addresses from the index for each ID.
-2. Construct a `mailto:` URL with:
-   - Empty `to` field (the user fills in the recipient).
-   - `subject`: localized (e.g., "Min förskolelista — Förskoleguiden" / "My Preschool Shortlist — Preschool Guide").
-   - `body`: a formatted list of selected preschools (name + address, one per line), followed by a share link URL that restores the selection.
-3. Properly encode the subject, body, and share link for the `mailto:` URI scheme (use `encodeURIComponent` for each field).
-
-The total `mailto:` URL should remain functional — most email clients support up to ~2,000 characters in the URL. If 5 preschools with long names/addresses approach this limit, truncate the body and keep the share link.
-
-**Test:** Write unit tests:
-
-- Given 2 preschool IDs, assert the generated `mailto:` URL starts with `mailto:?subject=` and contains the two preschool names in the body.
-- Assert the body contains a share link (starts with `http` or the site URL).
-- Assert the subject matches the expected localized string for each locale.
-- Assert all special characters are properly encoded (no raw `&`, `=`, `#`, or newlines in the URL — only `%0A` for line breaks).
-
-### 7.2 — Add email button to the comparison page
-
-In `ComparisonView.tsx`, next to the Share button, add an "Email" button (or "Skicka via e-post" / "Send via email" / Arabic equivalent). When clicked, it should:
-
-1. Call `buildMailtoUrl()` with the current `compareIds` and `locale`.
-2. Open the generated URL (either via `window.location.href = mailtoUrl` or `window.open(mailtoUrl)`).
-
-The button should be an `<a>` element with `href` set to the `mailto:` URL for progressive enhancement (works without JS if the href is pre-computed). However, since the compare set is dynamic (client-side state), the href must be computed at render time.
-
-Add the necessary i18n keys for the email button label to all three locale files.
-
-**Test:** Write an e2e test: load `/sv/`, add 2 preschools, navigate to `/sv/jamfor/`, assert the email button exists and its `href` starts with `mailto:?`. Assert the href contains the expected preschool names (URL-encoded).
-
----
-
-## Step 8: Translation Quality Verification
+## Step 7: Translation Quality Verification
 
 > **Goal:** Verify that all i18n keys added in Phase 2 are complete, consistent, and correctly used across all three locales.
 
-### 8.1 — Add all Phase 2 i18n keys
+### 7.1 — Add all Phase 2 i18n keys
 
-Review all new user-facing strings added in Steps 0–7 and ensure they are present in all three locale files. New keys include (at minimum):
+Review all new user-facing strings added in Steps 0–6 and ensure they are present in all three locale files. New keys include (at minimum):
 
 - Language switcher: `locale.sv`, `locale.en`, `locale.ar`
 - Queue link: `detail.queueLink`, `detail.municipalQueueNote` (or similar)
 - Share: `share.button`, `share.copied`, `share.restored`, `share.restoredWithWarning`, `share.error`
-- Email: `email.button`, `email.subject`, `email.bodyIntro`
 
 The exact key names should follow the existing flat dot-path convention used in Phase 1.
 
 **Test:** Run the existing i18n key parity unit test (`tests/unit/i18n-locale-key-parity.test.ts`). It must pass, confirming all three locale files have identical key structures.
 
-### 8.2 — Verify Arabic translations render correctly
+### 7.2 — Verify Arabic translations render correctly
 
 Arabic translations should be reviewed for:
 
@@ -445,11 +405,11 @@ Arabic translations should be reviewed for:
 
 ---
 
-## Step 9: Accessibility Audit (Phase 2)
+## Step 8: Accessibility Audit (Phase 2)
 
 > **Goal:** Verify all Phase 2 features pass accessibility standards. Focus on RTL layout, new interactive elements, and multi-locale consistency.
 
-### 9.1 — Run axe-core on English and Arabic pages
+### 8.1 — Run axe-core on English and Arabic pages
 
 Extend the existing `tests/e2e/accessibility-axe-core.spec.ts` suite to also scan:
 
@@ -464,49 +424,47 @@ All scans should pass at `wcag2a` and `wcag2aa` levels with zero violations.
 
 **Test:** Run `pnpm test:e2e`. All new accessibility test cases pass.
 
-### 9.2 — Keyboard navigation for Phase 2 features
+### 8.2 — Keyboard navigation for Phase 2 features
 
 Write e2e tests verifying:
 
 - The language switcher links are reachable via Tab and activatable via Enter.
 - The Share button on the comparison page is reachable via Tab and activatable via Enter/Space.
-- The Email button on the comparison page is reachable via Tab and activatable via Enter.
 - Queue links on detail pages are reachable via Tab.
 - Focus management after clicking Share (the confirmation message should not steal focus or trap it).
 
 **Test:** E2e tests that use `page.keyboard.press('Tab')` to navigate and assert focus lands on the expected elements. All assertions pass.
 
-### 9.3 — Screen reader labeling for new elements
+### 8.3 — Screen reader labeling for new elements
 
 Verify:
 
 - The Share button has an accessible label (e.g., `aria-label` or visible text).
-- The Email button has an accessible label.
 - The share confirmation message uses `role="status"` or `aria-live="polite"` so screen readers announce it.
 - Queue links have descriptive text (not just "Click here").
 - The language switcher navigation has `aria-label`.
 
-**Test:** Run `@axe-core/playwright` on the comparison page with share/email buttons visible. Assert zero violations. Manually inspect DOM attributes for `aria-live` on the share confirmation, `aria-label` on the language nav.
+**Test:** Run `@axe-core/playwright` on the comparison page with share button visible. Assert zero violations. Manually inspect DOM attributes for `aria-live` on the share confirmation, `aria-label` on the language nav.
 
 ---
 
-## Step 10: CI Pipeline Updates
+## Step 9: CI Pipeline Updates
 
 > **Goal:** Extend the CI pipeline to cover new Phase 2 pages and features.
 
-### 10.1 — Update quality-gates workflow for multi-locale e2e
+### 9.1 — Update quality-gates workflow for multi-locale e2e
 
-The existing `quality-gates.yml` runs Playwright e2e tests. Verify that the new e2e tests added in Phase 2 (Steps 0.4, 1.1, 1.2, 2.2, 2.4, 6.1, 6.2, 7.2, 9.1, 9.2) are picked up automatically by the existing test configuration (they should be, since Playwright config targets `tests/e2e/`).
+The existing `quality-gates.yml` runs Playwright e2e tests. Verify that the new e2e tests added in Phase 2 (Steps 0.4, 1.1, 1.2, 2.2, 2.4, 6.1, 6.2, 8.1, 8.2) are picked up automatically by the existing test configuration (they should be, since Playwright config targets `tests/e2e/`).
 
 **Test:** Push a commit (or run locally) and verify all Phase 2 e2e tests execute and pass in the CI pipeline. Run `pnpm validate` — all checks pass.
 
-### 10.2 — Update page weight budget for multi-locale output
+### 9.2 — Update page weight budget for multi-locale output
 
 The Phase 1 post-build test enforces a 100 KB uncompressed budget for `/sv/`. Consider whether the same budget should apply to `/en/` and `/ar/` pages. If the budget should be consistent across locales, update the test to check all three.
 
 **Test:** Run `pnpm test:post-build`. The updated page weight test passes for all locale index pages.
 
-### 10.3 — Update Lighthouse audit for multi-locale
+### 9.3 — Update Lighthouse audit for multi-locale
 
 The Phase 1 Lighthouse audit targets the Swedish directory page. Extend `.lighthouserc.json` to also audit `/en/` and `/ar/` index pages.
 
@@ -514,9 +472,9 @@ The Phase 1 Lighthouse audit targets the Swedish directory page. Extend `.lighth
 
 ---
 
-## Step 11: Final Verification
+## Step 10: Final Verification
 
-### 11.1 — Full build and static output check
+### 10.1 — Full build and static output check
 
 Run `pnpm build`. Verify:
 
@@ -527,7 +485,7 @@ Run `pnpm build`. Verify:
 
 **Test:** Run `find dist -name '*.html' | wc -l`. Count should be at least 3 × (1 root redirect + 1 directory + N detail pages + 1 comparison + 1 about) where N is the number of preschools in the index.
 
-### 11.2 — End-to-end user flow test for Phase 2
+### 10.2 — End-to-end user flow test for Phase 2
 
 Write a comprehensive e2e test that simulates the full Phase 2 user flow:
 
@@ -542,15 +500,14 @@ Write a comprehensive e2e test that simulates the full Phase 2 user flow:
 9. Verify the comparison view shows 3 preschools with English text.
 10. Click the Share button. Assert the confirmation message appears.
 11. Extract the share URL from the clipboard (or from the button's generated URL).
-12. Click the Email button. Assert the `mailto:` href is present and contains preschool names.
-13. Open the share URL in a new context (or navigate to it). Assert the comparison page restores the 3 preschools.
-14. Switch to Arabic via the language switcher. Assert the page switches to `/ar/jamfor/` with RTL layout.
-15. Verify Arabic text renders and the layout is mirrored.
-16. Navigate back to `/ar/`. Verify compare state persists in Arabic locale.
+12. Open the share URL in a new context (or navigate to it). Assert the comparison page restores the 3 preschools.
+13. Switch to Arabic via the language switcher. Assert the page switches to `/ar/jamfor/` with RTL layout.
+14. Verify Arabic text renders and the layout is mirrored.
+15. Navigate back to `/ar/`. Verify compare state persists in Arabic locale.
 
 **Test:** This single e2e test passes end-to-end without errors.
 
-### 11.3 — Run full validation
+### 10.3 — Run full validation
 
 Run `pnpm validate`. All steps pass:
 

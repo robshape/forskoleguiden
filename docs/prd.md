@@ -17,7 +17,7 @@ Swedish is always the default language on first visit, with multilingual support
 
 For the MVP, the site only displays and compares the question group “Helhetsbedömning” (as in the JSON template). Later versions expand to include all question groups from the official reports.
 
-The site also supports a key real-world workflow: parents can select up to five preschools (as required by the municipality application process), save/share that list via a URL that encodes state (no backend), and optionally email the list to themselves using their email client.
+The site also supports a key real-world workflow: parents can select up to five preschools (as required by the municipality application process), save/share that list via a URL that encodes state (no backend), and copy the share link to send via their preferred messaging app.
 
 ## 2. Goals
 
@@ -124,9 +124,9 @@ Non-goals are explicitly out of scope for the MVP (and will not be pursued unles
   - Users can share a URL that restores selected city/year, comparison set, and shortlist.
   - The URL encoding must be resilient and forward-compatible (versioned payload).
 
-- **Email the shortlist** (Priority: P1)
-  - Provide an “email to self/partner” action using `mailto:` with a prefilled subject/body.
-  - The email content includes preschool names, addresses, and a share link.
+- **Email the shortlist** (Priority: P1) — **Deferred**: the copy-link share flow covers the primary use case since most users share via chat apps.
+  - ~~Provide an "email to self/partner" action using `mailto:` with a prefilled subject/body.~~
+  - ~~The email content includes preschool names, addresses, and a share link.~~
 
 - **Filtering by practical criteria** (Priority: P1)
   - Users can narrow the directory and/or comparison candidates by:
@@ -167,7 +167,7 @@ Non-goals are explicitly out of scope for the MVP (and will not be pursued unles
 - City selector shows Malmö selected, with Stockholm and Göteborg visible but disabled.
 - Survey year defaults to the latest available for Malmö (2025), is clearly visible, and is not changeable in the MVP.
 - Browse preschools, add 2–5 to compare, open comparison view.
-- Optionally add up to five to the shortlist, share link, and/or email it.
+- Optionally add up to five to the shortlist and share the link.
 
 ### 5.2 Core experience
 
@@ -200,7 +200,7 @@ Non-goals are explicitly out of scope for the MVP (and will not be pursued unles
 
 ## 6. Narrative
 
-A parent in Malmö starts with a long list of preschools and little time. They quickly narrow the options, compare several schools side-by-side using official survey data, and understand the trade-offs through clear visuals and plain-language summaries. They then pick five preschools, share the list with their partner using a link that restores everything, and email the shortlist for later—without creating an account or sharing personal data.
+A parent in Malmö starts with a long list of preschools and little time. They quickly narrow the options, compare several schools side-by-side using official survey data, and understand the trade-offs through clear visuals and plain-language summaries. They then pick five preschools and share the list with their partner using a link that restores everything—without creating an account or sharing personal data.
 
 ## 7. Success metrics
 
@@ -236,7 +236,7 @@ The MVP will not include usage tracking/analytics, to avoid third-party tools an
 - No user accounts.
 - No server-side storage.
 - Share links encode state in the URL (for example compressed JSON payload) and should avoid including personal data.
-- Email uses `mailto:` and is handled by the user’s email client.
+
 - If any analytics are added later, they must be optional, privacy-preserving, and compatible with a static deployment.
 
 ### 8.3 Scalability & performance
@@ -280,7 +280,6 @@ The MVP will not include usage tracking/analytics, to avoid third-party tools an
   - Pick-five shortlist.
   - Shareable URL with versioned payload.
   - Swedish/English/Arabic translations and RTL support.
-  - Email via `mailto:`.
   - Independent preschool queue links (requires per-preschool queue/homepage URL data).
 - **Phase 3**: Guidance and criteria (1–2 weeks)
   - Guided “pick five” flow.
@@ -364,13 +363,13 @@ The MVP will not include usage tracking/analytics, to avoid third-party tools an
   - The payload format is versioned.
   - If some items no longer exist, the UI explains what could not be restored.
 
-### 10.9 Email my shortlist
+### 10.9 Email my shortlist — **Deferred**
 
 - **ID**: GH-009
-- **Description**: As a parent, I want to email the shortlist to myself/partner so I can keep it for later.
+- **Description**: ~~As a parent, I want to email the shortlist to myself/partner so I can keep it for later.~~ Deferred — the copy-link share flow covers the primary use case since most users share via chat apps.
 - **Acceptance criteria**:
-  - The site opens the user’s email client with a prefilled subject and body.
-  - The email includes a share link and the list of selected preschools.
+  - ~~The site opens the user's email client with a prefilled subject and body.~~
+  - ~~The email includes a share link and the list of selected preschools.~~
 
 ### 10.10 Switch language (Swedish/English/Arabic)
 
