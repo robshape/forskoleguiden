@@ -1,0 +1,250 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700" width="800" height="700">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+      
+      :root {
+        --primary: #1e3a8a; /* blue-900 */
+        --primary-light: #3b82f6; /* blue-500 */
+        --surface: #ffffff;
+        --background: #f9fafb; /* gray-50 */
+        --text-main: #111827; /* gray-900 */
+        --text-muted: #6b7280; /* gray-500 */
+        --border: #e5e7eb; /* gray-200 */
+        --focus-ring: rgba(59, 130, 246, 0.5);
+        --green-bg: #dcfce7;
+        --green-text: #166534;
+        --gray-bg: #f3f4f6;
+      }
+
+      * {
+        font-family: 'Inter', system-ui, sans-serif;
+      }
+
+      /* Animations */
+      @keyframes focusRingAnim {
+        0%, 15% { stroke: var(--border); stroke-width: 1px; box-shadow: none; }
+        18%, 85% { stroke: var(--primary-light); stroke-width: 2px; }
+        90%, 100% { stroke: var(--border); stroke-width: 1px; }
+      }
+
+      @keyframes typingAnim {
+        0%, 25% { content: ""; opacity: 0; }
+        26%, 29% { opacity: 1; }
+        100% { opacity: 1; }
+      }
+
+      @keyframes cursorBlink {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 1; }
+      }
+
+      @keyframes cursorMove {
+        0%, 18% { transform: translateX(0); opacity: 0; }
+        19%, 25% { transform: translateX(0); opacity: 1; }
+        28% { transform: translateX(12px); }
+        31% { transform: translateX(24px); }
+        34% { transform: translateX(36px); }
+        37% { transform: translateX(48px); }
+        40%, 85% { transform: translateX(60px); opacity: 1; }
+        86%, 100% { opacity: 0; }
+      }
+
+      @keyframes letter1 { 0%, 25% { opacity: 0; } 26%, 100% { opacity: 1; } }
+      @keyframes letter2 { 0%, 28% { opacity: 0; } 29%, 100% { opacity: 1; } }
+      @keyframes letter3 { 0%, 31% { opacity: 0; } 32%, 100% { opacity: 1; } }
+      @keyframes letter4 { 0%, 34% { opacity: 0; } 35%, 100% { opacity: 1; } }
+      @keyframes letter5 { 0%, 37% { opacity: 0; } 38%, 100% { opacity: 1; } }
+
+      @keyframes placeholderFade {
+        0%, 24% { opacity: 1; }
+        25%, 85% { opacity: 0; }
+        86%, 100% { opacity: 1; }
+      }
+
+      @keyframes dropdownReveal {
+        0%, 42% { opacity: 0; transform: translateY(-10px); pointer-events: none; }
+        45%, 80% { opacity: 1; transform: translateY(0); pointer-events: all; }
+        83%, 100% { opacity: 0; transform: translateY(-10px); pointer-events: none; }
+      }
+
+      @keyframes hoverResult {
+        0%, 55% { fill: transparent; }
+        58%, 75% { fill: #f8fafc; }
+        76%, 100% { fill: transparent; }
+      }
+
+      @keyframes mousePointerAnim {
+        0%, 10% { transform: translate(500px, 400px); }
+        15%, 25% { transform: translate(150px, 150px); } /* clicks search bar */
+        45%, 55% { transform: translate(150px, 150px); }
+        58%, 75% { transform: translate(250px, 260px); } /* hovers result */
+        85%, 100% { transform: translate(500px, 500px); }
+      }
+
+      /* Apply animations */
+      .search-box { animation: focusRingAnim 10s infinite; fill: var(--surface); }
+      .search-placeholder { animation: placeholderFade 10s infinite; fill: var(--text-muted); font-size: 16px; }
+      .text-cursor { animation: cursorMove 10s infinite, cursorBlink 1s infinite; stroke: var(--primary-light); stroke-width: 2px; }
+      
+      .char1 { animation: letter1 10s infinite; }
+      .char2 { animation: letter2 10s infinite; }
+      .char3 { animation: letter3 10s infinite; }
+      .char4 { animation: letter4 10s infinite; }
+      .char5 { animation: letter5 10s infinite; }
+      
+      .dropdown { animation: dropdownReveal 10s infinite; }
+      .result-hover { animation: hoverResult 10s infinite; }
+      .mouse-pointer { animation: mousePointerAnim 10s infinite; }
+    </style>
+    
+    <!-- Dropdown & Card Shadow -->
+    <filter id="shadow-sm" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.05" />
+    </filter>
+    <filter id="shadow-md" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="var(--background)" />
+
+  <!-- Navigation Bar -->
+  <rect width="100%" height="64" fill="var(--surface)" stroke="var(--border)" stroke-width="1" />
+  <text x="32" y="39" font-size="20" font-weight="700" letter-spacing="-0.02em" fill="var(--primary)">Förskoleguiden</text>
+
+  <!-- Main Directory Page Content -->
+  <g transform="translate(32, 96)">
+    
+    <!-- Top Header & Sort Toggle -->
+    <g transform="translate(0, 0)">
+      <text x="0" y="32" font-size="28" font-weight="700" letter-spacing="-0.02em" fill="var(--text-main)">Förskolor i Malmö <tspan fill="var(--text-muted)" font-weight="500" font-size="24">(239)</tspan></text>
+      
+      <!-- Sort Toggle (Simulated Preact Island) -->
+      <g transform="translate(485, 4)">
+        <rect width="251" height="40" rx="20" fill="var(--gray-bg)" />
+        <rect width="80" height="32" rx="16" fill="var(--surface)" filter="url(#shadow-sm)" transform="translate(4, 4)" />
+        <text x="44" y="24" font-size="14" font-weight="600" fill="var(--text-main)" text-anchor="middle">A-Ö</text>
+        <text x="160" y="24" font-size="14" font-weight="500" fill="var(--text-muted)" text-anchor="middle">Högst andel positiva</text>
+      </g>
+    </g>
+
+    <!-- Appended Search Component -->
+    <g transform="translate(0, 72)">
+      <!-- Search Input Box -->
+      <rect class="search-box" x="0" y="0" width="736" height="56" rx="12" stroke="var(--border)" />
+      
+      <!-- Search Icon -->
+      <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" transform="translate(16, 16)" />
+      
+      <!-- Placeholder Text -->
+      <text class="search-placeholder" x="56" y="34">Sök efter namn eller område...</text>
+      
+      <!-- Typed Text -->
+      <g transform="translate(56, 34)" font-size="16" fill="var(--text-main)">
+        <text class="char1" x="0">B</text>
+        <text class="char2" x="11">a</text>
+        <text class="char3" x="22">c</text>
+        <text class="char4" x="32">k</text>
+        <text class="char5" x="42">a</text>
+      </g>
+      
+      <!-- Text Cursor -->
+      <line class="text-cursor" x1="56" y1="18" x2="56" y2="38" />
+
+      <!-- Keyboard Shortcut Hint -->
+      <g transform="translate(680, 14)">
+        <rect width="40" height="28" rx="6" fill="#f8fafc" stroke="var(--border)" stroke-width="1" />
+        <text x="20" y="19" font-size="13" font-weight="500" fill="var(--text-muted)" text-anchor="middle">⌘K</text>
+      </g>
+    </g>
+
+    <!-- Preschool Directory List (Underlying content) -->
+    <g transform="translate(0, 160)">
+      <!-- Background Card 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="736" height="120" rx="16" fill="var(--surface)" stroke="var(--border)" stroke-width="1" filter="url(#shadow-sm)" />
+        
+        <text x="24" y="36" font-size="18" font-weight="600" fill="var(--text-main)">Abbekås förskola</text>
+        
+        <!-- Operator Badge -->
+        <rect x="24" y="52" width="76" height="24" rx="6" fill="var(--gray-bg)" />
+        <text x="62" y="68" font-size="12" font-weight="500" fill="var(--text-main)" text-anchor="middle">Kommunal</text>
+        
+        <text x="112" y="68" font-size="14" font-weight="400" fill="var(--text-muted)">Väster</text>
+
+        <!-- Score Tier Badge -->
+        <circle cx="680" cy="60" r="32" fill="var(--green-bg)" />
+        <text x="680" y="66" font-size="18" font-weight="700" fill="var(--green-text)" text-anchor="middle">82%</text>
+      </g>
+
+      <!-- Background Card 2 -->
+      <g transform="translate(0, 136)">
+        <rect width="736" height="120" rx="16" fill="var(--surface)" stroke="var(--border)" stroke-width="1" filter="url(#shadow-sm)" />
+        
+        <text x="24" y="36" font-size="18" font-weight="600" fill="var(--text-main)">Agneslunds förskola</text>
+        
+        <!-- Operator Badge -->
+        <rect x="24" y="52" width="76" height="24" rx="6" fill="var(--gray-bg)" />
+        <text x="62" y="68" font-size="12" font-weight="500" fill="var(--text-main)" text-anchor="middle">Kommunal</text>
+        
+        <text x="112" y="68" font-size="14" font-weight="400" fill="var(--text-muted)">Norr</text>
+
+        <!-- Score Tier Badge -->
+        <circle cx="680" cy="60" r="32" fill="var(--green-bg)" />
+        <text x="680" y="66" font-size="18" font-weight="700" fill="var(--green-text)" text-anchor="middle">79%</text>
+      </g>
+    </g>
+
+    <!-- Search Results Dropdown Overlay -->
+    <g class="dropdown" transform="translate(0, 136)">
+      <rect width="736" height="250" rx="12" fill="var(--surface)" filter="url(#shadow-md)" stroke="var(--border)" stroke-width="1" />
+      
+      <!-- Results Header -->
+      <text x="20" y="28" font-size="12" font-weight="600" fill="var(--text-muted)" text-transform="uppercase" letter-spacing="0.05em">Förskolor</text>
+
+      <!-- Result Item 1 -->
+      <g transform="translate(0, 40)">
+        <rect width="736" height="64" class="result-hover" />
+        <g transform="translate(20, 12)">
+          <rect width="40" height="40" rx="8" fill="#eff6ff" />
+          <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke="var(--primary-light)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" transform="translate(8, 8) scale(0.8)" />
+        </g>
+        <text x="76" y="32" font-size="15" font-weight="500" fill="var(--text-main)">Backens förskola</text>
+        <text x="76" y="52" font-size="13" font-weight="400" fill="var(--text-muted)">Kommunal • Kirseberg</text>
+        <!-- Arrow indicates navigation -->
+        <path d="M9 5l7 7-7 7" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" transform="translate(696, 25)" />
+      </g>
+
+      <!-- Result Item 2 -->
+      <g transform="translate(0, 104)">
+        <rect width="736" height="64" fill="transparent" />
+        <g transform="translate(20, 12)">
+          <rect width="40" height="40" rx="8" fill="#eff6ff" />
+          <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke="var(--primary-light)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" transform="translate(8, 8) scale(0.8)" />
+        </g>
+        <text x="76" y="32" font-size="15" font-weight="500" fill="var(--text-main)">Backagårdens förskola</text>
+        <text x="76" y="52" font-size="13" font-weight="400" fill="var(--text-muted)">Fristående • Husie</text>
+      </g>
+
+      <!-- Divider -->
+      <line x1="20" y1="176" x2="716" y2="176" stroke="var(--border)" stroke-width="1" />
+
+      <!-- Area Result -->
+      <text x="20" y="206" font-size="12" font-weight="600" fill="var(--text-muted)" text-transform="uppercase" letter-spacing="0.05em">Områden</text>
+      <g transform="translate(0, 212)">
+        <rect width="736" height="38" fill="transparent" />
+        <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" transform="translate(20, 0) scale(0.8)" />
+        <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" transform="translate(20, 0) scale(0.8)" />
+        <text x="50" y="16" font-size="14" font-weight="500" fill="var(--text-main)">Visa 5 förskolor i <tspan fill="var(--primary-light)">Backarna</tspan></text>
+      </g>
+    </g>
+
+  </g>
+
+  <!-- Mouse Pointer -->
+  <g class="mouse-pointer">
+    <path d="M0 0L14 14L8 16L5 22L2 20L5 14L0 14Z" fill="#111827" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" />
+  </g>
+</svg>
