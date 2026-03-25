@@ -25,12 +25,6 @@ describe('buildLocaleSwitchUrl: locale segment replacement', () => {
     )
   })
 
-  it('replaces locale on an about page path', () => {
-    expect(buildLocaleSwitchUrl(`${BASE}/sv/om/`, 'en', BASE)).toBe(
-      `${BASE}/en/om/`,
-    )
-  })
-
   it('handles switching from /ar/ to /sv/ on the comparison page', () => {
     expect(buildLocaleSwitchUrl(`${BASE}/ar/jamfor/`, 'sv', BASE)).toBe(
       `${BASE}/sv/jamfor/`,

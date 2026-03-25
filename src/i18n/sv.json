@@ -13,7 +13,6 @@
     "ariaLabel": "Huvudnavigering",
     "directory": "Förskolor",
     "compare": "Jämför",
-    "about": "Datakälla",
     "languageSwitcherAriaLabel": "Välj språk"
   },
   "cityYear": {
@@ -98,12 +97,6 @@
   },
   "attribution": {
     "text": "Enkätdata ({year}) kommer från Malmö stad."
-  },
-  "about": {
-    "heading": "Datakälla",
-    "text": "Resultaten bygger på Förskoleenkäten 2025 för Malmö.",
-    "body": "Förskoleguiden använder officiella enkätresultat från Malmö stad för att hjälpa föräldrar att jämföra förskolor.",
-    "metaDescription": "Information om datakällan för Förskoleguiden. Resultaten bygger på Förskoleenkäten 2025 från Malmö stad."
   },
   "detail": {
     "metaDescription": "Se enkätresultat för {name} i Malmö. Jämför betyg med andra förskolor.",

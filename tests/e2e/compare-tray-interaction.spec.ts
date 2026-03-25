@@ -290,11 +290,11 @@ test.describe('compare tray visibility and interaction behavior', () => {
 })
 
 // ---------------------------------------------------------------------------
-// MPA persistence — Phase 2 (/sv/om/ page is live)
+// MPA persistence — navigating to comparisons page
 // ---------------------------------------------------------------------------
 
 test.describe('compare state MPA persistence across Astro page navigations', () => {
-  const SECONDARY_PAGE = '/forskoleguiden/sv/om/'
+  const SECONDARY_PAGE = '/forskoleguiden/sv/jamfor/'
 
   test('selected preschools remain in the tray after navigating to a second page and back', async ({
     page,
@@ -314,10 +314,12 @@ test.describe('compare state MPA persistence across Astro page navigations', () 
     const secondResponse = await page.goto(SECONDARY_PAGE)
     if (secondResponse === null) {
       throw new Error(
-        'Expected non-null response from page.goto("/forskoleguiden/sv/om/")',
+        'Expected non-null response from page.goto("/forskoleguiden/sv/jamfor/")',
       )
     }
-    expect(secondResponse.status(), 'Expected HTTP 200 from /sv/om/').toBe(200)
+    expect(secondResponse.status(), 'Expected HTTP 200 from /sv/jamfor/').toBe(
+      200,
+    )
 
     // MPA navigation back: another full page load
     await navigateToDirectory(page)
@@ -351,10 +353,12 @@ test.describe('compare state MPA persistence across Astro page navigations', () 
     const secondResponse = await page.goto(SECONDARY_PAGE)
     if (secondResponse === null) {
       throw new Error(
-        'Expected non-null response from page.goto("/forskoleguiden/sv/om/")',
+        'Expected non-null response from page.goto("/forskoleguiden/sv/jamfor/")',
       )
     }
-    expect(secondResponse.status(), 'Expected HTTP 200 from /sv/om/').toBe(200)
+    expect(secondResponse.status(), 'Expected HTTP 200 from /sv/jamfor/').toBe(
+      200,
+    )
 
     // Navigate back — another full page load
     await navigateToDirectory(page)
@@ -379,10 +383,12 @@ test.describe('compare state MPA persistence across Astro page navigations', () 
     const secondResponse = await page.goto(SECONDARY_PAGE)
     if (secondResponse === null) {
       throw new Error(
-        'Expected non-null response from page.goto("/forskoleguiden/sv/om/")',
+        'Expected non-null response from page.goto("/forskoleguiden/sv/jamfor/")',
       )
     }
-    expect(secondResponse.status(), 'Expected HTTP 200 from /sv/om/').toBe(200)
+    expect(secondResponse.status(), 'Expected HTTP 200 from /sv/jamfor/').toBe(
+      200,
+    )
 
     // Clear selections via the tray on the secondary page
     const secondPageTray = getCompareTray(page)

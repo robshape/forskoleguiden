@@ -1,6 +1,5 @@
 import { expect, test } from './fixtures'
 import {
-  ABOUT_URL_AR,
   COMPARISON_URL_AR,
   DETAIL_URL_AR,
   DIRECTORY_URL,
@@ -43,22 +42,6 @@ test.describe('arabic rtl layout', () => {
     expect(navContract).not.toBeNull()
     expect(navContract?.titleIsFullyRightOfControls).toBe(true)
     expect(navContract?.footerTextAlign).toBe('right')
-  })
-
-  test('arabic about page is reachable and renders the translated heading', async ({
-    page,
-  }) => {
-    const aboutResponse = await page.goto(ABOUT_URL_AR)
-    if (aboutResponse === null) {
-      throw new Error(
-        `Expected non-null response from page.goto("${ABOUT_URL_AR}")`,
-      )
-    }
-
-    expect(aboutResponse.status()).toBe(200)
-    await expect(
-      page.getByRole('heading', { name: 'حول البيانات' }),
-    ).toBeVisible()
   })
 
   test('arabic directory keeps compare controls operable and positions the action button left of the score block', async ({

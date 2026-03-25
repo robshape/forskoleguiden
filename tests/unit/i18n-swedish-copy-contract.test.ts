@@ -17,7 +17,6 @@ describe('Swedish translation keys', () => {
       'responses',
       'summary',
       'attribution',
-      'about',
       'cityYear',
     ]) {
       const value = getByPath(sv as JsonObject, namespace)
@@ -71,12 +70,8 @@ describe('Swedish translation keys', () => {
       'summary.bestForQuestion',
       'summary.tiedForQuestion',
       'attribution.text',
-      'about.heading',
-      'about.text',
-      'about.body',
       'nav.directory',
       'nav.compare',
-      'nav.about',
       'nav.languageSwitcherAriaLabel',
       'locale.sv',
       'locale.en',

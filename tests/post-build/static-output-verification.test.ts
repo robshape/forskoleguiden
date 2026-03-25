@@ -85,10 +85,6 @@ describe('static output verification', () => {
     expect(existsSync(distPath(locale, 'index.html'))).toBe(true)
   })
 
-  it.each(LOCALES)('generates the %s about page', (locale) => {
-    expect(existsSync(distPath(locale, 'om', 'index.html'))).toBe(true)
-  })
-
   it.each(LOCALES)('generates the %s comparison page', (locale) => {
     expect(existsSync(distPath(locale, 'jamfor', 'index.html'))).toBe(true)
   })

@@ -29,7 +29,6 @@ test('serves all English locale pages with lang="en" and correct routes', async 
   page,
 }) => {
   await verifyLocale(page, '/en/', 'en', false)
-  await verifyLocale(page, '/en/om/', 'en', false)
   await verifyLocale(page, '/en/jamfor/', 'en', false)
   await verifyLocale(page, `/en/forskola/${STABLE_PRESCHOOL_ID}/`, 'en', false)
 
@@ -55,7 +54,6 @@ test('serves all Arabic locale pages with lang="ar" and dir="rtl"', async ({
   page,
 }) => {
   await verifyLocale(page, '/ar/', 'ar', true)
-  await verifyLocale(page, '/ar/om/', 'ar', true)
   await verifyLocale(page, '/ar/jamfor/', 'ar', true)
   await verifyLocale(page, `/ar/forskola/${STABLE_PRESCHOOL_ID}/`, 'ar', true)
 

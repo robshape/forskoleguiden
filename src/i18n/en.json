@@ -13,7 +13,6 @@
     "ariaLabel": "Main navigation",
     "directory": "Preschools",
     "compare": "Compare",
-    "about": "About the data",
     "languageSwitcherAriaLabel": "Choose language"
   },
   "cityYear": {
@@ -98,12 +97,6 @@
   },
   "attribution": {
     "text": "Survey data ({year}) comes from Malmö stad."
-  },
-  "about": {
-    "heading": "About the data",
-    "text": "The results are based on the Preschool Survey 2025 for Malmö.",
-    "body": "Preschool Guide uses official survey results from Malmö stad to help parents compare preschools.",
-    "metaDescription": "About the data source for Preschool Guide. Results based on the 2025 Preschool Survey from Malmö stad."
   },
   "detail": {
     "metaDescription": "View survey results for {name} in Malmö. Compare ratings with other preschools.",

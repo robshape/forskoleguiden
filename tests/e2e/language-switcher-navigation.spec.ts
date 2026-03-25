@@ -15,8 +15,6 @@ const DETAIL_AR = `${BASE}/ar/forskola/${STABLE_ID}/`
 
 const COMPARISON_SV = `${BASE}/sv/jamfor/`
 const COMPARISON_AR = `${BASE}/ar/jamfor/`
-const ABOUT_SV = `${BASE}/sv/om/`
-const ABOUT_EN = `${BASE}/en/om/`
 
 // ---------------------------------------------------------------------------
 // Phase 3 / User Story 1 — Directory language switching
@@ -184,20 +182,6 @@ test.describe('language-switcher: dynamic route preservation (US2)', () => {
       .getAttribute('href')
 
     expect(svHref).toBe(COMPARISON_SV)
-  })
-
-  test('switching language on the about page preserves the /om/ route', async ({
-    page,
-  }) => {
-    await page.goto(ABOUT_SV)
-
-    const switcher = page.getByRole('navigation', { name: /spr|lang/i })
-    await switcher.locator('[data-testid="header-language-toggle"]').click()
-    const englishHref = await switcher
-      .getByRole('link', { name: /English/i })
-      .getAttribute('href')
-
-    expect(englishHref).toBe(ABOUT_EN)
   })
 })
 

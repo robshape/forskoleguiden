@@ -18,17 +18,14 @@ export const FOCUS_RING_COLOR = 'rgb(37, 99, 235)'
 export const DIRECTORY_URL = '/forskoleguiden/sv/'
 export const COMPARISON_URL = '/forskoleguiden/sv/jamfor/'
 export const DETAIL_URL = '/forskoleguiden/sv/forskola/almgardens-forskola/'
-export const ABOUT_URL = '/forskoleguiden/sv/om/'
 
 export const DIRECTORY_URL_EN = '/forskoleguiden/en/'
 export const COMPARISON_URL_EN = '/forskoleguiden/en/jamfor/'
 export const DETAIL_URL_EN = '/forskoleguiden/en/forskola/almgardens-forskola/'
-export const ABOUT_URL_EN = '/forskoleguiden/en/om/'
 
 export const DIRECTORY_URL_AR = '/forskoleguiden/ar/'
 export const COMPARISON_URL_AR = '/forskoleguiden/ar/jamfor/'
 export const DETAIL_URL_AR = '/forskoleguiden/ar/forskola/almgardens-forskola/'
-export const ABOUT_URL_AR = '/forskoleguiden/ar/om/'
 
 // ---------------------------------------------------------------------------
 // Placeholder survey detection — mirrors isPlaceholderSurvey() from
