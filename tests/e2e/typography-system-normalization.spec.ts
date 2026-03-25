@@ -48,7 +48,7 @@ test.describe('typography system normalization', () => {
     expect(directoryResponse.status()).toBe(200)
 
     const directoryCardBodyFontSize = await getComputedFontSize(
-      '[data-testid="preschool-card"] p',
+      '[data-testid="preschool-card"] .text-gray-700.sm\\:text-base',
       page,
     )
 

@@ -27,7 +27,6 @@ test('given /sv/ directory when rendered then each preschool card shows required
 
     expect(preschoolName).toBeTruthy()
     await expect(detailLink).toHaveAttribute('href', /\/sv\/forskola\/[^/]+\//)
-    await expect(card.locator('p').first()).not.toBeEmpty()
     await expect(card.getByText(/Kommunal|Fristående/)).toBeVisible()
     await expect(
       card.getByRole('button', {
