@@ -232,6 +232,49 @@ test.describe('comparison page selection state contracts', () => {
     await expect(scroll.getByText('97%').first()).toBeVisible()
     await expect(scroll.getByText('100%').first()).toBeVisible()
   })
+
+  test('two-or-more-preschool state renders a share box with title and description (i18n: compare.share.title / compare.share.description)', async ({
+    page,
+  }) => {
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate(() => {
+      sessionStorage.setItem(
+        'compareIds',
+        JSON.stringify(['almgardens-forskola', 'augustenborgs-forskola']),
+      )
+    })
+
+    const response = await page.goto(COMPARISON_URL)
+    if (response === null) {
+      throw new Error(
+        `Expected non-null response from page.goto("${COMPARISON_URL}")`,
+      )
+    }
+    expect(response.status()).toBe(200)
+
+    // Comparison view must be active
+    await expect(page.getByTestId('comparison-scroll')).toBeVisible()
+
+    const shareBox = page.getByTestId('share-box')
+    await expect(shareBox).toBeVisible()
+
+    // Share box title: i18n key compare.share.title => "Dela jämförelse"
+    await expect(
+      shareBox.locator('p').filter({ hasText: /^Dela jämförelse$/ }),
+    ).toBeVisible()
+
+    // Share box description: i18n key compare.share.description => "Kopiera en länk för att dela din jämförelse."
+    await expect(
+      shareBox.getByText('Kopiera en länk för att dela din jämförelse.', {
+        exact: true,
+      }),
+    ).toBeVisible()
+
+    // Share button must be present and enabled
+    const shareButton = page.getByTestId('share-comparison-button')
+    await expect(shareButton).toBeVisible()
+    await expect(shareButton).toBeEnabled()
+  })
 })
 
 // ---------------------------------------------------------------------------

@@ -33,19 +33,19 @@ export default function ComparisonSummary({
   return (
     <section
       aria-labelledby="comparison-summary-heading"
-      class="mt-10 rounded-xl border border-blue-200 bg-blue-50/50 p-5 text-start shadow-sm"
+      class="rounded-xl bg-primary-50 p-5 text-start ring-1 ring-primary-100 ring-inset"
       data-testid="comparison-summary"
       role="region"
     >
       <h2
-        class="mb-3 text-base font-bold text-blue-950"
+        class="mb-3 text-base font-semibold text-primary-900"
         id="comparison-summary-heading"
       >
         {summaryHeading}
       </h2>
       <ul class="space-y-2 text-start">
         {sentences.map((sentence) => (
-          <li class="text-sm font-medium text-blue-900" key={sentence}>
+          <li class="text-sm text-primary-700" key={sentence}>
             {sentence}
           </li>
         ))}

@@ -71,6 +71,8 @@
     "chartAriaLabel": "Bar chart for: {question}",
     "noscriptMessage": "This page requires JavaScript. Visit each preschool's page directly for more information.",
     "share": {
+      "title": "Share comparison",
+      "description": "Copy a link to share your comparison.",
       "button": "Share comparison",
       "copied": "Link copied!",
       "fallbackLabel": "Copy the link:",

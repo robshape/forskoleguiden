@@ -6,9 +6,11 @@
     sans-serif;
 
   --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
   --color-primary-300: #93c5fd;
   --color-primary-600: #2563eb;
   --color-primary-700: #1d4ed8;
+  --color-primary-900: #1e3a8a;
   --color-score-high-bg: #dcfce7;
   --color-score-high-text: #166534;
   --color-score-medium-bg: #fef08a;
@@ -28,6 +30,17 @@
   --leading-heading: 1.2;
 
   --shadow-tray: 0 -4px 6px rgba(0, 0, 0, 0.05);
+}
+
+@keyframes feedback-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@utility animate-feedback-in {
+  animation: feedback-in 0.15s ease-out both;
 }
 
 @layer base {

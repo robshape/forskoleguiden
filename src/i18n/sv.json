@@ -71,6 +71,8 @@
     "chartAriaLabel": "Stapeldiagram för: {question}",
     "noscriptMessage": "Den här sidan kräver JavaScript. Besök varje förskolas sida direkt för mer information.",
     "share": {
+      "title": "Dela jämförelse",
+      "description": "Kopiera en länk för att dela din jämförelse.",
       "button": "Dela jämförelse",
       "copied": "Länk kopierad!",
       "fallbackLabel": "Kopiera länken:",

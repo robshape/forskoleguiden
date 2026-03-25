@@ -40,6 +40,8 @@ interface Props {
   removeFromCompareLabel: string
   agreeShareLabel: string
   shareButtonLabel: string
+  shareTitleLabel: string
+  shareDescriptionLabel: string
   shareCopiedLabel: string
   shareFallbackLabel: string
   shareCloseLabel: string
@@ -63,6 +65,8 @@ export default function ComparisonView({
   removeFromCompareLabel,
   agreeShareLabel,
   shareButtonLabel,
+  shareTitleLabel,
+  shareDescriptionLabel,
   shareCopiedLabel,
   shareFallbackLabel,
   shareCloseLabel,
@@ -186,11 +190,11 @@ export default function ComparisonView({
   )
 
   return (
-    <div class="relative mx-auto max-w-2xl overflow-x-clip px-4 pt-4 pb-16 sm:px-0">
+    <div class="relative mx-auto max-w-2xl overflow-x-clip px-4 pt-5 pb-16 sm:px-0 sm:pt-6">
       {ids.length === 1 ? (
         <header class="mb-8 flex min-w-0 flex-col gap-2 border-l-4 border-primary-300 pl-4 rtl:border-r-4 rtl:border-l-0 rtl:pr-4 rtl:pl-0">
           <p
-            class="text-start text-base font-semibold text-gray-700"
+            class="text-start text-base font-medium text-gray-700"
             data-testid="selected-count-label"
           >
             {selectedCountHeading}
@@ -204,7 +208,7 @@ export default function ComparisonView({
         </header>
       ) : (
         <p
-          class="mb-8 text-start text-sm font-medium text-gray-700"
+          class="mb-8 text-start text-base font-medium text-gray-700"
           data-testid="selected-count-label"
         >
           {selectedCountHeading}
@@ -212,16 +216,35 @@ export default function ComparisonView({
       )}
 
       {ids.length >= 2 && (
-        <div class="mb-8">
-          <button
-            class="min-h-11 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50"
-            data-testid="share-comparison-button"
-            disabled={feedbackState.kind !== 'idle'}
-            onClick={handleShare}
-            type="button"
+        <div class="mb-10 flex flex-col gap-4 sm:gap-6">
+          {/* Summary Box */}
+          <ComparisonSummary
+            locale={locale}
+            selectedSurveys={selectedSurveys}
+            summaryHeading={summaryHeading}
+          />
+
+          {/* Share Box */}
+          <div
+            class="flex flex-col gap-4 rounded-xl bg-primary-50 p-5 ring-1 ring-primary-100 ring-inset sm:flex-row sm:items-center sm:justify-between"
+            data-testid="share-box"
           >
-            {shareButtonLabel}
-          </button>
+            <div class="flex flex-col gap-1">
+              <p class="text-base font-semibold text-primary-900">
+                {shareTitleLabel}
+              </p>
+              <p class="text-sm text-primary-700">{shareDescriptionLabel}</p>
+            </div>
+            <button
+              class="min-h-11 w-full shrink-0 rounded-lg bg-primary-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-700 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98] disabled:opacity-50 sm:w-auto"
+              data-testid="share-comparison-button"
+              disabled={feedbackState.kind !== 'idle'}
+              onClick={handleShare}
+              type="button"
+            >
+              {shareButtonLabel}
+            </button>
+          </div>
         </div>
       )}
 
@@ -241,7 +264,7 @@ export default function ComparisonView({
 
       {/* Vertical Comparison Stack */}
       <div
-        class="mb-24 flex flex-col gap-16 md:gap-20"
+        class="flex flex-col gap-16 md:gap-20"
         data-testid="comparison-scroll"
       >
         {questions.map((question) => (
@@ -278,12 +301,6 @@ export default function ComparisonView({
           </section>
         ))}
       </div>
-
-      <ComparisonSummary
-        locale={locale}
-        selectedSurveys={selectedSurveys}
-        summaryHeading={summaryHeading}
-      />
     </div>
   )
 }

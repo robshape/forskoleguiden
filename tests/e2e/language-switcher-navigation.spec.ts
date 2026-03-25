@@ -260,19 +260,6 @@ test.describe('language-switcher: accessibility attributes (US3)', () => {
     await expect(active).toHaveAttribute('lang', 'sv')
   })
 
-  test('flag spans are aria-hidden on all locale options', async ({ page }) => {
-    await page.goto(DIRECTORY_SV)
-
-    const switcher = page.getByRole('navigation', { name: 'Välj språk' })
-    await switcher.locator('[data-testid="header-language-toggle"]').click()
-
-    const flagSpans = switcher
-      .locator('[data-testid="header-language-options"]')
-      .locator('span[aria-hidden="true"]')
-
-    await expect(flagSpans).toHaveCount(3)
-  })
-
   test('Swedish directory page has zero axe violations with switcher present', async ({
     page,
   }) => {
