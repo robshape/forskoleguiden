@@ -69,7 +69,16 @@
       "clearSelection": "Rensa val"
     },
     "chartAriaLabel": "Stapeldiagram för: {question}",
-    "noscriptMessage": "Den här sidan kräver JavaScript. Besök varje förskolas sida direkt för mer information."
+    "noscriptMessage": "Den här sidan kräver JavaScript. Besök varje förskolas sida direkt för mer information.",
+    "share": {
+      "button": "Dela jämförelse",
+      "copied": "Länk kopierad!",
+      "fallbackLabel": "Kopiera länken:",
+      "close": "Stäng",
+      "warningTemplate": "{count} av förskolorna i länken kunde inte hittas.",
+      "errorMessage": "Länken kunde inte läsas.",
+      "errorDirectoryLink": "Gå till förskolelistan"
+    }
   },
   "survey": {
     "results": "Enkätresultat"

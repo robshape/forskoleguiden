@@ -69,7 +69,16 @@
       "clearSelection": "مسح الاختيار"
     },
     "chartAriaLabel": "رسم بياني شريطي لـ: {question}",
-    "noscriptMessage": "تتطلب هذه الصفحة JavaScript. قم بزيارة صفحة كل روضة أطفال مباشرةً لمزيد من المعلومات."
+    "noscriptMessage": "تتطلب هذه الصفحة JavaScript. قم بزيارة صفحة كل روضة أطفال مباشرةً لمزيد من المعلومات.",
+    "share": {
+      "button": "مشاركة المقارنة",
+      "copied": "تم نسخ الرابط!",
+      "fallbackLabel": "انسخ الرابط:",
+      "close": "إغلاق",
+      "warningTemplate": "لم يتم العثور على {count} من رياض الأطفال في الرابط.",
+      "errorMessage": "تعذرت قراءة الرابط.",
+      "errorDirectoryLink": "انتقل إلى قائمة رياض الأطفال"
+    }
   },
   "survey": {
     "results": "نتائج الاستبيان"

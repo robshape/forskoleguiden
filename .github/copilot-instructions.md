@@ -15,7 +15,7 @@ Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents com
 
 See `.impeccable.md` for users, brand personality, aesthetic direction, platforms, and design principles.
 
-**Current phase**: Phase 1 complete (Steps 0–13). Infrastructure, data pipeline, directory page, detail pages with bar charts, comparison page, deterministic summaries, data attribution, accessibility audits, CI/CD pipeline, and final verification are all done. Next: Phase 2 roadmap items (i18n EN/AR page routes, shortlist, sharing, independent preschool queue links) — see `docs/implementation-plan-phase-2.md`.
+**Current phase**: Phase 1 complete (Steps 0–13). Phase 2 specs 001–006 complete (multi-locale routes, language switcher, Arabic RTL, preschool queue links, share state encoding, share UI). Next: Phase 2 remaining items — see `docs/implementation-plan-phase-2.md`.
 
 ## Architecture
 
@@ -38,7 +38,9 @@ Data flow: static JSON (build-time only) → Astro pre-renders HTML → Preact i
 - **SSR-safe**: browser guards on `typeof window` / `typeof sessionStorage` prevent build-time and SSR crashes — safe to import in Astro front matter (the module just returns empty defaults server-side)
 - **MPA-safe**: `sessionStorage` survives Astro page navigations; Preact islands re-subscribe on each page's hydration
 
-Preact islands consume the store via `useStore(compareIds)` from `@nanostores/preact`. Never write to the internal atom directly — use `toggleCompare` / `clearCompare`.
+- `setCompareIds(ids)` — bulk-replace all selected IDs (used by share restoration to atomically set the compare set from a decoded URL)
+
+Preact islands consume the store via `useStore(compareIds)` from `@nanostores/preact`. Never write to the internal atom directly — use `toggleCompare` / `clearCompare` / `setCompareIds`.
 
 ## Preact islands inventory
 
@@ -51,6 +53,7 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 | `ComparisonCard`  | `src/components/preact/ComparisonCard.tsx`  | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Single preschool row within a comparison question section: remove button, school link, agree-share score, sr-only data table.                                                                        |
 | `BreadcrumbLink`  | `src/components/preact/BreadcrumbLink.tsx`  | `client:load`               | Must resolve `?from=compare` query param to swap breadcrumb target immediately                   | Declarative breadcrumb link that renders default directory back-link, or comparison back-link when `?from=compare` is in the URL. Updates parent `<nav>` aria-label.                                 |
 | `DetailsBarChart` | `src/components/preact/DetailsBarChart.tsx` | _(none, static render)_     | Rendered inside `QuestionCard.astro` within `aria-hidden="true"`; no client interactivity needed | Scalable SVG bar chart with pattern fills for color-blind safety. Used on detail pages (`/sv/forskola/[id]`). Wrapped by `QuestionCard.astro` which adds the question heading and agree-share badge. |
+| `ShareFeedback`   | `src/components/preact/ShareFeedback.tsx`   | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Feedback UI for share operations: copied confirmation (auto-dismiss), clipboard fallback (read-only field), stale-ID warning, error with directory link. ARIA live regions.                          |
 
 **Hydration strategy guidance:**
 
@@ -85,6 +88,8 @@ src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), 
 src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc(), getScoreTier(), SCORE_TIER_BADGE_CLASS, SCORE_TIER_TEXT_CLASS
 src/lib/constants.ts          — Shared constants: MALMO_SOURCE_URL, SURVEY_YEAR, SCORE_TIER_*, PLACEHOLDER_RESPONDENTS, MALMO_DATA_DIR
 src/lib/base-path.ts          — getBasePath(): normalizes import.meta.env.BASE_URL (strips trailing slash)
+src/lib/clipboard.ts          — copyToClipboard(text): Clipboard API wrapper with SSR guard, returns Promise<boolean>
+src/lib/share.ts              — encodeShareState(), decodeShareState(), validateShareIds(): URL-safe share payload codec
 src/lib/survey-responses.ts   — RESPONSE_ROWS: canonical field-to-i18n mapping for the five response labels
 src/lib/chart-patterns.tsx    — RESPONSE_SERIES (derived from RESPONSE_ROWS), PatternDef type, renderPatternContent(), TILE_SIZE
 src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path keys)

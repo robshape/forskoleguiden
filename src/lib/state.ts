@@ -118,3 +118,7 @@ export const toggleCompare = (id: string) => {
 export const clearCompare = () => {
   compareIdsStore.set([])
 }
+
+export const setCompareIds = (ids: string[]) => {
+  compareIdsStore.set(ids.slice(0, MAX_COMPARE))
+}

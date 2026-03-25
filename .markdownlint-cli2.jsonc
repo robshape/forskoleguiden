@@ -4,5 +4,6 @@
   },
   "fix": true,
   "gitignore": true,
-  "globs": ["./**/*.md", "!.agents/**", "!.github/agents/**", "!.specify/**"]
+  "globs": ["./**/*.md"],
+  "ignores": [".agents/**", ".github/agents/**", ".specify/**", "specs/**"]
 }

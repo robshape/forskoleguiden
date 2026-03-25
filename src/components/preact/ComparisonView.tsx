@@ -1,14 +1,29 @@
 import { useStore } from '@nanostores/preact'
-import { useState } from 'preact/hooks'
+import { useCallback, useEffect, useState } from 'preact/hooks'
 
 import type { Locale } from '@/i18n/utils'
+import { getBasePath } from '@/lib/base-path'
+import { copyToClipboard } from '@/lib/clipboard'
 import { OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
-import { compareIds } from '@/lib/state'
+import {
+  decodeShareState,
+  encodeShareState,
+  validateShareIds,
+} from '@/lib/share'
+import { compareIds, setCompareIds } from '@/lib/state'
 import type { PreschoolSurvey } from '@/lib/types'
 
 import ComparisonCard from './ComparisonCard'
 import ComparisonEmptyState from './ComparisonEmptyState'
 import ComparisonSummary from './ComparisonSummary'
+import type { FeedbackState } from './ShareFeedback'
+import ShareFeedback from './ShareFeedback'
+
+const stripShareParam = () => {
+  const url = new URL(window.location.href)
+  url.searchParams.delete('s')
+  window.history.replaceState({}, '', url.pathname + url.search)
+}
 
 interface Props {
   directoryHref: string
@@ -24,6 +39,14 @@ interface Props {
   noDataLabel: string
   removeFromCompareLabel: string
   agreeShareLabel: string
+  shareButtonLabel: string
+  shareCopiedLabel: string
+  shareFallbackLabel: string
+  shareCloseLabel: string
+  shareWarningTemplate: string
+  shareErrorMessage: string
+  shareErrorDirectoryLink: string
+  knownIds: string[]
 }
 
 export default function ComparisonView({
@@ -39,16 +62,86 @@ export default function ComparisonView({
   noDataLabel,
   removeFromCompareLabel,
   agreeShareLabel,
+  shareButtonLabel,
+  shareCopiedLabel,
+  shareFallbackLabel,
+  shareCloseLabel,
+  shareWarningTemplate,
+  shareErrorMessage,
+  shareErrorDirectoryLink,
+  knownIds,
 }: Props) {
   const ids = useStore(compareIds)
   const [highlightedId, setHighlightedId] = useState<string | null>(null)
+  const [feedbackState, setFeedbackState] = useState<FeedbackState>({
+    kind: 'idle',
+  })
+
+  // Restore shared comparison from ?s= query param
+  useEffect(() => {
+    const params = new URL(window.location.href).searchParams
+    const encoded = params.get('s')
+    if (!encoded) return
+
+    const payload = decodeShareState(encoded)
+    if (!payload) {
+      setFeedbackState({ kind: 'error' })
+      stripShareParam()
+      return
+    }
+
+    const { valid, invalid } = validateShareIds(payload, knownIds)
+
+    if (valid.length > 0) {
+      setCompareIds(valid)
+    }
+
+    if (invalid.length > 0 && valid.length > 0) {
+      setFeedbackState({ kind: 'warning', invalidCount: invalid.length })
+    } else if (valid.length === 0) {
+      setFeedbackState({ kind: 'error' })
+    }
+
+    stripShareParam()
+  }, [])
+
+  const handleShare = useCallback(async () => {
+    if (feedbackState.kind !== 'idle') return
+    const encoded = encodeShareState([...ids])
+    const url = `${window.location.origin}${getBasePath()}/${locale}/jamfor/?s=${encoded}`
+    const copied = await copyToClipboard(url)
+    if (copied) {
+      setFeedbackState({ kind: 'copied' })
+    } else {
+      setFeedbackState({ kind: 'fallback', url })
+    }
+  }, [feedbackState.kind, ids, locale])
+
+  const dismissFeedback = useCallback(() => {
+    setFeedbackState({ kind: 'idle' })
+  }, [])
 
   if (ids.length === 0) {
     return (
-      <ComparisonEmptyState
-        emptyStateBody={emptyStateBody}
-        emptyStateTitle={emptyStateTitle}
-      />
+      <>
+        <ShareFeedback
+          directoryHref={directoryHref}
+          labels={{
+            closeLabel: shareCloseLabel,
+            copiedLabel: shareCopiedLabel,
+            errorDirectoryLink: shareErrorDirectoryLink,
+            errorMessage: shareErrorMessage,
+            fallbackLabel: shareFallbackLabel,
+            warningTemplate: shareWarningTemplate,
+          }}
+          onDismiss={dismissFeedback}
+          state={feedbackState}
+        />
+        <ComparisonEmptyState
+          emptyStateBody={emptyStateBody}
+          emptyStateTitle={emptyStateTitle}
+        />
+      </>
     )
   }
 
@@ -58,10 +151,25 @@ export default function ComparisonView({
 
   if (selectedSurveys.length === 0) {
     return (
-      <ComparisonEmptyState
-        emptyStateBody={emptyStateBody}
-        emptyStateTitle={emptyStateTitle}
-      />
+      <>
+        <ShareFeedback
+          directoryHref={directoryHref}
+          labels={{
+            closeLabel: shareCloseLabel,
+            copiedLabel: shareCopiedLabel,
+            errorDirectoryLink: shareErrorDirectoryLink,
+            errorMessage: shareErrorMessage,
+            fallbackLabel: shareFallbackLabel,
+            warningTemplate: shareWarningTemplate,
+          }}
+          onDismiss={dismissFeedback}
+          state={feedbackState}
+        />
+        <ComparisonEmptyState
+          emptyStateBody={emptyStateBody}
+          emptyStateTitle={emptyStateTitle}
+        />
+      </>
     )
   }
 
@@ -102,6 +210,34 @@ export default function ComparisonView({
           {selectedCountHeading}
         </p>
       )}
+
+      {ids.length >= 2 && (
+        <div class="mb-8">
+          <button
+            class="min-h-11 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50"
+            data-testid="share-comparison-button"
+            disabled={feedbackState.kind !== 'idle'}
+            onClick={handleShare}
+            type="button"
+          >
+            {shareButtonLabel}
+          </button>
+        </div>
+      )}
+
+      <ShareFeedback
+        directoryHref={directoryHref}
+        labels={{
+          closeLabel: shareCloseLabel,
+          copiedLabel: shareCopiedLabel,
+          errorDirectoryLink: shareErrorDirectoryLink,
+          errorMessage: shareErrorMessage,
+          fallbackLabel: shareFallbackLabel,
+          warningTemplate: shareWarningTemplate,
+        }}
+        onDismiss={dismissFeedback}
+        state={feedbackState}
+      />
 
       {/* Vertical Comparison Stack */}
       <div

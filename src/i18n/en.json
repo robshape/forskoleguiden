@@ -69,7 +69,16 @@
       "clearSelection": "Clear selection"
     },
     "chartAriaLabel": "Bar chart for: {question}",
-    "noscriptMessage": "This page requires JavaScript. Visit each preschool's page directly for more information."
+    "noscriptMessage": "This page requires JavaScript. Visit each preschool's page directly for more information.",
+    "share": {
+      "button": "Share comparison",
+      "copied": "Link copied!",
+      "fallbackLabel": "Copy the link:",
+      "close": "Close",
+      "warningTemplate": "{count} of the preschools in the link could not be found.",
+      "errorMessage": "The link could not be read.",
+      "errorDirectoryLink": "Go to preschool list"
+    }
   },
   "survey": {
     "results": "Survey Results"
