@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, statSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { extname, join } from 'node:path'
 
 import { describe, expect, it } from 'vitest'
@@ -123,5 +123,34 @@ describe('static output verification', () => {
       bytes,
       `dist size excluding images is ${kb} KB, exceeds ${TOTAL_SIZE_BUDGET_BYTES / 1024} KB budget`,
     ).toBeLessThan(TOTAL_SIZE_BUDGET_BYTES)
+  })
+
+  it('Arabic directory page contains Arabic script characters', () => {
+    const html = readFileSync(distPath('ar', 'index.html'), 'utf-8')
+    const hasArabic =
+      /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(
+        html,
+      )
+    expect(
+      hasArabic,
+      'dist/ar/index.html should contain at least one Arabic character',
+    ).toBe(true)
+  })
+
+  it('Arabic directory page contains no raw dot-path key fallbacks', () => {
+    const html = readFileSync(distPath('ar', 'index.html'), 'utf-8')
+    const rawKeys = [
+      'directory.heading',
+      'compare.heading',
+      'site.title',
+      'site.tagline',
+      'nav.directory',
+      'compareTray.selectedCount',
+    ]
+    const found = rawKeys.filter((key) => html.includes(key))
+    expect(
+      found,
+      `dist/ar/index.html contains raw key fallbacks: ${found.join(', ')}`,
+    ).toHaveLength(0)
   })
 })

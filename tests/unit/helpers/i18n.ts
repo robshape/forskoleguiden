@@ -68,3 +68,13 @@ export const collectKeyPaths = (obj: JsonObject) => {
     .filter((path) => path.length > 0)
     .sort((left, right) => left.localeCompare(right))
 }
+
+export const extractPlaceholders = (value: string): string[] => {
+  const tokens = new Set<string>()
+
+  for (const match of value.matchAll(/\{([a-zA-Z0-9_]+)\}/g)) {
+    tokens.add(match[1])
+  }
+
+  return [...tokens].sort()
+}

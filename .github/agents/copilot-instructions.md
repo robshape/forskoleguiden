@@ -1,10 +1,12 @@
 # forskoleguiden Development Guidelines
 
-Auto-generated from all feature plans. Last updated: 2026-03-25
+Auto-generated from all feature plans. Last updated: 2026-03-26
 
 ## Active Technologies
 - TypeScript (strict mode, `astro/tsconfigs/strict`) + Astro (static output), Preact (islands), nanostores + @nanostores/preact, Tailwind CSS v4 (@tailwindcss/vite), lz-string (already installed for share encoding) (006-share-ui)
 - sessionStorage (client-side compare state persistence), no server-side storage (006-share-ui)
+- TypeScript (strict), Astro static site + Vitest (unit + post-build tests), existing `tests/unit/helpers/i18n.ts` shared helpers (007-translation-quality-verification)
+- Static JSON locale files on disk (`src/i18n/sv.json`, `en.json`, `ar.json`) (007-translation-quality-verification)
 
 - `lz-string` (exact-pinned version) — `compressToEncodedURIComponent` / `decompressFromEncodedURIComponent`; browser-safe, no Node.js `fs` usage; imported only from `src/lib/share.ts` and Preact islands (005-share-state-encoding)
 - TypeScript (strict), Astro 5.x + Astro (static rendering), Preact islands (none new for this feature), Tailwind CSS v4, nanostores (no changes) (004-preschool-queue-links)
@@ -34,11 +36,11 @@ pnpm validate
 TypeScript 5.9.3 (strict mode via `astro/tsconfigs/strict`): Follow standard conventions
 
 ## Recent Changes
+- 007-translation-quality-verification: Added TypeScript (strict), Astro static site + Vitest (unit + post-build tests), existing `tests/unit/helpers/i18n.ts` shared helpers
 - 006-share-ui: Added TypeScript (strict mode, `astro/tsconfigs/strict`) + Astro (static output), Preact (islands), nanostores + @nanostores/preact, Tailwind CSS v4 (@tailwindcss/vite), lz-string (already installed for share encoding)
 
 - 005-share-state-encoding: Added `lz-string` (browser-safe URL-state compression); new `src/lib/share.ts` (`SharePayload`, `encodeShareState`, `decodeShareState`, `validateShareIds`); `SHARE_CITY` constant in `src/lib/constants.ts`
 
-- 004-preschool-queue-links: Added TypeScript (strict), Astro 5.x + Astro (static rendering), Preact islands (none new for this feature), Tailwind CSS v4, nanostores (no changes)
 
 
 
