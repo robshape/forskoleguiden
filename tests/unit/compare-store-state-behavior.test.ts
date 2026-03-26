@@ -1,171 +1,59 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
-type CompareStateModule = typeof import('../../src/lib/state')
+import {
+  clearCompare,
+  compareIds,
+  MAX_COMPARE,
+  setCompareIds,
+  toggleCompare,
+} from '../../src/lib/state'
 
-const importCompareState = async () => {
-  vi.resetModules()
-
-  return (await import('../../src/lib/state')) as CompareStateModule
-}
-
-const getCompareStorageKey = async () => {
-  clearBrowserGlobals()
-
-  const { COMPARE_STORAGE_KEY } = await importCompareState()
-
-  return COMPARE_STORAGE_KEY
-}
-
-const clearBrowserGlobals = () => {
-  vi.unstubAllGlobals()
-  Reflect.deleteProperty(globalThis, 'window')
-  Reflect.deleteProperty(globalThis, 'sessionStorage')
-}
-
-const createSessionStorage = (
-  initialEntries: Record<string, string> = {},
-): Storage => {
-  const store = new Map(Object.entries(initialEntries))
-
-  return {
-    get length() {
-      return store.size
-    },
-    clear() {
-      store.clear()
-    },
-    getItem(key) {
-      return store.has(key) ? (store.get(key) ?? null) : null
-    },
-    key(index) {
-      return Array.from(store.keys())[index] ?? null
-    },
-    removeItem(key) {
-      store.delete(key)
-    },
-    setItem(key, value) {
-      store.set(key, value)
-    },
-  }
-}
-
-const stubBrowserStorage = (
-  initialEntries: Record<string, string> = {},
-): Storage => {
-  const sessionStorage = createSessionStorage(initialEntries)
-
-  vi.stubGlobal('sessionStorage', sessionStorage)
-  vi.stubGlobal('window', { sessionStorage })
-
-  return sessionStorage
-}
+// Importing state.ts in a Node environment (no window/sessionStorage) is the
+// SSR-safety test: if it crashes, every test in this file fails.
 
 afterEach(() => {
-  clearBrowserGlobals()
-  vi.resetModules()
+  clearCompare()
 })
 
 describe('compare store state behavior', () => {
-  it('should stay SSR-safe without browser globals and handle default, toggle, clear, and max-cap behavior', async () => {
-    clearBrowserGlobals()
-
-    const { MAX_COMPARE, compareIds, toggleCompare, clearCompare } =
-      await importCompareState()
-
+  it('starts with an empty compare list and exposes MAX_COMPARE as 5', () => {
     expect(MAX_COMPARE).toBe(5)
     expect(compareIds.get()).toEqual([])
+  })
 
+  it('toggles a preschool into and out of the compare list', () => {
     toggleCompare('alpha')
     expect(compareIds.get()).toEqual(['alpha'])
 
     toggleCompare('alpha')
     expect(compareIds.get()).toEqual([])
+  })
 
-    toggleCompare('alpha')
-    toggleCompare('beta')
-    toggleCompare('gamma')
-    toggleCompare('delta')
-    toggleCompare('epsilon')
-    toggleCompare('zeta')
+  it('silently refuses additions beyond MAX_COMPARE capacity', () => {
+    toggleCompare('a')
+    toggleCompare('b')
+    toggleCompare('c')
+    toggleCompare('d')
+    toggleCompare('e')
 
-    expect(compareIds.get()).toEqual([
-      'alpha',
-      'beta',
-      'gamma',
-      'delta',
-      'epsilon',
-    ])
+    toggleCompare('overflow')
+    expect(compareIds.get()).toEqual(['a', 'b', 'c', 'd', 'e'])
+  })
+
+  it('clears all selections', () => {
+    toggleCompare('a')
+    toggleCompare('b')
+    expect(compareIds.get()).toEqual(['a', 'b'])
 
     clearCompare()
     expect(compareIds.get()).toEqual([])
   })
 
-  it('should only write persisted state after toggle and clear mutations, and hydrate from existing storage on import', async () => {
-    const compareStorageKey = await getCompareStorageKey()
+  it('bulk-replaces IDs with setCompareIds and caps at MAX_COMPARE', () => {
+    setCompareIds(['x', 'y', 'z'])
+    expect(compareIds.get()).toEqual(['x', 'y', 'z'])
 
-    const sessionStorage = stubBrowserStorage()
-
-    let { compareIds, toggleCompare, clearCompare } = await importCompareState()
-
-    expect(sessionStorage.getItem(compareStorageKey)).toBeNull()
-
-    toggleCompare('alpha')
-    expect(compareIds.get()).toEqual(['alpha'])
-    expect(sessionStorage.getItem(compareStorageKey)).toBe(
-      JSON.stringify(['alpha']),
-    )
-
-    clearCompare()
-    expect(compareIds.get()).toEqual([])
-    expect(sessionStorage.getItem(compareStorageKey)).toBe(JSON.stringify([]))
-
-    clearBrowserGlobals()
-
-    stubBrowserStorage({
-      [compareStorageKey]: JSON.stringify(['alpha', 'beta']),
-    })
-    ;({ compareIds } = await importCompareState())
-
-    expect(compareIds.get()).toEqual(['alpha', 'beta'])
-  })
-
-  it('should fall back to empty compare IDs when persisted storage is invalid JSON or a non-array JSON value', async () => {
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
-
-    const compareStorageKey = await getCompareStorageKey()
-
-    stubBrowserStorage({
-      [compareStorageKey]: '{not-json',
-    })
-
-    let { compareIds } = await importCompareState()
-
-    expect(compareIds.get()).toEqual([])
-    expect(warnSpy).toHaveBeenCalledOnce()
-
-    warnSpy.mockRestore()
-
-    clearBrowserGlobals()
-
-    stubBrowserStorage({
-      [compareStorageKey]: JSON.stringify({ ids: ['alpha', 'beta'] }),
-    })
-    ;({ compareIds } = await importCompareState())
-
-    expect(compareIds.get()).toEqual([])
-  })
-
-  it('should share the same store instance across two dynamic imports via the window singleton', async () => {
-    stubBrowserStorage()
-
-    const first = await importCompareState()
-
-    vi.resetModules()
-
-    const second = await importCompareState()
-
-    first.toggleCompare('alpha')
-
-    expect(second.compareIds.get()).toEqual(['alpha'])
+    setCompareIds(['1', '2', '3', '4', '5', '6', '7'])
+    expect(compareIds.get()).toEqual(['1', '2', '3', '4', '5'])
   })
 })

@@ -1,3 +1,6 @@
+// lz-string@1.5.0 — last release 2019. Functionally stable (compression is
+// a mature problem). Monitor for security advisories; consider lz-ts or fflate
+// as drop-in replacements if a vulnerability surfaces.
 import LZString from 'lz-string'
 
 import { SHARE_CITY, SURVEY_YEAR } from '@/lib/constants'
@@ -43,7 +46,8 @@ export const decodeShareState = (encoded: string): SharePayload | null => {
     }
 
     return parsed as SharePayload
-  } catch {
+  } catch (error) {
+    console.warn('[share] Failed to decode share state:', error)
     return null
   }
 }

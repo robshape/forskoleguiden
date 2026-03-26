@@ -2,6 +2,7 @@ import { useStore } from '@nanostores/preact'
 import { useEffect, useRef } from 'preact/hooks'
 
 import type { Locale } from '@/i18n/utils'
+import { interpolate } from '@/lib/interpolate'
 import { isRtlLocale } from '@/lib/locale-switch'
 import { clearCompare, compareIds } from '@/lib/state'
 
@@ -53,10 +54,9 @@ export default function CompareTray({
     return null
   }
 
-  const selectedCountText = selectedCountTemplate.replace(
-    '{count}',
-    String(ids.length),
-  )
+  const selectedCountText = interpolate(selectedCountTemplate, {
+    count: ids.length,
+  })
 
   const handleClear = () => {
     clearCompare()

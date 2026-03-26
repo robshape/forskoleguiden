@@ -39,28 +39,30 @@ const pageDescription = t('compare.metaDescription', locale)
   </h1>
 
   <ComparisonView
-    agreeShareLabel={t('directory.scoreBadge.agreeShare', locale).toLowerCase()}
     categoryLabels={categoryLabels}
     client:only="preact"
     directoryHref={directoryHref}
-    emptyStateBody={t('compare.emptyStateBody', locale)}
-    emptyStateTitle={t('compare.emptyStateTitle', locale)}
     knownIds={surveys.map((s) => s.id)}
+    labels={{
+      agreeShare: t('directory.scoreBadge.agreeShare', locale).toLowerCase(),
+      emptyStateBody: t('compare.emptyStateBody', locale),
+      emptyStateTitle: t('compare.emptyStateTitle', locale),
+      noData: t('directory.noData', locale),
+      removeFromCompare: t('directory.removeFromCompare', locale),
+      selectedCountTemplate: t('compareTray.selectedCount', locale),
+      shareButton: t('compare.share.button', locale),
+      shareClose: t('compare.share.close', locale),
+      shareCopied: t('compare.share.copied', locale),
+      shareDescription: t('compare.share.description', locale),
+      shareErrorDirectoryLink: t('compare.share.errorDirectoryLink', locale),
+      shareErrorMessage: t('compare.share.errorMessage', locale),
+      shareFallback: t('compare.share.fallbackLabel', locale),
+      shareTitle: t('compare.share.title', locale),
+      shareWarningTemplate: t('compare.share.warningTemplate', locale),
+      singleSelectionPrompt: t('compare.singleSelectionPrompt', locale),
+      summaryHeading: t('compare.summaryHeading', locale),
+    }}
     locale={locale}
-    noDataLabel={t('directory.noData', locale)}
-    removeFromCompareLabel={t('directory.removeFromCompare', locale)}
-    selectedCountTemplate={t('compareTray.selectedCount', locale)}
-    shareButtonLabel={t('compare.share.button', locale)}
-    shareCloseLabel={t('compare.share.close', locale)}
-    shareCopiedLabel={t('compare.share.copied', locale)}
-    shareDescriptionLabel={t('compare.share.description', locale)}
-    shareErrorDirectoryLink={t('compare.share.errorDirectoryLink', locale)}
-    shareErrorMessage={t('compare.share.errorMessage', locale)}
-    shareFallbackLabel={t('compare.share.fallbackLabel', locale)}
-    shareTitleLabel={t('compare.share.title', locale)}
-    shareWarningTemplate={t('compare.share.warningTemplate', locale)}
-    singleSelectionPrompt={t('compare.singleSelectionPrompt', locale)}
-    summaryHeading={t('compare.summaryHeading', locale)}
     surveys={surveys}
   />
   <noscript>{t('compare.noscriptMessage', locale)}</noscript>

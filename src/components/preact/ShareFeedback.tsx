@@ -1,5 +1,7 @@
 import { useEffect, useId } from 'preact/hooks'
 
+import { interpolate } from '@/lib/interpolate'
+
 export type FeedbackState =
   | { kind: 'idle' }
   | { kind: 'copied' }
@@ -109,10 +111,9 @@ export default function ShareFeedback({
         role="status"
       >
         <p class="font-medium">
-          {labels.warningTemplate.replace(
-            '{count}',
-            String(state.invalidCount),
-          )}
+          {interpolate(labels.warningTemplate, {
+            count: state.invalidCount,
+          })}
         </p>
         <button
           class="min-h-[44px] shrink-0 rounded-md px-3 py-2 text-sm font-semibold transition-colors hover:bg-amber-100 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1 focus-visible:outline-none"

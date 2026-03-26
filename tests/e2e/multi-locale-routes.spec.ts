@@ -1,4 +1,9 @@
 import { expect, test } from './fixtures'
+import {
+  getCompareButton,
+  waitForCompareButtonReady,
+  waitForCompareButtonSelected,
+} from './helpers'
 
 const BASE = '/forskoleguiden'
 
@@ -79,4 +84,20 @@ test('root URL redirects to Swedish locale', async ({ page }) => {
   await page.goto(`${BASE}/`)
   await expect(page).toHaveURL(/\/sv\/$/)
   await expect(page.locator('html')).toHaveAttribute('lang', 'sv')
+})
+
+test('compare button toggles tray visibility in English locale', async ({
+  page,
+}) => {
+  await page.goto(`${BASE}/en/`)
+
+  // Use a unique name (not a prefix of another preschool)
+  const name = 'Almgårdens förskola'
+
+  await waitForCompareButtonReady(page, name)
+  await getCompareButton(page, name).click()
+  await waitForCompareButtonSelected(page, name)
+
+  // Compare tray should appear with one selection
+  await expect(page.getByTestId('compare-tray')).toBeVisible()
 })

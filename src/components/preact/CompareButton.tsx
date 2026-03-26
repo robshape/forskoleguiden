@@ -1,5 +1,6 @@
 import { useStore } from '@nanostores/preact'
 
+import { interpolate } from '@/lib/interpolate'
 import { compareIds, toggleCompare } from '@/lib/state'
 
 interface Props {
@@ -10,13 +11,8 @@ interface Props {
   ariaLabelTemplate: string
 }
 
-const interpolateAriaLabel = (
-  template: string,
-  action: string,
-  name: string,
-) => {
-  return template.replace(/\{action\}/g, action).replace(/\{name\}/g, name)
-}
+const buildAriaLabel = (template: string, action: string, name: string) =>
+  interpolate(template, { action, name })
 
 export default function CompareButton({
   id,
@@ -31,7 +27,7 @@ export default function CompareButton({
   const buttonClass = isSelected
     ? 'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-700/90'
     : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
-  const ariaLabel = interpolateAriaLabel(ariaLabelTemplate, label, name)
+  const ariaLabel = buildAriaLabel(ariaLabelTemplate, label, name)
 
   return (
     <button

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'preact/hooks'
 import type { Locale } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
 import { copyToClipboard } from '@/lib/clipboard'
+import { interpolate } from '@/lib/interpolate'
 import { OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
 import {
   decodeShareState,
@@ -16,6 +17,7 @@ import type { PreschoolSurvey } from '@/lib/types'
 import ComparisonCard from './ComparisonCard'
 import ComparisonEmptyState from './ComparisonEmptyState'
 import ComparisonSummary from './ComparisonSummary'
+import ShareBox from './ShareBox'
 import type { FeedbackState } from './ShareFeedback'
 import ShareFeedback from './ShareFeedback'
 
@@ -25,55 +27,43 @@ const stripShareParam = () => {
   window.history.replaceState({}, '', url.pathname + url.search)
 }
 
-interface Props {
-  directoryHref: string
-  emptyStateTitle: string
+export interface ComparisonViewLabels {
+  agreeShare: string
   emptyStateBody: string
+  emptyStateTitle: string
+  noData: string
+  removeFromCompare: string
   selectedCountTemplate: string
+  shareButton: string
+  shareClose: string
+  shareCopied: string
+  shareDescription: string
+  shareErrorDirectoryLink: string
+  shareErrorMessage: string
+  shareFallback: string
+  shareTitle: string
+  shareWarningTemplate: string
   singleSelectionPrompt: string
   summaryHeading: string
-  surveys: PreschoolSurvey[]
+}
+
+interface Props {
   /** 5 localized response category labels in RESPONSE_ROWS order */
   categoryLabels: string[]
-  locale: Locale
-  noDataLabel: string
-  removeFromCompareLabel: string
-  agreeShareLabel: string
-  shareButtonLabel: string
-  shareTitleLabel: string
-  shareDescriptionLabel: string
-  shareCopiedLabel: string
-  shareFallbackLabel: string
-  shareCloseLabel: string
-  shareWarningTemplate: string
-  shareErrorMessage: string
-  shareErrorDirectoryLink: string
+  directoryHref: string
   knownIds: string[]
+  labels: ComparisonViewLabels
+  locale: Locale
+  surveys: PreschoolSurvey[]
 }
 
 export default function ComparisonView({
-  directoryHref,
-  emptyStateTitle,
-  emptyStateBody,
-  selectedCountTemplate,
-  singleSelectionPrompt,
-  summaryHeading,
-  surveys,
   categoryLabels,
-  locale,
-  noDataLabel,
-  removeFromCompareLabel,
-  agreeShareLabel,
-  shareButtonLabel,
-  shareTitleLabel,
-  shareDescriptionLabel,
-  shareCopiedLabel,
-  shareFallbackLabel,
-  shareCloseLabel,
-  shareWarningTemplate,
-  shareErrorMessage,
-  shareErrorDirectoryLink,
+  directoryHref,
   knownIds,
+  labels,
+  locale,
+  surveys,
 }: Props) {
   const ids = useStore(compareIds)
   const [highlightedId, setHighlightedId] = useState<string | null>(null)
@@ -131,19 +121,19 @@ export default function ComparisonView({
         <ShareFeedback
           directoryHref={directoryHref}
           labels={{
-            closeLabel: shareCloseLabel,
-            copiedLabel: shareCopiedLabel,
-            errorDirectoryLink: shareErrorDirectoryLink,
-            errorMessage: shareErrorMessage,
-            fallbackLabel: shareFallbackLabel,
-            warningTemplate: shareWarningTemplate,
+            closeLabel: labels.shareClose,
+            copiedLabel: labels.shareCopied,
+            errorDirectoryLink: labels.shareErrorDirectoryLink,
+            errorMessage: labels.shareErrorMessage,
+            fallbackLabel: labels.shareFallback,
+            warningTemplate: labels.shareWarningTemplate,
           }}
           onDismiss={dismissFeedback}
           state={feedbackState}
         />
         <ComparisonEmptyState
-          emptyStateBody={emptyStateBody}
-          emptyStateTitle={emptyStateTitle}
+          emptyStateBody={labels.emptyStateBody}
+          emptyStateTitle={labels.emptyStateTitle}
         />
       </>
     )
@@ -159,19 +149,19 @@ export default function ComparisonView({
         <ShareFeedback
           directoryHref={directoryHref}
           labels={{
-            closeLabel: shareCloseLabel,
-            copiedLabel: shareCopiedLabel,
-            errorDirectoryLink: shareErrorDirectoryLink,
-            errorMessage: shareErrorMessage,
-            fallbackLabel: shareFallbackLabel,
-            warningTemplate: shareWarningTemplate,
+            closeLabel: labels.shareClose,
+            copiedLabel: labels.shareCopied,
+            errorDirectoryLink: labels.shareErrorDirectoryLink,
+            errorMessage: labels.shareErrorMessage,
+            fallbackLabel: labels.shareFallback,
+            warningTemplate: labels.shareWarningTemplate,
           }}
           onDismiss={dismissFeedback}
           state={feedbackState}
         />
         <ComparisonEmptyState
-          emptyStateBody={emptyStateBody}
-          emptyStateTitle={emptyStateTitle}
+          emptyStateBody={labels.emptyStateBody}
+          emptyStateTitle={labels.emptyStateTitle}
         />
       </>
     )
@@ -184,10 +174,9 @@ export default function ComparisonView({
 
   const questions = overallGroup?.questions ?? []
 
-  const selectedCountHeading = selectedCountTemplate.replace(
-    '{count}',
-    String(selectedSurveys.length),
-  )
+  const selectedCountHeading = interpolate(labels.selectedCountTemplate, {
+    count: selectedSurveys.length,
+  })
 
   return (
     <div class="relative mx-auto max-w-2xl overflow-x-clip pt-5 sm:pt-6">
@@ -203,7 +192,7 @@ export default function ComparisonView({
             class="text-start text-base text-gray-700"
             data-testid="single-selection-prompt"
           >
-            {singleSelectionPrompt}
+            {labels.singleSelectionPrompt}
           </p>
         </header>
       ) : (
@@ -216,40 +205,24 @@ export default function ComparisonView({
       )}
 
       {ids.length >= 2 && (
-        <div class="mb-10 flex flex-col gap-4 sm:gap-6">
-          {/* Share Box */}
-          <div
-            class="flex flex-col gap-4 rounded-xl bg-primary-50 p-5 ring-1 ring-primary-100 ring-inset sm:flex-row sm:items-center sm:justify-between"
-            data-testid="share-box"
-          >
-            <div class="flex flex-col gap-1">
-              <p class="text-base font-semibold text-primary-900">
-                {shareTitleLabel}
-              </p>
-              <p class="text-sm text-primary-700">{shareDescriptionLabel}</p>
-            </div>
-            <button
-              class="min-h-11 w-full shrink-0 rounded-lg bg-primary-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-700 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98] disabled:opacity-50 sm:w-auto"
-              data-testid="share-comparison-button"
-              disabled={feedbackState.kind !== 'idle'}
-              onClick={handleShare}
-              type="button"
-            >
-              {shareButtonLabel}
-            </button>
-          </div>
-        </div>
+        <ShareBox
+          buttonLabel={labels.shareButton}
+          descriptionLabel={labels.shareDescription}
+          disabled={feedbackState.kind !== 'idle'}
+          onShare={handleShare}
+          titleLabel={labels.shareTitle}
+        />
       )}
 
       <ShareFeedback
         directoryHref={directoryHref}
         labels={{
-          closeLabel: shareCloseLabel,
-          copiedLabel: shareCopiedLabel,
-          errorDirectoryLink: shareErrorDirectoryLink,
-          errorMessage: shareErrorMessage,
-          fallbackLabel: shareFallbackLabel,
-          warningTemplate: shareWarningTemplate,
+          closeLabel: labels.shareClose,
+          copiedLabel: labels.shareCopied,
+          errorDirectoryLink: labels.shareErrorDirectoryLink,
+          errorMessage: labels.shareErrorMessage,
+          fallbackLabel: labels.shareFallback,
+          warningTemplate: labels.shareWarningTemplate,
         }}
         onDismiss={dismissFeedback}
         state={feedbackState}
@@ -271,7 +244,7 @@ export default function ComparisonView({
             <ul class="flex flex-col gap-0 border-y-2 border-zinc-900">
               {selectedSurveys.map((survey) => (
                 <ComparisonCard
-                  agreeShareLabel={agreeShareLabel}
+                  agreeShareLabel={labels.agreeShare}
                   categoryLabels={categoryLabels}
                   directoryHref={directoryHref}
                   isDimmed={
@@ -279,14 +252,14 @@ export default function ComparisonView({
                   }
                   isHighlighted={highlightedId === survey.id}
                   key={survey.id}
-                  noDataLabel={noDataLabel}
+                  noDataLabel={labels.noData}
                   onToggleHighlight={() =>
                     setHighlightedId(
                       highlightedId === survey.id ? null : survey.id,
                     )
                   }
                   question={question}
-                  removeFromCompareLabel={removeFromCompareLabel}
+                  removeFromCompareLabel={labels.removeFromCompare}
                   survey={survey}
                 />
               ))}
@@ -301,7 +274,7 @@ export default function ComparisonView({
           <ComparisonSummary
             locale={locale}
             selectedSurveys={selectedSurveys}
-            summaryHeading={summaryHeading}
+            summaryHeading={labels.summaryHeading}
           />
         </div>
       )}

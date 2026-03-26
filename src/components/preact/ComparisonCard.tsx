@@ -1,8 +1,9 @@
+import { interpolate } from '@/lib/interpolate'
+import { SCORE_TIER_TEXT_CLASS } from '@/lib/score-tier-classes'
 import {
   computeAgreeShare,
   getScoreTier,
   OVERALL_ASSESSMENT_GROUP,
-  SCORE_TIER_TEXT_CLASS,
 } from '@/lib/scoring'
 import { toggleCompare } from '@/lib/state'
 import { RESPONSE_ROWS } from '@/lib/survey-responses'
@@ -47,10 +48,9 @@ export default function ComparisonCard({
     ? 'bg-zinc-50 shadow-[0_2px_12px_rgba(0,0,0,0.06)] ring-1 ring-zinc-900/5'
     : 'hover:bg-zinc-50/80 hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:scale-[1.01] active:scale-[0.99]'
 
-  const removeAriaLabel = removeFromCompareLabel.replace(
-    '{name}',
-    survey.preschoolName,
-  )
+  const removeAriaLabel = interpolate(removeFromCompareLabel, {
+    name: survey.preschoolName,
+  })
 
   const preschoolInfo = (
     <div class="flex min-w-0 flex-1 items-center gap-3">
