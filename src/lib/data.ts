@@ -71,3 +71,14 @@ export const getAllPreschoolSurveys = () => {
     )
   })
 }
+
+// Shared getStaticPaths for per-locale detail pages (src/pages/*/forskola/[id].astro).
+// Extracts logic that was duplicated across all 3 locale route files.
+export const getPreschoolDetailPaths = () => {
+  const index = getPreschoolIndex()
+  return index.preschools.flatMap((preschool) => {
+    const survey = getPreschoolSurveyByYear(preschool.id, index.year)
+    if (isPlaceholderSurvey(survey)) return []
+    return [{ params: { id: preschool.id }, props: { preschool, survey } }]
+  })
+}

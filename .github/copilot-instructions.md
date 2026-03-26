@@ -84,7 +84,7 @@ The `base` config defaults to `/forskoleguiden` for GitHub Pages project-site de
 data/malmo/index.json         — City directory: lists all preschool IDs, names, addresses, operator types
 data/malmo/2025/*.json        — Per-preschool survey data (one file per preschool, keyed by slug ID)
 src/lib/types.ts              — TypeScript interfaces: PreschoolSurvey, PreschoolIndex, SurveyResponse, etc.
-src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurveyByYear(id, year), getAllPreschoolSurveys()
+src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurveyByYear(id, year), getAllPreschoolSurveys(), getPreschoolDetailPaths()
 src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc(), getScoreTier(), SCORE_TIER_BADGE_CLASS, SCORE_TIER_TEXT_CLASS
 src/lib/constants.ts          — Shared constants: MALMO_SOURCE_URL, SURVEY_YEAR, SCORE_TIER_*, PLACEHOLDER_RESPONDENTS, MALMO_DATA_DIR
 src/lib/base-path.ts          — getBasePath(): normalizes import.meta.env.BASE_URL (strips trailing slash)
@@ -96,6 +96,7 @@ src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path 
 src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
 src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
 src/components/astro/         — Static Astro components: Nav, Footer, CitySelector, PreschoolCard, QuestionCard
+src/components/astro/page-shells/ — Page-level template shells: DirectoryPage, DetailPage, ComparisonPage (not routes — routes are in src/pages/)
 src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray, ComparisonView, ComparisonCard, BreadcrumbLink, DetailsBarChart; sort-helpers.ts utility
 src/features/comparison/      — Comparison domain logic: computeBestPerQuestion(), formatBestPerQuestionText()
 src/pages/sv/                 — Swedish pages: index, om/ (about), forskola/[id].astro (detail), jamfor/ (comparison)

@@ -2,6 +2,10 @@
   "name": "forskoleguiden",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
   "lint-staged": {
     "*.{ts,tsx,astro}": [
       "astro check",
