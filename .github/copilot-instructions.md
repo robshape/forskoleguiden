@@ -9,7 +9,7 @@
 
 ## Project overview
 
-Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents compare preschools side-by-side using official survey ratings, build a "pick 5" shortlist, and share via URL-encoded state. No backend, no accounts, no external APIs at runtime. Implementation follows the phased plan in `docs/implementation-plan-phase-1.md`.
+Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents compare preschools side-by-side using official survey ratings, build a "pick 5" shortlist, and share via URL-encoded state. No backend, no accounts, no external APIs at runtime. See `docs/implementation-plan-phase-1.md` and `docs/implementation-plan-phase-2.md` for roadmaps.
 
 ## Design Context
 
@@ -44,17 +44,19 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 
 ## Preact islands inventory
 
-| Island            | File                                        | Hydration                   | Why                                                                                              | Purpose                                                                                                                                                                                              |
-| ----------------- | ------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SortToggle`      | `src/components/preact/SortToggle.tsx`      | `client:load`               | Must be immediately operable; no persisted state conflict                                        | Toggle alphabetical/rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements                                                                                          |
-| `CompareButton`   | `src/components/preact/CompareButton.tsx`   | `client:only="preact"`      | Reads sessionStorage on mount; SSR would render stale pressed state                              | Select/deselect a preschool for comparison; `aria-pressed` toggle                                                                                                                                    |
-| `CompareTray`     | `src/components/preact/CompareTray.tsx`     | `client:only="preact"`      | SSR would render empty tray; sessionStorage may already have items                               | Global compare summary bar; links to `/sv/jamfor/` comparison page. Clearing on the comparison page redirects to the directory page.                                                                 |
-| `ComparisonView`  | `src/components/preact/ComparisonView.tsx`  | `client:only="preact"`      | Reads compareIds store from sessionStorage; SSR output would be stale                            | Comparison page orchestrator: resolves selected surveys, renders question sections with `ComparisonCard` sub-components, and best-per-question summary. Reads `compareIds` store.                    |
-| `ComparisonCard`  | `src/components/preact/ComparisonCard.tsx`  | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Single preschool row within a comparison question section: remove button, school link, agree-share score, sr-only data table.                                                                        |
-| `BreadcrumbLink`  | `src/components/preact/BreadcrumbLink.tsx`  | `client:load`               | Must resolve `?from=compare` query param to swap breadcrumb target immediately                   | Declarative breadcrumb link that renders default directory back-link, or comparison back-link when `?from=compare` is in the URL. Updates parent `<nav>` aria-label.                                 |
-| `DetailsBarChart` | `src/components/preact/DetailsBarChart.tsx` | _(none, static render)_     | Rendered inside `QuestionCard.astro` within `aria-hidden="true"`; no client interactivity needed | Scalable SVG bar chart with pattern fills for color-blind safety. Used on detail pages (`/sv/forskola/[id]`). Wrapped by `QuestionCard.astro` which adds the question heading and agree-share badge. |
-| `ShareBox`        | `src/components/preact/ShareBox.tsx`        | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Share CTA box: title, description, and share button. Rendered when 2+ preschools selected.                                                                                                           |
-| `ShareFeedback`   | `src/components/preact/ShareFeedback.tsx`   | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Feedback UI for share operations: copied confirmation (auto-dismiss), clipboard fallback (read-only field), stale-ID warning, error with directory link. ARIA live regions.                          |
+| Island                 | File                                             | Hydration                   | Why                                                                                              | Purpose                                                                                                                                                                                              |
+| ---------------------- | ------------------------------------------------ | --------------------------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SortToggle`           | `src/components/preact/SortToggle.tsx`           | `client:load`               | Must be immediately operable; no persisted state conflict                                        | Toggle alphabetical/rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements                                                                                          |
+| `CompareButton`        | `src/components/preact/CompareButton.tsx`        | `client:only="preact"`      | Reads sessionStorage on mount; SSR would render stale pressed state                              | Select/deselect a preschool for comparison; `aria-pressed` toggle                                                                                                                                    |
+| `CompareTray`          | `src/components/preact/CompareTray.tsx`          | `client:only="preact"`      | SSR would render empty tray; sessionStorage may already have items                               | Global compare summary bar; links to `/sv/jamfor/` comparison page. Clearing on the comparison page redirects to the directory page.                                                                 |
+| `ComparisonView`       | `src/components/preact/ComparisonView.tsx`       | `client:only="preact"`      | Reads compareIds store from sessionStorage; SSR output would be stale                            | Comparison page orchestrator: resolves selected surveys, renders question sections with `ComparisonCard` sub-components, and best-per-question summary. Reads `compareIds` store.                    |
+| `ComparisonCard`       | `src/components/preact/ComparisonCard.tsx`       | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Single preschool row within a comparison question section: remove button, school link, agree-share score, sr-only data table.                                                                        |
+| `BreadcrumbLink`       | `src/components/preact/BreadcrumbLink.tsx`       | `client:load`               | Must resolve `?from=compare` query param to swap breadcrumb target immediately                   | Declarative breadcrumb link that renders default directory back-link, or comparison back-link when `?from=compare` is in the URL. Updates parent `<nav>` aria-label.                                 |
+| `DetailsBarChart`      | `src/components/preact/DetailsBarChart.tsx`      | _(none, static render)_     | Rendered inside `QuestionCard.astro` within `aria-hidden="true"`; no client interactivity needed | Scalable SVG bar chart with pattern fills for color-blind safety. Used on detail pages (`/sv/forskola/[id]`). Wrapped by `QuestionCard.astro` which adds the question heading and agree-share badge. |
+| `ShareBox`             | `src/components/preact/ShareBox.tsx`             | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Share CTA box: title, description, and share button. Rendered when 2+ preschools selected.                                                                                                           |
+| `ShareFeedback`        | `src/components/preact/ShareFeedback.tsx`        | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Feedback UI for share operations: copied confirmation (auto-dismiss), clipboard fallback (read-only field), stale-ID warning, error with directory link. ARIA live regions.                          |
+| `ComparisonEmptyState` | `src/components/preact/ComparisonEmptyState.tsx` | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Empty state UI when no preschools are selected for comparison: heading + body text.                                                                                                                  |
+| `ComparisonSummary`    | `src/components/preact/ComparisonSummary.tsx`    | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Best-per-question summary section: computes and formats which preschool scored highest on each question. Rendered when 2+ preschools selected.                                                       |
 
 **Hydration strategy guidance:**
 
@@ -77,40 +79,19 @@ The `base` config defaults to `/forskoleguiden` for GitHub Pages project-site de
 
 ## Directory structure
 
-```text
-.agents/skills/                    — Design/UX skills (21 Impeccable skills)
-.github/agents/                    — SpecKit agents (analyze, plan, implement, etc.)
-.github/workflows/quality-gates.yml — Reusable workflow_call: lint, test, build, e2e (consumed by deploy.yml and dependabot.yml)
-.github/workflows/deploy.yml  — Calls quality-gates.yml + deploys to GitHub Pages
-data/malmo/index.json         — City directory: lists all preschool IDs, names, addresses, operator types
-data/malmo/2025/*.json        — Per-preschool survey data (one file per preschool, keyed by slug ID)
-src/lib/types.ts              — TypeScript interfaces: PreschoolSurvey, PreschoolIndex, SurveyResponse, etc.
-src/lib/data.ts               — Build-time data loaders: getPreschoolIndex(), getPreschoolSurveyByYear(id, year), getAllPreschoolSurveys(), getPreschoolDetailPaths()
-src/lib/scoring.ts            — Scoring: computeAgreeShare(), computeOverallScore(), byOverallScoreDesc(), getScoreTier(), ScoreTier type
-src/lib/score-tier-classes.ts  — Tailwind CSS class mappings: SCORE_TIER_BADGE_CLASS, SCORE_TIER_TEXT_CLASS (keyed by ScoreTier)
-src/lib/icons.ts              — Shared 16×16 SVG icon d-path strings: CHECK_ICON_PATH, CHEVRON_DOWN_ICON_PATH
-src/lib/interpolate.ts        — Template string interpolation: interpolate(template, params) replaces {key} placeholders
-src/lib/constants.ts          — Shared constants: MALMO_SOURCE_URL, SURVEY_YEAR, SCORE_TIER_*, PLACEHOLDER_RESPONDENTS, MALMO_DATA_DIR
-src/lib/base-path.ts          — getBasePath(): normalizes import.meta.env.BASE_URL (strips trailing slash)
-src/lib/clipboard.ts          — copyToClipboard(text): Clipboard API wrapper with SSR guard, returns Promise<boolean>
-src/lib/share.ts              — encodeShareState(), decodeShareState(), validateShareIds(): URL-safe share payload codec
-src/lib/survey-responses.ts   — RESPONSE_ROWS: canonical field-to-i18n mapping for the five response labels
-src/lib/chart-patterns.tsx    — RESPONSE_SERIES (derived from RESPONSE_ROWS), PatternDef type, renderPatternContent(), TILE_SIZE
-src/i18n/{sv,en,ar}.json      — Translation strings per locale (flat dot-path keys)
-src/i18n/utils.ts             — Locale type, t(key, locale), getLocaleFromURL()
-src/layouts/BaseLayout.astro  — Root HTML shell: sets lang, dir (RTL for ar), loads global CSS
-src/components/astro/         — Static Astro components: Nav, Footer, CitySelector, PreschoolCard, QuestionCard
-src/components/astro/page-shells/ — Page-level template shells: DirectoryPage, DetailPage, ComparisonPage (not routes — routes are in src/pages/)
-src/components/preact/        — Interactive Preact islands: SortToggle, CompareButton, CompareTray, ComparisonView, ComparisonCard, BreadcrumbLink, DetailsBarChart; sort-helpers.ts utility
-src/features/comparison/      — Comparison domain logic: computeBestPerQuestion(), formatBestPerQuestionText()
-src/pages/sv/                 — Swedish pages: index, om/ (about), forskola/[id].astro (detail), jamfor/ (comparison)
-src/styles/global.css         — Tailwind v4 entry + @theme tokens (colors, spacing, shadows)
-tests/unit/**/*.test.ts       — Vitest unit tests
-tests/unit/helpers/           — Shared test utilities (malmo-data.ts, survey-assertions.ts, i18n.ts)
-tests/e2e/**/*.spec.ts        — Playwright e2e tests
-tests/e2e/helpers.ts          — Shared e2e utilities: URL constants, card locators, hydration guards
-tests/post-build/**/*.test.ts — Post-build verification: page-weight-budget (100 KB uncompressed), static-output-verification
-```
+See `docs/tech-stack.md` for the complete architecture overview. Key directories:
+
+- `data/malmo/` — City index + per-preschool survey JSON (build-time only)
+- `src/pages/{sv,en,ar}/` — Locale-specific routes: index, forskola/[id] (detail), jamfor/ (comparison)
+- `src/lib/` — Shared utilities: data loaders, scoring, state, i18n helpers, share codec, clipboard
+- `src/components/astro/` — Static Astro components (Nav, Footer, PreschoolCard, QuestionCard, page-shells)
+- `src/components/preact/` — Interactive Preact islands (see inventory above)
+- `src/features/comparison/` — Comparison domain logic: `computeBestPerQuestion()`, `formatBestPerQuestionText()`
+- `src/i18n/` — Translation JSONs (`sv`, `en`, `ar`) + `utils.ts` (Locale type, `t()`, `getLocaleFromURL()`)
+- `src/styles/global.css` — Tailwind v4 entry + `@theme` tokens
+- `tests/unit/` — Vitest unit tests + shared helpers
+- `tests/e2e/` — Playwright e2e tests + shared helpers
+- `tests/post-build/` — Page-weight budget + static output contracts
 
 ## Key conventions
 
@@ -119,7 +100,7 @@ tests/post-build/**/*.test.ts — Post-build verification: page-weight-budget (1
 - **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro. Astro components receive `locale: Locale` as a prop and call `t()` for all user-facing text — see `Nav.astro`, `Footer.astro` for the pattern. Preact islands that depend on persisted client state (e.g., `sessionStorage`) should use `client:only="preact"` to avoid SSR/client hydration mismatches.
 - **Layout pattern**: all pages wrap content in `<BaseLayout locale={locale} title={...}>`. BaseLayout sets `lang`, `dir` (RTL for Arabic), loads global CSS, and renders Nav + Footer.
 - **No `@astrojs/tailwind`** — Tailwind v4 uses the Vite plugin directly: `@tailwindcss/vite` in `astro.config.ts`. Design tokens are defined as `@theme` variables in `src/styles/global.css` (e.g. `--color-primary-600`, `--max-width-content`).
-- **i18n**: three locales (`sv`, `en`, `ar`) defined in `src/i18n/`. Currently **only Swedish pages exist** (`/sv/`); EN/AR page routes are planned but not yet built — see `docs/implementation-plan-phase-1.md`. Arabic requires `dir="rtl"` and `rtl:` Tailwind variants when added. Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. Supports interpolation: `t('compareTray.selectedCount', locale, { count: 3 })` replaces `{count}` in the template. All three locale JSONs must have identical key structures (enforced by unit test). `Locale` type and `getLocaleFromURL()` are exported from the same module.
+- **i18n**: three locales (`sv`, `en`, `ar`) defined in `src/i18n/` with routes at `/sv/`, `/en/`, `/ar/`. Arabic uses `dir="rtl"` and `rtl:` Tailwind variants (set by `BaseLayout`). Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. Supports interpolation: `t('compareTray.selectedCount', locale, { count: 3 })` replaces `{count}` in the template. All three locale JSONs must have identical key structures (enforced by unit test). `Locale` type and `getLocaleFromURL()` are exported from the same module.
 - **No runtime data fetching** — all preschool data read from `data/` at Astro build time via `src/lib/data.ts` loaders (uses `readFileSync` + `process.cwd()`).
 - **Formatting**: single quotes, no semicolons — see `.prettierrc`.
 - **Linting**: ESLint flat config enforces attribute/import/prop ordering and Tailwind v4 class validation automatically. Markdownlint for Markdown (MD013 disabled). See `eslint.config.ts` for full plugin list.
@@ -190,6 +171,9 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 
 ## Project documentation
 
-- `docs/implementation-plan-phase-1.md` — Phase 1 implementation roadmap (Steps 0–13)
 - `docs/prd.md` — product requirements and user flows
 - `docs/tech-stack.md` — architectural decisions and technology rationale
+- `docs/implementation-plan-phase-1.md` — Phase 1 roadmap (Steps 0–13, complete)
+- `docs/implementation-plan-phase-2.md` — Phase 2 roadmap (active)
+- `.impeccable.md` — design context, brand personality, aesthetic principles
+- `specs/` — detailed specifications for each Phase 2 item (001–010)
