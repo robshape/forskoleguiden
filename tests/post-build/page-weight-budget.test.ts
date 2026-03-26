@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest'
 // ─── Config ──────────────────────────────────────────────────────────────────
 
 const DIST_ROOT = join(process.cwd(), 'dist')
-const SV_INDEX_PATH = join(DIST_ROOT, 'sv', 'index.html')
+const LOCALES = ['sv', 'en', 'ar'] as const
 const ASTRO_ASSETS_DIR = join(DIST_ROOT, '_astro')
 
 // 600 KB uncompressed — scaled from Step 11.3 threshold (100 KB for 11 preschools → 600 KB for ~261)
@@ -115,19 +115,21 @@ const extractInlineScriptBytes = (html: string): number => {
 
 // ─── Tests ───────────────────────────────────────────────────────────────────
 
-describe('/sv/ page-weight budget', () => {
+describe.each(LOCALES)('/%s/ page-weight budget', (locale) => {
+  const INDEX_PATH = join(DIST_ROOT, locale, 'index.html')
+
   it('island asset collector finds component-url and renderer-url JS bundles', () => {
     expect(
-      existsSync(SV_INDEX_PATH),
-      'dist/sv/index.html not found — run "pnpm build" before this test suite',
+      existsSync(INDEX_PATH),
+      `dist/${locale}/index.html not found — run "pnpm build" before this test suite`,
     ).toBe(true)
 
-    const html = readFileSync(SV_INDEX_PATH, 'utf8')
+    const html = readFileSync(INDEX_PATH, 'utf8')
     const islandPaths = collectIslandAssetPaths(html)
 
     expect(
       islandPaths.size,
-      'expected at least one Astro island JS bundle',
+      `expected at least one Astro island JS bundle for /${locale}/`,
     ).toBeGreaterThan(0)
 
     for (const filePath of islandPaths) {
@@ -138,13 +140,13 @@ describe('/sv/ page-weight budget', () => {
     }
   })
 
-  it('page payload stays under 100 KB including HTML, linked CSS, linked JS, island JS bundles (inline scripts are already counted inside HTML bytes)', () => {
+  it('page payload stays under the budget including HTML, linked CSS, linked JS, island JS bundles (inline scripts are already counted inside HTML bytes)', () => {
     expect(
-      existsSync(SV_INDEX_PATH),
-      'dist/sv/index.html not found — run "pnpm build" before this test suite',
+      existsSync(INDEX_PATH),
+      `dist/${locale}/index.html not found — run "pnpm build" before this test suite`,
     ).toBe(true)
 
-    const html = readFileSync(SV_INDEX_PATH, 'utf8')
+    const html = readFileSync(INDEX_PATH, 'utf8')
     const htmlBytes = Buffer.byteLength(html, 'utf8')
     const linkedAssetBytes = extractLinkedAssetBytes(html)
     const islandAssetBytes = extractIslandAssetBytes(html)
@@ -155,7 +157,7 @@ describe('/sv/ page-weight budget', () => {
 
     expect(
       totalBytes,
-      `Page payload is ${(totalBytes / 1024).toFixed(1)} KB — budget is ${(PAGE_WEIGHT_BUDGET_BYTES / 1024).toFixed(0)} KB. ` +
+      `/${locale}/ page payload is ${(totalBytes / 1024).toFixed(1)} KB — budget is ${(PAGE_WEIGHT_BUDGET_BYTES / 1024).toFixed(0)} KB. ` +
         `Breakdown: HTML ${(htmlBytes / 1024).toFixed(1)} KB (incl. ${(inlineScriptBytes / 1024).toFixed(1)} KB inline scripts), ` +
         `linked assets ${(linkedAssetBytes / 1024).toFixed(1)} KB, ` +
         `island JS ${(islandAssetBytes / 1024).toFixed(1)} KB`,

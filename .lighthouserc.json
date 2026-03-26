@@ -1,7 +1,11 @@
 {
   "ci": {
     "collect": {
-      "url": ["http://localhost:4321/forskoleguiden/sv/"],
+      "url": [
+        "http://localhost:4321/forskoleguiden/sv/",
+        "http://localhost:4321/forskoleguiden/en/",
+        "http://localhost:4321/forskoleguiden/ar/"
+      ],
       "startServerCommand": "pnpm build && pnpm preview",
       "startServerReadyPattern": "localhost:\\d+",
       "startServerReadyTimeout": 30000,
