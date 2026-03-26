@@ -1,16 +1,5 @@
-import LZString from 'lz-string'
-
 import { expect, test } from './fixtures'
-import { COMPARISON_URL, DIRECTORY_URL } from './helpers'
-
-// ---------------------------------------------------------------------------
-// Share URL helpers — mirror encodeShareState logic for test setup
-// ---------------------------------------------------------------------------
-
-const encodeSharePayload = (ids: string[]): string =>
-  LZString.compressToEncodedURIComponent(
-    JSON.stringify({ v: 1, city: 'Malmö', year: 2025, ids }),
-  )
+import { COMPARISON_URL, DIRECTORY_URL, encodeSharePayload } from './helpers'
 
 const PRESCHOOL_A = 'almgardens-forskola'
 const PRESCHOOL_B = 'bellevuegardens-montessoriforskola'

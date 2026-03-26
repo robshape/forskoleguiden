@@ -4,10 +4,13 @@ import { expect, test } from './fixtures'
 import {
   COMPARISON_URL,
   COMPARISON_URL_AR,
+  COMPARISON_URL_EN,
   DETAIL_URL,
   DETAIL_URL_AR,
+  DETAIL_URL_EN,
   DIRECTORY_URL,
   DIRECTORY_URL_AR,
+  DIRECTORY_URL_EN,
 } from './helpers'
 
 // IDs used to seed the comparison page with a two-school selection
@@ -147,6 +150,57 @@ test.describe('accessibility: axe-core wcag2a + wcag2aa audits', () => {
     }, COMPARISON_SEED_IDS)
 
     await page.goto(COMPARISON_URL_AR)
+    await expect(page.getByTestId('comparison-scroll')).toBeVisible()
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze()
+
+    expect(results.violations).toEqual([])
+  })
+
+  test('English directory page has zero axe-core violations at wcag2a and wcag2aa', async ({
+    page,
+  }) => {
+    await page.goto(DIRECTORY_URL_EN)
+
+    // Hydration guard: wait for an English-locale CompareButton island.
+    await expect(
+      page
+        .getByTestId('preschool-card')
+        .first()
+        .getByRole('button', { name: /Compare/ }),
+    ).toHaveAttribute('aria-pressed', 'false')
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze()
+
+    expect(results.violations).toEqual([])
+  })
+
+  test('English preschool detail page has zero axe-core violations at wcag2a and wcag2aa', async ({
+    page,
+  }) => {
+    await page.goto(DETAIL_URL_EN)
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze()
+
+    expect(results.violations).toEqual([])
+  })
+
+  test('English comparison page with 2 seeded preschools has zero axe-core violations at wcag2a and wcag2aa', async ({
+    page,
+  }) => {
+    await page.goto(DIRECTORY_URL_EN)
+    await page.evaluate((ids) => {
+      sessionStorage.clear()
+      sessionStorage.setItem('compareIds', JSON.stringify(ids))
+    }, COMPARISON_SEED_IDS)
+
+    await page.goto(COMPARISON_URL_EN)
     await expect(page.getByTestId('comparison-scroll')).toBeVisible()
 
     const results = await new AxeBuilder({ page })

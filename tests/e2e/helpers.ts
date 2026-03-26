@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 import type { Page } from '@playwright/test'
+import LZString from 'lz-string'
 
 import { expect } from './fixtures'
 
@@ -26,6 +27,20 @@ export const DETAIL_URL_EN = '/forskoleguiden/en/forskola/almgardens-forskola/'
 export const DIRECTORY_URL_AR = '/forskoleguiden/ar/'
 export const COMPARISON_URL_AR = '/forskoleguiden/ar/jamfor/'
 export const DETAIL_URL_AR = '/forskoleguiden/ar/forskola/almgardens-forskola/'
+
+/** Independent preschool with a queueUrl in the data fixture. */
+export const QUEUE_DETAIL_URL =
+  '/forskoleguiden/sv/forskola/bellevuegardens-montessoriforskola/'
+
+// ---------------------------------------------------------------------------
+// Share URL helpers — mirror src/lib/share.ts encodeShareState (v1 schema).
+// Keep in sync with SUPPORTED_VERSION, SHARE_CITY, and SURVEY_YEAR in share.ts.
+// ---------------------------------------------------------------------------
+
+export const encodeSharePayload = (ids: string[]): string =>
+  LZString.compressToEncodedURIComponent(
+    JSON.stringify({ v: 1, city: 'Malmö', year: 2025, ids }),
+  )
 
 // ---------------------------------------------------------------------------
 // Placeholder survey detection — mirrors isPlaceholderSurvey() from

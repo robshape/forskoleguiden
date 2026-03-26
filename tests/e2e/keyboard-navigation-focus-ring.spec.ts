@@ -1,5 +1,10 @@
 import { expect, getFocusRingContract, test } from './fixtures'
-import { COMPARISON_URL, DIRECTORY_URL, FOCUS_RING_COLOR } from './helpers'
+import {
+  COMPARISON_URL,
+  DIRECTORY_URL,
+  FOCUS_RING_COLOR,
+  QUEUE_DETAIL_URL,
+} from './helpers'
 
 // Verify that ring-based interactive controls expose a visible focus indicator
 // when reached by keyboard navigation. Ring-based controls suppress the global
@@ -373,5 +378,147 @@ test.describe('keyboard navigation — comparison page interactive flows', () =>
     for (let i = 0; i < tableCount; i++) {
       await expect(tables.nth(i)).not.toHaveAttribute('tabindex')
     }
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Phase 4: Phase 2 interactive elements — language switcher, share button,
+// queue link keyboard navigation and focus ring visibility.
+// ---------------------------------------------------------------------------
+
+test.describe('keyboard navigation — Phase 2 interactive elements', () => {
+  test('language switcher is keyboard-operable via details/summary disclosure pattern', async ({
+    page,
+  }) => {
+    await page.goto(DIRECTORY_URL)
+
+    // Hydration guard: wait for at least one CompareButton to hydrate.
+    await expect(
+      page
+        .getByTestId('preschool-card')
+        .first()
+        .getByRole('button', { name: /Jämför/ }),
+    ).toHaveAttribute('aria-pressed', 'false')
+
+    const toggle = page.getByTestId('header-language-toggle')
+
+    // Tab until focus lands on the language switcher toggle.
+    let toggleFocused = false
+    for (let pressCount = 0; pressCount < 20; pressCount++) {
+      await page.keyboard.press('Tab')
+      toggleFocused = await toggle.evaluate(
+        (el) => el === document.activeElement,
+      )
+      if (toggleFocused) break
+    }
+    expect(toggleFocused).toBe(true)
+
+    // Assert visible focus ring on the toggle.
+    const focusRing = await getFocusRingContract(toggle)
+    expect(focusRing.boxShadow).toContain(FOCUS_RING_COLOR)
+
+    // Open the disclosure via Enter.
+    await page.keyboard.press('Enter')
+    const dropdown = page.getByTestId('header-language-dropdown')
+    await expect(dropdown).toHaveAttribute('open', '')
+
+    // Tab to the first non-active locale link inside the options list.
+    const options = page.getByTestId('header-language-options')
+    const firstLink = options.locator('a').first()
+    await page.keyboard.press('Tab')
+
+    // The active locale is a button (aria-current="page"), so the first
+    // focusable element after Tab may be the active button or the first link.
+    // Tab until we reach a link element.
+    let linkFocused = false
+    for (let pressCount = 0; pressCount < 5; pressCount++) {
+      await page.keyboard.press('Tab')
+      linkFocused = await firstLink.evaluate(
+        (el) => el === document.activeElement,
+      )
+      if (linkFocused) break
+    }
+    expect(linkFocused).toBe(true)
+
+    // Press Enter to navigate to the target locale.
+    const targetHref = await firstLink.getAttribute('href')
+    expect(targetHref).toBeTruthy()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(new RegExp(targetHref!))
+  })
+
+  test('share button is keyboard-reachable and operable, focus is not trapped by feedback', async ({
+    page,
+  }) => {
+    // Seed sessionStorage with 2 preschools for the comparison page.
+    await page.goto(DIRECTORY_URL)
+    await page.evaluate((ids) => {
+      sessionStorage.setItem('compareIds', JSON.stringify(ids))
+    }, SEEDED_IDS)
+
+    await page.goto(COMPARISON_URL)
+    await expect(page.getByTestId('comparison-scroll')).toBeVisible()
+
+    const shareButton = page.getByTestId('share-comparison-button')
+    await expect(shareButton).toBeVisible()
+
+    // Programmatically focus the share button (same pattern as the compare
+    // button toggle test) to place keyboard focus on the control. Then send
+    // Space to activate — this verifies keyboard operability (FR-003).
+    await shareButton.focus()
+    await page.keyboard.press('Space')
+
+    // Share feedback should appear (either "copied" or "fallback").
+    const copiedFeedback = page.getByTestId('share-feedback-copied')
+    const fallbackFeedback = page.getByTestId('share-feedback-fallback')
+    await expect(copiedFeedback.or(fallbackFeedback)).toBeVisible()
+
+    // FR-014: Focus must NOT be trapped on the feedback element.
+    // The active element should not be the feedback container.
+    const focusIsOnFeedback = await page.evaluate(() => {
+      const copied = document.querySelector(
+        '[data-testid="share-feedback-copied"]',
+      )
+      const fallback = document.querySelector(
+        '[data-testid="share-feedback-fallback"]',
+      )
+      return (
+        document.activeElement === copied ||
+        document.activeElement === fallback ||
+        copied?.contains(document.activeElement!) ||
+        fallback?.contains(document.activeElement!)
+      )
+    })
+    expect(focusIsOnFeedback).toBe(false)
+  })
+
+  test('queue registration link is keyboard-reachable on independent preschool detail page', async ({
+    page,
+  }) => {
+    await page.goto(QUEUE_DETAIL_URL)
+
+    // The queue link uses descriptive text from i18n ("Anmäl dig till kö").
+    const queueLink = page.getByRole('link', { name: /Anmäl dig till kö/ })
+    await expect(queueLink).toBeVisible()
+
+    // Tab until focus lands on the queue link.
+    let queueFocused = false
+    for (let pressCount = 0; pressCount < 30; pressCount++) {
+      await page.keyboard.press('Tab')
+      queueFocused = await queueLink.evaluate(
+        (el) => el === document.activeElement,
+      )
+      if (queueFocused) break
+    }
+    expect(queueFocused).toBe(true)
+
+    // Assert visible focus ring.
+    const focusRing = await getFocusRingContract(queueLink)
+    expect(focusRing.boxShadow).toContain(FOCUS_RING_COLOR)
+
+    // Assert the link has a valid href and correct attributes.
+    await expect(queueLink).toHaveAttribute('href', /^https?:\/\//)
+    await expect(queueLink).toHaveAttribute('target', '_blank')
+    await expect(queueLink).toHaveAttribute('rel', 'noopener noreferrer')
   })
 })
