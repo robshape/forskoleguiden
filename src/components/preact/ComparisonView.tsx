@@ -190,7 +190,7 @@ export default function ComparisonView({
   )
 
   return (
-    <div class="relative mx-auto max-w-2xl overflow-x-clip px-4 pt-5 pb-16 sm:px-0 sm:pt-6">
+    <div class="relative mx-auto max-w-2xl overflow-x-clip pt-5 sm:pt-6">
       {ids.length === 1 ? (
         <header class="mb-8 flex min-w-0 flex-col gap-2 border-l-4 border-primary-300 pl-4 rtl:border-r-4 rtl:border-l-0 rtl:pr-4 rtl:pl-0">
           <p
@@ -297,7 +297,7 @@ export default function ComparisonView({
 
       {/* Summary Box */}
       {ids.length >= 2 && (
-        <div class="mt-16 md:mt-20">
+        <div class="mt-10">
           <ComparisonSummary
             locale={locale}
             selectedSurveys={selectedSurveys}

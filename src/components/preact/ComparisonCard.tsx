@@ -80,7 +80,7 @@ export default function ComparisonCard({
         </svg>
       </button>
       <a
-        class={`min-w-0 text-start text-[16px] leading-snug wrap-break-word transition-all duration-300 hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none ${isHighlighted ? 'font-bold text-zinc-900' : 'font-medium text-zinc-800'}`}
+        class={`min-w-0 text-start text-[16px] leading-snug wrap-break-word transition-all duration-300 hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none ${isHighlighted ? 'font-semibold text-zinc-900' : 'font-normal text-zinc-800'}`}
         href={`${directoryHref}forskola/${survey.id}/?from=compare`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -127,12 +127,12 @@ export default function ComparisonCard({
 
         <div class="flex min-w-16 shrink-0 flex-col items-end justify-center text-end sm:min-w-18 rtl:items-start rtl:text-start">
           <div
-            class={`text-3xl leading-none tracking-tight transition-all duration-300 sm:text-4xl ${scoreColor} ${isHighlighted ? 'scale-105 font-black' : 'font-extrabold'}`}
+            class={`text-2xl leading-none tracking-tight transition-all duration-300 sm:text-3xl ${scoreColor} ${isHighlighted ? 'scale-105 font-bold' : 'font-semibold'}`}
           >
             {agreeShare}%
           </div>
           <div
-            class={`mt-1 text-[11px] tracking-wide uppercase transition-colors duration-300 ${isHighlighted ? 'font-bold text-zinc-600' : 'font-semibold text-zinc-400'}`}
+            class={`mt-1 text-[11px] tracking-wide uppercase transition-colors duration-300 ${isHighlighted ? 'font-medium text-zinc-600' : 'font-normal text-zinc-500'}`}
           >
             {agreeShareLabel}
           </div>
