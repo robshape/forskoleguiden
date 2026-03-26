@@ -44,8 +44,8 @@ export default function ComparisonCard({
     ? 'opacity-40 grayscale scale-[0.98]'
     : 'opacity-100 scale-100'
   const highlightBgClass = isHighlighted
-    ? 'bg-zinc-50 border-transparent shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)]'
-    : 'hover:bg-zinc-50/50'
+    ? 'bg-zinc-50 shadow-[0_2px_12px_rgba(0,0,0,0.06)] ring-1 ring-zinc-900/5'
+    : 'hover:bg-zinc-50/80 hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:scale-[1.01] active:scale-[0.99]'
 
   const removeAriaLabel = removeFromCompareLabel.replace(
     '{name}',
@@ -80,7 +80,7 @@ export default function ComparisonCard({
         </svg>
       </button>
       <a
-        class={`min-w-0 text-start text-[16px] leading-snug wrap-break-word transition-all duration-300 hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none ${isHighlighted ? 'font-semibold text-zinc-900' : 'font-normal text-zinc-800'}`}
+        class={`min-w-0 text-start text-[16px] leading-snug wrap-break-word transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none ${isHighlighted ? 'translate-x-1 font-semibold text-primary-900' : 'font-normal text-zinc-800'}`}
         href={`${directoryHref}forskola/${survey.id}/?from=compare`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -96,7 +96,7 @@ export default function ComparisonCard({
         key={survey.id}
       >
         <div
-          class={`-mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-6 rounded-2xl px-3 py-4 transition-all duration-300 sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:p-5 ${highlightBgClass}`}
+          class={`group -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-6 rounded-2xl px-3 py-4 transition-all duration-300 ease-out sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:p-5 ${highlightBgClass}`}
           onClick={onToggleHighlight}
         >
           {preschoolInfo}
@@ -120,14 +120,14 @@ export default function ComparisonCard({
       key={survey.id}
     >
       <div
-        class={`relative -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-6 rounded-2xl px-3 py-4 transition-all duration-300 sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:px-5 sm:py-4 ${highlightBgClass}`}
+        class={`group relative -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-6 rounded-2xl px-3 py-4 transition-all duration-300 ease-out sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:px-5 sm:py-4 ${highlightBgClass}`}
         onClick={onToggleHighlight}
       >
         {preschoolInfo}
 
-        <div class="flex min-w-16 shrink-0 flex-col items-end justify-center text-end sm:min-w-18 rtl:items-start rtl:text-start">
+        <div class="flex min-w-16 shrink-0 flex-col items-end justify-center text-end transition-transform duration-300 ease-out group-hover:-translate-x-1 sm:min-w-18 rtl:items-start rtl:text-start">
           <div
-            class={`text-2xl leading-none tracking-tight transition-all duration-300 sm:text-3xl ${scoreColor} ${isHighlighted ? 'scale-105 font-bold' : 'font-semibold'}`}
+            class={`text-2xl leading-none tracking-tight transition-all duration-300 ease-out sm:text-3xl ${scoreColor} ${isHighlighted ? 'scale-110 font-bold' : 'font-semibold group-hover:scale-105'}`}
           >
             {agreeShare}%
           </div>
