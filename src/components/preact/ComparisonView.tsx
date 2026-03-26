@@ -217,13 +217,6 @@ export default function ComparisonView({
 
       {ids.length >= 2 && (
         <div class="mb-10 flex flex-col gap-4 sm:gap-6">
-          {/* Summary Box */}
-          <ComparisonSummary
-            locale={locale}
-            selectedSurveys={selectedSurveys}
-            summaryHeading={summaryHeading}
-          />
-
           {/* Share Box */}
           <div
             class="flex flex-col gap-4 rounded-xl bg-primary-50 p-5 ring-1 ring-primary-100 ring-inset sm:flex-row sm:items-center sm:justify-between"
@@ -301,6 +294,17 @@ export default function ComparisonView({
           </section>
         ))}
       </div>
+
+      {/* Summary Box */}
+      {ids.length >= 2 && (
+        <div class="mt-16 md:mt-20">
+          <ComparisonSummary
+            locale={locale}
+            selectedSurveys={selectedSurveys}
+            summaryHeading={summaryHeading}
+          />
+        </div>
+      )}
     </div>
   )
 }
