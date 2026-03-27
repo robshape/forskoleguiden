@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812" width="375" height="812" style="background-color: #f9fafb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 393 852" width="393" height="852" style="background-color: #f9fafb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
   <!-- Header -->
-  <rect width="375" height="60" fill="#ffffff" />
+  <rect width="393" height="60" fill="#ffffff" />
   <text x="20" y="38" font-size="24" font-weight="bold" fill="#111827">←</text>
   <text x="60" y="38" font-size="18" font-weight="bold" fill="#111827">Compare (2)</text>
-  <line x1="0" y1="60" x2="375" y2="60" stroke="#e5e7eb" stroke-width="1" />
+  <line x1="0" y1="60" x2="393" y2="60" stroke="#e5e7eb" stroke-width="1" />
 
   <!-- Sticky Table Header -->
-  <rect x="0" y="61" width="375" height="100" fill="#ffffff" />
+  <rect x="0" y="61" width="393" height="100" fill="#ffffff" />
   <line x1="187" y1="61" x2="187" y2="161" stroke="#e5e7eb" stroke-width="1" />
 
   <!-- Col 1 -->
@@ -21,7 +21,7 @@
   <rect x="200" y="125" width="140" height="28" rx="4" fill="#f3f4f6" />
   <text x="225" y="144" font-size="12" font-weight="600" fill="#374151">+ Shortlist</text>
 
-  <line x1="0" y1="161" x2="375" y2="161" stroke="#e5e7eb" stroke-width="1" />
+  <line x1="0" y1="161" x2="393" y2="161" stroke="#e5e7eb" stroke-width="1" />
 
   <!-- Summary Section -->
   <rect x="20" y="180" width="335" height="80" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1" />

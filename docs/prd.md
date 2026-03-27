@@ -13,7 +13,7 @@ Förskoleguiden is a static, accessible website that makes it easy for parents i
 
 The initial launch focuses on Malmö and the latest available survey year (2025). The year is visible but not changeable in the MVP.
 
-Swedish is always the default language on first visit, with multilingual support (Swedish, English, Arabic). The experience is mobile-first (targeting iPhone 13 mini size) and emphasizes side-by-side comparison across multiple preschools.
+Swedish is always the default language on first visit, with multilingual support (Swedish, English, Arabic). The experience is mobile-first (targeting iPhone 17, responsive down to iPhone 13 mini) and emphasizes side-by-side comparison across multiple preschools.
 
 For the MVP, the site only displays and compares the question group “Helhetsbedömning” (as in the JSON template). Later versions expand to include all question groups from the official reports.
 
@@ -157,7 +157,7 @@ Non-goals are explicitly out of scope for the MVP (and will not be pursued unles
 
 - **Responsive, mobile-first UI** (Priority: P0)
   - The site must be responsive and designed mobile-first.
-  - Primary target viewport is iPhone 13 mini size.
+  - Primary target viewport is iPhone 17 (393×852). Responsive down to iPhone 13 mini (375 px).
 
 ## 5. User experience
 
@@ -195,7 +195,7 @@ Non-goals are explicitly out of scope for the MVP (and will not be pursued unles
 - Persistent, obvious selection state for compare and shortlist.
 - High-contrast, color-blind-safe chart palette and non-color encodings (labels/patterns).
 - Responsive table design that remains usable on mobile.
-- Mobile-first layout tuned for iPhone 13 mini.
+- Mobile-first layout tuned for iPhone 17 (393×852), responsive down to iPhone 13 mini (375 px).
 - Clear source attribution near every summary and in an “about the data” section.
 
 ## 6. Narrative
@@ -325,7 +325,7 @@ The MVP will not include usage tracking/analytics, to avoid third-party tools an
 - **Acceptance criteria**:
   - In the MVP, the comparison view shows the “Helhetsbedömning” question group for each selected preschool.
   - Percentages are displayed consistently and labeled clearly.
-  - The view remains usable on mobile (no content becomes unreachable), targeting iPhone 13 mini size.
+  - The view remains usable on mobile (no content becomes unreachable), targeting iPhone 17 (393×852), responsive down to iPhone 13 mini (375 px).
 
 ### 10.5 Accessible charts with non-visual alternatives
 

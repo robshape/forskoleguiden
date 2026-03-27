@@ -32,7 +32,7 @@ test.describe('hardening: heading shell and mobile touch targets', () => {
   test('primary interactive controls meet 44x44 touch-target minimum on mobile', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 375, height: 812 })
+    await page.setViewportSize({ width: 393, height: 852 })
 
     const response = await page.goto(DIRECTORY_URL)
     if (response === null) {

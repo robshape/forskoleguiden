@@ -13,7 +13,7 @@ Add share UI to the comparison page. The share button generates a compressed URL
 **Primary Dependencies**: Astro (static output), Preact (islands), nanostores + @nanostores/preact, Tailwind CSS v4 (@tailwindcss/vite), lz-string (already installed for share encoding)
 **Storage**: sessionStorage (client-side compare state persistence), no server-side storage
 **Testing**: Vitest (unit, node env), Playwright + @axe-core/playwright (e2e), post-build verification tests
-**Target Platform**: Static site on GitHub Pages, mobile-first (iPhone 13 mini viewport)
+**Target Platform**: Static site on GitHub Pages, mobile-first (iPhone 17, 393 px viewport)
 **Project Type**: Static web application (MPA with Preact islands)
 **Performance Goals**: 100 KB uncompressed page-weight budget, Lighthouse perf ≥ 0.90, a11y ≥ 0.95, ~3–5 KB total island JS budget
 **Constraints**: Share URLs < 2,000 chars, MAX_COMPARE = 5, zero runtime APIs, no external CDNs

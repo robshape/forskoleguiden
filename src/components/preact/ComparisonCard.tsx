@@ -56,7 +56,7 @@ export default function ComparisonCard({
     <div class="flex min-w-0 flex-1 items-center gap-3">
       <button
         aria-label={removeAriaLabel}
-        class="flex size-10 shrink-0 items-center justify-center rounded-full text-zinc-300 ring-offset-surface transition-all duration-200 hover:scale-110 hover:rotate-90 hover:bg-red-50 hover:text-red-500 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-95"
+        class="flex size-11 shrink-0 items-center justify-center rounded-full text-zinc-300 ring-offset-surface transition-all duration-200 hover:scale-110 hover:rotate-90 hover:bg-red-50 hover:text-red-500 focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-95"
         onClick={(e) => {
           e.stopPropagation()
           if (document.activeElement instanceof HTMLElement) {
@@ -96,7 +96,7 @@ export default function ComparisonCard({
         key={survey.id}
       >
         <div
-          class={`group -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-6 rounded-2xl px-3 py-4 transition-all duration-300 ease-out sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:p-5 ${highlightBgClass}`}
+          class={`group -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-4 rounded-2xl px-3 py-4 transition-all duration-300 ease-out sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:gap-6 sm:p-5 ${highlightBgClass}`}
           onClick={onToggleHighlight}
         >
           {preschoolInfo}
@@ -120,7 +120,7 @@ export default function ComparisonCard({
       key={survey.id}
     >
       <div
-        class={`group relative -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-6 rounded-2xl px-3 py-4 transition-all duration-300 ease-out sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:px-5 sm:py-4 ${highlightBgClass}`}
+        class={`group relative -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-4 rounded-2xl px-3 py-4 transition-all duration-300 ease-out sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:gap-6 sm:px-5 sm:py-4 ${highlightBgClass}`}
         onClick={onToggleHighlight}
       >
         {preschoolInfo}

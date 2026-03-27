@@ -13,7 +13,7 @@ Adapt the existing Arabic locale pages so they feel intentionally right-to-left 
 **Primary Dependencies**: Astro 6.0.4 (static output), Preact 10.29.0, nanostores 1.1.1, Tailwind CSS 4.2.1 (via `@tailwindcss/vite`)
 **Storage**: Static JSON at build time (`data/malmo/`); existing `sessionStorage` compare state only
 **Testing**: Vitest 4.1.0 (unit + post-build), Playwright 1.58.2 (e2e), `@axe-core/playwright` (a11y)
-**Target Platform**: Static site on GitHub Pages; mobile-first, primary viewport iPhone 13 mini (375 px)
+**Target Platform**: Static site on GitHub Pages; mobile-first, primary viewport iPhone 17 (393 px)
 **Project Type**: Static web application (Astro MPA with Preact islands)
 **Performance Goals**: Lighthouse accessibility ≥ 0.95, performance ≥ 0.90, page weight ≤ 100 KB uncompressed per page
 **Constraints**: No new runtime data fetching, no new state model, no new locale routing work, Arabic keeps Western numerals, comparison stays vertically stacked

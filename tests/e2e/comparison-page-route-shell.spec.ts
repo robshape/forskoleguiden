@@ -389,10 +389,10 @@ test.describe('comparison page empty-state and single-selection UI flow', () => 
 // ---------------------------------------------------------------------------
 
 test.describe('mobile comparison refinement contracts', () => {
-  test('mobile viewport (375×812): 4-preschool comparison is DOM-complete and vertically stacked', async ({
+  test('mobile viewport (393×852): 4-preschool comparison is DOM-complete and vertically stacked', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 375, height: 812 })
+    await page.setViewportSize({ width: 393, height: 852 })
 
     // Seed 4 known preschool IDs into sessionStorage
     await page.goto(DIRECTORY_URL)

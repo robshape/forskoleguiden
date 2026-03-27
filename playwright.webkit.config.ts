@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 // Narrowly-scoped WebKit config: only runs comparison-page-mobile-webkit.spec.ts
-// using an iPhone 13 mini device profile (375×812, webkit engine).
+// using an iPhone 15 device profile (393×852, webkit engine) as proxy for iPhone 17.
 // Run with: pnpm test:e2e:webkit
 // If WebKit is not installed run: pnpm dlx playwright install webkit
 export default defineConfig({
@@ -13,8 +13,8 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'webkit-iphone13mini',
-      use: { ...devices['iPhone 13 mini'] },
+      name: 'webkit-iphone15',
+      use: { ...devices['iPhone 15'] },
     },
   ],
   webServer: {

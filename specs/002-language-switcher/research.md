@@ -51,7 +51,7 @@ No NEEDS CLARIFICATION items were identified during Technical Context analysis. 
 - Unicode emoji flags require zero dependencies, zero bundle weight, and no CDN. They are standard Unicode characters supported by all modern browsers/OS on the target platforms (iOS, Android, modern desktop browsers).
 - Satisfies Constitution principle: "No runtime external APIs, CDNs, or third-party scripts." An SVG icon library or external flag sprite would violate this.
 - Marking flags as `aria-hidden="true"` ensures they are purely decorative — the visible text and `lang` attribute on each link carry the accessible meaning (FR-014).
-- Flag emoji rendering quality on some Linux terminal/older browsers may be degraded, but on the site's primary targets (iPhone 13 mini = iOS, modern desktop) rendering is high quality.
+- Flag emoji rendering quality on some Linux terminal/older browsers may be degraded, but on the site's primary targets (iPhone 17 = iOS, modern desktop) rendering is high quality.
 
 **Arabic locale flag choice** (`🇸🇦`): Saudi Arabia's flag is used as a stand-in for the Arabic locale. This is a documented placeholder (see Assumptions in spec). A globe emoji (`🌐`) is a widely used neutral alternative for language selectors and can be substituted at implementation time with no spec changes needed.
 
@@ -69,7 +69,7 @@ No NEEDS CLARIFICATION items were identified during Technical Context analysis. 
 
 **Rationale**:
 
-- The site's primary narrow viewport is iPhone 13 mini at 375 px. The nav bar contains the site title, `CitySelector`, and the switcher — three full locale names at any of these widths would overflow.
+- The narrow viewport breakpoint at 375 px (iPhone 13 mini backward-compat threshold) constrains nav bar space. The nav bar contains the site title, `CitySelector`, and the switcher — three full locale names at any of these widths would overflow.
 - FR-014 requires ISO labels only on narrow mobile (`<=375 px`) and full labels on wider viewports.
 - Tailwind v4 arbitrary variants can express this without modifying theme config (`min-[376px]:hidden`, `min-[376px]:inline`).
 - Implementation: each locale option renders two sibling spans, e.g. `<span class="min-[376px]:hidden">SV</span><span class="hidden min-[376px]:inline">Svenska</span>`.

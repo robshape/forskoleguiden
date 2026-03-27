@@ -2,10 +2,10 @@ import { expect, test } from './fixtures'
 import { COMPARISON_URL, DIRECTORY_URL } from './helpers'
 
 // ---------------------------------------------------------------------------
-// WebKit / iPhone 13 mini regression for mobile comparison refinement
+// WebKit / iPhone 17 (via iPhone 15 preset) regression for mobile comparison refinement
 //
 // Run independently via: pnpm test:e2e:webkit
-// Config: playwright.webkit.config.ts  (webkit-iphone13mini project, 375×812)
+// Config: playwright.webkit.config.ts  (webkit-iphone15 project, 393×852)
 //
 // These tests duplicate the core mobile comparison contract from
 // comparison-page-route-shell.spec.ts but execute on the WebKit engine so that
@@ -13,12 +13,12 @@ import { COMPARISON_URL, DIRECTORY_URL } from './helpers'
 // default Chromium suite.
 // ---------------------------------------------------------------------------
 
-test.describe('mobile comparison — WebKit/iPhone 13 mini', () => {
+test.describe('mobile comparison — WebKit/iPhone 17', () => {
   test('4-preschool comparison renders card layout, scroll container overflows horizontally, and question heading is sticky', async ({
     page,
   }) => {
     // Seed 4 known preschool IDs so the card layout is wide enough to
-    // overflow a 375 px viewport and require horizontal scrolling.
+    // overflow a 393 px viewport and require horizontal scrolling.
     await page.goto(DIRECTORY_URL)
     await page.evaluate(() => {
       sessionStorage.setItem(

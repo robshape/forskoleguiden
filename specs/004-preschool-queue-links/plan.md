@@ -18,7 +18,7 @@ The `queueUrl` field is stored in the preschool index data (`data/malmo/index.js
 **Primary Dependencies**: Astro (static rendering), Preact islands (none new for this feature), Tailwind CSS v4, nanostores (no changes)
 **Storage**: Static JSON files in `data/malmo/` — read via `readFileSync` at build time only
 **Testing**: Vitest (unit), Playwright + axe-core (e2e), Vitest post-build (page weight)
-**Target Platform**: Static HTML, all modern browsers; primary viewport iPhone 13 mini
+**Target Platform**: Static HTML, all modern browsers; primary viewport iPhone 17 (393 px)
 **Project Type**: Static site (Astro SSG with Preact islands)
 **Performance Goals**: Page-weight budget ≤ 100 KB uncompressed; Lighthouse perf ≥ 0.90
 **Constraints**: Zero new JavaScript islands; zero new runtime dependencies; i18n key parity enforced by CI

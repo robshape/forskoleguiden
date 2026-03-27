@@ -110,7 +110,7 @@ test.describe('typography system normalization', () => {
   test('mobile action and helper labels are never smaller than 14px', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 375, height: 812 })
+    await page.setViewportSize({ width: 393, height: 852 })
 
     const directoryResponse = await page.goto(DIRECTORY_URL)
     if (directoryResponse === null) {

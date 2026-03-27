@@ -166,10 +166,10 @@ test.describe('compare tray visibility and interaction behavior', () => {
     await expect(page).toHaveURL('/forskoleguiden/sv/')
   })
 
-  test('footer attribution link remains scrollable above the tray on a 375×812 viewport', async ({
+  test('footer attribution link remains scrollable above the tray on a 393×852 viewport', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 375, height: 812 })
+    await page.setViewportSize({ width: 393, height: 852 })
     await navigateToDirectory(page)
 
     await waitForCompareButtonReady(page, 'Bellevuegårdens montessoriförskola')

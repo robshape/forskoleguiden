@@ -20,7 +20,7 @@ test.describe('responsive context adaptation', () => {
   test('directory uses deliberate spacing rhythm between groups and rows', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 375, height: 812 })
+    await page.setViewportSize({ width: 393, height: 852 })
 
     const response = await page.goto(DIRECTORY_URL)
     if (response === null) {

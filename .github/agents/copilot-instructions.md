@@ -1,6 +1,6 @@
 # forskoleguiden Development Guidelines
 
-Auto-generated from all feature plans. Last updated: 2026-03-26
+Auto-generated from all feature plans. Last updated: 2026-03-27
 
 ## Active Technologies
 - TypeScript (strict mode, `astro/tsconfigs/strict`) + Astro (static output), Preact (islands), nanostores + @nanostores/preact, Tailwind CSS v4 (@tailwindcss/vite), lz-string (already installed for share encoding) (006-share-ui)
@@ -42,9 +42,9 @@ pnpm validate
 TypeScript 5.9.3 (strict mode via `astro/tsconfigs/strict`): Follow standard conventions
 
 ## Recent Changes
+- 012-mobile-target-update: Added TypeScript (strict mode, `astro/tsconfigs/strict`) + Astro (static output), Preact (islands), nanostores + @nanostores/preact, Tailwind CSS v4 (@tailwindcss/vite)
 - 010-final-verification: Added TypeScript (strict), Astro 5.x + Vitest (unit/post-build), Playwright + @axe-core/playwright (e2e), lz-string (share encoding in test helpers)
 - 009-ci-pipeline-updates: Added TypeScript (strict), Node.js 22.14.0 + Vitest (post-build tests), Playwright (e2e), Lighthouse CI (`@lhci/cli`), GitHub Actions
-- 008-accessibility-audit-phase2: Added TypeScript (strict mode via `astro/tsconfigs/strict`) + Astro 6.0.4, Preact 10.29.0, @playwright/test 1.58.2, @axe-core/playwright 4.11.1
 
 
 

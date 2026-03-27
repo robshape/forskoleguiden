@@ -116,7 +116,7 @@ Tests written in Phase 3 (T009, T010) — no new tests needed here.
 No new test files are added — coverage comes from the i18n key-parity unit test (SC-006) and the locale-specific spot-checks below.
 
 - [ ] T019 [P] [US3] Verify English detail page — open `/en/forskola/al-salamah-sprakforskola/` in the built output; assert link text is `"Register for queue"`, not Swedish _(spec.md FR-003; quickstart Step 7 verification checklist)_
-- [ ] T020 [P] [US3] Verify Arabic detail page — open `/ar/forskola/al-salamah-sprakforskola/` (or run `pnpm build` and inspect `dist/ar/.../index.html`); assert Arabic link text renders, no horizontal overflow at 375 px (iPhone 13 mini) _(spec.md FR-012, US-3 AC-3; quickstart Step 7 verification checklist)_
+- [ ] T020 [P] [US3] Verify Arabic detail page — open `/ar/forskola/al-salamah-sprakforskola/` (or run `pnpm build` and inspect `dist/ar/.../index.html`); assert Arabic link text renders, no horizontal overflow at 375 px (narrow-viewport threshold) _(spec.md FR-012, US-3 AC-3; quickstart Step 7 verification checklist)_
 - [ ] T021 [P] [US3] Verify Arabic directory page — open `/ar/` in the built output; assert queue indicator on independent cards shows Arabic `"لها قائمة انتظار خاصة"` text, positioned correctly for RTL _(spec.md US-3 AC-4; quickstart Step 7 verification checklist)_
 
 **Checkpoint**: All three locales are consistent — correct language labels, no RTL overflow, no locale text leaking into another locale's pages.

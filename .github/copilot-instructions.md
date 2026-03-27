@@ -128,7 +128,7 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 - `pnpm check` — Astro type checking
 - `pnpm test` — Vitest unit tests (`tests/unit/**/*.test.ts`)
 - `pnpm test:e2e` — Playwright e2e (`tests/e2e/**/*.spec.ts`); auto-starts `pnpm preview` as webserver
-- `pnpm test:e2e:webkit` — narrow WebKit/iPhone 13 mini regression run for `tests/e2e/comparison-page-mobile-webkit.spec.ts`
+- `pnpm test:e2e:webkit` — narrow WebKit/iPhone 17 (via iPhone 15 preset) regression run for `tests/e2e/comparison-page-mobile-webkit.spec.ts`
 - `pnpm test:post-build` — post-build verification (page weight budget, static output contracts)
 - `pnpm audit:lighthouse` — Lighthouse CI accessibility/performance audit against built site
 - `pnpm lint` — ESLint (flat config)
@@ -159,7 +159,7 @@ See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `
 
 - Zero JS by default (Astro). Only Preact islands add JS (~3-5 KB total).
 - No external APIs at runtime — no map tiles, no analytics, no chart CDNs
-- Mobile-first targeting iPhone 13 mini viewport
+- Mobile-first targeting iPhone 17 viewport (393×852), responsive range 320–430 px
 - Shortlist limited to 5 preschools (matches Malmö municipality application)
 - URL share links must stay under ~2,000 chars
 

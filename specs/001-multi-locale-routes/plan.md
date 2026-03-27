@@ -13,7 +13,7 @@ Generate English and Arabic page routes mirroring the existing Swedish pages so 
 **Primary Dependencies**: Astro 6.0.4 (static output), Preact 10.29.0, nanostores 1.1.1, Tailwind CSS 4.2.1 (via `@tailwindcss/vite`)
 **Storage**: Static JSON files at build time (`data/malmo/`); `sessionStorage` for client state
 **Testing**: Vitest 4.1.0 (unit + post-build), Playwright 1.58.2 (e2e), axe-core (a11y)
-**Target Platform**: Static site deployed to GitHub Pages CDN; mobile-first (iPhone 13 mini)
+**Target Platform**: Static site deployed to GitHub Pages CDN; mobile-first (iPhone 17, 393 px)
 **Project Type**: Static web application (Astro MPA with Preact islands)
 **Performance Goals**: Lighthouse performance ≥ 0.90, page weight ≤ 100 KB uncompressed per page
 **Constraints**: Zero runtime JS by default (Astro static), no external APIs, total island JS ~3–5 KB

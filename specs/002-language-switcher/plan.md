@@ -13,7 +13,7 @@ Replace the disabled language switcher placeholder in `Nav.astro` with a new `La
 **Primary Dependencies**: Astro 6.0.4 (static output), Tailwind CSS 4.2.1 (via `@tailwindcss/vite`), `src/i18n/utils.ts` (`t()`, `Locale` type), `src/lib/base-path.ts` (`getBasePath()`)
 **Storage**: N/A — no new data entities; `sessionStorage` compare set is unaffected by locale switch
 **Testing**: Vitest 4.1.0 (unit), Playwright 1.58.2 (e2e), axe-core (a11y)
-**Target Platform**: Static site on GitHub Pages; mobile-first (iPhone 13 mini 375 px)
+**Target Platform**: Static site on GitHub Pages; mobile-first (iPhone 17, 393 px)
 **Project Type**: Static web application (Astro MPA with Preact islands)
 **Performance Goals**: Lighthouse performance ≥ 0.90, page weight ≤ 100 KB uncompressed per page
 **Constraints**: Zero new runtime JS (pure Astro component), no external CDN, emoji flags only (no icon library), total island JS budget unchanged

@@ -172,7 +172,7 @@ Create `tests/e2e/language-switcher-navigation.spec.ts`. Cover:
 - Active locale has `aria-current="page"`, inactive locales are links
 - `aria-label` on the `<nav>` element exists
 - axe-core scan on the Swedish, English, and Arabic directory pages reports zero violations
-- Mobile viewport (375×812): ISO codes visible, full names hidden
+- Narrow viewport (375 px wide): ISO codes visible, full names hidden
 
 ## Verification Checklist
 

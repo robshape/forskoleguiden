@@ -555,7 +555,7 @@ Reference: `docs/mockups/comparison-view.svg`.
 
 ### 7.4 — Make the comparison table responsive for mobile
 
-The comparison table must remain usable on small screens (375px width, iPhone 13 mini). Options:
+The comparison table must remain usable on small screens (393 px width, iPhone 17). Options:
 
 - Use a horizontally scrollable container with `overflow-x: auto`.
 - Or reflow the table into a card-per-preschool layout on narrow screens.
@@ -566,11 +566,11 @@ Choose one approach and implement it.
 
 Reference: `docs/mockups/comparison-view.svg`.
 
-- Mobile target: design and verify against a 375x812 viewport (iPhone 13 mini target).
+- Mobile target: design and verify against a 393×852 viewport (iPhone 17 target).
 - Preserve comparison readability by keeping header labels and key values visually grouped even when horizontal scrolling is used.
 - Keep spacing, tap targets, and section rhythm aligned with the comparison mockup at the mobile breakpoint.
 
-**Test:** Write an e2e test with a viewport set to 375×812 (iPhone 13 mini). Load the comparison page with 4 preschools. Assert all 4 preschool names and all question data are reachable (either visible or scrollable). No content should be clipped or invisible.
+**Test:** Write an e2e test with a viewport set to 393×852 (iPhone 17). Load the comparison page with 4 preschools. Assert all 4 preschool names and all question data are reachable (either visible or scrollable). No content should be clipped or invisible.
 
 ---
 
