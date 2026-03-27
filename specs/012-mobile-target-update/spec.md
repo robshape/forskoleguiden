@@ -10,7 +10,7 @@
 ### Session 2026-03-27
 
 - Q: Should this feature include actively auditing and fixing visual/styling issues at the new viewport, or is it config/docs only? → A: Audit & fix — visually verify all page types at 393×852 and fix any layout/spacing issues found.
-- Q: Should visual regression baselines be maintained at both old (375×812) and new (393×852) viewports, or new only? → A: New only — regenerate baselines at 393×852 and remove old 375×812 baselines.
+- Q: Should visual regression baselines be maintained at both old (375×812) and new (393×852) viewports, or new only? → A: Moot — visual regression tests were subsequently removed from the project.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -114,7 +114,7 @@ The Playwright e2e test suite and WebKit regression suite use iPhone 17 (393×85
 - **FR-008**: SVG mockup files in `docs/mockups/` MUST update their `viewBox` and dimension attributes from 375×812 to 393×852 to reflect the new primary target.
 - **FR-009**: CSS and component styling MUST continue to work correctly across the full responsive range (320–430 px) without introducing new breakpoints or framework changes. Existing Tailwind v4 breakpoints (`sm:`, `md:`, `lg:`) remain unchanged. A visual audit of all page types (directory, detail, comparison) MUST be performed at 393×852, and any layout or spacing issues discovered MUST be fixed as part of this feature.
 - **FR-010**: The language switcher MUST continue to show ISO codes on viewports ≤375 px and full locale names on wider viewports. The threshold does not change — it is defined by the narrow-viewport behavior, not the primary target.
-- **FR-011**: Visual regression test screenshot baselines MUST be regenerated at the new primary viewport size (393×852) and the old 375×812 baselines MUST be removed. Dual-viewport baselines are not maintained — functional e2e tests cover 375 px behavior separately.
+- **FR-011**: ~~Visual regression test screenshot baselines MUST be regenerated at the new primary viewport size (393×852) and the old 375×812 baselines MUST be removed.~~ _Removed — visual regression tests were deleted from the project._
 - **FR-012**: All spec files in `specs/001-006/` that reference iPhone 13 mini as the primary target MUST be updated to reference iPhone 17 as the primary target.
 - **FR-013**: The copilot instructions entry for `pnpm test:e2e:webkit` MUST be updated to reference iPhone 17 instead of iPhone 13 mini.
 
@@ -144,7 +144,7 @@ The Playwright e2e test suite and WebKit regression suite use iPhone 17 (393×85
 - **SC-002**: `pnpm test:e2e` passes with 100% of tests using 393×852 as the default mobile viewport where previously 375×812 was used.
 - **SC-003**: `pnpm test:e2e:webkit` passes with updated iPhone 17 device profile.
 - **SC-004**: Zero references to "iPhone 13 mini" as the "primary target" or "primary viewport" remain in documentation files. iPhone 13 mini may only appear in context of "supported range" or "lower bound."
-- **SC-005**: Visual regression baselines are regenerated and tests pass at the new viewport dimensions.
+- **SC-005**: ~~Visual regression baselines are regenerated and tests pass at the new viewport dimensions.~~ _Removed — visual regression tests were deleted from the project._
 - **SC-006**: `pnpm validate` passes with no regressions.
 - **SC-007**: Lighthouse accessibility score remains ≥ 0.95 and performance score remains ≥ 0.9 after all changes.
 - **SC-008**: All touch targets remain ≥ 44×44 CSS pixels on the 393×852 viewport (verifiable via existing e2e touch-target tests).

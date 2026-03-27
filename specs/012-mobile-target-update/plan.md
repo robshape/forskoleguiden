@@ -5,7 +5,7 @@
 
 ## Summary
 
-Update the primary mobile design target from iPhone 13 mini (375×812 CSS pixels) to iPhone 17 (393×852 CSS pixels). This involves updating Playwright test configurations and e2e viewport sizes, regenerating visual regression baselines, updating all project documentation to reference iPhone 17 as the primary target, updating SVG mockup canvas dimensions, and performing a visual audit of all page types at the new viewport to fix any layout/spacing issues. No new CSS breakpoints or framework changes are needed — the existing responsive Tailwind v4 system already handles the 320–430 px range. Backward compatibility down to 320 px is maintained. The Playwright `devices['iPhone 15']` preset is used as a proxy for iPhone 17 (identical screen dimensions: 393×852, webkit engine) since iPhone 17 is not yet in Playwright's device registry.
+Update the primary mobile design target from iPhone 13 mini (375×812 CSS pixels) to iPhone 17 (393×852 CSS pixels). This involves updating Playwright test configurations and e2e viewport sizes, updating all project documentation to reference iPhone 17 as the primary target, updating SVG mockup canvas dimensions, and performing a visual audit of all page types at the new viewport to fix any layout/spacing issues. No new CSS breakpoints or framework changes are needed — the existing responsive Tailwind v4 system already handles the 320–430 px range. Backward compatibility down to 320 px is maintained. The Playwright `devices['iPhone 15']` preset is used as a proxy for iPhone 17 (identical screen dimensions: 393×852, webkit engine) since iPhone 17 is not yet in Playwright's device registry.
 
 ## Technical Context
 
@@ -42,7 +42,7 @@ For `setViewportSize()` calls in e2e tests, the full screen dimensions (393×852
 | I. Performance by Default | ✅ PASS | No new JavaScript, no new islands, no new dependencies. Changes are limited to documentation, test configs, and potential minor CSS spacing adjustments. Page-weight budget unaffected. |
 | II. Accessibility First | ✅ PASS | Touch targets remain ≥ 44×44 px. Visual audit at 393×852 will verify accessibility. Lighthouse a11y ≥ 0.95 enforced. No functionality changes that could affect keyboard navigation or ARIA. |
 | III. Data Integrity | ✅ PASS | No changes to data pipeline, scoring logic, or data files. |
-| IV. Testing Standards | ✅ PASS | E2e tests updated to new primary viewport. Visual regression baselines regenerated. WebKit regression suite updated. No new test files needed — existing tests are modified in place. |
+| IV. Testing Standards | ✅ PASS | E2e tests updated to new primary viewport. WebKit regression suite updated. No new test files needed — existing tests are modified in place. |
 | V. Architecture Discipline | ✅ PASS | No new abstractions, no new files (except potential minor CSS adjustments in existing files). Feature-over-type organization maintained. |
 | VI. Internationalization | ✅ PASS | No new i18n keys. Language switcher 375 px breakpoint behavior unchanged. RTL layout unaffected. |
 | VII. Privacy by Design | ✅ PASS | No new external requests, no tracking, no cookies. |
@@ -73,8 +73,6 @@ playwright.config.ts            # NO CHANGE — no explicit mobile viewport defi
 
 # E2E TESTS (viewport size updates)
 tests/e2e/
-├── visual-regression.spec.ts                        # NO CODE CHANGE — inherits config viewport; regenerate baselines
-├── visual-regression.spec.ts-snapshots/             # REGENERATE — delete old PNGs, regenerate at new viewport
 ├── responsive-context-adaptation.spec.ts            # MODIFY — update primary viewport 375×812 → 393×852
 ├── hardening-touch-target-and-heading-shell.spec.ts # MODIFY — update 375×812 → 393×852
 ├── typography-system-normalization.spec.ts          # MODIFY — update 375×812 → 393×852
@@ -117,8 +115,7 @@ Phases are sequential — the visual audit must happen first (to discover stylin
 Phase 1 (Visual Audit & CSS Fixes)
   └─► Phase 2 (Test Configuration)
         └─► Phase 3 (E2e Viewport Updates)
-              └─► Phase 4 (Visual Regression Baselines)
-                    └─► Phase 5 (Documentation Updates)
+              └─► Phase 5 (Documentation Updates)
                           └─► Phase 6 (SVG Mockups & Historical Specs)
                                 └─► Phase 7 (Full Validation)
 ```
@@ -161,15 +158,9 @@ Update `setViewportSize()` calls in e2e tests that use 375×812 as the primary m
 | 3g | `tests/e2e/language-switcher-navigation.spec.ts` | **NO CHANGE** — tests 375 px breakpoint behavior (narrow-viewport edge case, not primary target) | spec FR-010; research.md R3 |
 | 3h | — | Run `pnpm test:e2e` — verify all updated tests pass | spec SC-002 |
 
-### Phase 4: Visual Regression Baselines (User Story 5 — P1)
+### ~~Phase 4: Visual Regression Baselines~~ _Removed_
 
-Delete old baselines and regenerate at the new viewport. _(See spec [FR-011](spec.md#functional-requirements) — replace, don't dual-maintain.)_
-
-| Step | File | What | References |
-|------|------|------|------------|
-| 4a | `tests/e2e/visual-regression.spec.ts-snapshots/*.png` | Delete all existing baseline PNGs (`directory-page-darwin.png`, `detail-page-darwin.png`, `comparison-page-darwin.png`) | spec FR-011 |
-| 4b | — | Run `pnpm dlx playwright test tests/e2e/visual-regression.spec.ts --update-snapshots` to regenerate baselines at new viewport | spec FR-011; SC-005 |
-| 4c | — | Run `pnpm test:e2e:webkit` — verify WebKit regression suite passes | spec SC-003 |
+_Visual regression tests were deleted from the project. This phase is no longer applicable._
 
 ### Phase 5: Documentation Updates (User Story 4 — P2)
 

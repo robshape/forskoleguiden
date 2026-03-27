@@ -52,17 +52,9 @@ Search for `setViewportSize({ width: 375, height: 812 })` in `tests/e2e/` and up
 - `language-switcher-navigation.spec.ts` — tests 375 px breakpoint behavior (narrow-viewport edge case)
 - Any tests using 320 px width — these test narrow-viewport edge cases
 
-### 4. Regenerate visual regression baselines _(Plan Phase 4; [spec.md FR-011](spec.md#functional-requirements))_
+### ~~4. Regenerate visual regression baselines~~ _Removed_
 
-```bash
-# Delete old baselines (375×812)
-rm tests/e2e/visual-regression.spec.ts-snapshots/*.png
-
-# Regenerate at new viewport (393×852)
-pnpm dlx playwright test tests/e2e/visual-regression.spec.ts --update-snapshots
-```
-
-Old baselines are replaced, not dual-maintained (per spec clarification Q2).
+_Visual regression tests were deleted from the project. This step is no longer applicable._
 
 ### 5. Update project documentation _(Plan Phase 5; [spec.md FR-006](spec.md#functional-requirements))_
 
@@ -119,7 +111,7 @@ grep -rn "iPhone 13 mini" docs/ .github/ --include="*.md" | grep -i "primary"
 |----------|------|-------------|------------|
 | Test config | `playwright.webkit.config.ts` | Modify device preset | 2 |
 | E2e tests | `tests/e2e/*.spec.ts` (6 files) | Update viewport sizes | 3 |
-| Visual baselines | `tests/e2e/visual-regression.spec.ts-snapshots/` | Regenerate | 4 |
+| ~~Visual baselines~~ | ~~`tests/e2e/visual-regression.spec.ts-snapshots/`~~ | _Removed_ | — |
 | Documentation | `docs/prd.md`, `docs/implementation-plan-phase-1.md`, `.github/copilot-instructions.md` | Update references | 5 |
 | SVG mockups | `docs/mockups/*.svg` (4 files) | Update viewBox/dimensions | 6 |
 | Spec docs | `specs/001-006/` (multiple files) | Update references | 6 |

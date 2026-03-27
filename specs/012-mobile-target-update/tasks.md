@@ -36,7 +36,7 @@
 
 ## Phase 2: US5 — Automated Test Updates (Priority: P1)
 
-**Goal**: All Playwright e2e tests and the WebKit regression suite use 393×852 (iPhone 17) as the primary mobile viewport instead of 375×812 (iPhone 13 mini). Visual regression baselines are regenerated at the new dimensions.
+**Goal**: All Playwright e2e tests and the WebKit regression suite use 393×852 (iPhone 17) as the primary mobile viewport instead of 375×812 (iPhone 13 mini).
 
 **Independent Test**: Run `pnpm test:e2e` and `pnpm test:e2e:webkit` — all tests pass with updated viewport configurations.
 
@@ -58,13 +58,12 @@
 - [x] T015 [US5] **NO CHANGE** to `tests/e2e/language-switcher-navigation.spec.ts` — tests 375 px narrow-viewport breakpoint behavior, not primary target ([research.md R3](research.md#r3-language-switcher-375-px-breakpoint))
 - [x] T016 [US5] Run `pnpm test:e2e` — verify all updated tests pass at new viewport ([spec SC-002](spec.md#success-criteria))
 
-### Visual Regression Baselines (Plan Phase 4)
+### ~~Visual Regression Baselines (Plan Phase 4)~~ _Removed_
 
-- [x] T017 [US5] Delete all existing baseline PNGs in `tests/e2e/visual-regression.spec.ts-snapshots/` — old 375×812 baselines ([spec FR-011](spec.md#functional-requirements))
-- [x] T018 [US5] Regenerate baselines at 393×852 — run `pnpm dlx playwright test tests/e2e/visual-regression.spec.ts --update-snapshots`
+_Visual regression tests were deleted from the project. Tasks T017–T018 are no longer applicable._
 - [x] T019 [US5] Run `pnpm test:e2e:webkit` — verify WebKit regression suite passes ([spec SC-003](spec.md#success-criteria))
 
-**Checkpoint**: All e2e tests pass at 393×852. Visual regression baselines regenerated. WebKit suite green. US5 is complete.
+**Checkpoint**: All e2e tests pass at 393×852. WebKit suite green. US5 is complete.
 
 ---
 
