@@ -100,6 +100,30 @@ describe('Malmö survey data files', () => {
           )
         }
       }
+
+      // Validate surveyPdfUrl when present
+      if (survey.surveyPdfUrl !== undefined) {
+        expect(
+          typeof survey.surveyPdfUrl,
+          `${surveyFilePath}: surveyPdfUrl must be a string`,
+        ).toBe('string')
+        expect(
+          survey.surveyPdfUrl.length,
+          `${surveyFilePath}: surveyPdfUrl must be non-empty`,
+        ).toBeGreaterThan(0)
+        expect(
+          survey.surveyPdfUrl,
+          `${surveyFilePath}: surveyPdfUrl must be an absolute https:// URL`,
+        ).toMatch(/^https:\/\//)
+        expect(
+          survey.surveyPdfUrl,
+          `${surveyFilePath}: surveyPdfUrl must point to forskoleenkatresultat.malmo.se`,
+        ).toMatch(/^https:\/\/forskoleenkatresultat\.malmo\.se\//)
+        expect(
+          survey.surveyPdfUrl,
+          `${surveyFilePath}: surveyPdfUrl must end with .pdf`,
+        ).toMatch(/\.pdf$/)
+      }
     }
   })
 })

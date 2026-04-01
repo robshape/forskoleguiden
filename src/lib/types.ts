@@ -22,6 +22,7 @@ export type PreschoolSurvey = {
   address: string
   surveyYear: number
   totalRespondentsPercent: number
+  surveyPdfUrl?: string
   questionGroups: QuestionGroup[]
 }
 

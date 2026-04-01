@@ -101,6 +101,7 @@
   "detail": {
     "metaDescription": "Se enkätresultat för {name} i Malmö. Jämför betyg med andra förskolor.",
     "queueLink": "Anmäl dig till kö",
-    "queueIndicator": "Har egen kö"
+    "queueIndicator": "Har egen kö",
+    "surveyPdfLink": "Visa enkätresultat (PDF)"
   }
 }
