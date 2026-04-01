@@ -33,6 +33,7 @@ export interface ComparisonViewLabels {
   emptyStateTitle: string
   noData: string
   removeFromCompare: string
+  responseRate: string
   selectedCountTemplate: string
   shareButton: string
   shareClose: string
@@ -260,6 +261,7 @@ export default function ComparisonView({
                   }
                   question={question}
                   removeFromCompareLabel={labels.removeFromCompare}
+                  responseRateLabel={labels.responseRate}
                   survey={survey}
                 />
               ))}

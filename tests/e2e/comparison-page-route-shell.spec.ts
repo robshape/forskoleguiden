@@ -231,6 +231,13 @@ test.describe('comparison page selection state contracts', () => {
     await expect(scroll.getByText('86%').first()).toBeVisible()
     await expect(scroll.getByText('97%').first()).toBeVisible()
     await expect(scroll.getByText('100%').first()).toBeVisible()
+
+    // Response rate (totalRespondentsPercent) per card:
+    // i18n key: detail.responseRate => "Svarsfrekvens"
+    // Almgårdens: 64%, Augustenborgs: 81%, Bellevuegårdens: 88%
+    await expect(scroll.getByText('Svarsfrekvens: 64%').first()).toBeVisible()
+    await expect(scroll.getByText('Svarsfrekvens: 81%').first()).toBeVisible()
+    await expect(scroll.getByText('Svarsfrekvens: 88%').first()).toBeVisible()
   })
 
   test('two-or-more-preschool state renders a share box with title and description (i18n: compare.share.title / compare.share.description)', async ({

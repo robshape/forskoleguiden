@@ -100,8 +100,9 @@
   },
   "detail": {
     "metaDescription": "View survey results for {name} in Malmö. Compare ratings with other preschools.",
-    "queueLink": "Register for queue",
     "queueIndicator": "Has own queue",
+    "queueLink": "Register for queue",
+    "responseRate": "Response rate",
     "surveyPdfLink": "View survey results (PDF)"
   }
 }

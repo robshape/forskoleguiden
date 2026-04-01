@@ -1,6 +1,6 @@
 # forskoleguiden Development Guidelines
 
-Auto-generated from all feature plans. Last updated: 2026-03-31
+Auto-generated from all feature plans. Last updated: 2026-04-01
 
 ## Active Technologies
 - TypeScript (strict mode, `astro/tsconfigs/strict`) + Astro (static output), Preact (islands), nanostores + @nanostores/preact, Tailwind CSS v4 (@tailwindcss/vite), lz-string (already installed for share encoding) (006-share-ui)
@@ -15,6 +15,8 @@ Auto-generated from all feature plans. Last updated: 2026-03-31
 - N/A (static site, no runtime storage) (010-final-verification)
 - TypeScript (strict), Astro 5.x + Astro, Preact, Tailwind CSS v4 (`@tailwindcss/vite`), nanostores (013-survey-pdf-link)
 - Static JSON files in `data/malmo/2025/` (build-time only, `readFileSync`) (013-survey-pdf-link)
+- TypeScript (strict), Astro 5.x, Preac + Astro, Preact, @nanostores/preact, Tailwind CSS v4 (014-response-rate-display)
+- N/A (static JSON at build time) (014-response-rate-display)
 
 - `lz-string` (exact-pinned version) — `compressToEncodedURIComponent` / `decompressFromEncodedURIComponent`; browser-safe, no Node.js `fs` usage; imported only from `src/lib/share.ts` and Preact islands (005-share-state-encoding)
 - TypeScript (strict), Astro 5.x + Astro (static rendering), Preact islands (none new for this feature), Tailwind CSS v4, nanostores (no changes) (004-preschool-queue-links)
@@ -44,9 +46,9 @@ pnpm validate
 TypeScript 5.9.3 (strict mode via `astro/tsconfigs/strict`): Follow standard conventions
 
 ## Recent Changes
+- 014-response-rate-display: Added TypeScript (strict), Astro 5.x, Preac + Astro, Preact, @nanostores/preact, Tailwind CSS v4
+- 014-response-rate-display: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 - 013-survey-pdf-link: Added TypeScript (strict), Astro 5.x + Astro, Preact, Tailwind CSS v4 (`@tailwindcss/vite`), nanostores
-- 012-mobile-target-update: Added TypeScript (strict mode, `astro/tsconfigs/strict`) + Astro (static output), Preact (islands), nanostores + @nanostores/preact, Tailwind CSS v4 (@tailwindcss/vite)
-- 010-final-verification: Added TypeScript (strict), Astro 5.x + Vitest (unit/post-build), Playwright + @axe-core/playwright (e2e), lz-string (share encoding in test helpers)
 
 
 

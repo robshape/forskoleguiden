@@ -127,7 +127,7 @@ test.describe('Swedish preschool detail pages contract', () => {
     ).toBeVisible()
   })
 
-  test('detail page renders address and operator type metadata', async ({
+  test('detail page renders address, operator type, and response rate metadata', async ({
     page,
   }) => {
     await page.goto(TEST_URL)
@@ -136,6 +136,10 @@ test.describe('Swedish preschool detail pages contract', () => {
 
     // operatorType "municipal" → "Kommunal" via sv.json i18n key directory.operatorType.municipal
     await expect(page.getByText('Kommunal')).toBeVisible()
+
+    // totalRespondentsPercent for almgardens-forskola is 64
+    // i18n key: detail.responseRate => "Svarsfrekvens"
+    await expect(page.getByText('Svarsfrekvens: 64%')).toBeVisible()
   })
 
   test('detail page renders Helhetsbedömning section heading and question texts', async ({

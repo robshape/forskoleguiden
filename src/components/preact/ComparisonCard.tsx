@@ -20,6 +20,7 @@ interface Props {
   noDataLabel: string
   removeFromCompareLabel: string
   agreeShareLabel: string
+  responseRateLabel: string
 }
 
 export default function ComparisonCard({
@@ -33,6 +34,7 @@ export default function ComparisonCard({
   noDataLabel,
   removeFromCompareLabel,
   agreeShareLabel,
+  responseRateLabel,
 }: Props) {
   const group = survey.questionGroups.find(
     (g) => g.name === OVERALL_ASSESSMENT_GROUP,
@@ -79,13 +81,35 @@ export default function ComparisonCard({
           <path d="M18 6 6 18M6 6l12 12" />
         </svg>
       </button>
-      <a
-        class={`min-w-0 text-start text-[16px] leading-snug wrap-break-word transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:text-primary-700 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none ${isHighlighted ? 'translate-x-1 font-semibold text-primary-900' : 'font-normal text-zinc-800'}`}
-        href={`${directoryHref}forskola/${survey.id}/?from=compare`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {survey.preschoolName}
-      </a>
+      <div class="flex min-w-0 flex-col">
+        <a
+          class={`min-w-0 text-start text-base/snug wrap-break-word transition-all duration-300 ease-out hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none sm:group-hover:translate-x-1 sm:group-hover:text-primary-700 rtl:sm:group-hover:-translate-x-1 ${isHighlighted ? 'translate-x-1 font-semibold text-primary-900 rtl:-translate-x-1' : 'font-normal text-zinc-800'}`}
+          href={`${directoryHref}forskola/${survey.id}/?from=compare`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {survey.preschoolName}
+        </a>
+        <div class="mt-1 flex items-center transition-transform duration-300 ease-out sm:group-hover:translate-x-1 rtl:sm:group-hover:-translate-x-1">
+          <div class="inline-flex items-center gap-1 rounded-md bg-zinc-50 px-2 py-0.5 text-xs font-medium text-zinc-600 ring-1 ring-zinc-500/10 ring-inset">
+            <svg
+              aria-hidden="true"
+              class="size-3 shrink-0 text-zinc-500"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+            </svg>
+            {responseRateLabel}:{' '}
+            <span class="text-zinc-900">{survey.totalRespondentsPercent}%</span>
+          </div>
+        </div>
+      </div>
     </div>
   )
 
@@ -125,14 +149,14 @@ export default function ComparisonCard({
       >
         {preschoolInfo}
 
-        <div class="flex min-w-16 shrink-0 flex-col items-end justify-center text-end transition-transform duration-300 ease-out group-hover:-translate-x-1 sm:min-w-18 rtl:items-start rtl:text-start">
+        <div class="flex min-w-16 shrink-0 flex-col items-end justify-center text-end transition-transform duration-300 ease-out group-hover:-translate-x-1 sm:min-w-18 rtl:items-start rtl:text-start rtl:group-hover:translate-x-1">
           <div
             class={`text-2xl leading-none tracking-tight transition-all duration-300 ease-out sm:text-3xl ${scoreColor} ${isHighlighted ? 'scale-110 font-bold' : 'font-semibold group-hover:scale-105'}`}
           >
             {agreeShare}%
           </div>
           <div
-            class={`mt-1 text-[11px] tracking-wide uppercase transition-colors duration-300 ${isHighlighted ? 'font-medium text-zinc-600' : 'font-normal text-zinc-500'}`}
+            class={`mt-1 text-xs tracking-wide uppercase transition-colors duration-300 ${isHighlighted ? 'font-medium text-zinc-600' : 'font-normal text-zinc-500'}`}
           >
             {agreeShareLabel}
           </div>
