@@ -234,19 +234,22 @@ export default function ComparisonView({
         class="flex flex-col gap-16 md:gap-20"
         data-testid="comparison-scroll"
       >
-        {questions.map((question) => (
+        {questions.map((question, questionIdx) => (
           <section class="flex flex-col" key={question.text}>
-            <header class="mb-6 md:mb-8">
-              <h3 class="text-[19px] leading-snug font-bold tracking-tight text-zinc-900 sm:text-xl">
+            <header class="mb-5 md:mb-6">
+              <h3 class="text-xl font-semibold tracking-tight text-zinc-900 sm:text-2xl">
                 "{question.text}"
               </h3>
             </header>
 
             <ul class="flex flex-col gap-0 border-y-2 border-zinc-900">
-              {selectedSurveys.map((survey) => (
+              {selectedSurveys.map((survey, surveyIdx) => (
                 <ComparisonCard
                   agreeShareLabel={labels.agreeShare}
                   categoryLabels={categoryLabels}
+                  chartIndex={
+                    questionIdx * selectedSurveys.length + surveyIdx + 1000
+                  }
                   directoryHref={directoryHref}
                   isDimmed={
                     highlightedId !== null && highlightedId !== survey.id

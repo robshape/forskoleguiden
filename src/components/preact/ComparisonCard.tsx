@@ -1,3 +1,8 @@
+import {
+  renderPatternContent,
+  RESPONSE_SERIES,
+  TILE_SIZE,
+} from '@/lib/chart-patterns'
 import { interpolate } from '@/lib/interpolate'
 import { SCORE_TIER_TEXT_CLASS } from '@/lib/score-tier-classes'
 import {
@@ -17,6 +22,7 @@ interface Props {
   isDimmed: boolean
   onToggleHighlight: () => void
   categoryLabels: string[]
+  chartIndex: number
   noDataLabel: string
   removeFromCompareLabel: string
   agreeShareLabel: string
@@ -31,6 +37,7 @@ export default function ComparisonCard({
   isDimmed,
   onToggleHighlight,
   categoryLabels,
+  chartIndex,
   noDataLabel,
   removeFromCompareLabel,
   agreeShareLabel,
@@ -43,12 +50,10 @@ export default function ComparisonCard({
     (candidate) => candidate.text === question.text,
   )
 
-  const opacityClass = isDimmed
-    ? 'opacity-40 grayscale scale-[0.98]'
-    : 'opacity-100 scale-100'
+  const opacityClass = isDimmed ? 'opacity-50 grayscale' : 'opacity-100'
   const highlightBgClass = isHighlighted
-    ? 'bg-zinc-50 shadow-[0_2px_12px_rgba(0,0,0,0.06)] ring-1 ring-zinc-900/5'
-    : 'hover:bg-zinc-50/80 hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:scale-[1.01] active:scale-[0.99]'
+    ? 'bg-zinc-50 shadow-sm ring-1 ring-zinc-900/5 transition-colors duration-200'
+    : 'hover:bg-zinc-50/50 transition-colors duration-200'
 
   const removeAriaLabel = interpolate(removeFromCompareLabel, {
     name: survey.preschoolName,
@@ -83,30 +88,18 @@ export default function ComparisonCard({
       </button>
       <div class="flex min-w-0 flex-col">
         <a
-          class={`min-w-0 text-start text-base/snug wrap-break-word transition-all duration-300 ease-out hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none sm:group-hover:translate-x-1 sm:group-hover:text-primary-700 rtl:sm:group-hover:-translate-x-1 ${isHighlighted ? 'translate-x-1 font-semibold text-primary-900 rtl:-translate-x-1' : 'font-normal text-zinc-800'}`}
+          class={`min-w-0 text-start text-base/snug wrap-break-word transition-colors duration-200 hover:underline focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:outline-none ${isHighlighted ? 'font-semibold text-primary-900' : 'font-normal text-zinc-800 hover:text-primary-700'}`}
           href={`${directoryHref}forskola/${survey.id}/?from=compare`}
           onClick={(e) => e.stopPropagation()}
         >
           {survey.preschoolName}
         </a>
-        <div class="mt-1 flex items-center transition-transform duration-300 ease-out sm:group-hover:translate-x-1 rtl:sm:group-hover:-translate-x-1">
-          <div class="inline-flex items-center gap-1 rounded-md bg-zinc-50 px-2 py-0.5 text-xs font-medium text-zinc-600 ring-1 ring-zinc-500/10 ring-inset">
-            <svg
-              aria-hidden="true"
-              class="size-3 shrink-0 text-zinc-500"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
-            </svg>
+        <div class="mt-1 flex items-center">
+          <div class="text-xs text-zinc-500">
             {responseRateLabel}:{' '}
-            <span class="text-zinc-900">{survey.totalRespondentsPercent}%</span>
+            <span class="font-medium text-zinc-700">
+              {survey.totalRespondentsPercent}%
+            </span>
           </div>
         </div>
       </div>
@@ -116,11 +109,11 @@ export default function ComparisonCard({
   if (!cell) {
     return (
       <li
-        class={`border-t border-zinc-100/60 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] first:border-0 ${opacityClass}`}
+        class={`transition-opacity duration-300 ${opacityClass}`}
         key={survey.id}
       >
         <div
-          class={`group -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-4 rounded-2xl px-3 py-4 transition-all duration-300 ease-out sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:gap-6 sm:p-5 ${highlightBgClass}`}
+          class={`group -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-4 rounded-xl px-3 py-4 transition-colors duration-200 sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:gap-6 sm:p-5 ${highlightBgClass}`}
           onClick={onToggleHighlight}
         >
           {preschoolInfo}
@@ -140,25 +133,118 @@ export default function ComparisonCard({
 
   return (
     <li
-      class={`border-t border-zinc-100/60 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] first:border-0 ${opacityClass}`}
+      class={`transition-opacity duration-300 ${opacityClass}`}
       key={survey.id}
     >
       <div
-        class={`group relative -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer items-center justify-between gap-4 rounded-2xl px-3 py-4 transition-all duration-300 ease-out sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:gap-6 sm:px-5 sm:py-4 ${highlightBgClass}`}
+        class={`group relative -mx-3 flex w-[calc(100%+1.5rem)] cursor-pointer flex-col rounded-xl px-3 py-4 transition-colors duration-200 sm:-mx-5 sm:w-[calc(100%+2.5rem)] sm:px-5 sm:py-4 ${highlightBgClass}`}
         onClick={onToggleHighlight}
       >
-        {preschoolInfo}
+        <div class="flex items-center justify-between gap-4 sm:gap-6">
+          {preschoolInfo}
 
-        <div class="flex min-w-16 shrink-0 flex-col items-end justify-center text-end transition-transform duration-300 ease-out group-hover:-translate-x-1 sm:min-w-18 rtl:items-start rtl:text-start rtl:group-hover:translate-x-1">
-          <div
-            class={`text-2xl leading-none tracking-tight transition-all duration-300 ease-out sm:text-3xl ${scoreColor} ${isHighlighted ? 'scale-110 font-bold' : 'font-semibold group-hover:scale-105'}`}
-          >
-            {agreeShare}%
+          <div class="flex min-w-16 shrink-0 flex-col items-end justify-center text-end sm:min-w-18 rtl:items-start rtl:text-start">
+            <div
+              class={`text-xl leading-none font-semibold tracking-tight transition-colors duration-200 sm:text-2xl ${scoreColor}`}
+            >
+              {agreeShare}%
+            </div>
+            <div
+              class={`mt-1 text-xs transition-colors duration-200 ${isHighlighted ? 'font-medium text-zinc-600' : 'font-normal text-zinc-500'}`}
+            >
+              {agreeShareLabel}
+            </div>
           </div>
-          <div
-            class={`mt-1 text-xs tracking-wide uppercase transition-colors duration-300 ${isHighlighted ? 'font-medium text-zinc-600' : 'font-normal text-zinc-500'}`}
-          >
-            {agreeShareLabel}
+        </div>
+
+        <div aria-hidden="true">
+          <div class="mt-3">
+            <svg
+              aria-hidden="true"
+              class="h-4 w-full overflow-hidden rounded-sm"
+              preserveAspectRatio="none"
+              viewBox="0 0 100 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                {RESPONSE_SERIES.slice(0, 2).map(
+                  ({ pattern: pDef }, catIdx) => {
+                    const patternId = `agree-chart-${chartIndex}-cat-${catIdx}`
+                    return (
+                      <pattern
+                        height={TILE_SIZE}
+                        id={patternId}
+                        key={patternId}
+                        patternUnits="userSpaceOnUse"
+                        width={TILE_SIZE}
+                        x={0}
+                        y={0}
+                      >
+                        {renderPatternContent(pDef)}
+                      </pattern>
+                    )
+                  },
+                )}
+              </defs>
+              <rect fill="#e5e7eb" height={20} width={100} x={0} y={0} />
+              {cell.response.completelyAgreePercent > 0 && (
+                <rect
+                  fill={`url(#agree-chart-${chartIndex}-cat-0)`}
+                  height={20}
+                  width={cell.response.completelyAgreePercent}
+                  x={0}
+                  y={0}
+                />
+              )}
+              {cell.response.partlyAgreePercent > 0 && (
+                <rect
+                  fill={`url(#agree-chart-${chartIndex}-cat-1)`}
+                  height={20}
+                  width={cell.response.partlyAgreePercent}
+                  x={cell.response.completelyAgreePercent}
+                  y={0}
+                />
+              )}
+            </svg>
+            <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+              {RESPONSE_SERIES.slice(0, 2).map(
+                ({ field, pattern: pDef }, catIdx) => {
+                  const swatchId = `agree-swatch-${chartIndex}-cat-${catIdx}`
+                  const percent = cell.response[field]
+                  return (
+                    <div
+                      class="flex items-center gap-1.5 text-xs text-zinc-500"
+                      key={catIdx}
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="size-3 rounded-sm"
+                        viewBox="0 0 12 12"
+                      >
+                        <defs>
+                          <pattern
+                            height={TILE_SIZE}
+                            id={swatchId}
+                            patternUnits="userSpaceOnUse"
+                            width={TILE_SIZE}
+                          >
+                            {renderPatternContent(pDef)}
+                          </pattern>
+                        </defs>
+                        <rect
+                          fill={`url(#${swatchId})`}
+                          height="12"
+                          width="12"
+                        />
+                      </svg>
+                      <span>
+                        {categoryLabels[catIdx]} ({percent}%)
+                      </span>
+                    </div>
+                  )
+                },
+              )}
+            </div>
           </div>
         </div>
       </div>
