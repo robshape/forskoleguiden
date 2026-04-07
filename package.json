@@ -35,10 +35,10 @@
     "validate": "pnpm lint && pnpm lint:md && pnpm format && pnpm check && pnpm test && pnpm build && pnpm test:post-build && pnpm test:e2e && pnpm test:e2e:webkit && pnpm audit:lighthouse"
   },
   "dependencies": {
-    "@astrojs/preact": "5.1.0",
+    "@astrojs/preact": "5.1.1",
     "@fontsource-variable/inter": "5.2.8",
     "@nanostores/preact": "1.1.0",
-    "astro": "6.1.1",
+    "astro": "6.1.4",
     "lz-string": "1.5.0",
     "nanostores": "1.2.0",
     "preact": "10.29.1"
