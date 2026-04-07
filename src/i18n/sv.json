@@ -15,6 +15,14 @@
     "compare": "Jämför",
     "languageSwitcherAriaLabel": "Välj språk"
   },
+  "search": {
+    "placeholder": "Sök förskola…",
+    "triggerAriaLabel": "Sök",
+    "noResults": "Inga träffar",
+    "resultCount": "Visar {shown} av {total}",
+    "closeAriaLabel": "Stäng sökning",
+    "resultsAriaLabel": "Sökresultat"
+  },
   "cityYear": {
     "heading": "Stad",
     "surveyYear": "Enkätår:",

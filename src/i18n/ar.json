@@ -15,6 +15,14 @@
     "compare": "مقارنة",
     "languageSwitcherAriaLabel": "اختر اللغة"
   },
+  "search": {
+    "placeholder": "ابحث عن روضة أطفال…",
+    "triggerAriaLabel": "بحث",
+    "noResults": "لا توجد نتائج",
+    "resultCount": "عرض {shown} من {total}",
+    "closeAriaLabel": "إغلاق البحث",
+    "resultsAriaLabel": "نتائج البحث"
+  },
   "cityYear": {
     "heading": "المدينة",
     "surveyYear": "سنة الاستبيان:",

@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 import { MALMO_DATA_DIR, PLACEHOLDER_RESPONDENTS } from '@/lib/constants'
+import type { SearchablePreschool } from '@/lib/search'
 import type { PreschoolIndex, PreschoolSurvey } from '@/lib/types'
 
 /** Preschools with totalRespondentsPercent of -1 have no survey data yet. */
@@ -81,4 +82,26 @@ export const getPreschoolDetailPaths = () => {
     if (isPlaceholderSurvey(survey)) return []
     return [{ params: { id: preschool.id }, props: { preschool, survey } }]
   })
+}
+
+let cachedSearchable: SearchablePreschool[] | null = null
+
+/** Non-placeholder preschools mapped to SearchablePreschool shape. Cached after first call. */
+export const getSearchablePreschools = (): SearchablePreschool[] => {
+  if (cachedSearchable) return cachedSearchable
+
+  const index = getPreschoolIndex()
+  cachedSearchable = index.preschools
+    .filter((entry) => {
+      const survey = getPreschoolSurveyByYear(entry.id, index.year)
+      return !isPlaceholderSurvey(survey)
+    })
+    .map((entry) => ({
+      id: entry.id,
+      name: entry.name,
+      address: entry.address,
+      operatorType: entry.operatorType,
+    }))
+
+  return cachedSearchable
 }
