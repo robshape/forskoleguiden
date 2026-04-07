@@ -69,7 +69,7 @@ Preact islands consume the store via `useStore(compareIds)` from `@nanostores/pr
 - `pnpm validate` runs the full quality gate (lint, format, check, test, build, e2e, Lighthouse)
 - CI uses `.github/workflows/quality-gates.yml` (reusable `workflow_call`, consumed by `deploy.yml` and `dependabot.yml`)
 - Deploy: push to `main` → quality gates → GitHub Pages. Uses `GITHUB_TOKEN` only.
-- Dependabot: weekly grouped PRs with 3-day minimum release age (`pnpm-workspace.yaml`)
+- Dependabot: weekly grouped PRs with 3-day minimum release age (`pnpm-workspace.yaml`). If `minimumReleaseAge` blocks resolution, `dependabot-retry.yml` auto-recreates stuck PRs on Thursday.
 - Lighthouse CI: accessibility (min 0.95, error) and performance (min 0.9, warn) — `pnpm audit:lighthouse`
 - See `.github/workflows/` for full pipeline details.
 

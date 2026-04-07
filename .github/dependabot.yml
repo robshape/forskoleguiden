@@ -3,11 +3,11 @@
 #
 # ── Interaction with pnpm minimumReleaseAge ──────────────────────────
 # pnpm-workspace.yaml sets minimumReleaseAge: 4320 (3 days). If Dependabot
-# opens a PR for a version published < 3 days ago, CI's `pnpm install
-# --frozen-lockfile` will reject it — this is the intended security behavior.
-# The PR will pass on re-run once the package ages past the threshold.
-# A weekly schedule minimizes this edge case since most versions detected
-# on a weekly scan are already several days old.
+# opens a PR for a version published < 3 days ago, resolution fails with
+# "Dependabot can't resolve your JavaScript dependency files".
+# The dependabot-retry.yml workflow automatically recreates these stuck
+# PRs on Thursday (3+ days later), when the package has aged past the
+# threshold. A weekly Monday schedule further minimizes this edge case.
 
 version: 2
 

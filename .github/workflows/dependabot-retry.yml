@@ -1,0 +1,68 @@
+# Retries Dependabot PRs that failed due to pnpm's minimumReleaseAge.
+#
+# pnpm-workspace.yaml refuses packages published < 3 days ago.
+# Dependabot scans on Monday mornings and opens PRs immediately — if a
+# dependency version is too fresh, Dependabot can't resolve the lockfile
+# and marks the PR with "can't resolve your JavaScript dependency files".
+#
+# This workflow runs on Thursday (3+ days after Monday scan) and asks
+# Dependabot to try again via `@dependabot recreate`. By then the
+# package has aged past the threshold and resolution succeeds.
+#
+# Uses GITHUB_TOKEN — no PAT needed.
+
+name: Retry Dependabot Resolution Failures
+
+on:
+  schedule:
+    # Every Thursday at 12:00 UTC (~3.5 days after Monday 06:00 CET scan).
+    - cron: '0 12 * * 4'
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+
+jobs:
+  retry-failed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Recreate Dependabot PRs stuck on resolution failures
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          prs=$(gh pr list \
+            --author 'dependabot[bot]' \
+            --state open \
+            --json number,title \
+            --repo "$GITHUB_REPOSITORY")
+
+          if [ "$prs" = "[]" ] || [ -z "$prs" ]; then
+            echo "No open Dependabot PRs."
+            exit 0
+          fi
+
+          echo "$prs" | jq -c '.[]' | while read -r pr_json; do
+            number=$(echo "$pr_json" | jq -r '.number')
+            title=$(echo "$pr_json" | jq -r '.title')
+
+            # Only recreate PRs where dependabot[bot] commented about
+            # resolution failures — leaves genuinely failing PRs alone.
+            has_error=$(gh api \
+              --paginate \
+              "repos/${GITHUB_REPOSITORY}/issues/${number}/comments" \
+              --jq '[.[] | select(
+                .user.login == "dependabot[bot]" and
+                (.body | test("can.t resolve|cannot resolve"; "i"))
+              )] | length')
+
+            if [ "$has_error" -gt 0 ]; then
+              echo "Recreating PR #$number: $title"
+              gh pr comment "$number" \
+                --body "@dependabot recreate" \
+                --repo "$GITHUB_REPOSITORY"
+              sleep 5
+            else
+              echo "PR #$number OK: $title"
+            fi
+          done
