@@ -1,3 +1,4 @@
+import { CLOSE_24_STROKE_PATH } from '@/lib/icons'
 import { interpolate } from '@/lib/interpolate'
 import { SCORE_TIER_TEXT_CLASS } from '@/lib/score-tier-classes'
 import {
@@ -80,7 +81,7 @@ export default function ComparisonCard({
           strokeWidth="2.5"
           viewBox="0 0 24 24"
         >
-          <path d="M18 6 6 18M6 6l12 12" />
+          <path d={CLOSE_24_STROKE_PATH} />
         </svg>
       </button>
       <div class="flex min-w-0 flex-col">

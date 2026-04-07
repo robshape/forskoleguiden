@@ -1,11 +1,6 @@
-import type { OperatorType } from '@/lib/types'
+import type { SearchablePreschool } from '@/lib/types'
 
-export type SearchablePreschool = {
-  id: string
-  name: string
-  address: string
-  operatorType: OperatorType
-}
+export type { SearchablePreschool } from '@/lib/types'
 
 const MAX_RESULTS = 10
 

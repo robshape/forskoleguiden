@@ -1,5 +1,6 @@
 import { useEffect, useId } from 'preact/hooks'
 
+import { CHECK_24_STROKE_PATH, WARNING_24_STROKE_PATH } from '@/lib/icons'
 import { interpolate } from '@/lib/interpolate'
 
 export type FeedbackState =
@@ -59,7 +60,7 @@ export default function ShareFeedback({
           viewBox="0 0 24 24"
         >
           <path
-            d="M5 13l4 4L19 7"
+            d={CHECK_24_STROKE_PATH}
             stroke-linecap="round"
             stroke-linejoin="round"
           />
@@ -143,7 +144,7 @@ export default function ShareFeedback({
           viewBox="0 0 24 24"
         >
           <path
-            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            d={WARNING_24_STROKE_PATH}
             stroke-linecap="round"
             stroke-linejoin="round"
           />

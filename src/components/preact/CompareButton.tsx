@@ -1,5 +1,6 @@
 import { useStore } from '@nanostores/preact'
 
+import { CHECK_16_STROKE_PATH, PLUS_16_STROKE_PATH } from '@/lib/icons'
 import { interpolate } from '@/lib/interpolate'
 import { compareIds, toggleCompare } from '@/lib/state'
 
@@ -50,9 +51,9 @@ export default function CompareButton({
         viewBox="0 0 16 16"
       >
         {isSelected ? (
-          <path d="M3 8.5 6.5 12 13 5.5"></path>
+          <path d={CHECK_16_STROKE_PATH}></path>
         ) : (
-          <path d="M8 3v10M3 8h10"></path>
+          <path d={PLUS_16_STROKE_PATH}></path>
         )}
       </svg>
       <span>{label}</span>

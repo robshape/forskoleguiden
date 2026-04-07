@@ -18,22 +18,29 @@ import ShareFeedback from './ShareFeedback'
 import { useShareRestore } from './useShareRestore'
 
 export interface ComparisonViewLabels {
-  agreeShare: string
-  emptyStateBody: string
-  emptyStateTitle: string
-  noData: string
-  removeFromCompare: string
-  responseRate: string
+  comparison: {
+    agreeShare: string
+    noData: string
+    removeFromCompare: string
+    responseRate: string
+  }
+  emptyState: {
+    body: string
+    title: string
+  }
+  /** Page-level labels that span multiple sub-components and don't belong to a single group. */
   selectedCountTemplate: string
-  shareButton: string
-  shareClose: string
-  shareCopied: string
-  shareDescription: string
-  shareErrorDirectoryLink: string
-  shareErrorMessage: string
-  shareFallback: string
-  shareTitle: string
-  shareWarningTemplate: string
+  share: {
+    button: string
+    close: string
+    copied: string
+    description: string
+    errorDirectoryLink: string
+    errorMessage: string
+    fallback: string
+    title: string
+    warningTemplate: string
+  }
   singleSelectionPrompt: string
   summaryHeading: string
 }
@@ -77,12 +84,12 @@ export default function ComparisonView({
   }, [])
 
   const feedbackLabels = {
-    closeLabel: labels.shareClose,
-    copiedLabel: labels.shareCopied,
-    errorDirectoryLink: labels.shareErrorDirectoryLink,
-    errorMessage: labels.shareErrorMessage,
-    fallbackLabel: labels.shareFallback,
-    warningTemplate: labels.shareWarningTemplate,
+    closeLabel: labels.share.close,
+    copiedLabel: labels.share.copied,
+    errorDirectoryLink: labels.share.errorDirectoryLink,
+    errorMessage: labels.share.errorMessage,
+    fallbackLabel: labels.share.fallback,
+    warningTemplate: labels.share.warningTemplate,
   }
 
   if (ids.length === 0) {
@@ -95,8 +102,8 @@ export default function ComparisonView({
           state={feedbackState}
         />
         <ComparisonEmptyState
-          emptyStateBody={labels.emptyStateBody}
-          emptyStateTitle={labels.emptyStateTitle}
+          emptyStateBody={labels.emptyState.body}
+          emptyStateTitle={labels.emptyState.title}
         />
       </>
     )
@@ -116,8 +123,8 @@ export default function ComparisonView({
           state={feedbackState}
         />
         <ComparisonEmptyState
-          emptyStateBody={labels.emptyStateBody}
-          emptyStateTitle={labels.emptyStateTitle}
+          emptyStateBody={labels.emptyState.body}
+          emptyStateTitle={labels.emptyState.title}
         />
       </>
     )
@@ -162,11 +169,11 @@ export default function ComparisonView({
 
       {ids.length >= 2 && (
         <ShareBox
-          buttonLabel={labels.shareButton}
-          descriptionLabel={labels.shareDescription}
+          buttonLabel={labels.share.button}
+          descriptionLabel={labels.share.description}
           disabled={feedbackState.kind !== 'idle'}
           onShare={handleShare}
-          titleLabel={labels.shareTitle}
+          titleLabel={labels.share.title}
         />
       )}
 
@@ -189,10 +196,10 @@ export default function ComparisonView({
             highlightedId={highlightedId}
             key={question.text}
             labels={{
-              agreeShare: labels.agreeShare,
-              noData: labels.noData,
-              removeFromCompare: labels.removeFromCompare,
-              responseRate: labels.responseRate,
+              agreeShare: labels.comparison.agreeShare,
+              noData: labels.comparison.noData,
+              removeFromCompare: labels.comparison.removeFromCompare,
+              responseRate: labels.comparison.responseRate,
             }}
             onToggleHighlight={setHighlightedId}
             question={question}

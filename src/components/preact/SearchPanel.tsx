@@ -9,6 +9,11 @@ import {
 } from '@/features/search/search-panel-keyboard'
 import { useSearchPanel } from '@/features/search/useSearchPanel'
 import type { Locale } from '@/i18n/utils'
+import {
+  CLOSE_24_STROKE_PATH,
+  SEARCH_24_STROKE_CIRCLE,
+  SEARCH_24_STROKE_PATH,
+} from '@/lib/icons'
 import { interpolate } from '@/lib/interpolate'
 
 import SearchResultList from './SearchResultList'
@@ -109,8 +114,12 @@ export default function SearchPanel({
           stroke-width="2"
           viewBox="0 0 24 24"
         >
-          <circle cx="11" cy="11" r="8" />
-          <path d="m21 21-4.3-4.3" />
+          <circle
+            cx={SEARCH_24_STROKE_CIRCLE.cx}
+            cy={SEARCH_24_STROKE_CIRCLE.cy}
+            r={SEARCH_24_STROKE_CIRCLE.r}
+          />
+          <path d={SEARCH_24_STROKE_PATH} />
         </svg>
       </button>
     )
@@ -144,8 +153,12 @@ export default function SearchPanel({
               stroke-width="2"
               viewBox="0 0 24 24"
             >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
+              <circle
+                cx={SEARCH_24_STROKE_CIRCLE.cx}
+                cy={SEARCH_24_STROKE_CIRCLE.cy}
+                r={SEARCH_24_STROKE_CIRCLE.r}
+              />
+              <path d={SEARCH_24_STROKE_PATH} />
             </svg>
 
             <div class="relative flex-1">
@@ -188,7 +201,7 @@ export default function SearchPanel({
                 stroke-width="2"
                 viewBox="0 0 24 24"
               >
-                <path d="M18 6 6 18M6 6l12 12" />
+                <path d={CLOSE_24_STROKE_PATH} />
               </svg>
             </button>
           </div>

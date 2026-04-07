@@ -1,6 +1,7 @@
 import { useStore } from '@nanostores/preact'
 
 import type { SearchablePreschool } from '@/features/search/search'
+import { CHECK_16_STROKE_PATH, PLUS_16_STROKE_PATH } from '@/lib/icons'
 import { interpolate } from '@/lib/interpolate'
 import { compareIds, toggleCompare } from '@/lib/state'
 
@@ -84,9 +85,9 @@ export default function SearchResultList({
                   viewBox="0 0 16 16"
                 >
                   {isInCompare ? (
-                    <path d="M3 8.5 6.5 12 13 5.5" />
+                    <path d={CHECK_16_STROKE_PATH} />
                   ) : (
-                    <path d="M8 3v10M3 8h10" />
+                    <path d={PLUS_16_STROKE_PATH} />
                   )}
                 </svg>
                 <span class="hidden sm:inline">{compareLabel}</span>

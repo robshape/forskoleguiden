@@ -1,7 +1,7 @@
 ---
 import { type Locale, LOCALES, t } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
-import { CHECK_ICON_PATH, CHEVRON_DOWN_ICON_PATH } from '@/lib/icons'
+import { CHECK_16_FILL_PATH, CHEVRON_DOWN_16_FILL_PATH } from '@/lib/icons'
 import { buildLocaleSwitchUrl } from '@/lib/locale-switch'
 
 interface Props {
@@ -42,8 +42,10 @@ const LOCALE_OPTIONS = LOCALES.map((code) => ({
         viewBox="0 0 16 16"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path clip-rule="evenodd" d={CHEVRON_DOWN_ICON_PATH} fill-rule="evenodd"
-        ></path>
+        <path
+          clip-rule="evenodd"
+          d={CHEVRON_DOWN_16_FILL_PATH}
+          fill-rule="evenodd"></path>
       </svg>
     </summary>
 
@@ -78,7 +80,7 @@ const LOCALE_OPTIONS = LOCALES.map((code) => ({
                     >
                       <path
                         clip-rule="evenodd"
-                        d={CHECK_ICON_PATH}
+                        d={CHECK_16_FILL_PATH}
                         fill-rule="evenodd"
                       />
                     </svg>

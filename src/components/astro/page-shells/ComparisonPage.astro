@@ -44,22 +44,28 @@ const pageDescription = t('compare.metaDescription', locale)
     directoryHref={directoryHref}
     knownIds={surveys.map((s) => s.id)}
     labels={{
-      agreeShare: t('directory.scoreBadge.agreeShare', locale).toLowerCase(),
-      emptyStateBody: t('compare.emptyStateBody', locale),
-      emptyStateTitle: t('compare.emptyStateTitle', locale),
-      noData: t('directory.noData', locale),
-      removeFromCompare: t('directory.removeFromCompare', locale),
-      responseRate: t('detail.responseRate', locale),
+      comparison: {
+        agreeShare: t('directory.scoreBadge.agreeShare', locale).toLowerCase(),
+        noData: t('directory.noData', locale),
+        removeFromCompare: t('directory.removeFromCompare', locale),
+        responseRate: t('detail.responseRate', locale),
+      },
+      emptyState: {
+        body: t('compare.emptyStateBody', locale),
+        title: t('compare.emptyStateTitle', locale),
+      },
       selectedCountTemplate: t('compareTray.selectedCount', locale),
-      shareButton: t('compare.share.button', locale),
-      shareClose: t('compare.share.close', locale),
-      shareCopied: t('compare.share.copied', locale),
-      shareDescription: t('compare.share.description', locale),
-      shareErrorDirectoryLink: t('compare.share.errorDirectoryLink', locale),
-      shareErrorMessage: t('compare.share.errorMessage', locale),
-      shareFallback: t('compare.share.fallbackLabel', locale),
-      shareTitle: t('compare.share.title', locale),
-      shareWarningTemplate: t('compare.share.warningTemplate', locale),
+      share: {
+        button: t('compare.share.button', locale),
+        close: t('compare.share.close', locale),
+        copied: t('compare.share.copied', locale),
+        description: t('compare.share.description', locale),
+        errorDirectoryLink: t('compare.share.errorDirectoryLink', locale),
+        errorMessage: t('compare.share.errorMessage', locale),
+        fallback: t('compare.share.fallbackLabel', locale),
+        title: t('compare.share.title', locale),
+        warningTemplate: t('compare.share.warningTemplate', locale),
+      },
       singleSelectionPrompt: t('compare.singleSelectionPrompt', locale),
       summaryHeading: t('compare.summaryHeading', locale),
     }}
