@@ -1,179 +1,63 @@
 # Förskoleguiden — Copilot Instructions
 
-## IMPORTANT
+## Rules
 
 - ALWAYS pin dependencies to exact versions in `package.json` (no ^ or ~)
 - ALWAYS run `pnpm validate` after finishing a feature or task
-- ALWAYS read `docs/prd.md` when planning and before writing any code
-- ALWAYS read `docs/tech-stack.md` when planning and before writing any code
+- ALWAYS read `docs/prd.md` and `docs/tech-stack.md` when planning and before writing any code
 
 ## Project overview
 
-Static Swedish preschool comparison site (Malmö, 2025 survey data). Parents compare preschools side-by-side using official survey ratings, build a "pick 5" shortlist, and share via URL-encoded state. No backend, no accounts, no external APIs at runtime. See `docs/implementation-plan-phase-1.md` and `docs/implementation-plan-phase-2.md` for roadmaps.
+Static Swedish preschool comparison site (Malmö, 2025 survey data). No backend, no accounts, no external APIs at runtime. See `docs/prd.md` for product requirements, `docs/tech-stack.md` for architecture decisions, `.impeccable.md` for design context.
 
-## Design Context
-
-See `.impeccable.md` for users, brand personality, aesthetic direction, platforms, and design principles.
-
-**Current phase**: Phase 1 complete (Steps 0–13). Phase 2 specs 001–006 complete (multi-locale routes, language switcher, Arabic RTL, preschool queue links, share state encoding, share UI). Next: Phase 2 remaining items — see `docs/implementation-plan-phase-2.md`.
+**Status**: Phase 1 complete (Steps 0–13). Phase 2 specs 001–010 complete. Specs 012–016 are future roadmap — see `docs/implementation-plan-phase-2.md`.
 
 ## Architecture
 
-- **Astro** (static output) — content-first MPA with islands of interactivity
-- **Preact** islands — interactive components hydrated via `client:load`/`client:visible`/`client:idle`
-- **nanostores** (`@nanostores/preact`) — cross-island shared state persists across MPA navigations via `sessionStorage`
-- **Tailwind CSS v4** via `@tailwindcss/vite` plugin (NOT `@astrojs/tailwind`) — see `astro.config.ts`
-- **TypeScript** (strict) — `astro/tsconfigs/strict` base; path aliases `@/*` → `src/*`, `@data/*` → `data/*`
+- **Astro** (static output) with **Preact** islands for interactivity, **nanostores** for cross-island state via `sessionStorage`
+- **Tailwind CSS v4** via `@tailwindcss/vite` (NOT `@astrojs/tailwind`) — tokens in `src/styles/global.css`
+- **TypeScript** (strict) — path aliases `@/*` → `src/*`, `@data/*` → `data/*`
+- **No runtime data fetching** — all data read from `data/` at build time via `src/lib/data.ts`
 
-Data flow: static JSON (build-time only) → Astro pre-renders HTML → Preact islands hydrate for interactivity → nanostores for client state.
-
-## State management
-
-`src/lib/state.ts` manages the compare shortlist with nanostores + `sessionStorage`:
-
-- `compareIds` — read-only atom of selected preschool IDs (max `MAX_COMPARE = 5`)
-- `toggleCompare(id)` — add/remove an ID; silently refuses when at max capacity
-- `clearCompare()` — reset all selections
-- Persistence: `listen()` callback writes to `sessionStorage` on every change; hydration reads persisted state on first client mount
-- **SSR-safe**: browser guards on `typeof window` / `typeof sessionStorage` prevent build-time and SSR crashes — safe to import in Astro front matter (the module just returns empty defaults server-side)
-- **MPA-safe**: `sessionStorage` survives Astro page navigations; Preact islands re-subscribe on each page's hydration
-
-- `setCompareIds(ids)` — bulk-replace all selected IDs (used by share restoration to atomically set the compare set from a decoded URL)
-
-Preact islands consume the store via `useStore(compareIds)` from `@nanostores/preact`. Never write to the internal atom directly — use `toggleCompare` / `clearCompare` / `setCompareIds`.
-
-## Preact islands inventory
-
-| Island                 | File                                             | Hydration                   | Why                                                                                              | Purpose                                                                                                                                                                                                     |
-| ---------------------- | ------------------------------------------------ | --------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SortToggle`           | `src/components/preact/SortToggle.tsx`           | `client:load`               | Must be immediately operable; no persisted state conflict                                        | Toggle alphabetical/rating sort; defaults to alphabetical; mutates DOM row order; `aria-live` announcements                                                                                                 |
-| `CompareButton`        | `src/components/preact/CompareButton.tsx`        | `client:only="preact"`      | Reads sessionStorage on mount; SSR would render stale pressed state                              | Select/deselect a preschool for comparison; `aria-pressed` toggle                                                                                                                                           |
-| `CompareTray`          | `src/components/preact/CompareTray.tsx`          | `client:only="preact"`      | SSR would render empty tray; sessionStorage may already have items                               | Global compare summary bar; links to `/sv/jamfor/` comparison page. Clearing on the comparison page redirects to the directory page.                                                                        |
-| `ComparisonView`       | `src/components/preact/ComparisonView.tsx`       | `client:only="preact"`      | Reads compareIds store from sessionStorage; SSR output would be stale                            | Comparison page orchestrator: resolves selected surveys, renders question sections with `ComparisonCard` sub-components, and best-per-question summary. Reads `compareIds` store.                           |
-| `ComparisonCard`       | `src/components/preact/ComparisonCard.tsx`       | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Single preschool row within a comparison question section: remove button, school link, agree-share score, inline 2-segment agree-share breakdown bar (completely agree + partly agree), sr-only data table. |
-| `BreadcrumbLink`       | `src/components/preact/BreadcrumbLink.tsx`       | `client:load`               | Must resolve `?from=compare` query param to swap breadcrumb target immediately                   | Declarative breadcrumb link that renders default directory back-link, or comparison back-link when `?from=compare` is in the URL. Updates parent `<nav>` aria-label.                                        |
-| `DetailsBarChart`      | `src/components/preact/DetailsBarChart.tsx`      | _(none, static render)_     | Rendered inside `QuestionCard.astro` within `aria-hidden="true"`; no client interactivity needed | Scalable SVG bar chart with pattern fills for color-blind safety. Used on detail pages (`/sv/forskola/[id]`). Wrapped by `QuestionCard.astro` which adds the question heading and agree-share badge.        |
-| `ShareBox`             | `src/components/preact/ShareBox.tsx`             | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Share CTA box: title, description, and share button. Rendered when 2+ preschools selected.                                                                                                                  |
-| `ShareFeedback`        | `src/components/preact/ShareFeedback.tsx`        | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Feedback UI for share operations: copied confirmation (auto-dismiss), clipboard fallback (read-only field), stale-ID warning, error with directory link. ARIA live regions.                                 |
-| `ComparisonEmptyState` | `src/components/preact/ComparisonEmptyState.tsx` | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Empty state UI when no preschools are selected for comparison: heading + body text.                                                                                                                         |
-| `ComparisonSummary`    | `src/components/preact/ComparisonSummary.tsx`    | _(child of ComparisonView)_ | Sub-component rendered by ComparisonView; not hydrated independently                             | Best-per-question summary section: computes and formats which preschool scored highest on each question. Rendered when 2+ preschools selected.                                                              |
-
-**Hydration strategy guidance:**
-
-- `client:load` — default for small interactive widgets that must be immediately operable
-- `client:only="preact"` — use when the component's client state would conflict with SSR-rendered empty markup (e.g., CompareTray renders "0 selected" on server but sessionStorage may have saved selections)
-- `client:visible` / `client:idle` — prefer for below-the-fold or non-critical islands (none currently used but available)
-
-## CI/CD
-
-- `pnpm validate` runs the full quality gate (lint, format, check, test, build, e2e, Lighthouse)
-- CI uses `.github/workflows/quality-gates.yml` (reusable `workflow_call`, consumed by `deploy.yml` and `dependabot.yml`)
-- Deploy: push to `main` → quality gates → GitHub Pages. Uses `GITHUB_TOKEN` only.
-- Dependabot: weekly grouped PRs with 3-day minimum release age (`pnpm-workspace.yaml`). If `minimumReleaseAge` blocks resolution, `dependabot-retry.yml` auto-recreates stuck PRs on Thursday.
-- Lighthouse CI: accessibility (min 0.95, error) and performance (min 0.9, warn) — `pnpm audit:lighthouse`
-- See `.github/workflows/` for full pipeline details.
-
-## Base path
-
-The `base` config defaults to `/forskoleguiden` for GitHub Pages project-site deployment, overridable via `BASE_PATH` env var. `src/lib/base-path.ts` exports `getBasePath()` which normalizes `import.meta.env.BASE_URL` (strips trailing slash). Use it for all internal hrefs: `${getBasePath()}/${locale}/path`. Never hardcode `/` as the root. E2e tests also use the base path: `page.goto('/forskoleguiden/sv/')`.
-
-## Directory structure
-
-See `docs/tech-stack.md` for the complete architecture overview. Key directories:
-
-- `data/malmo/` — City index + per-preschool survey JSON (build-time only)
-- `src/pages/{sv,en,ar}/` — Locale-specific routes: index, forskola/[id] (detail), jamfor/ (comparison)
-- `src/lib/` — Shared utilities: data loaders, scoring, state, i18n helpers, share codec, clipboard
-- `src/components/astro/` — Static Astro components (Nav, Footer, PreschoolCard, QuestionCard, page-shells)
-- `src/components/preact/` — Interactive Preact islands (see inventory above)
-- `src/features/comparison/` — Comparison domain logic: `computeBestPerQuestion()`, `formatBestPerQuestionText()`
-- `src/i18n/` — Translation JSONs (`sv`, `en`, `ar`) + `utils.ts` (Locale type, `t()`, `getLocaleFromURL()`)
-- `src/styles/global.css` — Tailwind v4 entry + `@theme` tokens
-- `tests/unit/` — Vitest unit tests + shared helpers
-- `tests/e2e/` — Playwright e2e tests + shared helpers
-- `tests/post-build/` — Page-weight budget + static output contracts
+Data flow: static JSON → Astro pre-renders HTML → Preact islands hydrate → nanostores for client state.
 
 ## Key conventions
 
-- **Arrow functions for utilities; named functions for components.** All utility/helper functions use `const fn = () => {}` (arrow function expression). Preact components use `export default function ComponentName() {}` (named function declaration — better DevTools displayName and stack traces). Never mix `function` declarations into utility code.
-- **Organize by feature**, not by type. Shared utilities go in `src/lib/`.
-- **Astro by default; Preact only for interactivity.** If a component doesn't need client-side state or event handlers, use Astro. Astro components receive `locale: Locale` as a prop and call `t()` for all user-facing text — see `Nav.astro`, `Footer.astro` for the pattern. Preact islands that depend on persisted client state (e.g., `sessionStorage`) should use `client:only="preact"` to avoid SSR/client hydration mismatches.
-- **Layout pattern**: all pages wrap content in `<BaseLayout locale={locale} title={...}>`. BaseLayout sets `lang`, `dir` (RTL for Arabic), loads global CSS, and renders Nav + Footer.
-- **No `@astrojs/tailwind`** — Tailwind v4 uses the Vite plugin directly: `@tailwindcss/vite` in `astro.config.ts`. Design tokens are defined as `@theme` variables in `src/styles/global.css` (e.g. `--color-primary-600`, `--max-width-content`).
-- **i18n**: three locales (`sv`, `en`, `ar`) defined in `src/i18n/` with routes at `/sv/`, `/en/`, `/ar/`. Arabic uses `dir="rtl"` and `rtl:` Tailwind variants (set by `BaseLayout`). Use `t('dot.path.key', locale)` from `src/i18n/utils.ts` — returns the key string as fallback if missing. Supports interpolation: `t('compareTray.selectedCount', locale, { count: 3 })` replaces `{count}` in the template. All three locale JSONs must have identical key structures (enforced by unit test). `Locale` type and `getLocaleFromURL()` are exported from the same module.
-- **No runtime data fetching** — all preschool data read from `data/` at Astro build time via `src/lib/data.ts` loaders (uses `readFileSync` + `process.cwd()`).
-- **Formatting**: single quotes, no semicolons — see `.prettierrc`.
-- **Linting**: ESLint flat config enforces attribute/import/prop ordering and Tailwind v4 class validation automatically. Markdownlint for Markdown (MD013 disabled). See `eslint.config.ts` for full plugin list.
-- **Pre-commit**: Husky runs `lint-staged` (astro check + ESLint + markdownlint + Prettier on staged files). CI skips via `HUSKY=0`.
+- **Astro by default; Preact only for interactivity.** Astro components receive `locale: Locale` and call `t()` for text. Preact islands depending on `sessionStorage` use `client:only="preact"` to avoid SSR mismatches.
+- **Arrow functions for utilities; named `function` declarations for Preact components** (better DevTools traces).
+- **Organize by feature** (`src/features/`), not by type. Shared utilities in `src/lib/`.
+- **Layout pattern**: all pages use `<BaseLayout locale={locale} title={...}>` which sets `lang`, `dir` (RTL for Arabic), and renders Nav + Footer.
+- **i18n**: three locales (`sv`, `en`, `ar`) in `src/i18n/`. Use `t('key.path', locale)` with `{placeholder}` interpolation. All locale JSONs must have identical key structures (enforced by unit test).
+- **Base path**: use `getBasePath()` from `src/lib/base-path.ts` for all internal hrefs — never hardcode `/` as root. E2e tests include base path: `page.goto('/forskoleguiden/sv/')`.
+- **Formatting**: single quotes, no semicolons (`.prettierrc`). ESLint enforces import/prop ordering and Tailwind v4 class validation.
 
-## Data model
+## Build and test
 
-See `src/lib/types.ts` for canonical interfaces. Key types: `PreschoolSurvey`, `PreschoolIndex`, `SurveyResponse`, `OperatorType` (`'municipal' | 'independent'`). Response fields use `*Percent` suffix (e.g. `completelyAgreePercent`, not `Percentage`). Each survey has `id`, `totalRespondentsPercent`, and one or more `questionGroups`. MVP scope: only "Helhetsbedömning" group.
-
-## Scoring & comparison logic
-
-- `OVERALL_ASSESSMENT_GROUP` — constant (`'Helhetsbedömning'`) preventing string drift across codebase
-- `computeAgreeShare(response)` → `completelyAgreePercent + partlyAgreePercent` (see `src/lib/scoring.ts`)
-- `computeOverallScore(survey)` → average agree share across all questions in the overall assessment group; returns `null` if group is missing
-- `byOverallScoreDesc` — comparator for descending sort by overall score (nulls sort last)
-- `SCORE_TIER_HIGH` (80) / `SCORE_TIER_MEDIUM` (65) — agree-share percentage thresholds for score badge color tiers in `src/lib/constants.ts`; used by PreschoolCard for visual classification (green/amber/gray)
-- `getScoreTier(displayScore)` → maps a display score to a `ScoreTier` (`'high' | 'medium' | 'low' | 'none'`) using the threshold constants; used by `PreschoolCard.astro` for score badge CSS class selection
-- Deterministic best-per-question summaries: for each Helhetsbedömning question, identifies the school with the highest agree share; schools within a 5 pp threshold of the best are listed as tied. Uses `computeBestPerQuestion()` and `formatBestPerQuestionText()` from `src/features/comparison/`. Neutral template phrases only.
-
-## Developer workflow
-
-- **Package manager**: `pnpm` (required — enforced via `engines` in `package.json`)
-- `pnpm dev` — Astro dev server at `http://localhost:4321`
+- `pnpm dev` — dev server at `localhost:4321`
 - `pnpm build` — static output to `dist/`
-- `pnpm check` — Astro type checking
-- `pnpm test` — Vitest unit tests (`tests/unit/**/*.test.ts`)
-- `pnpm test:e2e` — Playwright e2e (`tests/e2e/**/*.spec.ts`); auto-starts `pnpm preview` as webserver
-- `pnpm test:e2e:webkit` — narrow WebKit/iPhone 17 (via iPhone 15 preset) regression run for `tests/e2e/comparison-page-mobile-webkit.spec.ts`
-- `pnpm test:post-build` — post-build verification (page weight budget, static output contracts)
-- `pnpm audit:lighthouse` — Lighthouse CI accessibility/performance audit against built site
-- `pnpm lint` — ESLint (flat config)
-- `pnpm lint:md` — Markdown linting
-- `pnpm format` — Prettier (check); `pnpm format:fix` — Prettier (writes)
-- `pnpm validate` — runs lint + lint:md + format + check + test + build sequentially (used in CI)
+- `pnpm test` — Vitest unit tests
+- `pnpm test:e2e` — Playwright e2e (auto-starts preview server)
+- `pnpm test:e2e:webkit` — WebKit/iPhone 17 mobile regression
+- `pnpm test:post-build` — page-weight budget + static output contracts
+- `pnpm audit:lighthouse` — accessibility (≥0.95) and performance (≥0.9) gates
+- `pnpm validate` — full quality gate (lint → format → check → test → build → e2e → Lighthouse)
 
-**Pre-commit hook**: `.husky/pre-commit` runs `lint-staged` on staged files only. The `lint-staged` config in `package.json` runs `astro check` + ESLint on `.ts/.tsx/.astro` files, markdownlint on `.md` files, and `prettier --check` on all files. Full `pnpm validate` runs in CI via `quality-gates.yml`.
+Pre-commit: Husky runs `lint-staged` (astro check + ESLint + markdownlint + Prettier on staged files).
 
-## Testing patterns
+## Constraints
 
-- **Unit tests**: `tests/unit/` with Vitest, node environment. Use `@/` and `@data/` aliases (mirrored in `vitest.config.ts`).
-- **Shared test helpers**: `tests/unit/helpers/` — `malmo-data.ts` loads real index/survey paths; `survey-assertions.ts` provides `assertResponseShape()` and `assertResponseContract()` for validating `SurveyResponse` objects.
-- **Data contract tests**: `tests/unit/malmo-survey-files-contract.test.ts` validates every JSON file in `data/malmo/2025/` against type contracts — add new preschool JSON and these tests enforce shape/range.
-- **E2e tests**: `tests/e2e/` with Playwright. Config auto-starts `pnpm preview` webserver. All e2e paths include the base path: `page.goto('/forskoleguiden/sv/')`. See `tests/e2e/homepage-routing-smoke.spec.ts` for routing, `tests/e2e/preschool-card-contract.spec.ts` for component contracts. Coverage includes `user-flow-phase1.spec.ts` (full Phase 1 user journey), `accessibility-axe-core.spec.ts` (wcag2a/wcag2aa), and `keyboard-navigation-focus-ring.spec.ts`.
-- **Shared e2e helpers**: `tests/e2e/helpers.ts` — URL constants (`DIRECTORY_URL`, `COMPARISON_URL`, `DETAIL_URL`), card locators (`getDirectoryCard()`, `getCompareButton()`), and hydration guards (`waitForCompareButtonReady()`, `waitForCompareButtonSelected()`).
-- **Post-build tests**: `tests/post-build/` with Vitest, run via `pnpm test:post-build` (uses `vitest.post-build.config.ts`). Enforces page-weight budget (100 KB uncompressed) and static output contracts against the built `dist/` directory.
-- **BDD-style test names**: test files use behavior-descriptive names (e.g., `scoring-overall-score-utilities.test.ts`, `i18n-locale-key-parity.test.ts`), not generic names.
-
-## Accessibility requirements
-
-- All interactive elements keyboard navigable
-- Charts: ARIA attributes + pattern fills (not color-only), with `<table>` text alternative in static HTML
-- Color-blind-safe palette with non-color encodings
-- Test with `@axe-core/playwright` in e2e tests
-
-## Important constraints
-
-- Zero JS by default (Astro). Only Preact islands add JS (~3-5 KB total).
-- No external APIs at runtime — no map tiles, no analytics, no chart CDNs
-- Mobile-first targeting iPhone 17 viewport (393×852), responsive range 320–430 px
-- Shortlist limited to 5 preschools (matches Malmö municipality application)
+- Zero JS by default — only Preact islands add JS (~3–5 KB total)
+- Mobile-first: iPhone 17 (393×852), responsive 320–430 px
+- Shortlist limited to 5 preschools (`MAX_COMPARE` in `src/lib/constants.ts`)
 - URL share links must stay under ~2,000 chars
 
-## Agent customizations
+## Documentation
 
-- `.agents/skills/` — 21 design/UX skills (i-frontend-design, i-audit, i-adapt, etc.)
-- `.github/agents/` — SpecKit agents (analyze, plan, implement, etc.)
-- User-level `agents.instructions.md` — shared agent preferences (modularity, BDD tests, pnpm enforcement)
-
-## Project documentation
-
-- `docs/prd.md` — product requirements and user flows
-- `docs/tech-stack.md` — architectural decisions and technology rationale
-- `docs/implementation-plan-phase-1.md` — Phase 1 roadmap (Steps 0–13, complete)
-- `docs/implementation-plan-phase-2.md` — Phase 2 roadmap (active)
-- `.impeccable.md` — design context, brand personality, aesthetic principles
-- `specs/` — detailed specifications for each Phase 2 item (001–010)
+| Doc                                   | Scope                                                   |
+| ------------------------------------- | ------------------------------------------------------- |
+| `docs/prd.md`                         | Product requirements and user flows                     |
+| `docs/tech-stack.md`                  | Architecture decisions and technology rationale         |
+| `docs/implementation-plan-phase-2.md` | Phase 2 roadmap (active)                                |
+| `.impeccable.md`                      | Design context, brand personality, aesthetic principles |
+| `specs/001–016/`                      | Detailed specifications per feature                     |
+| `docs/plans/codebase-analysis.md`     | Identified refactoring priorities                       |
