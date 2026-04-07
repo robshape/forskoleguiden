@@ -1,31 +1,21 @@
 import { useStore } from '@nanostores/preact'
-import { useCallback, useEffect, useState } from 'preact/hooks'
+import { useCallback, useState } from 'preact/hooks'
 
 import type { Locale } from '@/i18n/utils'
 import { getBasePath } from '@/lib/base-path'
 import { copyToClipboard } from '@/lib/clipboard'
 import { interpolate } from '@/lib/interpolate'
 import { OVERALL_ASSESSMENT_GROUP } from '@/lib/scoring'
-import {
-  decodeShareState,
-  encodeShareState,
-  validateShareIds,
-} from '@/lib/share'
-import { compareIds, setCompareIds } from '@/lib/state'
+import { encodeShareState } from '@/lib/share'
+import { compareIds } from '@/lib/state'
 import type { PreschoolSurvey } from '@/lib/types'
 
-import ComparisonCard from './ComparisonCard'
 import ComparisonEmptyState from './ComparisonEmptyState'
+import ComparisonQuestionSection from './ComparisonQuestionSection'
 import ComparisonSummary from './ComparisonSummary'
 import ShareBox from './ShareBox'
-import type { FeedbackState } from './ShareFeedback'
 import ShareFeedback from './ShareFeedback'
-
-const stripShareParam = () => {
-  const url = new URL(window.location.href)
-  url.searchParams.delete('s')
-  window.history.replaceState({}, '', url.pathname + url.search)
-}
+import { useShareRestore } from './useShareRestore'
 
 export interface ComparisonViewLabels {
   agreeShare: string
@@ -68,37 +58,7 @@ export default function ComparisonView({
 }: Props) {
   const ids = useStore(compareIds)
   const [highlightedId, setHighlightedId] = useState<string | null>(null)
-  const [feedbackState, setFeedbackState] = useState<FeedbackState>({
-    kind: 'idle',
-  })
-
-  // Restore shared comparison from ?s= query param
-  useEffect(() => {
-    const params = new URL(window.location.href).searchParams
-    const encoded = params.get('s')
-    if (!encoded) return
-
-    const payload = decodeShareState(encoded)
-    if (!payload) {
-      setFeedbackState({ kind: 'error' })
-      stripShareParam()
-      return
-    }
-
-    const { valid, invalid } = validateShareIds(payload, knownIds)
-
-    if (valid.length > 0) {
-      setCompareIds(valid)
-    }
-
-    if (invalid.length > 0 && valid.length > 0) {
-      setFeedbackState({ kind: 'warning', invalidCount: invalid.length })
-    } else if (valid.length === 0) {
-      setFeedbackState({ kind: 'error' })
-    }
-
-    stripShareParam()
-  }, [])
+  const { feedbackState, setFeedbackState } = useShareRestore(knownIds)
 
   const handleShare = useCallback(async () => {
     if (feedbackState.kind !== 'idle') return
@@ -116,19 +76,21 @@ export default function ComparisonView({
     setFeedbackState({ kind: 'idle' })
   }, [])
 
+  const feedbackLabels = {
+    closeLabel: labels.shareClose,
+    copiedLabel: labels.shareCopied,
+    errorDirectoryLink: labels.shareErrorDirectoryLink,
+    errorMessage: labels.shareErrorMessage,
+    fallbackLabel: labels.shareFallback,
+    warningTemplate: labels.shareWarningTemplate,
+  }
+
   if (ids.length === 0) {
     return (
       <>
         <ShareFeedback
           directoryHref={directoryHref}
-          labels={{
-            closeLabel: labels.shareClose,
-            copiedLabel: labels.shareCopied,
-            errorDirectoryLink: labels.shareErrorDirectoryLink,
-            errorMessage: labels.shareErrorMessage,
-            fallbackLabel: labels.shareFallback,
-            warningTemplate: labels.shareWarningTemplate,
-          }}
+          labels={feedbackLabels}
           onDismiss={dismissFeedback}
           state={feedbackState}
         />
@@ -149,14 +111,7 @@ export default function ComparisonView({
       <>
         <ShareFeedback
           directoryHref={directoryHref}
-          labels={{
-            closeLabel: labels.shareClose,
-            copiedLabel: labels.shareCopied,
-            errorDirectoryLink: labels.shareErrorDirectoryLink,
-            errorMessage: labels.shareErrorMessage,
-            fallbackLabel: labels.shareFallback,
-            warningTemplate: labels.shareWarningTemplate,
-          }}
+          labels={feedbackLabels}
           onDismiss={dismissFeedback}
           state={feedbackState}
         />
@@ -217,14 +172,7 @@ export default function ComparisonView({
 
       <ShareFeedback
         directoryHref={directoryHref}
-        labels={{
-          closeLabel: labels.shareClose,
-          copiedLabel: labels.shareCopied,
-          errorDirectoryLink: labels.shareErrorDirectoryLink,
-          errorMessage: labels.shareErrorMessage,
-          fallbackLabel: labels.shareFallback,
-          warningTemplate: labels.shareWarningTemplate,
-        }}
+        labels={feedbackLabels}
         onDismiss={dismissFeedback}
         state={feedbackState}
       />
@@ -235,41 +183,22 @@ export default function ComparisonView({
         data-testid="comparison-scroll"
       >
         {questions.map((question, questionIdx) => (
-          <section class="flex flex-col" key={question.text}>
-            <header class="mb-5 md:mb-6">
-              <h3 class="text-xl font-semibold tracking-tight text-zinc-900 sm:text-2xl">
-                "{question.text}"
-              </h3>
-            </header>
-
-            <ul class="flex flex-col gap-0 border-y-2 border-zinc-900">
-              {selectedSurveys.map((survey, surveyIdx) => (
-                <ComparisonCard
-                  agreeShareLabel={labels.agreeShare}
-                  categoryLabels={categoryLabels}
-                  chartIndex={
-                    questionIdx * selectedSurveys.length + surveyIdx + 1000
-                  }
-                  directoryHref={directoryHref}
-                  isDimmed={
-                    highlightedId !== null && highlightedId !== survey.id
-                  }
-                  isHighlighted={highlightedId === survey.id}
-                  key={survey.id}
-                  noDataLabel={labels.noData}
-                  onToggleHighlight={() =>
-                    setHighlightedId(
-                      highlightedId === survey.id ? null : survey.id,
-                    )
-                  }
-                  question={question}
-                  removeFromCompareLabel={labels.removeFromCompare}
-                  responseRateLabel={labels.responseRate}
-                  survey={survey}
-                />
-              ))}
-            </ul>
-          </section>
+          <ComparisonQuestionSection
+            categoryLabels={categoryLabels}
+            directoryHref={directoryHref}
+            highlightedId={highlightedId}
+            key={question.text}
+            labels={{
+              agreeShare: labels.agreeShare,
+              noData: labels.noData,
+              removeFromCompare: labels.removeFromCompare,
+              responseRate: labels.responseRate,
+            }}
+            onToggleHighlight={setHighlightedId}
+            question={question}
+            questionIdx={questionIdx}
+            selectedSurveys={selectedSurveys}
+          />
         ))}
       </div>
 

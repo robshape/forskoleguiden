@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import type { SearchablePreschool } from '@/lib/search'
-import { filterPreschools, normalizeText } from '@/lib/search'
+import type { SearchablePreschool } from '@/features/search/search'
+import { filterPreschools, normalizeText } from '@/features/search/search'
 
 const makePreschool = (
   overrides: Partial<SearchablePreschool> & { id: string; name: string },

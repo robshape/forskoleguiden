@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
+import type { SearchablePreschool } from '@/features/search/search'
 import { MALMO_DATA_DIR, PLACEHOLDER_RESPONDENTS } from '@/lib/constants'
-import type { SearchablePreschool } from '@/lib/search'
 import type { PreschoolIndex, PreschoolSurvey } from '@/lib/types'
 
 /** Preschools with totalRespondentsPercent of -1 have no survey data yet. */
