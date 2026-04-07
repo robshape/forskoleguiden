@@ -15,6 +15,14 @@
     "compare": "Compare",
     "languageSwitcherAriaLabel": "Choose language"
   },
+  "search": {
+    "placeholder": "Search preschool…",
+    "triggerAriaLabel": "Search",
+    "noResults": "No results",
+    "resultCount": "Showing {shown} of {total}",
+    "closeAriaLabel": "Close search",
+    "resultsAriaLabel": "Search results"
+  },
   "cityYear": {
     "heading": "City",
     "surveyYear": "Survey Year:",

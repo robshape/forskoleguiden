@@ -1,6 +1,10 @@
 ---
 import { type Locale, t } from '@/i18n/utils'
-import { CHECK_ICON_PATH, CHEVRON_DOWN_ICON_PATH } from '@/lib/icons'
+import {
+  CHECK_16_FILL_PATH,
+  CHEVRON_DOWN_16_FILL_PATH,
+  LOCK_16_FILL_PATH,
+} from '@/lib/icons'
 
 interface Props {
   locale: Locale
@@ -8,8 +12,6 @@ interface Props {
 
 const { locale } = Astro.props
 
-const lockIconPath =
-  'M8 1a3.5 3.5 0 0 0-3.5 3.5V7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7V4.5A3.5 3.5 0 0 0 8 1Zm2 6V4.5a2 2 0 1 0-4 0V7h4Z'
 // MVP fixture: only Malmö is active. When Phase 3 adds multi-city support,
 // replace this hard-coded list with a data-driven approach from data/.
 const disabledCities = [
@@ -33,8 +35,10 @@ const disabledCities = [
       viewBox="0 0 16 16"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path clip-rule="evenodd" d={CHEVRON_DOWN_ICON_PATH} fill-rule="evenodd"
-      ></path>
+      <path
+        clip-rule="evenodd"
+        d={CHEVRON_DOWN_16_FILL_PATH}
+        fill-rule="evenodd"></path>
     </svg>
   </summary>
 
@@ -57,7 +61,7 @@ const disabledCities = [
           viewBox="0 0 16 16"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path clip-rule="evenodd" d={CHECK_ICON_PATH} fill-rule="evenodd"
+          <path clip-rule="evenodd" d={CHECK_16_FILL_PATH} fill-rule="evenodd"
           ></path>
         </svg>
         {t('cityYear.cities.malmo', locale)}
@@ -78,7 +82,11 @@ const disabledCities = [
               viewBox="0 0 16 16"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path clip-rule="evenodd" d={lockIconPath} fill-rule="evenodd" />
+              <path
+                clip-rule="evenodd"
+                d={LOCK_16_FILL_PATH}
+                fill-rule="evenodd"
+              />
             </svg>
             {t(`cityYear.cities.${city.key}`, locale)}
           </button>

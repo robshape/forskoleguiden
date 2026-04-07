@@ -41,3 +41,10 @@ export type PreschoolIndex = {
   year: number
   preschools: PreschoolIndexEntry[]
 }
+
+export type SearchablePreschool = {
+  id: string
+  name: string
+  address: string
+  operatorType: OperatorType
+}

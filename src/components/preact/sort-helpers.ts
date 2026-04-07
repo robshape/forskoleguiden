@@ -52,6 +52,9 @@ const updateRanks = (sortedRows: ListRow[]) => {
 
 // Reorders server-rendered list items in-place — the list is pre-rendered by
 // Astro at build time and this island only changes their DOM order.
+// ⚠️ This bypasses Preact's virtual DOM by calling appendChild() directly.
+// It works in the current Astro MPA architecture but is incompatible with
+// Astro View Transitions or any future VDOM-managed list rendering.
 export const applySort = (
   listElement: HTMLUListElement,
   rows: ListRow[],

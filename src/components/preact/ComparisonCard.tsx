@@ -1,8 +1,4 @@
-import {
-  renderPatternContent,
-  RESPONSE_SERIES,
-  TILE_SIZE,
-} from '@/lib/chart-patterns'
+import { CLOSE_24_STROKE_PATH } from '@/lib/icons'
 import { interpolate } from '@/lib/interpolate'
 import { SCORE_TIER_TEXT_CLASS } from '@/lib/score-tier-classes'
 import {
@@ -11,8 +7,10 @@ import {
   OVERALL_ASSESSMENT_GROUP,
 } from '@/lib/scoring'
 import { toggleCompare } from '@/lib/state'
-import { RESPONSE_ROWS } from '@/lib/survey-responses'
 import type { PreschoolSurvey, SurveyQuestion } from '@/lib/types'
+
+import ComparisonBreakdownBar from './ComparisonBreakdownBar'
+import ComparisonCardTable from './ComparisonCardTable'
 
 interface Props {
   survey: PreschoolSurvey
@@ -83,7 +81,7 @@ export default function ComparisonCard({
           strokeWidth="2.5"
           viewBox="0 0 24 24"
         >
-          <path d="M18 6 6 18M6 6l12 12" />
+          <path d={CLOSE_24_STROKE_PATH} />
         </svg>
       </button>
       <div class="flex min-w-0 flex-col">
@@ -157,114 +155,20 @@ export default function ComparisonCard({
           </div>
         </div>
 
-        <div aria-hidden="true">
-          <div class="mt-3">
-            <svg
-              aria-hidden="true"
-              class="h-4 w-full overflow-hidden rounded-sm"
-              preserveAspectRatio="none"
-              viewBox="0 0 100 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                {RESPONSE_SERIES.slice(0, 2).map(
-                  ({ pattern: pDef }, catIdx) => {
-                    const patternId = `agree-chart-${chartIndex}-cat-${catIdx}`
-                    return (
-                      <pattern
-                        height={TILE_SIZE}
-                        id={patternId}
-                        key={patternId}
-                        patternUnits="userSpaceOnUse"
-                        width={TILE_SIZE}
-                        x={0}
-                        y={0}
-                      >
-                        {renderPatternContent(pDef)}
-                      </pattern>
-                    )
-                  },
-                )}
-              </defs>
-              <rect fill="#e5e7eb" height={20} width={100} x={0} y={0} />
-              {cell.response.completelyAgreePercent > 0 && (
-                <rect
-                  fill={`url(#agree-chart-${chartIndex}-cat-0)`}
-                  height={20}
-                  width={cell.response.completelyAgreePercent}
-                  x={0}
-                  y={0}
-                />
-              )}
-              {cell.response.partlyAgreePercent > 0 && (
-                <rect
-                  fill={`url(#agree-chart-${chartIndex}-cat-1)`}
-                  height={20}
-                  width={cell.response.partlyAgreePercent}
-                  x={cell.response.completelyAgreePercent}
-                  y={0}
-                />
-              )}
-            </svg>
-            <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1">
-              {RESPONSE_SERIES.slice(0, 2).map(
-                ({ field, pattern: pDef }, catIdx) => {
-                  const swatchId = `agree-swatch-${chartIndex}-cat-${catIdx}`
-                  const percent = cell.response[field]
-                  return (
-                    <div
-                      class="flex items-center gap-1.5 text-xs text-zinc-500"
-                      key={catIdx}
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="size-3 rounded-sm"
-                        viewBox="0 0 12 12"
-                      >
-                        <defs>
-                          <pattern
-                            height={TILE_SIZE}
-                            id={swatchId}
-                            patternUnits="userSpaceOnUse"
-                            width={TILE_SIZE}
-                          >
-                            {renderPatternContent(pDef)}
-                          </pattern>
-                        </defs>
-                        <rect
-                          fill={`url(#${swatchId})`}
-                          height="12"
-                          width="12"
-                        />
-                      </svg>
-                      <span>
-                        {categoryLabels[catIdx]} ({percent}%)
-                      </span>
-                    </div>
-                  )
-                },
-              )}
-            </div>
-          </div>
-        </div>
+        <ComparisonBreakdownBar
+          categoryLabels={categoryLabels}
+          chartIndex={chartIndex}
+          response={cell.response}
+        />
       </div>
 
       {/* Screen-reader fallback data */}
-      <div class="sr-only">
-        <table>
-          <caption>
-            {question.text} - {survey.preschoolName}
-          </caption>
-          <tbody>
-            {RESPONSE_ROWS.map((row, rowIdx) => (
-              <tr key={row.field}>
-                <th scope="row">{categoryLabels[rowIdx]}</th>
-                <td>{cell.response[row.field]}%</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ComparisonCardTable
+        categoryLabels={categoryLabels}
+        preschoolName={survey.preschoolName}
+        questionText={question.text}
+        response={cell.response}
+      />
     </li>
   )
 }

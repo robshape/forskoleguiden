@@ -75,15 +75,11 @@ const getCompareStoreContainer = (): CompareStoreContainer => {
     return createCompareStoreContainer()
   }
 
-  const browserWindow = window as Window & {
-    __forskoleguidenCompareStore__?: CompareStoreContainer
+  if (!window.__forskoleguidenCompareStore__) {
+    window.__forskoleguidenCompareStore__ = createCompareStoreContainer()
   }
 
-  if (!browserWindow.__forskoleguidenCompareStore__) {
-    browserWindow.__forskoleguidenCompareStore__ = createCompareStoreContainer()
-  }
-
-  return browserWindow.__forskoleguidenCompareStore__
+  return window.__forskoleguidenCompareStore__
 }
 
 const compareStoreContainer = getCompareStoreContainer()
