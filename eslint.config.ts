@@ -1,10 +1,9 @@
 import { fileURLToPath } from 'node:url'
 
-import { includeIgnoreFile } from '@eslint/compat'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import type { Linter } from 'eslint'
-import { defineConfig } from 'eslint/config'
+import { defineConfig, includeIgnoreFile } from 'eslint/config'
 import astro from 'eslint-plugin-astro'
 import tailwindcss from 'eslint-plugin-better-tailwindcss'
 import perfectionist from 'eslint-plugin-perfectionist'
