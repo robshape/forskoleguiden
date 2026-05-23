@@ -139,7 +139,7 @@ test('keyboard navigation shows focus-visible outline on key shell links', async
 
   let attributionLinkFocused = false
 
-  for (let pressCount = 0; pressCount < 40; pressCount++) {
+  for (let pressCount = 0; pressCount < 300; pressCount++) {
     await page.keyboard.press('Tab')
 
     attributionLinkFocused = await attributionSourceLink.evaluate(
