@@ -1,4 +1,6 @@
-# Supply-chain security settings (requires pnpm >=9; project uses 10+).
+allowBuilds:
+  esbuild: false
+  sharp: false
 
 # Refuse to install packages published less than 4320 minutes (3 days) ago.
 # This guards against fast-moving typosquatting and package-hijacking attacks.
@@ -9,11 +11,12 @@
 # To bypass for a critical hotfix, add the package to minimumReleaseAgeExclude.
 minimumReleaseAge: 4320
 
+overrides:
+  'semver': '7.7.4'
+  'undici-types': '6.23.0'
+
 # Once a package's trust level is set, do not allow it to be downgraded.
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - 'chokidar@4.0.3'
   - 'vite@6.4.1'
-overrides:
-  'semver': '7.7.4'
-  'undici-types': '6.23.0'
