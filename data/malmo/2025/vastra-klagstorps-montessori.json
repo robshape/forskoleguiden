@@ -3,7 +3,7 @@
   "preschoolName": "Västra Klagstorps montessori",
   "address": "Gamla Borrebackevägen 4, Malmö",
   "surveyYear": 2025,
-  "totalRespondentsPercent": -1,
+  "totalRespondentsPercent": 71,
   "surveyPdfUrl": "https://forskoleenkatresultat.malmo.se/pdf/2025/v%C3%A4stra%20klagstorps%20montessori%20-%20f%C3%B6r%C3%A4ldrar%20f%C3%B6rskola.pdf",
   "questionGroups": [
     {
@@ -12,21 +12,21 @@
         {
           "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
           "response": {
-            "completelyAgreePercent": -1,
-            "partlyAgreePercent": -1,
-            "neitherAgreeNorDisagreePercent": -1,
-            "partlyDisagreePercent": -1,
-            "completelyDisagreePercent": -1
+            "completelyAgreePercent": 80,
+            "partlyAgreePercent": 20,
+            "neitherAgreeNorDisagreePercent": 0,
+            "partlyDisagreePercent": 0,
+            "completelyDisagreePercent": 0
           }
         },
         {
           "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
           "response": {
-            "completelyAgreePercent": -1,
-            "partlyAgreePercent": -1,
-            "neitherAgreeNorDisagreePercent": -1,
-            "partlyDisagreePercent": -1,
-            "completelyDisagreePercent": -1
+            "completelyAgreePercent": 89,
+            "partlyAgreePercent": 11,
+            "neitherAgreeNorDisagreePercent": 0,
+            "partlyDisagreePercent": 0,
+            "completelyDisagreePercent": 0
           }
         }
       ]

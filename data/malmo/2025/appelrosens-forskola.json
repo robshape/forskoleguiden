@@ -3,7 +3,7 @@
   "preschoolName": "Äppelrosens förskola",
   "address": "Sjöblads väg 4, Malmö",
   "surveyYear": 2025,
-  "totalRespondentsPercent": -1,
+  "totalRespondentsPercent": 57,
   "surveyPdfUrl": "https://forskoleenkatresultat.malmo.se/pdf/2025/%C3%A4ppelrosens%20f%C3%B6rskola%20-%20f%C3%B6r%C3%A4ldrar%20f%C3%B6rskola.pdf",
   "questionGroups": [
     {
@@ -12,21 +12,21 @@
         {
           "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
           "response": {
-            "completelyAgreePercent": -1,
-            "partlyAgreePercent": -1,
-            "neitherAgreeNorDisagreePercent": -1,
-            "partlyDisagreePercent": -1,
-            "completelyDisagreePercent": -1
+            "completelyAgreePercent": 64,
+            "partlyAgreePercent": 29,
+            "neitherAgreeNorDisagreePercent": 0,
+            "partlyDisagreePercent": 8,
+            "completelyDisagreePercent": 0
           }
         },
         {
           "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
           "response": {
-            "completelyAgreePercent": -1,
-            "partlyAgreePercent": -1,
-            "neitherAgreeNorDisagreePercent": -1,
-            "partlyDisagreePercent": -1,
-            "completelyDisagreePercent": -1
+            "completelyAgreePercent": 68,
+            "partlyAgreePercent": 18,
+            "neitherAgreeNorDisagreePercent": 3,
+            "partlyDisagreePercent": 3,
+            "completelyDisagreePercent": 10
           }
         }
       ]

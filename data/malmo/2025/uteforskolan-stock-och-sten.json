@@ -3,7 +3,7 @@
   "preschoolName": "Uteförskolan Stock och sten",
   "address": "Roskildevägen 26, Malmö",
   "surveyYear": 2025,
-  "totalRespondentsPercent": -1,
+  "totalRespondentsPercent": 83,
   "surveyPdfUrl": "https://forskoleenkatresultat.malmo.se/pdf/2025/utef%C3%B6rskolan%20stock%20och%20sten%20-%20f%C3%B6r%C3%A4ldrar%20f%C3%B6rskola.pdf",
   "questionGroups": [
     {
@@ -12,21 +12,21 @@
         {
           "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
           "response": {
-            "completelyAgreePercent": -1,
-            "partlyAgreePercent": -1,
-            "neitherAgreeNorDisagreePercent": -1,
-            "partlyDisagreePercent": -1,
-            "completelyDisagreePercent": -1
+            "completelyAgreePercent": 80,
+            "partlyAgreePercent": 18,
+            "neitherAgreeNorDisagreePercent": 0,
+            "partlyDisagreePercent": 0,
+            "completelyDisagreePercent": 2
           }
         },
         {
           "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
           "response": {
-            "completelyAgreePercent": -1,
-            "partlyAgreePercent": -1,
-            "neitherAgreeNorDisagreePercent": -1,
-            "partlyDisagreePercent": -1,
-            "completelyDisagreePercent": -1
+            "completelyAgreePercent": 81,
+            "partlyAgreePercent": 16,
+            "neitherAgreeNorDisagreePercent": 0,
+            "partlyDisagreePercent": 1,
+            "completelyDisagreePercent": 2
           }
         }
       ]

@@ -3,7 +3,7 @@
   "preschoolName": "Vildrosens förskola",
   "address": "Bennets väg 3, Malmö",
   "surveyYear": 2025,
-  "totalRespondentsPercent": -1,
+  "totalRespondentsPercent": 70,
   "surveyPdfUrl": "https://forskoleenkatresultat.malmo.se/pdf/2025/vildrosens%20f%C3%B6rskola%20-%20f%C3%B6r%C3%A4ldrar%20f%C3%B6rskola.pdf",
   "questionGroups": [
     {
@@ -12,21 +12,21 @@
         {
           "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
           "response": {
-            "completelyAgreePercent": -1,
-            "partlyAgreePercent": -1,
-            "neitherAgreeNorDisagreePercent": -1,
-            "partlyDisagreePercent": -1,
-            "completelyDisagreePercent": -1
+            "completelyAgreePercent": 71,
+            "partlyAgreePercent": 27,
+            "neitherAgreeNorDisagreePercent": 0,
+            "partlyDisagreePercent": 2,
+            "completelyDisagreePercent": 0
           }
         },
         {
           "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
           "response": {
-            "completelyAgreePercent": -1,
-            "partlyAgreePercent": -1,
-            "neitherAgreeNorDisagreePercent": -1,
-            "partlyDisagreePercent": -1,
-            "completelyDisagreePercent": -1
+            "completelyAgreePercent": 61,
+            "partlyAgreePercent": 23,
+            "neitherAgreeNorDisagreePercent": 13,
+            "partlyDisagreePercent": 0,
+            "completelyDisagreePercent": 2
           }
         }
       ]

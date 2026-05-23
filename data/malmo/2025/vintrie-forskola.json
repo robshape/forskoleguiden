@@ -3,7 +3,7 @@
   "preschoolName": "Vintrie förskola",
   "address": "Bymans gränd 7, Malmö",
   "surveyYear": 2025,
-  "totalRespondentsPercent": -1,
+  "totalRespondentsPercent": 94,
   "surveyPdfUrl": "https://forskoleenkatresultat.malmo.se/pdf/2025/vintrie%20f%C3%B6rskola%20-%20f%C3%B6r%C3%A4ldrar%20f%C3%B6rskola.pdf",
   "questionGroups": [
     {
@@ -12,21 +12,21 @@
         {
           "text": "Utifrån helheten sett är jag nöjd med kvaliteten i mitt barns förskola",
           "response": {
-            "completelyAgreePercent": -1,
-            "partlyAgreePercent": -1,
-            "neitherAgreeNorDisagreePercent": -1,
-            "partlyDisagreePercent": -1,
-            "completelyDisagreePercent": -1
+            "completelyAgreePercent": 57,
+            "partlyAgreePercent": 39,
+            "neitherAgreeNorDisagreePercent": 0,
+            "partlyDisagreePercent": 2,
+            "completelyDisagreePercent": 2
           }
         },
         {
           "text": "Jag skulle rekommendera mitt barns förskola till en annan förälder",
           "response": {
-            "completelyAgreePercent": -1,
-            "partlyAgreePercent": -1,
-            "neitherAgreeNorDisagreePercent": -1,
-            "partlyDisagreePercent": -1,
-            "completelyDisagreePercent": -1
+            "completelyAgreePercent": 64,
+            "partlyAgreePercent": 32,
+            "neitherAgreeNorDisagreePercent": 0,
+            "partlyDisagreePercent": 2,
+            "completelyDisagreePercent": 2
           }
         }
       ]
