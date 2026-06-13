@@ -1,5 +1,4 @@
 # Runs quality gates on Dependabot PRs, then auto-approves and squash-merges.
-# Also keeps open Dependabot PR branches up to date when main advances.
 #
 # Quality gates (lint, test, build, e2e) are defined once in
 # quality-gates.yml and reused here via workflow_call.
@@ -49,31 +48,4 @@ jobs:
         run: gh pr merge --admin --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # ── Keep Dependabot branches current with main ──────────────────
-  update-branches:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Update open Dependabot PR branches
-        run: |
-          prs=$(gh pr list \
-            --author 'dependabot[bot]' \
-            --state open \
-            --json number \
-            --jq '.[].number' \
-            --repo "$GITHUB_REPOSITORY")
-
-          if [ -z "$prs" ]; then
-            echo "No open Dependabot PRs to update."
-            exit 0
-          fi
-
-          echo "$prs" | while read -r pr; do
-            echo "Updating PR #$pr branch to latest main…"
-            gh pr update-branch "$pr" --repo "$GITHUB_REPOSITORY" \
-              || echo "  Could not update PR #$pr (may already be up to date)"
-          done
-        env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
