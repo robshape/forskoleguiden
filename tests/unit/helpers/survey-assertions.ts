@@ -56,10 +56,10 @@ export const assertResponseContract = (
 
   expect(
     totalPercentage,
-    `${contextLabel} percentages must sum to 98..109`,
-  ).toBeGreaterThanOrEqual(98)
+    `${contextLabel} percentages must sum to 99..101`,
+  ).toBeGreaterThanOrEqual(99)
   expect(
     totalPercentage,
-    `${contextLabel} percentages must sum to 98..109`,
-  ).toBeLessThanOrEqual(109)
+    `${contextLabel} percentages must sum to 99..101`,
+  ).toBeLessThanOrEqual(101)
 }
