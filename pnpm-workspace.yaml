@@ -9,7 +9,7 @@ allowBuilds:
 # Side effect: adding/upgrading a dependency to a brand-new release will fail
 # for 3 days — if pnpm install fails unexpectedly in CI, check publish dates.
 # To bypass for a critical hotfix, add the package to minimumReleaseAgeExclude.
-minimumReleaseAge: 4320
+#minimumReleaseAge: 4320
 
 overrides:
   'semver': '7.7.4'
