@@ -52,7 +52,7 @@
     "@lhci/cli": "0.15.1",
     "@playwright/test": "1.61.1",
     "@tailwindcss/vite": "4.3.2",
-    "@types/node": "26.1.0",
+    "@types/node": "26.1.1",
     "@typescript-eslint/eslint-plugin": "8.63.0",
     "@typescript-eslint/parser": "8.63.0",
     "eslint": "10.7.0",
